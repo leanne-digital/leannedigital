@@ -1,0 +1,40 @@
+.sitemap-page .coming-soon__inner {
+    max-width: 56rem;
+    text-align: left;
+}
+
+.sitemap-page__grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.sitemap-page__section h2 {
+    margin-bottom: 0.75rem;
+    font-family: var(--ld-font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ld-accent);
+}
+
+.sitemap-page__section ul {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.sitemap-page__section a {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.sitemap-page__section a:hover,
+.sitemap-page__section a:focus-visible {
+    color: var(--ld-accent);
+}
+
+@media (min-width: 720px) {
+    .sitemap-page__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}

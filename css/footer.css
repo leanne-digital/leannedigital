@@ -1,0 +1,31 @@
+.site-footer {
+    padding: 2rem 0 2.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.site-footer__brand {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.9rem;
+}
+
+.site-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    font-family: var(--ld-font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.site-footer__nav a:hover,
+.site-footer__nav a:focus-visible {
+    color: var(--ld-accent);
+}

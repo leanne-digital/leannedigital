@@ -1,0 +1,396 @@
+.site-header {
+
+    position: absolute;
+
+    inset: 0 0 auto;
+
+    z-index: 20;
+
+    padding: 1.25rem 0;
+
+}
+
+
+
+.site-header__inner {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+}
+
+
+
+.site-logo {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    flex-shrink: 0;
+
+}
+
+
+
+.site-logo__image {
+
+    width: min(220px, 42vw);
+
+    height: auto;
+
+}
+
+
+
+.site-nav__toggle {
+
+    display: none;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 0.35rem;
+
+    width: 2.75rem;
+
+    height: 2.75rem;
+
+    padding: 0.5rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 0.5rem;
+
+    background: transparent;
+
+}
+
+
+
+.site-nav__toggle span {
+
+    display: block;
+
+    height: 2px;
+
+    background: currentColor;
+
+    border-radius: 999px;
+
+}
+
+
+
+.site-nav {
+
+    font-family: var(--ld-font-display);
+
+    font-size: 0.95rem;
+
+    font-weight: 700;
+
+}
+
+
+
+.site-nav__list {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.75rem;
+
+}
+
+
+
+.site-nav a,
+
+.site-nav__trigger {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.35rem;
+
+    opacity: 0.92;
+
+    background: none;
+
+    border: none;
+
+    color: inherit;
+
+    font: inherit;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease, opacity 0.2s ease;
+
+}
+
+
+
+.site-nav a:hover,
+
+.site-nav a:focus-visible,
+
+.site-nav__trigger:hover,
+
+.site-nav__trigger:focus-visible {
+
+    color: var(--ld-accent);
+
+    opacity: 1;
+
+}
+
+
+
+.site-nav a[aria-current="page"] {
+
+    color: var(--ld-accent);
+
+    opacity: 1;
+
+}
+
+
+
+.site-nav__chevron {
+
+    width: 0.75rem;
+
+    height: 0.75rem;
+
+    opacity: 0.75;
+
+}
+
+
+
+.site-nav__item--has-menu {
+
+    position: relative;
+
+}
+
+
+
+.site-nav__submenu {
+
+    position: absolute;
+
+    top: calc(100% + 0.75rem);
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    min-width: 18rem;
+
+    padding: 0.65rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 0.75rem;
+
+    background: rgba(13, 13, 27, 0.98);
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+
+}
+
+
+
+.site-nav__submenu a {
+
+    display: block;
+
+    padding: 0.55rem 0.75rem;
+
+    border-radius: 0.45rem;
+
+    white-space: nowrap;
+
+}
+
+
+
+.site-nav__submenu a:hover,
+
+.site-nav__submenu a:focus-visible {
+
+    background: rgba(78, 195, 204, 0.12);
+
+}
+
+
+
+.site-nav__item--has-menu:hover .site-nav__submenu,
+
+.site-nav__item--has-menu:focus-within .site-nav__submenu,
+
+.site-nav__item--has-menu.is-open .site-nav__submenu {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+}
+
+
+
+@media (max-width: 960px) {
+
+    .site-nav__toggle {
+
+        display: inline-flex;
+
+    }
+
+
+
+    .site-nav {
+
+        position: absolute;
+
+        top: calc(100% + 0.75rem);
+
+        right: 0;
+
+        left: 0;
+
+        display: none;
+
+        padding: 1rem;
+
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        border-radius: 0.75rem;
+
+        background: rgba(13, 13, 27, 0.98);
+
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+
+    }
+
+
+
+    .site-nav.is-open {
+
+        display: block;
+
+    }
+
+
+
+    .site-nav__list {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0.35rem;
+
+    }
+
+
+
+    .site-nav__item--has-menu {
+
+        width: 100%;
+
+    }
+
+
+
+    .site-nav__trigger,
+
+    .site-nav a {
+
+        width: 100%;
+
+        justify-content: space-between;
+
+        padding: 0.65rem 0.75rem;
+
+        border-radius: 0.45rem;
+
+    }
+
+
+
+    .site-nav__submenu {
+
+        position: static;
+
+        transform: none;
+
+        min-width: 0;
+
+        margin-top: 0.25rem;
+
+        padding: 0.25rem 0 0.25rem 0.75rem;
+
+        border: none;
+
+        box-shadow: none;
+
+        background: transparent;
+
+        opacity: 1;
+
+        visibility: hidden;
+
+        max-height: 0;
+
+        overflow: hidden;
+
+        pointer-events: none;
+
+        transition: max-height 0.25s ease, visibility 0.25s ease;
+
+    }
+
+
+
+    .site-nav__item--has-menu.is-open .site-nav__submenu {
+
+        visibility: visible;
+
+        max-height: 24rem;
+
+        pointer-events: auto;
+
+    }
+
+
+
+    .site-nav__submenu a {
+
+        white-space: normal;
+
+    }
+
+}
+

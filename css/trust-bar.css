@@ -1,0 +1,16 @@
+.trust-bar {
+    position: relative;
+    z-index: 2;
+    padding: 0 0 2.5rem;
+    background: var(--ld-bg-solid);
+}
+
+.trust-bar__inner {
+    display: flex;
+    justify-content: center;
+}
+
+.trust-bar__image {
+    width: min(100%, 980px);
+    opacity: 0.92;
+}
