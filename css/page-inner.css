@@ -1,15 +1,5 @@
 .page-inner {
-    background: var(--ld-bg-gradient);
-    background-color: var(--ld-bg);
-}
-
-.page-inner .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    background: rgba(13, 13, 27, 0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: var(--ld-bg-solid);
 }
 
 .page-inner main {

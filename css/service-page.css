@@ -1,8 +1,9 @@
 .service-hero {
+    position: relative;
     padding: clamp(6rem, 12vw, 9rem) 0 var(--ld-gutter);
     background-color: var(--ld-bg-solid);
     background-image:
-        linear-gradient(180deg, rgba(12, 13, 27, 0.15) 0%, var(--ld-bg-solid) 72%),
+        linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
         url("../assets/images/about/about-hero-bg.jpg");
     background-position: top center;
     background-repeat: no-repeat;
