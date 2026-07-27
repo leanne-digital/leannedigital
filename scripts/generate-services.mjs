@@ -9,6 +9,11 @@ import {
     renderNav,
 } from './layout.mjs';
 import { slugFromServicePath } from './service-pages.mjs';
+import {
+    renderVisibilityStrategyBody,
+    renderVisibilityStrategyHero,
+    renderVisibilityStrategyScripts,
+} from './service-page-visibility.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -105,6 +110,10 @@ function renderContactCta(depth) {
 
 function renderServicePage(page, depth) {
     const prefix = assetPrefix(depth);
+    const isVisibilityPage = page.slug === 'free-website-visibility-strategy-session';
+    const bodySections = isVisibilityPage ? renderVisibilityStrategyBody(depth) : renderSections(page.sections);
+    const heroSection = isVisibilityPage ? renderVisibilityStrategyHero(page) : renderHero(page, depth);
+    const extraScripts = isVisibilityPage ? `\n${renderVisibilityStrategyScripts()}` : '';
 
     return `${renderHead({
         title: `${escapeHtml(page.title)} | Leanne Digital`,
@@ -116,12 +125,12 @@ function renderServicePage(page, depth) {
 <body class="page-inner">
 ${renderNav(depth, page.path)}
     <main>
-${renderHero(page, depth)}
-${renderSections(page.sections)}
-${renderContactCta(depth)}
+${heroSection}
+${bodySections}
+${isVisibilityPage ? '' : renderContactCta(depth)}
     </main>
 ${renderFullFooter(depth)}
-    <script src="${prefix}js/site-nav.js" defer></script>
+    <script src="${prefix}js/site-nav.js" defer></script>${extraScripts}
 </body>
 </html>
 `;
