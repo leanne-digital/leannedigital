@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizeServiceHtml } from './service-html-normalize.mjs';
 import { SERVICE_PAGE_PATHS, slugFromServicePath } from './service-pages.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -85,17 +86,8 @@ async function downloadImage(url) {
 }
 
 async function rewriteHtml(html) {
-    let output = html;
+    let output = normalizeServiceHtml(html);
 
-    output = output.replace(/<span style="color:\s*#4EC3CC[^"]*">/gi, '<span class="service-accent">');
-    output = output.replace(/<span style="color:\s*#4ec3cc[^"]*">/gi, '<span class="service-accent">');
-    output = output.replace(/<strong style="color:\s*#4ec3cc[^"]*">/gi, '<strong class="service-accent">');
-    output = output.replace(/<!--[\s\S]*?-->/g, '');
-
-    output = output.replace(/\sclass="[^"]*"/gi, '');
-    output = output.replace(/\sdata-[a-z0-9_-]+="[^"]*"/gi, '');
-    output = output.replace(/\s(srcset|sizes|fetchpriority|decoding|loading|style)="[^"]*"/gi, '');
-    output = output.replace(/<svg[\s\S]*?<\/svg>/gi, '');
     output = output.replace(/<img([^>]*?)>/gi, (tag) => {
         const srcMatch = tag.match(/\ssrc="([^"]+)"/i);
         if (!srcMatch) return tag;
@@ -121,14 +113,6 @@ async function rewriteHtml(html) {
         const local = await downloadImage(`${BASE_URL}${wpPath}`);
         if (local) output = output.split(wpPath).join(local);
     }
-
-    output = output.replace(/https:\/\/leannedigital\.com/g, '');
-    output = output.replace(/href="#contact"/gi, 'href="#contact"');
-    output = output.replace(/href="\/contact"/gi, 'href="/contact/"');
-    output = output.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
-    output = output.replace(/\s+/g, ' ');
-    output = output.replace(/>\s+</g, '><');
-    output = output.replace(/<p><\/p>/g, '');
 
     return output.trim();
 }

@@ -10,9 +10,12 @@ import {
 } from './layout.mjs';
 import { slugFromServicePath } from './service-pages.mjs';
 import {
+    pageNeedsCalendly,
+    postProcessSection,
+} from './service-html-normalize.mjs';
+import {
     renderVisibilityStrategyBody,
     renderVisibilityStrategyHero,
-    renderVisibilityStrategyScripts,
 } from './service-page-visibility.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -66,14 +69,12 @@ ${renderHeroButtons(page.hero.buttons)}
         </section>`;
 }
 
-function renderSections(sections) {
+function renderSections(sections, slug) {
     return sections
         .map(
             (section, index) => `        <section class="service-section section--navy${index % 2 ? ' service-section--alt' : ''}">
             <div class="container">
-                <div class="service-section__panel">
-                    <div class="service-section__content">${section}</div>
-                </div>
+                <div class="service-section__content">${postProcessSection(section, { slug })}</div>
             </div>
         </section>`
         )
@@ -111,9 +112,12 @@ function renderContactCta(depth) {
 function renderServicePage(page, depth) {
     const prefix = assetPrefix(depth);
     const isVisibilityPage = page.slug === 'free-website-visibility-strategy-session';
-    const bodySections = isVisibilityPage ? renderVisibilityStrategyBody(depth) : renderSections(page.sections);
+    const bodySections = isVisibilityPage ? renderVisibilityStrategyBody(depth) : renderSections(page.sections, page.slug);
     const heroSection = isVisibilityPage ? renderVisibilityStrategyHero(page) : renderHero(page, depth);
-    const extraScripts = isVisibilityPage ? `\n${renderVisibilityStrategyScripts()}` : '';
+    const needsCalendly = !isVisibilityPage && pageNeedsCalendly(page.sections);
+    const extraScripts = isVisibilityPage || needsCalendly
+        ? `\n    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>`
+        : '';
 
     return `${renderHead({
         title: `${escapeHtml(page.title)} | Leanne Digital`,
@@ -127,7 +131,7 @@ ${renderNav(depth, page.path)}
     <main>
 ${heroSection}
 ${bodySections}
-${isVisibilityPage ? '' : renderContactCta(depth)}
+${isVisibilityPage || needsCalendly ? '' : renderContactCta(depth)}
     </main>
 ${renderFullFooter(depth)}
     <script src="${prefix}js/site-nav.js" defer></script>${extraScripts}

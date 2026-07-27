@@ -329,6 +329,62 @@
     background: #fff;
 }
 
+.ld-section-inner {
+    display: grid;
+    gap: 2rem;
+}
+
+.ld-section-inner > .ld-col,
+.ld-section-inner > .ld-widget-heading,
+.ld-section-inner > .ld-widget-text,
+.ld-section-inner > .ld-widget-image,
+.ld-section-inner > .ld-icon-card {
+    min-width: 0;
+}
+
+.ld-col {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+}
+
+.ld-col .ld-col {
+    gap: 1rem;
+}
+
+.ld-icon-card {
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.ld-gallery {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ld-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.ld-widget-button .ld-btn,
+.service-section__content .ld-btn {
+    display: inline-flex;
+    margin-top: 0.75rem;
+}
+
+.ld-section-inner--booking {
+    align-items: center;
+}
+
+.ld-col--calendly {
+    width: 100%;
+}
+
 @media (min-width: 768px) {
     .service-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -337,6 +393,25 @@
     .service-split {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .ld-section-inner:has(> .ld-col:nth-child(2)) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(2rem, 4vw, 3.5rem);
+        align-items: center;
+    }
+
+    .ld-section-inner:has(> .ld-col:nth-child(3):last-child) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
+
+    .ld-section-inner--booking {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .ld-col:has(> .ld-col > .ld-widget-heading) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
