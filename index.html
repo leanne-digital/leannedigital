@@ -11,13 +11,20 @@
     <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tokens.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/hero.css">
     <link rel="stylesheet" href="css/trust-bar.css">
     <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/services.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <link rel="stylesheet" href="css/process.css">
+    <link rel="stylesheet" href="css/reviews.css">
+    <link rel="stylesheet" href="css/reach.css">
+    <link rel="stylesheet" href="css/contact.css">
     <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
@@ -28,8 +35,8 @@
                     class="site-logo__image"
                     src="assets/images/brand/leanne-digital-logo-white.png"
                     alt="Leanne Digital"
-                    width="300"
-                    height="85"
+                    width="184"
+                    height="52"
                 >
             </a>
             <button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
@@ -100,6 +107,8 @@
                 </h1>
 
                 <p class="hero__lead">But we don't stop there! We go beyond logos and website launches, we back it up with digital marketing that helps businesses like yours get seen and grow.</p>
+
+                <a class="ld-btn hero__cta" href="/contact/">Let's Chat! (don't Worry I'm friendly)</a>
                 </div>
             </div>
         </section>
@@ -125,20 +134,416 @@
                     <p>At Leanne Digital, strategy comes first. From brand development to high-performing websites and digital marketing systems, everything we create is built to look great, build trust, and support real business growth.</p>
                     <p><strong>Small team energy. Big agency thinking. Real results.</strong></p>
                 </div>
-                <a class="intro__cta" href="/about/">Curious to learn more about us?</a>
+                <a class="ld-btn intro__cta" href="/about/">Curious to learn more about us?</a>
+            </div>
+        </section>
+
+        <section class="services-intro section--navy" aria-labelledby="what-we-do-heading">
+            <div class="container">
+                <header class="section-header">
+                    <h2 class="section-header__eyebrow" id="what-we-do-heading">What We Do</h2>
+                    <p class="section-header__title">Design that's built to grow with your business.</p>
+                    <p class="section-header__lead">We blend branding, websites, and digital marketing to help you show up online with clarity and confidence. Starting fresh? Ready for a refresh? We've got the strategy and the team to bring it to life.</p>
+                </header>
+            </div>
+        </section>
+
+        <section class="service-row section--navy service-row--web" aria-labelledby="web-design-heading">
+            <div class="container">
+                <div class="service-row__grid service-row__grid--wide-image">
+                    <div class="service-row__media">
+                        <a href="https://gbtinc.ca/" target="_blank" rel="noopener noreferrer">
+                            <img src="assets/images/home/floco-laptop.png" alt="Floco Rubber Surfacing website displayed on a laptop" width="784" height="441" loading="lazy">
+                        </a>
+                    </div>
+                    <div class="service-row__content">
+                        <h2 class="service-row__title" id="web-design-heading">Web Design</h2>
+                        <div class="service-row__copy">
+                            <p>Custom websites built on WordPress or Shopify designed to look great, load fast, and work on any device.</p>
+                            <ul>
+                                <li>Full Website Packages</li>
+                                <li>1-Page Website Packages</li>
+                                <li>Redesigns &amp; Landing Pages</li>
+                            </ul>
+                        </div>
+                        <a class="ld-btn" href="/website-design/">learn more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-row section--navy" aria-labelledby="graphic-design-heading">
+            <div class="container">
+                <div class="service-row__grid service-row__grid--reverse service-row__grid--reverse-mobile">
+                    <div class="service-row__content">
+                        <h2 class="service-row__title" id="graphic-design-heading">Graphic Design</h2>
+                        <div class="service-row__copy">
+                            <p>Your brand deserves to feel like you. We create logos, brand kits, and digital assets that help you stay consistent and recognizable everywhere you show up.</p>
+                            <ul>
+                                <li><a href="/winnipeg-logo-design/">Logo Design</a> &amp; Visual Identity</li>
+                                <li>Business Cards, Social Graphics &amp; PDFs</li>
+                                <li>Custom Marketing Materials</li>
+                            </ul>
+                        </div>
+                        <a class="ld-btn" href="/graphic-design/">learn more</a>
+                    </div>
+                    <div class="service-row__media">
+                        <img src="assets/images/home/graphic-design-badges.png" alt="Sample brand badges and graphic design work" width="641" height="483" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-row section--navy" aria-labelledby="seo-heading">
+            <div class="container">
+                <div class="service-row__grid">
+                    <div class="service-row__media">
+                        <img src="assets/images/home/seo-services.png" alt="SEO services illustration showing search rankings" width="966" height="718" loading="lazy">
+                    </div>
+                    <div class="service-row__content">
+                        <h2 class="service-row__title" id="seo-heading">SEO</h2>
+                        <div class="service-row__copy">
+                            <p>Got a great business but no one's finding you online? That's where <a href="/seo/">SEO</a> helps. We'll tackle the right keywords, fix what's slowing you down, and get your site seen by the people searching for you.</p>
+                        </div>
+                        <a class="ld-btn" href="/seo/">learn more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="service-row section--navy" aria-labelledby="maintenance-heading">
+            <div class="container">
+                <div class="service-row__grid service-row__grid--reverse service-row__grid--reverse-mobile">
+                    <div class="service-row__content">
+                        <h2 class="service-row__title" id="maintenance-heading">Website Maintenance</h2>
+                        <div class="service-row__copy">
+                            <p>We offer peace of mind with our all-inclusive website security packages. From daily backups and plugin updates to 24/7 monitoring and malware protection, we keep your site safe and running smoothly.</p>
+                            <ul>
+                                <li>WordPress Security &amp; Backups</li>
+                                <li>Ongoing Support &amp; Monthly Plans</li>
+                            </ul>
+                        </div>
+                        <a class="ld-btn" href="/website-management-support/">learn more</a>
+                    </div>
+                    <div class="service-row__media">
+                        <img src="assets/images/home/leanne-working.png" alt="Leanne Jones working on WordPress website design in Winnipeg" width="639" height="520" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio section--navy" aria-labelledby="portfolio-heading">
+            <div class="container">
+                <header class="section-header section-header--left">
+                    <h2 class="section-header__eyebrow" id="portfolio-heading">Recently Launched Websites</h2>
+                    <p class="section-header__lead">We keep things simple and supportive, from the first chat to launch. Over the years, we've had the chance to work with some amazing clients, from small business owners to Indigenous organizations to real estate developers. Every project is a little different, but the goal is always the same: create something that feels true to you and helps your business grow. Here's a peek at what we've been up to lately.</p>
+                </header>
+
+                <div class="portfolio__cards">
+                    <a class="portfolio__card" href="https://gbtinc.ca/" target="_blank" rel="noopener noreferrer">
+                        <img src="assets/images/home/portfolio-gbt.png" alt="GBT Inc website preview" width="440" height="325" loading="lazy">
+                    </a>
+                    <a class="portfolio__card" href="https://bloc15.com/" target="_blank" rel="noopener noreferrer">
+                        <img src="assets/images/home/portfolio-bloc.png" alt="Bloc 15 website preview" width="439" height="325" loading="lazy">
+                    </a>
+                    <a class="portfolio__card" href="https://kenastondevelopment.com/" target="_blank" rel="noopener noreferrer">
+                        <img src="assets/images/home/portfolio-kenaston.png" alt="Kenaston Development website preview" width="439" height="325" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="portfolio__cta-wrap">
+                    <a class="ld-btn" href="/portfolio/">View More Work</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section section--navy" aria-labelledby="process-heading">
+            <div class="container">
+                <div class="ld-process">
+                    <div class="ld-process__inner">
+                        <div class="ld-process__heading">
+                            <span class="ld-process__eyebrow" id="process-heading">HOW IT WORKS</span>
+                            <h2>A clear process from first call to launch.</h2>
+                            <p>No mystery, no disappearing acts. You'll always know what we're working on and what comes next.</p>
+                        </div>
+
+                        <div class="ld-process__tabs" role="tablist" aria-label="Project process">
+                            <button class="ld-process__tab is-active" type="button" role="tab" aria-selected="true" aria-controls="ld-step-1" id="ld-tab-1" data-step="1">
+                                <span class="ld-process__number">01</span>
+                                <span class="ld-process__tab-title">Discovery</span>
+                            </button>
+                            <button class="ld-process__tab" type="button" role="tab" aria-selected="false" aria-controls="ld-step-2" id="ld-tab-2" data-step="2" tabindex="-1">
+                                <span class="ld-process__number">02</span>
+                                <span class="ld-process__tab-title">Proposal</span>
+                            </button>
+                            <button class="ld-process__tab" type="button" role="tab" aria-selected="false" aria-controls="ld-step-3" id="ld-tab-3" data-step="3" tabindex="-1">
+                                <span class="ld-process__number">03</span>
+                                <span class="ld-process__tab-title">Design</span>
+                            </button>
+                            <button class="ld-process__tab" type="button" role="tab" aria-selected="false" aria-controls="ld-step-4" id="ld-tab-4" data-step="4" tabindex="-1">
+                                <span class="ld-process__number">04</span>
+                                <span class="ld-process__tab-title">Development</span>
+                            </button>
+                            <button class="ld-process__tab" type="button" role="tab" aria-selected="false" aria-controls="ld-step-5" id="ld-tab-5" data-step="5" tabindex="-1">
+                                <span class="ld-process__number">05</span>
+                                <span class="ld-process__tab-title">Review</span>
+                            </button>
+                            <button class="ld-process__tab" type="button" role="tab" aria-selected="false" aria-controls="ld-step-6" id="ld-tab-6" data-step="6" tabindex="-1">
+                                <span class="ld-process__number">06</span>
+                                <span class="ld-process__tab-title">Launch</span>
+                            </button>
+                            <button class="ld-process__tab" type="button" role="tab" aria-selected="false" aria-controls="ld-step-7" id="ld-tab-7" data-step="7" tabindex="-1">
+                                <span class="ld-process__number">07</span>
+                                <span class="ld-process__tab-title">Support</span>
+                            </button>
+                        </div>
+
+                        <div class="ld-process__panels">
+                            <article class="ld-process__panel is-active" id="ld-step-1" role="tabpanel" aria-labelledby="ld-tab-1" data-panel="1">
+                                <div class="ld-process__panel-number">01</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP ONE</span>
+                                    <h3>Discovery Call</h3>
+                                    <p>We'll hop on a quick call to get to know each other. You tell me about your business, your goals, and what you're looking for. I'll walk you through how I can help.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous" disabled>
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next">
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="ld-process__panel" id="ld-step-2" role="tabpanel" aria-labelledby="ld-tab-2" data-panel="2" hidden>
+                                <div class="ld-process__panel-number">02</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP TWO</span>
+                                    <h3>Proposal</h3>
+                                    <p>After our chat, I'll send over a custom proposal that lays everything out clearly. You'll see the scope of work, timeline, deliverables, and pricing upfront.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous">
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next">
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="ld-process__panel" id="ld-step-3" role="tabpanel" aria-labelledby="ld-tab-3" data-panel="3" hidden>
+                                <div class="ld-process__panel-number">03</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP THREE</span>
+                                    <h3>Design</h3>
+                                    <p>This is the fun part. I'll create custom designs based on our conversation and share them with you for feedback. We'll make sure everything feels right before moving ahead.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous">
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next">
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="ld-process__panel" id="ld-step-4" role="tabpanel" aria-labelledby="ld-tab-4" data-panel="4" hidden>
+                                <div class="ld-process__panel-number">04</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP FOUR</span>
+                                    <h3>Development</h3>
+                                    <p>Once the design is approved, my developer brings it to life with clean code, fast load times, and a smooth mobile experience.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous">
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next">
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="ld-process__panel" id="ld-step-5" role="tabpanel" aria-labelledby="ld-tab-5" data-panel="5" hidden>
+                                <div class="ld-process__panel-number">05</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP FIVE</span>
+                                    <h3>Review &amp; Testing</h3>
+                                    <p>You'll get a full walk-through of the site before launch. We'll test everything, make final tweaks, and make sure it all feels good to go.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous">
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next">
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="ld-process__panel" id="ld-step-6" role="tabpanel" aria-labelledby="ld-tab-6" data-panel="6" hidden>
+                                <div class="ld-process__panel-number">06</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP SIX</span>
+                                    <h3>Launch</h3>
+                                    <p>We hit publish. You get a website or brand you're proud of, and I'm still here if you need updates, support, or want to grow even more down the road.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous">
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next">
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+
+                            <article class="ld-process__panel" id="ld-step-7" role="tabpanel" aria-labelledby="ld-tab-7" data-panel="7" hidden>
+                                <div class="ld-process__panel-number">07</div>
+                                <div class="ld-process__panel-copy">
+                                    <span class="ld-process__step-label">STEP SEVEN</span>
+                                    <h3>Post-Launch Support</h3>
+                                    <p>You'll have 30 days of support after launch for any questions, fixes, or small tweaks. After that, we offer maintenance and security plans to keep your site running smoothly, plus the option to book extra hours whenever you need them.</p>
+                                </div>
+                                <div class="ld-process__controls">
+                                    <button class="ld-process__arrow" type="button" data-direction="previous">
+                                        <span aria-hidden="true">&larr;</span>
+                                        Previous
+                                    </button>
+                                    <button class="ld-process__arrow" type="button" data-direction="next" disabled>
+                                        Next
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reach section--navy" aria-labelledby="reach-heading">
+            <div class="container reach__inner">
+                <h2 class="reach__title" id="reach-heading">Designing for Clients Across <br>Canada, the US, and Beyond</h2>
+                <p class="reach__subtitle">Based in Winnipeg, serving businesses across North America (and beyond!).</p>
+                <p class="reach__copy">We're a small design team based in Winnipeg, Manitoba. While we love working with local clients, our reach goes far beyond the prairies. We've created websites for businesses across Canada, the United States, and even overseas.<br>Whether you're nearby or across the country, we'll make the process easy and personal. Good design travels well.</p>
+                <img class="reach__map" src="assets/images/home/north-america-map.png" alt="Map showing client locations across North America" width="1024" height="544" loading="lazy">
+            </div>
+        </section>
+
+        <section class="reviews section--navy" aria-labelledby="reviews-heading">
+            <div class="container">
+                <h2 class="reviews__title" id="reviews-heading">What People are saying about working with us</h2>
+                <div class="reviews__grid">
+                    <article class="review-card">
+                        <img class="review-card__stars" src="assets/images/home/teal-stars.png" alt="5 out of 5 stars" width="100" height="20" loading="lazy">
+                        <p class="review-card__quote"><strong>Leanne is the best! She took care of all of my website needs and then some.</strong> She made a video for me to show me how to fix a font problem and showed me how to navigate uploading new products on my website. Leanne took care of my long overdue issues concerning my website design and updates in a very short period of time and was so easy to communicate with! I would highly recommend her services if you're looking for design and website changes.</p>
+                        <p class="review-card__name">Melissa Jean</p>
+                        <p class="review-card__company">Melissa Jean Art</p>
+                    </article>
+                    <article class="review-card">
+                        <img class="review-card__stars" src="assets/images/home/teal-stars.png" alt="5 out of 5 stars" width="100" height="20" loading="lazy">
+                        <p class="review-card__quote"><strong>Working with Leanne to design our new website was an easy and seamless process!</strong> After our initial meeting she was able to design our site in a very timely fashion and with a look that we love. She is also super prompt with helping you out if you ever get stuck while editing you site after hand off. I would highly recommend using her for your digital design needs!</p>
+                        <p class="review-card__name">Krista Flore</p>
+                        <p class="review-card__company">Benefit Winnipeg</p>
+                    </article>
+                    <article class="review-card">
+                        <img class="review-card__stars" src="assets/images/home/teal-stars.png" alt="5 out of 5 stars" width="100" height="20" loading="lazy">
+                        <p class="review-card__quote"><strong>Absolutely Incredible- A True Website Wizard!</strong> I truly don't even know where to begin- Leanne is absolutely AMAZING! She took our brand and brought it to life in the most beautiful, thoughtful, and professional way possible. We couldn't be more thankful for her.<br>Not only is the site design stunning, but Leanne also worked wonders on the SEO side of things. She made sure our site doesn't just look good-it performs. And in today's digital world, that's everything.</p>
+                        <p class="review-card__name">Lexi Aarnes</p>
+                        <p class="review-card__company">Floco Rubber Surfacing</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact section--navy" id="contact" aria-labelledby="contact-heading">
+            <div class="container">
+                <div class="contact__panel">
+                    <div class="contact__intro">
+                        <h2 class="contact__title" id="contact-heading">Enough About Me. Let's Talk About <span class="contact__title-accent">You</span>.</h2>
+                        <div class="contact__copy">
+                            <p>Got a project in mind? A brand that needs a refresh? Or maybe you're just tired of your website not doing what it's supposed to?</p>
+                            <p>I'd love to hear what you're working on and see how I can help. You can fill out the form below or book a free call — whatever feels easiest.</p>
+                        </div>
+                        <a class="ld-btn" href="/contact/">Book A Call With mE</a>
+                    </div>
+                    <form class="contact-form" action="/contact/" method="get" aria-label="Book a Call">
+                        <div class="contact-form__field">
+                            <label for="contact-email">Email</label>
+                            <input type="email" id="contact-email" name="email" placeholder="Email" required autocomplete="email">
+                        </div>
+                        <div class="contact-form__field">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" rows="4" placeholder="Message"></textarea>
+                        </div>
+                        <button class="ld-btn" type="submit">Send A Message (I'll respond!)</button>
+                    </form>
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="site-footer">
-        <div class="container site-footer__inner">
-            <p class="site-footer__brand">&copy; 2026 Leanne Digital</p>
-            <nav class="site-footer__nav" aria-label="Footer">
-                <a href="/privacy-policy/">Privacy Policy</a>
-                <a href="/sitemap/">Sitemap</a>
-            </nav>
+        <div class="site-footer__main">
+            <div class="container site-footer__grid">
+                <div class="site-footer__brand-col">
+                    <a href="/" aria-label="Leanne Digital home">
+                        <img src="assets/images/brand/leanne-digital-logo-white.png" alt="Leanne Digital" width="300" height="85" loading="lazy">
+                    </a>
+                    <p class="site-footer__about">Leanne Digital, formerly Leanne Digital Design, is an Indigenous-owned brand and digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We help businesses and Indigenous organizations build strong, beautiful brands online and get them seen through website design, SEO, branding, and digital marketing support.</p>
+                    <div class="site-footer__social">
+                        <a href="https://www.facebook.com/Leanne.Digital" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <img src="assets/images/social/facebook.svg" alt="" width="33" height="33">
+                        </a>
+                        <a href="https://www.linkedin.com/company/leanne-digital-design/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <img src="assets/images/social/linkedin.svg" alt="" width="33" height="33">
+                        </a>
+                        <a href="https://www.instagram.com/leannedigitaldesign/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <img src="assets/images/social/instagram.svg" alt="" width="32" height="33">
+                        </a>
+                    </div>
+                    <a class="ld-btn" href="/contact/">CONTACT ME TODAY!</a>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">Brand Design</span>
+                    <p class="site-footer__links">Logo Design<br>Brand Design<br>Graphic Design</p>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">Web Design and Technical Support</span>
+                    <p class="site-footer__links">Website Design<br>Website Hosting<br>Website Maintenance &amp; Security<br>Conversation Rate Optamization<br>Custom Integrations</p>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">SEO &amp; Visibility</span>
+                    <p class="site-footer__links">AI Search Optimization (AEO)<br>Ongoing SEO<br>Local SEO<br>Tech SEO<br>Google Ads<br>Reddit Ads</p>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bar">
+            <div class="container">
+                Copyright &copy; 2026 Leanne Digital |
+                <a href="/privacy-policy/">Privacy Policy</a> |
+                <a href="/sitemap/">Sitemap</a> |
+                Powered by <a href="/">Leanne Digital</a>
+            </div>
         </div>
     </footer>
     <script src="js/site-nav.js" defer></script>
+    <script src="js/process-tabs.js" defer></script>
 </body>
 </html>

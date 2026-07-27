@@ -20,6 +20,16 @@ export const PRIMARY_NAV = [
     { path: '/contact/', title: 'Contact' },
 ];
 
+/** Paths with hand-built static pages — skipped by generate-pages.mjs */
+export const BUILT_PAGES = new Set([
+    '/about/',
+    '/contact/',
+    '/blog/',
+    '/portfolio/',
+    ...SERVICE_LINKS.map((link) => link.path),
+    '/google-ads/',
+]);
+
 /** WordPress pages from Simply Static export (excluding homepage). */
 export const COMING_SOON_PAGES = [
     { path: '/about/', title: 'About', description: 'Meet the Leanne Digital team in Winnipeg.' },

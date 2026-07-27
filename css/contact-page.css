@@ -1,0 +1,110 @@
+.contact-hero {
+    position: relative;
+    padding: clamp(6rem, 12vw, 9rem) 0 clamp(3rem, 5vw, 5rem);
+    background-color: var(--ld-bg-solid);
+    background-image:
+        linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
+        url("../assets/images/about/about-hero-bg.jpg");
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.contact-hero__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.contact-hero__title {
+    margin: 0 0 1.25rem;
+    font-family: var(--ld-font-display);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.contact-hero__title-accent {
+    color: var(--ld-accent);
+    margin-right: -0.3em;
+}
+
+.contact-hero__copy {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ld-text);
+}
+
+.contact-hero__copy p {
+    margin: 0 0 0.85rem;
+}
+
+.contact-hero__copy a {
+    color: var(--ld-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.contact-hero__copy a:hover,
+.contact-hero__copy a:focus-visible {
+    color: var(--ld-text);
+}
+
+.contact-hero__form-panel {
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: 16px;
+    background:
+        linear-gradient(rgba(12, 13, 27, 0.82), rgba(12, 13, 27, 0.88)),
+        url("../assets/images/home/contact-form-bg.jpg") center / cover no-repeat;
+}
+
+.contact-hero__form-label {
+    display: block;
+    margin: 0 0 1rem;
+    font-family: var(--ld-font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.contact-booking {
+    padding: clamp(2rem, 4vw, 3rem) 0 clamp(3rem, 5vw, 5rem);
+}
+
+.contact-booking__title {
+    margin: 0 0 1.5rem;
+    text-align: center;
+    font-family: var(--ld-font-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.contact-booking__widget {
+    min-width: 320px;
+    min-height: 700px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+@media (min-width: 900px) {
+    .contact-hero__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .contact-booking__title {
+        text-align: left;
+    }
+}

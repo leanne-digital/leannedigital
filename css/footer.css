@@ -1,31 +1,90 @@
 .site-footer {
-    padding: 2rem 0 2.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--ld-bg-start);
 }
 
-.site-footer__inner {
+.site-footer__main {
+    padding: clamp(2.5rem, 4vw, 3rem) 0;
+}
+
+.site-footer__grid {
+    display: grid;
+    gap: 2rem;
+}
+
+.site-footer__brand-col img {
+    width: min(100%, 11rem);
+}
+
+.site-footer__about {
+    margin: 1rem 0 1.25rem;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ld-text);
+}
+
+.site-footer__social {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
 }
 
-.site-footer__brand {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 0.9rem;
+.site-footer__social a {
+    display: block;
+    width: 33px;
+    height: 33px;
 }
 
-.site-footer__nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
+.site-footer__social img {
+    width: 100%;
+    height: 100%;
+}
+
+.site-footer__column-title {
+    display: block;
+    margin: 0 0 0.5rem;
     font-family: var(--ld-font-display);
-    font-size: 0.9rem;
+    font-size: 1.25rem;
     font-weight: 700;
+    line-height: 1.4;
+    color: var(--ld-text);
 }
 
-.site-footer__nav a:hover,
-.site-footer__nav a:focus-visible {
+.site-footer__links {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 2;
+    color: var(--ld-text);
+}
+
+.site-footer__links a:hover,
+.site-footer__links a:focus-visible {
     color: var(--ld-accent);
+}
+
+.site-footer__bar {
+    padding: 1rem 0 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--ld-text);
+}
+
+.site-footer__bar a:hover,
+.site-footer__bar a:focus-visible {
+    color: var(--ld-accent);
+}
+
+@media (min-width: 768px) {
+    .site-footer__grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .site-footer__bar {
+        line-height: 1.5;
+    }
 }

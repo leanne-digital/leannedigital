@@ -4,8 +4,9 @@
 }
 
 .intro__inner {
-    width: min(100% - 2rem, 912px);
+    width: min(100%, 912px);
     margin-inline: auto;
+    padding-inline: var(--ld-gutter);
     text-align: center;
 }
 
@@ -34,30 +35,6 @@
 
 .intro__copy strong {
     font-weight: 700;
-}
-
-.intro__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3rem;
-    padding: 0.8rem 2rem;
-    border-radius: var(--ld-radius-pill);
-    background: var(--ld-accent);
-    color: var(--ld-bg-start);
-    font-family: var(--ld-font-body);
-    font-size: 0.875rem;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: background 0.2s ease, color 0.2s ease;
-}
-
-.intro__cta:hover,
-.intro__cta:focus-visible {
-    background: var(--ld-text);
-    color: var(--ld-bg-solid);
 }
 
 @media (max-width: 767px) {

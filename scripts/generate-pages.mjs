@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { COMING_SOON_PAGES, PRIMARY_NAV, SERVICE_LINKS } from './site-config.mjs';
+import { COMING_SOON_PAGES, PRIMARY_NAV, SERVICE_LINKS, BUILT_PAGES } from './site-config.mjs';
 import { renderFavicons } from './favicons.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -42,8 +42,8 @@ ${links}
                     class="site-logo__image"
                     src="${prefix}assets/images/brand/leanne-digital-logo-white.png"
                     alt="Leanne Digital"
-                    width="300"
-                    height="85"
+                    width="184"
+                    height="52"
                 >
             </a>
             <button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
@@ -94,7 +94,7 @@ function renderHead({ title, description, depth, extraCss = [] }) {
 ${renderFavicons(prefix)}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 ${cssLinks}
 </head>`;
 }
@@ -187,6 +187,10 @@ const uniquePages = [...new Map(COMING_SOON_PAGES.map((p) => [p.path, p])).value
 for (const page of uniquePages) {
     const slug = page.path.replace(/^\/|\/$/g, '');
     const depth = slug ? 1 : 0;
+
+    if (BUILT_PAGES.has(page.path)) {
+        continue;
+    }
 
     if (page.path === '/sitemap/') {
         writePage(slug, 'index.html', renderSitemapPage(uniquePages, depth));

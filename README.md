@@ -18,7 +18,40 @@ After editing `scripts/site-config.mjs`, regenerate inner pages:
 node scripts/generate-pages.mjs
 ```
 
-Homepage (`index.html`) is hand-maintained. All other site pages use a shared coming-soon layout.
+Homepage (`index.html`) is hand-maintained. About, contact, and blog are hand-built or generated separately.
+
+## Blog posts
+
+Import content from the live site (one-time or when posts change):
+
+```bash
+node scripts/import-blog.mjs
+node scripts/generate-blog.mjs
+```
+
+Posts live at root slugs (e.g. `/what-even-is-seo/`). Images are stored in `assets/images/blog/` — no WordPress upload paths.
+
+## Portfolio
+
+Import projects and regenerate pages:
+
+```bash
+node scripts/import-portfolio.mjs
+node scripts/generate-portfolio.mjs
+```
+
+Project pages live at `/projects/{slug}/`. Images go in `assets/images/portfolio/`.
+
+## Service pages
+
+Import service page content and regenerate:
+
+```bash
+node scripts/import-services.mjs
+node scripts/generate-services.mjs
+```
+
+Pages live at paths like `/website-design/`, `/seo/`, etc. Images go in `assets/images/services/`.
 
 ## Git workflow (Gary + Leanne)
 

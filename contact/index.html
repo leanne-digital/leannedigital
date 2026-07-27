@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Leanne Digital</title>
-    <meta name="description" content="Get in touch with Leanne Digital. This page is coming soon.">
+    <title>Contact Us | Leanne Digital</title>
+    <meta name="description" content="Reach out to Leanne Digital's small expert team for web design, graphic design &amp; SEO. Let's chat about your project and how we can help you grow.">
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/tokens.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/page-inner.css">
+    <link rel="stylesheet" href="../css/buttons.css">
+    <link rel="stylesheet" href="../css/contact.css">
+    <link rel="stylesheet" href="../css/contact-page.css">
+    <link rel="stylesheet" href="../css/reviews.css">
     <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/coming-soon.css">
 </head>
 <body class="page-inner">
     <header class="site-header">
@@ -26,8 +30,8 @@
                     class="site-logo__image"
                     src="../assets/images/brand/leanne-digital-logo-white.png"
                     alt="Leanne Digital"
-                    width="300"
-                    height="85"
+                    width="184"
+                    height="52"
                 >
             </a>
             <button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
@@ -37,48 +41,175 @@
             </button>
             <nav class="site-nav" id="primary-nav" aria-label="Primary">
                 <ul class="site-nav__list">
-                <li class="site-nav__item"><a href="/about/">About</a></li>
-                <li class="site-nav__item"><a href="/portfolio/">Portfolio</a></li>
-                <li class="site-nav__item site-nav__item--has-menu">
-                    <button type="button" class="site-nav__trigger" aria-expanded="false" aria-haspopup="true">
-                        Services
-                        <svg class="site-nav__chevron" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2.5 4.5 6 8l3.5-3.5"/></svg>
-                    </button>
-                    <ul class="site-nav__submenu">
-                        <li><a href="/free-website-visibility-strategy-session/">Free Website Visibility Strategy Session</a></li>
-                        <li><a href="/website-design/">Website Design</a></li>
-                        <li><a href="/website-management-support/">Website Management & Support</a></li>
-                        <li><a href="/seo/">SEO</a></li>
-                        <li><a href="/answer-engine-optimization-aeo/">Answer Engine Optimization (AEO)</a></li>
-                        <li><a href="/graphic-design/">Graphic Design</a></li>
-                        <li><a href="/winnipeg-logo-design/">Winnipeg Logo Design</a></li>
-                        <li><a href="/indigenous-graphic-design/">Indigenous Graphic Design</a></li>
-                        <li><a href="/indigenous-web-design/">Indigenous Web Design</a></li>
-                    </ul>
-                </li>
-                <li class="site-nav__item"><a href="/blog/">Blog</a></li>
-                <li class="site-nav__item"><a href="/contact/" aria-current="page">Contact</a></li>
+                    <li class="site-nav__item"><a href="/about/">About</a></li>
+                    <li class="site-nav__item"><a href="/portfolio/">Portfolio</a></li>
+                    <li class="site-nav__item site-nav__item--has-menu">
+                        <button type="button" class="site-nav__trigger" aria-expanded="false" aria-haspopup="true">
+                            Services
+                            <svg class="site-nav__chevron" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+                        </button>
+                        <ul class="site-nav__submenu">
+                            <li><a href="/free-website-visibility-strategy-session/">Free Website Visibility Strategy Session</a></li>
+                            <li><a href="/website-design/">Website Design</a></li>
+                            <li><a href="/website-management-support/">Website Management &amp; Support</a></li>
+                            <li><a href="/seo/">SEO</a></li>
+                            <li><a href="/answer-engine-optimization-aeo/">Answer Engine Optimization (AEO)</a></li>
+                            <li><a href="/graphic-design/">Graphic Design</a></li>
+                            <li><a href="/winnipeg-logo-design/">Winnipeg Logo Design</a></li>
+                            <li><a href="/indigenous-graphic-design/">Indigenous Graphic Design</a></li>
+                            <li><a href="/indigenous-web-design/">Indigenous Web Design</a></li>
+                        </ul>
+                    </li>
+                    <li class="site-nav__item"><a href="/blog/">Blog</a></li>
+                    <li class="site-nav__item"><a href="/contact/" aria-current="page">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    <main class="coming-soon">
-        <div class="container coming-soon__inner">
-            <p class="coming-soon__eyebrow">Coming soon</p>
-            <h1 class="coming-soon__title">Contact</h1>
-            <p class="coming-soon__lead">We're rebuilding leanne.digital. This page will be back shortly with updated content.</p>
-            <a class="coming-soon__cta" href="/">Back to home</a>
-        </div>
+
+    <main>
+        <section class="contact-hero section--navy" aria-labelledby="contact-heading">
+            <div class="container contact-hero__grid">
+                <div class="contact-hero__intro">
+                    <h1 class="contact-hero__title" id="contact-heading">Your <span class="contact-hero__title-accent">One Click</span> away to transforming your brand or website.</h1>
+                    <div class="contact-hero__copy">
+                        <p>You have something worth sharing. The right design helps you reach your audience, build trust, and grow your business. If you're ready to turn ideas into visuals that connect, you're in the right place.</p>
+                        <p>Based in Winnipeg, Manitoba. Serving clients across Canada and beyond.</p>
+                        <p>
+                            <strong>Contact Us</strong><br>
+                            Leanne Digital<br>
+                            <a href="mailto:leanne@leannedigital.com">leanne@leannedigital.com</a><br>
+                            Winnipeg, Manitoba
+                        </p>
+                        <p>
+                            <strong>Hours</strong><br>
+                            Mon–Fri: 9am – 5pm
+                        </p>
+                    </div>
+                </div>
+                <div class="contact-hero__form-panel">
+                    <p class="contact-hero__form-label">CONTACT LEANNE</p>
+                    <form
+                        class="contact-form"
+                        action="https://formsubmit.co/leanne@leannedigital.com"
+                        method="POST"
+                        aria-label="Contact form"
+                    >
+                        <input type="hidden" name="_subject" value="New contact form submission — Leanne Digital">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_next" value="https://leannedigital.com/contact/?sent=1">
+                        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="contact-form__honeypot">
+                        <div class="contact-form__field">
+                            <label for="contact-name">Name</label>
+                            <input type="text" id="contact-name" name="name" placeholder="Name" required autocomplete="name">
+                        </div>
+                        <div class="contact-form__field">
+                            <label for="contact-email">Email</label>
+                            <input type="email" id="contact-email" name="email" placeholder="Email" required autocomplete="email">
+                        </div>
+                        <div class="contact-form__field">
+                            <label for="contact-service">What services are you looking for?</label>
+                            <select id="contact-service" name="service" required>
+                                <option value="Web Design">Web Design</option>
+                                <option value="Graphic Design">Graphic Design</option>
+                                <option value="SEO Strategy and Marketing">SEO Strategy and Marketing</option>
+                                <option value="Website Maintenance">Website Maintenance</option>
+                                <option value="Custom Application">Custom Application</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="contact-form__field">
+                            <label for="contact-message">Message</label>
+                            <textarea id="contact-message" name="message" rows="4" placeholder="Your message..."></textarea>
+                        </div>
+                        <button class="ld-btn" type="submit">Send a Message (I'll respond!)</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-booking section--navy" aria-labelledby="booking-heading">
+            <div class="container">
+                <h2 class="contact-booking__title" id="booking-heading">Book a 30 min Discovery Call with Leanne</h2>
+                <div
+                    class="calendly-inline-widget contact-booking__widget"
+                    data-url="https://calendly.com/leannedigitaldesign/30min"
+                ></div>
+            </div>
+        </section>
+
+        <section class="reviews section--navy" aria-labelledby="reviews-heading">
+            <div class="container">
+                <h2 class="reviews__title" id="reviews-heading">What People are saying about working with us</h2>
+                <div class="reviews__grid">
+                    <article class="review-card">
+                        <img class="review-card__stars" src="../assets/images/home/teal-stars.png" alt="5 out of 5 stars" width="100" height="20" loading="lazy">
+                        <p class="review-card__quote"><strong>Leanne is the best! She took care of all of my website needs and then some.</strong> She made a video for me to show me how to fix a font problem and showed me how to navigate uploading new products on my website. Leanne took care of my long overdue issues concerning my website design and updates in a very short period of time and was so easy to communicate with! I would highly recommend her services if you're looking for design and website changes.</p>
+                        <p class="review-card__name">Melissa Jean</p>
+                        <p class="review-card__company">Melissa Jean Art</p>
+                    </article>
+                    <article class="review-card">
+                        <img class="review-card__stars" src="../assets/images/home/teal-stars.png" alt="5 out of 5 stars" width="100" height="20" loading="lazy">
+                        <p class="review-card__quote"><strong>Working with Leanne to design our new website was an easy and seamless process!</strong> After our initial meeting she was able to design our site in a very timely fashion and with a look that we love. She is also super prompt with helping you out if you ever get stuck while editing you site after hand off. I would highly recommend using her for your digital design needs!</p>
+                        <p class="review-card__name">Krista Flore</p>
+                        <p class="review-card__company">Benefit Winnipeg</p>
+                    </article>
+                    <article class="review-card">
+                        <img class="review-card__stars" src="../assets/images/home/teal-stars.png" alt="5 out of 5 stars" width="100" height="20" loading="lazy">
+                        <p class="review-card__quote"><strong>Absolutely Incredible- A True Website Wizard!</strong> I truly don't even know where to begin- Leanne is absolutely AMAZING! She took our brand and brought it to life in the most beautiful, thoughtful, and professional way possible. We couldn't be more thankful for her.<br>Not only is the site design stunning, but Leanne also worked wonders on the SEO side of things. She made sure our site doesn't just look good-it performs. And in today's digital world, that's everything.</p>
+                        <p class="review-card__name">Lexi Aarnes</p>
+                        <p class="review-card__company">Floco Rubber Surfacing</p>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
+
     <footer class="site-footer">
-        <div class="container site-footer__inner">
-            <p class="site-footer__brand">&copy; 2026 Leanne Digital</p>
-            <nav class="site-footer__nav" aria-label="Footer">
-                <a href="/privacy-policy/">Privacy Policy</a>
-                <a href="/sitemap/">Sitemap</a>
-            </nav>
+        <div class="site-footer__main">
+            <div class="container site-footer__grid">
+                <div class="site-footer__brand-col">
+                    <a href="/" aria-label="Leanne Digital home">
+                        <img src="../assets/images/brand/leanne-digital-logo-white.png" alt="Leanne Digital" width="184" height="52" loading="lazy">
+                    </a>
+                    <p class="site-footer__about">Leanne Digital, formerly Leanne Digital Design, is an Indigenous-owned brand and digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We help businesses and Indigenous organizations build strong, beautiful brands online and get them seen through website design, SEO, branding, and digital marketing support.</p>
+                    <div class="site-footer__social">
+                        <a href="https://www.facebook.com/Leanne.Digital" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <img src="../assets/images/social/facebook.svg" alt="" width="33" height="33">
+                        </a>
+                        <a href="https://www.linkedin.com/company/leanne-digital-design/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <img src="../assets/images/social/linkedin.svg" alt="" width="33" height="33">
+                        </a>
+                        <a href="https://www.instagram.com/leannedigitaldesign/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <img src="../assets/images/social/instagram.svg" alt="" width="32" height="33">
+                        </a>
+                    </div>
+                    <a class="ld-btn" href="/contact/">CONTACT ME TODAY!</a>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">Brand Design</span>
+                    <p class="site-footer__links">Logo Design<br>Brand Design<br>Graphic Design</p>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">Web Design and Technical Support</span>
+                    <p class="site-footer__links">Website Design<br>Website Hosting<br>Website Maintenance &amp; Security<br>Conversation Rate Optamization<br>Custom Integrations</p>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">SEO &amp; Visibility</span>
+                    <p class="site-footer__links">AI Search Optimization (AEO)<br>Ongoing SEO<br>Local SEO<br>Tech SEO<br>Google Ads<br>Reddit Ads</p>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bar">
+            <div class="container">
+                Copyright &copy; 2026 Leanne Digital |
+                <a href="/privacy-policy/">Privacy Policy</a> |
+                <a href="/sitemap/">Sitemap</a> |
+                Powered by <a href="/">Leanne Digital</a>
+            </div>
         </div>
     </footer>
     <script src="../js/site-nav.js" defer></script>
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>

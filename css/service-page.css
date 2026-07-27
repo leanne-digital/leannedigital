@@ -1,0 +1,175 @@
+.service-hero {
+    padding: clamp(6rem, 12vw, 9rem) 0 var(--ld-gutter);
+    background-color: var(--ld-bg-solid);
+    background-image:
+        linear-gradient(180deg, rgba(12, 13, 27, 0.15) 0%, var(--ld-bg-solid) 72%),
+        url("../assets/images/about/about-hero-bg.jpg");
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.service-hero__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.service-hero__title {
+    margin: 0 0 1rem;
+    font-family: var(--ld-font-display);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.service-hero__lead {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ld-text);
+}
+
+.service-hero__lead p {
+    margin: 0 0 0.85rem;
+}
+
+.service-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.service-hero__photo {
+    width: min(100%, 28rem);
+    margin-inline: auto;
+}
+
+.service-section {
+    padding: 0 0 var(--ld-gutter);
+}
+
+.service-section--alt .service-section__panel {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.service-section__panel {
+    padding: var(--ld-gutter);
+    border-radius: 16px;
+    background: var(--ld-bg-elevated);
+}
+
+.service-section__content {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--ld-text);
+}
+
+.service-section__content > :first-child {
+    margin-top: 0;
+}
+
+.service-section__content h1,
+.service-section__content h2,
+.service-section__content h3,
+.service-section__content h4 {
+    font-family: var(--ld-font-display);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.service-section__content h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.15;
+}
+
+.service-section__content h3 {
+    margin: 1.5rem 0 0.75rem;
+    font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+    line-height: 1.2;
+}
+
+.service-section__content p {
+    margin: 0 0 1rem;
+}
+
+.service-section__content ul,
+.service-section__content ol {
+    margin: 0 0 1.25rem;
+    padding-left: 1.35rem;
+}
+
+.service-section__content li {
+    margin-bottom: 0.65rem;
+}
+
+.service-section__content img {
+    width: 100%;
+    height: auto;
+    margin: 1.25rem 0;
+    border-radius: 12px;
+}
+
+.service-section__content a {
+    color: var(--ld-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.service-section__content a:hover,
+.service-section__content a:focus-visible {
+    color: var(--ld-text);
+}
+
+.service-section__content .ld-btn,
+.service-section__content .elementor-button {
+    display: inline-flex;
+    margin-top: 0.5rem;
+}
+
+.service-accent {
+    color: var(--ld-accent);
+}
+
+.service-section__content details {
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.service-section__content summary {
+    cursor: pointer;
+    padding: 1rem 1.15rem;
+    list-style: none;
+}
+
+.service-section__content summary::-webkit-details-marker {
+    display: none;
+}
+
+.service-section__content details[open] summary {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.service-section__content details > div {
+    padding: 0 1.15rem 1rem;
+}
+
+@media (min-width: 900px) {
+    .service-hero__grid {
+        grid-template-columns: 1.05fr 0.95fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .service-hero__media {
+        order: -1;
+    }
+}

@@ -1,0 +1,120 @@
+.project {
+    padding-bottom: clamp(3rem, 5vw, 5rem);
+}
+
+.project__header {
+    padding: clamp(6rem, 12vw, 9rem) 0 var(--ld-gutter);
+    background:
+        linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
+        url("../assets/images/about/about-hero-bg.jpg") top center / cover no-repeat;
+    background-color: var(--ld-bg-solid);
+}
+
+.project__header-inner {
+    max-width: 52rem;
+}
+
+.project__categories {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ld-accent);
+}
+
+.project__title {
+    margin: 0 0 1rem;
+    font-family: var(--ld-font-display);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.project__back-link {
+    color: var(--ld-accent);
+    font-weight: 700;
+}
+
+.project__back-link:hover,
+.project__back-link:focus-visible {
+    color: var(--ld-text);
+}
+
+.project__body {
+    padding-top: var(--ld-gutter);
+}
+
+.project__panel {
+    padding: var(--ld-gutter);
+    border-radius: 16px;
+    background: var(--ld-bg-elevated);
+}
+
+.project__content {
+    display: grid;
+    gap: 2rem;
+    max-width: 1100px;
+    margin-inline: auto;
+}
+
+.project__overview-title {
+    margin: 0 0 1rem;
+    font-family: var(--ld-font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ld-text);
+}
+
+.project-prose {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--ld-text);
+}
+
+.project-prose p {
+    margin: 0 0 1rem;
+}
+
+.project-prose ul {
+    margin: 0 0 1.25rem;
+    padding-left: 1.35rem;
+}
+
+.project-prose li {
+    margin-bottom: 0.65rem;
+}
+
+.project-prose strong {
+    color: var(--ld-text);
+}
+
+.project__website {
+    margin-top: 1.25rem;
+}
+
+.project__featured {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.project__featured img {
+    width: 100%;
+    height: auto;
+}
+
+@media (min-width: 900px) {
+    .project__content {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: start;
+    }
+
+    .project__featured {
+        position: sticky;
+        top: 6rem;
+    }
+}

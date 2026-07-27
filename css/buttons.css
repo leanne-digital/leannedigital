@@ -1,0 +1,29 @@
+.ld-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.8rem 2rem;
+    border: 0;
+    border-radius: var(--ld-radius-pill);
+    background: var(--ld-accent);
+    color: var(--ld-bg-start);
+    font-family: var(--ld-font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ld-btn:hover,
+.ld-btn:focus-visible {
+    background: var(--ld-text);
+    color: var(--ld-bg-solid);
+}
+
+.ld-btn--wide {
+    padding-inline: 3.5rem;
+}
