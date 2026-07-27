@@ -300,15 +300,24 @@
     background: var(--ld-accent);
 }
 
+.service-section__heading--book {
+    text-transform: none;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
 .service-booking__lead {
-    max-width: 42rem;
-    margin: 0 auto 1.5rem;
+    max-width: 36rem;
+    margin: 0;
     font-size: 1.05rem;
     line-height: 1.7;
 }
 
-.service-booking__panel {
-    text-align: center;
+.service-booking__copy {
+    align-self: center;
+}
+
+.service-booking__media {
+    width: 100%;
 }
 
 .service-booking__widget {

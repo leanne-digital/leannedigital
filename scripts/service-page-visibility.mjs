@@ -136,10 +136,14 @@ ${items}
 function renderBookingLead() {
     return `        <section class="service-section section--navy service-section--alt service-booking" aria-labelledby="book-heading">
             <div class="container">
-                <div class="service-section__panel service-booking__panel">
-                    <h2 class="service-section__heading" id="book-heading">Book Your Complimentary Strategy Session</h2>
-                    <p class="service-booking__lead">Let’s take a fresh look at your website and uncover opportunities to improve your visibility, strengthen your connection with your audience, and help your business stand out online.</p>
-                    ${renderCalendlyWidget('service-booking__widget')}
+                <div class="service-split service-booking__split">
+                    <div class="service-split__content service-booking__copy">
+                        <h2 class="service-section__heading service-section__heading--book" id="book-heading">Book Your Complimentary Strategy Session</h2>
+                        <p class="service-booking__lead">Let’s take a fresh look at your website and uncover opportunities to improve your visibility, strengthen your connection with your audience, and help your business stand out online.</p>
+                    </div>
+                    <div class="service-split__media service-booking__media">
+                        ${renderCalendlyWidget('service-booking__widget')}
+                    </div>
                 </div>
             </div>
         </section>`;
