@@ -104,13 +104,24 @@
     position: relative;
 }
 
+/* Invisible bridge so the pointer can reach the submenu without losing hover */
+.site-nav__item--has-menu::after {
+    content: "";
+    position: absolute;
+    left: -0.75rem;
+    right: -0.75rem;
+    top: 100%;
+    height: 1rem;
+}
+
 .site-nav__submenu {
     position: absolute;
-    top: calc(100% + 0.75rem);
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     min-width: 18rem;
     padding: 0.65rem;
+    padding-top: calc(0.65rem + 0.35rem);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 0.75rem;
     background: rgba(13, 13, 27, 0.98);
@@ -120,7 +131,7 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition: opacity 0.18s ease, visibility 0.18s ease;
 }
 
 .site-nav__submenu a {
@@ -138,7 +149,8 @@
 
 .site-nav__item--has-menu:hover .site-nav__submenu,
 .site-nav__item--has-menu:focus-within .site-nav__submenu,
-.site-nav__item--has-menu.is-open .site-nav__submenu {
+.site-nav__item--has-menu.is-open .site-nav__submenu,
+.site-nav__item--has-menu.is-hover-open .site-nav__submenu {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -184,6 +196,10 @@
         padding: 0.65rem 0.75rem;
         border-radius: 0.45rem;
         line-height: 1.4;
+    }
+
+    .site-nav__item--has-menu::after {
+        display: none;
     }
 
     .site-nav__submenu {
