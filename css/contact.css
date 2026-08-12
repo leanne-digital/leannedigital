@@ -1,13 +1,14 @@
 .contact {
-    padding: clamp(3rem, 5vw, 5rem) 0;
     scroll-margin-top: 5rem;
 }
 
 .contact__panel {
     display: grid;
     gap: 2.5rem;
-    padding: clamp(2rem, 4vw, 3rem);
+    padding: 2em;
+    border: 2px solid #112443;
     border-radius: 16px;
+    box-shadow: 0 0 10px 0 rgba(78, 195, 204, 0.88);
     background:
         linear-gradient(rgba(12, 13, 27, 0.82), rgba(12, 13, 27, 0.88)),
         url("../assets/images/home/contact-form-bg.jpg") center / cover no-repeat;
@@ -15,13 +16,7 @@
 
 .contact__title {
     margin: 0 0 1rem;
-    font-family: var(--ld-font-display);
-    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: var(--ld-text);
 }
 
 .contact__title-accent {
@@ -88,16 +83,24 @@
 }
 
 .contact-form .ld-btn {
-    width: 100%;
     margin-top: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 768px) {
     .contact__panel {
         grid-template-columns: 1fr 1fr;
         align-items: center;
-        gap: 3rem;
+        gap: 2.5rem;
+    }
+
+    .contact-form:has(.contact-form__field:nth-of-type(3)) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-form:has(.contact-form__field:nth-of-type(3)) .contact-form__field:has(textarea),
+    .contact-form:has(.contact-form__field:nth-of-type(3)) .contact-form__field:has(select),
+    .contact-form:has(.contact-form__field:nth-of-type(3)) .ld-btn,
+    .contact-form:has(.contact-form__field:nth-of-type(3)) button {
+        grid-column: 1 / -1;
     }
 }

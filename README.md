@@ -60,6 +60,27 @@ Pages live at paths like `/website-design/`, `/seo/`, etc. Images go in `assets/
 3. Open pull requests into `main`
 4. Pull `main` often to avoid merge conflicts
 
+## Lilipadd integration
+
+Analytics and SEO metadata are managed in the [Lilipadd](https://github.com/xar86413/lilipadd) hub (`C:\Cursor Projects\Lilipadd`). The static site embeds one tracking snippet.
+
+**First-time setup** (from `Lilipadd`, with DB running):
+
+```bash
+npm run migrate
+npm run seed
+npm run seed:leannedigital   # writes .env here with LILIPADD_SITE_KEY
+```
+
+**Apply snippet to all pages:**
+
+```bash
+copy .env.example .env       # only if seed:leannedigital was not run
+npm run integrate            # patches hand-built pages + regenerates HTML
+```
+
+For production, run `npm run integrate:prod` before deploy (uses `api.lilipadd.com`).
+
 ## Structure
 
 ```

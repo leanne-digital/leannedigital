@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Portal | Leanne Digital</title>
-    <meta name="description" content="Client resources and project access. This page is coming soon.">
+    <!-- lp:seo -->
+    <!-- lp:custom-head -->
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-192x192.png" sizes="192x192">
@@ -15,10 +15,16 @@
     <link rel="stylesheet" href="../css/tokens.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/page-inner.css">
+    <link rel="stylesheet" href="../css/buttons.css">
+    <link rel="stylesheet" href="../css/faq.css">
     <link rel="stylesheet" href="../css/coming-soon.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
 </head>
 <body class="page-inner">
+    <!-- lp:custom-body-start -->
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
             <a class="site-logo" href="/" aria-label="Leanne Digital home">
@@ -45,15 +51,15 @@
                         <svg class="site-nav__chevron" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2.5 4.5 6 8l3.5-3.5"/></svg>
                     </button>
                     <ul class="site-nav__submenu">
-                        <li><a href="/free-website-visibility-strategy-session/">Free Website Visibility Strategy Session</a></li>
-                        <li><a href="/website-design/">Website Design</a></li>
-                        <li><a href="/website-management-support/">Website Management & Support</a></li>
-                        <li><a href="/seo/">SEO</a></li>
-                        <li><a href="/answer-engine-optimization-aeo/">Answer Engine Optimization (AEO)</a></li>
-                        <li><a href="/graphic-design/">Graphic Design</a></li>
-                        <li><a href="/winnipeg-logo-design/">Winnipeg Logo Design</a></li>
-                        <li><a href="/indigenous-graphic-design/">Indigenous Graphic Design</a></li>
-                        <li><a href="/indigenous-web-design/">Indigenous Web Design</a></li>
+                    <li><a href="/free-website-visibility-strategy-session/">Free Website Visibility Strategy Session</a></li>
+                    <li><a href="/website-design/">Website Design</a></li>
+                    <li><a href="/website-management-support/">Website Management & Support</a></li>
+                    <li><a href="/seo/">SEO</a></li>
+                    <li><a href="/answer-engine-optimization-aeo/">Answer Engine Optimization (AEO)</a></li>
+                    <li><a href="/graphic-design/">Graphic Design</a></li>
+                    <li><a href="/winnipeg-logo-design/">Winnipeg Logo Design</a></li>
+                    <li><a href="/indigenous-graphic-design/">Indigenous Graphic Design</a></li>
+                    <li><a href="/indigenous-web-design/">Indigenous Web Design</a></li>
                     </ul>
                 </li>
                 <li class="site-nav__item"><a href="/blog/">Blog</a></li>
@@ -62,23 +68,84 @@
             </nav>
         </div>
     </header>
-    <main class="coming-soon">
+    <main id="main" class="coming-soon">
         <div class="container coming-soon__inner">
             <p class="coming-soon__eyebrow">Coming soon</p>
             <h1 class="coming-soon__title">Client Portal</h1>
-            <p class="coming-soon__lead">We're rebuilding leanne.digital. This page will be back shortly with updated content.</p>
-            <a class="coming-soon__cta" href="/">Back to home</a>
+            <p class="coming-soon__lead">We're rebuilding this page. In the meantime, send a message and we can still help.</p>
+            <a class="coming-soon__cta" href="/contact/">Contact us</a>
         </div>
+        <section class="page-faq section--navy" aria-labelledby="page-faq-heading">
+            <div class="container page-faq__inner">
+                <h2 class="page-faq__title" id="page-faq-heading">Frequently Asked Questions</h2>
+                <div class="page-faq__list">
+                <details class="page-faq__item">
+                    <summary>Where is Leanne Digital based?</summary>
+                    <p>Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>What services does Leanne Digital offer?</summary>
+                    <p>We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>How do I get started?</summary>
+                    <p>The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>Do you work with clients outside Winnipeg?</summary>
+                    <p>Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely.</p>
+                </details>
+                </div>
+            </div>
+        </section>
+
     </main>
     <footer class="site-footer">
-        <div class="container site-footer__inner">
-            <p class="site-footer__brand">&copy; 2026 Leanne Digital</p>
-            <nav class="site-footer__nav" aria-label="Footer">
-                <a href="/privacy-policy/">Privacy Policy</a>
-                <a href="/sitemap/">Sitemap</a>
-            </nav>
+        <div class="site-footer__main">
+            <div class="container site-footer__grid">
+                <div class="site-footer__brand-col">
+                    <a href="/" aria-label="Leanne Digital home">
+                        <img src="../assets/images/brand/leanne-digital-logo-white.png" alt="Leanne Digital" width="184" height="52" loading="lazy">
+                    </a>
+                    <p class="site-footer__about">Leanne Digital, formerly Leanne Digital Design, is an Indigenous-owned brand and digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We help businesses and Indigenous organizations build strong, beautiful brands online and get them seen through website design, SEO, branding, and digital marketing support.</p>
+                    <div class="site-footer__social">
+                        <a href="https://www.facebook.com/Leanne.Digital" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <img src="../assets/images/social/facebook.svg" alt="" width="33" height="33">
+                        </a>
+                        <a href="https://www.linkedin.com/company/leanne-digital-design/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <img src="../assets/images/social/linkedin.svg" alt="" width="33" height="33">
+                        </a>
+                        <a href="https://www.instagram.com/leannedigitaldesign/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <img src="../assets/images/social/instagram.svg" alt="" width="32" height="33">
+                        </a>
+                    </div>
+                    <a class="ld-btn" href="/contact/" data-lp-event="footer_contact_cta">CONTACT ME TODAY!</a>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">Brand Design</span>
+                    <p class="site-footer__links"><a href="/winnipeg-logo-design/">Logo Design</a><br><a href="/graphic-design/">Brand Design</a><br><a href="/graphic-design/">Graphic Design</a></p>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">Web Design and Technical Support</span>
+                    <p class="site-footer__links"><a href="/website-design/">Website Design</a><br><a href="/website-management-support/">Website Hosting</a><br><a href="/website-management-support/">Website Maintenance &amp; Security</a><br><a href="/contact/">Conversion Rate Optimization</a><br><a href="/contact/">Custom Integrations</a></p>
+                </div>
+                <div class="site-footer__column">
+                    <span class="site-footer__column-title">SEO &amp; Visibility</span>
+                    <p class="site-footer__links"><a href="/answer-engine-optimization-aeo/">AI Search Optimization (AEO)</a><br><a href="/seo/">Ongoing SEO</a><br><a href="/seo/">Local SEO</a><br><a href="/seo/">Tech SEO</a><br><a href="/google-ads/">Google Ads</a><br><a href="/contact/">Reddit Ads</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bar">
+            <div class="container">
+                Copyright &copy; 2026 Leanne Digital |
+                <a href="/privacy-policy/">Privacy Policy</a> |
+                <a href="/sitemap/">Sitemap</a> |
+                Powered by <a href="/">Leanne Digital</a>
+            </div>
         </div>
     </footer>
     <script src="../js/site-nav.js" defer></script>
+
+    <!-- lp:custom-body-end -->
 </body>
 </html>

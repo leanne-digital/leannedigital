@@ -8,7 +8,10 @@ import {
     renderFullFooter,
     renderHead,
     renderNav,
+    renderPageScripts,
 } from './layout.mjs';
+import { unwrapInternalLinksInHeadings } from './service-html-normalize.mjs';
+import { faqsForPath, renderFaqSection, rewriteLegacyLinks } from './seo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -86,7 +89,7 @@ function renderBlogIndex(posts, page, depth) {
     })}
 <body class="page-inner">
 ${renderNav(depth, '/blog/')}
-    <main>
+    <main id="main">
         <section class="blog-hero section--navy" aria-labelledby="blog-heading">
             <div class="container">
                 <h1 class="blog-hero__title" id="blog-heading">Blog</h1>
@@ -101,9 +104,10 @@ ${cards}
 ${renderPagination(page, totalPages, depth)}
             </div>
         </section>
+${renderFaqSection(faqsForPath('/blog/'))}
     </main>
 ${renderFullFooter(depth)}
-    <script src="${prefix}js/site-nav.js" defer></script>
+${renderPageScripts(depth)}
 </body>
 </html>
 `;
@@ -161,7 +165,7 @@ function renderPostPage(post, posts, depth) {
     })}
 <body class="page-inner">
 ${renderNav(depth, '')}
-    <main>
+    <main id="main">
         <article class="blog-post section--navy">
             <header class="blog-post__header">
                 <div class="container blog-post__header-inner">
@@ -176,7 +180,7 @@ ${renderNav(depth, '')}
             </header>
             <div class="container blog-post__content">
                 <div class="blog-prose">
-                    ${post.content}
+                    ${unwrapInternalLinksInHeadings(rewriteLegacyLinks(post.content))}
                 </div>
                 <nav class="blog-post-nav" aria-label="Post navigation">
 ${nav.join('\n')}
@@ -184,10 +188,20 @@ ${nav.join('\n')}
                 <p class="blog-post__back"><a href="/blog/">← Back to Blog</a></p>
             </div>
         </article>
+${renderFaqSection(faqsForPath(post.path, [
+    {
+        question: `What is “${post.title}” about?`,
+        answer: post.excerpt || post.description || 'A practical article from the Leanne Digital blog.',
+    },
+    {
+        question: 'Who wrote this article?',
+        answer: `${post.author} at Leanne Digital, a Winnipeg digital marketing studio.`,
+    },
+]))}
     </main>
 ${renderFullFooter(depth)}
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
-    <script src="${prefix}js/site-nav.js" defer></script>
+${renderPageScripts(depth)}
 </body>
 </html>
 `;

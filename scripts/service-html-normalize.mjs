@@ -15,24 +15,44 @@ function iconNameFromSvgAttrs(svgAttrs) {
     return match[1].replace(/^e-f(?:a[rs]|ab|al|ad)-/, '');
 }
 
+function simplifyIconSvg(svg) {
+    const viewBox = svg.match(/viewBox="([^"]+)"/i)?.[1] || '0 0 512 512';
+    const path = svg.match(/<path[^>]*\sd="([^"]+)"/i)?.[1];
+    if (!path) return svg;
+    return `<svg viewBox="${viewBox}" aria-hidden="true"><path fill="currentColor" d="${path}"/></svg>`;
+}
+
+function wrapIconSvg(svg) {
+    const openTag = svg.match(/^<svg[^>]*>/i)?.[0] || '';
+    const name = iconNameFromSvgAttrs(openTag);
+    return `<span class="ld-icon ld-icon--${name}" aria-hidden="true">${simplifyIconSvg(svg)}</span>`;
+}
+
 function preserveIconListIcons(html) {
     return html.replace(
-        /<span class="elementor-icon-list-icon">\s*<svg([^>]*)>[\s\S]*?<\/svg>\s*<\/span>/gi,
-        (_, svgAttrs) => {
-            const name = iconNameFromSvgAttrs(svgAttrs);
-            return `<span class="ld-icon ld-icon--${name}" aria-hidden="true"></span>`;
-        }
+        /<span class="elementor-icon-list-icon">\s*(<svg[\s\S]*?<\/svg>)\s*<\/span>/gi,
+        (_, svg) => wrapIconSvg(svg)
     );
 }
 
 function preserveIconWidgets(html) {
     return html.replace(
-        /<div class="elementor-icon">\s*<svg([^>]*)>[\s\S]*?<\/svg>\s*<\/div>/gi,
-        (_, svgAttrs) => {
-            const name = iconNameFromSvgAttrs(svgAttrs);
-            return `<div class="elementor-icon"><span class="ld-icon ld-icon--${name}" aria-hidden="true"></span></div>`;
+        /<div class="elementor-icon">\s*(<svg[\s\S]*?<\/svg>)\s*<\/div>/gi,
+        (_, svg) => `<div class="elementor-icon">${wrapIconSvg(svg)}</div>`
+    );
+}
+
+function stripLeftoverSvgs(html) {
+    const saved = [];
+    const withPlaceholders = html.replace(
+        /<span class="ld-icon[^"]*"[^>]*>[\s\S]*?<\/span>/gi,
+        (match) => {
+            saved.push(match);
+            return `{{LDICON:${saved.length - 1}}}`;
         }
     );
+    const stripped = withPlaceholders.replace(/<svg[\s\S]*?<\/svg>/gi, '');
+    return stripped.replace(/\{\{LDICON:(\d+)\}\}/g, (_, index) => saved[Number(index)]);
 }
 
 function markProblemCards(html) {
@@ -44,15 +64,50 @@ function markProblemCards(html) {
 
 function tagProblemCardMeta(html) {
     return html.replace(
-        /<div class="ld-icon-list"><div><ul><li><span class="(ld-icon[^"]*)"[^>]*><\/span><span>(\d{2})<\/span><\/li><\/ul><\/div><\/div>/gi,
-        '<div class="ld-card-meta"><div><ul><li><span class="$1" aria-hidden="true"></span><span class="ld-card-num">$2</span></li></ul></div></div>'
+        /<div class="ld-icon-list(?: ld-icon-list--checks)?"><div><ul><li>(<span class="ld-icon[^"]*"[^>]*>[\s\S]*?<\/span>)<span>(\d{2})<\/span><\/li><\/ul><\/div><\/div>/gi,
+        '<div class="ld-card-meta"><div><ul><li>$1<span class="ld-card-num">$2</span></li></ul></div></div>'
     );
+}
+
+function flattenButtonMarkup(html) {
+    return html.replace(/<a class="ld-btn"([^>]*)>([\s\S]*?)<\/a>/gi, (_, attrs, inner) => {
+        const text = inner.replace(/<\/?(?:span|strong|em|b|i)[^>]*>/gi, '').trim();
+        return `<a class="ld-btn"${attrs}>${text}</a>`;
+    });
+}
+
+function isInternalHref(href) {
+    const value = (href || '').trim();
+    if (!value) return false;
+    if (value.startsWith('#') || value.startsWith('mailto:') || value.startsWith('tel:')) return false;
+    if (/^https?:\/\//i.test(value)) return /leannedigital\.com/i.test(value);
+    return value.startsWith('/');
+}
+
+export function unwrapInternalLinksInHeadings(html) {
+    return html.replace(/<h([1-6])([^>]*)>([\s\S]*?)<\/h\1>/gi, (full, level, attrs, inner) => {
+        const unwrapped = inner.replace(/<a\s+([^>]*?)>([\s\S]*?)<\/a>/gi, (link, linkAttrs, text) => {
+            const href = linkAttrs.match(/href="([^"]*)"/i)?.[1] || '';
+            return isInternalHref(href) ? text : link;
+        });
+        return `<h${level}${attrs}>${unwrapped}</h${level}>`;
+    });
+}
+
+function removeEmptyColumns(html) {
+    return html.replace(/<div class="ld-col">\s*<div>\s*<div>\s*<\/div>\s*<\/div>\s*<\/div>/gi, '');
 }
 
 function tagChecklists(html) {
     return html.replace(
         /<div class="ld-icon-list"><div><ul>((?:<li>[\s\S]*?<\/li>){2,})<\/ul><\/div><\/div>/gi,
-        '<div class="ld-icon-list ld-icon-list--checks"><div><ul>$1</ul></div></div>'
+        (full, items) => {
+            const labels = [...items.matchAll(/<li>[\s\S]*?<span>([^<]*)<\/span><\/li>/g)].map((match) =>
+                match[1].trim()
+            );
+            if (labels.length && labels.every((label) => /^\d{2}$/.test(label))) return full;
+            return `<div class="ld-icon-list ld-icon-list--checks"><div><ul>${items}</ul></div></div>`;
+        }
     );
 }
 
@@ -89,7 +144,9 @@ export function normalizeElementorClasses(html) {
                 name === 'service-accent' ||
                 name === 'ld-text-center' ||
                 name === 'ld-problem-card' ||
-                name.startsWith('ld-icon')
+                name.startsWith('ld-icon') ||
+                name === 'client-report-table' ||
+                name === 'client-report-badge'
         );
         const mapped = mapElementorClasses(classStr);
         const combined = [...utilities, ...(mapped ? mapped.split(/\s+/).filter(Boolean) : [])];
@@ -113,7 +170,7 @@ export function normalizeServiceHtml(html) {
 
     output = output.replace(/\sdata-[a-z0-9_-]+="[^"]*"/gi, '');
     output = output.replace(/\s(srcset|sizes|fetchpriority|decoding|loading|style)="[^"]*"/gi, '');
-    output = output.replace(/<svg[\s\S]*?<\/svg>/gi, '');
+    output = stripLeftoverSvgs(output);
 
     output = output.replace(
         /<a([^>]*)\sclass="[^"]*elementor-button[^"]*"([^>]*?)>/gi,
@@ -134,6 +191,7 @@ export function normalizeServiceHtml(html) {
 
     output = tagProblemCardMeta(output);
     output = tagChecklists(output);
+    output = flattenButtonMarkup(output);
 
     return output.trim();
 }
@@ -152,6 +210,48 @@ function isCenteredIntroSection(html) {
         !html.includes('ld-accordion') &&
         !html.includes('calendly-inline-widget')
     );
+}
+
+function tagCenteredIntroColumns(html) {
+    return html.replace(
+        '<div class="ld-col"><div class="ld-widget-heading"><div><h2>Storytelling Through Design</h2>',
+        '<div class="ld-col ld-col--centered-intro"><div class="ld-widget-heading"><div><h2>Storytelling Through Design</h2>'
+    );
+}
+
+function tagReviewsBlock(html) {
+    if (!/What People are saying about working with us/i.test(html)) return html;
+
+    let output = html.replace(
+        '<div class="ld-problem-card ld-section"><div class="ld-col"><div class="ld-widget-heading"><div><h2>What People are saying about working with us</h2>',
+        '<div class="ld-reviews"><div class="ld-col"><div class="ld-widget-heading"><div><h2>What People are saying about working with us</h2>'
+    );
+
+    output = output.replace(
+        /<div class="ld-problem-card ld-col">(?=<div class="ld-widget-image"><div><img[^>]*teal-stars)/g,
+        '<div class="ld-problem-card ld-col ld-review-card">'
+    );
+
+    return output;
+}
+
+function isBeliefSection(html) {
+    return /actually performs/i.test(html) && /Or the opposite/i.test(html);
+}
+
+function tagBeliefLayout() {
+    return `<div class="ld-section"><div class="ld-section-inner ld-section-inner--belief">
+                <p>We believe businesses should not have to choose between a beautiful website and one that actually performs.</p>
+                <p>Too often, we see websites that look amazing but are slow, hard to use, confusing, and never get found online.</p>
+                <p><span class="service-accent">Or the opposite</span></p>
+                <p>A website that is technically optimized for Google but feels generic, overwhelming, or disconnected from the business behind it.</p>
+                <h2>We believe you deserve <span>both.</span></h2>
+                <p>A website that feels like you, builds trust, loads quickly, is easy to navigate, and helps people actually find your business.</p>
+            </div></div>`;
+}
+
+function isCenteredWideSection(html) {
+    return /Branding and Visual Identity/i.test(html) && /That People Remember/i.test(html);
 }
 
 function isProblemSection(html) {
@@ -198,13 +298,61 @@ function isTeamSection(html) {
     );
 }
 
+function isWhoWeAreSection(html) {
+    return /Who We Are/i.test(html) && /Proudly Indigenous/i.test(html);
+}
+
+function isFaqSection(html) {
+    return /Frequently Asked Questions/i.test(html) && /ld-accordion/i.test(html);
+}
+
+function isPricingSection(html) {
+    return (
+        /Choose the Right Security Package/i.test(html) &&
+        /Starter/i.test(html) &&
+        /Pro Plans/i.test(html) &&
+        /Expert/i.test(html)
+    );
+}
+
+function isAiPlatformsSection(html) {
+    return /Optimized for Today.s AI Platforms/i.test(html);
+}
+
+function isSeoFoundationSection(html) {
+    return /Built on a Strong/i.test(html) && /Keyword and topic alignment/i.test(html);
+}
+
+function isOrgCardsSection(html) {
+    return /Supporting Indigenous Organizations Across Canada/i.test(html) && /Friendship Centres/i.test(html);
+}
+
+function isTrustSection(html) {
+    return /ldd-trust\.png/i.test(html);
+}
+
+function tagPricingCards(html) {
+    return html
+        .replaceAll(
+            '<div class="ld-problem-card ld-col">',
+            '<div class="ld-problem-card ld-col ld-pricing-card">'
+        )
+        .replace(
+            '<div class="ld-problem-card ld-col ld-pricing-card"><div class="ld-widget-heading"><div><h2>Pro Plans</h2>',
+            '<div class="ld-problem-card ld-col ld-pricing-card ld-pricing-card--featured"><div class="ld-widget-heading"><div><h2>Pro Plans</h2>'
+        );
+}
+
 export function postProcessSection(section, { slug } = {}) {
-    let output = section;
+    let output = unwrapInternalLinksInHeadings(flattenButtonMarkup(section));
+    output = tagProblemCardMeta(output);
+    output = tagChecklists(output);
     const calendlyUrl = CALENDLY_BY_SLUG[slug] || DEFAULT_CALENDLY_URL;
 
     output = output.replace(/<form[\s\S]*?<\/form>/gi, (formHtml) => {
         if (/calendly/i.test(formHtml)) return formHtml;
-        return '<p class="service-section__cta"><a class="ld-btn" href="/contact/">Book A Call With Me</a></p>';
+        if (/ld-widget-button/i.test(output)) return '';
+        return '<div class="ld-widget-button"><a class="ld-btn" href="/contact/">Book A Call With Me</a></div>';
     });
 
     if (/calendly\.com/i.test(output)) {
@@ -221,6 +369,22 @@ export function postProcessSection(section, { slug } = {}) {
         output = output.replace(
             /<div class="ld-section-inner">/,
             '<div class="ld-section-inner ld-section-inner--booking">'
+        );
+    } else if (isTrustSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--trust">'
+        );
+        output = output.replace(
+            /src="\/assets\/images\/services\/ldd-trust\.png" alt=""/,
+            'src="/assets/images/services/ldd-trust.png" alt="Canadian Council for Indigenous Business, CCIB Certified Indigenous Business, The Winnipeg Chamber of Commerce, and Google Reviews"'
+        );
+    } else if (isBeliefSection(output)) {
+        output = tagBeliefLayout();
+    } else if (isCenteredWideSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--centered ld-section-inner--centered-wide">'
         );
     } else if (isCenteredIntroSection(output)) {
         output = output.replace(
@@ -254,7 +418,37 @@ export function postProcessSection(section, { slug } = {}) {
             '<div class="ld-section-inner ld-section-inner--team">'
         );
         output = tagTeamCards(output);
+    } else if (isWhoWeAreSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--who-we-are">'
+        );
+    } else if (isFaqSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--faq">'
+        );
+    } else if (isAiPlatformsSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--ai-platforms">'
+        );
+    } else if (isSeoFoundationSection(output) || isOrgCardsSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--seo-foundation">'
+        );
+    } else if (isPricingSection(output)) {
+        output = output.replace(
+            /<div class="ld-section-inner">/,
+            '<div class="ld-section-inner ld-section-inner--pricing">'
+        );
+        output = tagPricingCards(output);
     }
+
+    output = removeEmptyColumns(output);
+    output = tagCenteredIntroColumns(output);
+    output = tagReviewsBlock(output);
 
     if (!/\bld-section\b/.test(output.slice(0, 120))) {
         output = `<div class="ld-section">${output}</div>`;

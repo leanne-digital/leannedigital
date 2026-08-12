@@ -13,8 +13,13 @@
     --ld-font-display: "Nunito", system-ui, sans-serif;
     --ld-font-body: "Lato", system-ui, sans-serif;
     --ld-font-nav: "Open Sans", system-ui, sans-serif;
+    --ld-h2-size: 36px;
+    --ld-h2-line: 48px;
     --ld-container: 1180px;
-    --ld-gutter: 1rem;
+    --ld-gutter: 1em;
+    --ld-section-gap: 4em;
+    --ld-header-height: 5.25rem;
+    --ld-header-offset: 9em;
     --ld-radius-pill: 999px;
     --hero-img-ratio: 0.368359375;
     --hero-content-lift: 0.06;
@@ -22,8 +27,8 @@
     --hero-mobile-content-lift: 0.04;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1024px) {
     :root {
-        --ld-gutter: 2em;
+        --ld-section-gap: 2em;
     }
 }

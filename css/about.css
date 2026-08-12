@@ -1,6 +1,7 @@
 .about-hero {
     position: relative;
-    padding: clamp(6rem, 12vw, 9rem) 0 clamp(2rem, 4vw, 3rem);
+    padding-top: var(--ld-header-offset);
+    padding-bottom: var(--ld-section-gap);
     background-color: var(--ld-bg-solid);
     background-image:
         linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
@@ -41,23 +42,10 @@
     color: var(--ld-text);
 }
 
-.about-hero + .service-row {
-    padding-top: 0;
-}
-
-.about-team {
-    padding: clamp(3rem, 5vw, 5rem) 0;
-}
 
 .about-team .section-header__eyebrow {
     margin: 0 auto 1rem;
     text-align: center;
-    font-family: var(--ld-font-display);
-    font-size: clamp(1.55rem, 3vw, 2.25rem);
-    font-weight: 800;
-    line-height: 1.33;
-    letter-spacing: 0.02em;
-    color: var(--ld-text);
 }
 
 .about-team__intro {
@@ -81,8 +69,8 @@
 }
 
 .team-card__photo {
-    width: min(100%, 18rem);
-    max-width: 18rem;
+    width: min(100%, 14.4rem);
+    max-width: 14.4rem;
     aspect-ratio: 1;
     object-fit: cover;
     object-position: center top;
@@ -147,8 +135,25 @@
 }
 
 @media (max-width: 767px) {
+    .about-hero__media {
+        order: -1;
+    }
+
+    .about-team .section-header__eyebrow {
+        margin-inline: 0;
+        text-align: left;
+    }
+
     .about-team__intro {
         text-align: left;
         margin-inline: 0;
+    }
+
+    .team-card__photo {
+        margin-inline: 0;
+    }
+
+    .team-card__name {
+        text-align: left;
     }
 }

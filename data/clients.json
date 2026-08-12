@@ -1,0 +1,186 @@
+[
+  {
+    "slug": "davis-window-and-door",
+    "name": "Davis Window and Door",
+    "bio": "Davis Window and Door has served homeowners in Atlanta and Charlotte for more than 50 years, specializing in premium replacement windows and doors, expert product guidance, and professional installation. The company works with leading manufacturers and serves both homeowners and industry professionals with a strong focus on quality, precision, and long-term performance.",
+    "started": "2026-08-12",
+    "website": "https://daviswin.com/",
+    "asset": "/assets/clients/davis-window-and-door/davis-window-and-door.png",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "label": "Website Maintenance & Protection",
+        "amount": 75
+      },
+      {
+        "type": "aeo",
+        "label": "Technical SEO & AEO",
+        "amount": 300
+      }
+    ],
+    "includes": [
+      {
+        "title": "SEO & AEO",
+        "items": [
+          "SEO & AEO monitoring",
+          "Google Search visibility monitoring",
+          "ChatGPT and AI search optimization",
+          "Google AI Overview optimization",
+          "Google Search Console monitoring",
+          "Indexing and crawlability monitoring",
+          "404, broken link, and redirect fixes",
+          "Sitemap, schema, and structured data monitoring",
+          "AI crawler accessibility monitoring",
+          "Monthly SEO & AEO health review"
+        ]
+      },
+      {
+        "title": "Website backups & security",
+        "items": [
+          "24/7 website and uptime monitoring",
+          "WordPress core, plugin, and PHP updates",
+          "Security and malware monitoring",
+          "Daily backups with 90-day retention",
+          "1 hour of website updates per month",
+          "Monthly site speed tests",
+          "Monthly technical maintenance fixes",
+          "Monthly website health & maintenance report"
+        ]
+      }
+    ],
+    "reports": []
+  },
+  {
+    "slug": "oatley-vigmond",
+    "name": "Oatley Vigmond",
+    "bio": "Our monthly SEO package is all about getting you seen by the right people. We cover everything from keyword research and on-page fixes to technical site health, local search, and AI-driven optimization. The goal is simple: more visibility, more traffic, and steady long-term growth.",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "seo",
+        "label": "Monthly SEO"
+      }
+    ],
+    "reports": [
+      {
+        "slug": "seo-report-oatley-vigmond-july-2026",
+        "title": "July 2026",
+        "monthKey": "2026-07"
+      },
+      {
+        "slug": "seo-report-oatley-vigmond-june-2026",
+        "title": "June 2026",
+        "monthKey": "2026-06"
+      },
+      {
+        "slug": "seo-report-oatley-vigmond-may-2026",
+        "title": "May 2026",
+        "monthKey": "2026-05"
+      }
+    ]
+  },
+  {
+    "slug": "shift-physiotherapy",
+    "name": "Shift Physiotherapy",
+    "bio": "Our monthly SEO package is all about getting you seen by the right people. We cover everything from keyword research and on-page fixes to technical site health, local search, and AI-driven optimization. The goal is simple: more visibility, more traffic, and steady long-term growth.",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "seo",
+        "label": "Monthly SEO"
+      }
+    ],
+    "reports": [
+      {
+        "slug": "seo-report-shift-physiotherapy-july-2026",
+        "title": "July 2026",
+        "monthKey": "2026-07"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-june-2026",
+        "title": "June 2026",
+        "monthKey": "2026-06"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-may-2026",
+        "title": "May 2026",
+        "monthKey": "2026-05"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-april-2026",
+        "title": "April 2026",
+        "monthKey": "2026-04"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-march-2026",
+        "title": "March 2026",
+        "monthKey": "2026-03"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-february-2026",
+        "title": "February 2026",
+        "monthKey": "2026-02"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-january-2026",
+        "title": "January 2026",
+        "monthKey": "2026-01"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-december-2025",
+        "title": "December 2025",
+        "monthKey": "2025-12"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-november-2025",
+        "title": "November 2025",
+        "monthKey": "2025-11"
+      }
+    ]
+  },
+  {
+    "slug": "sierra-electrical",
+    "name": "Sierra Electrical",
+    "bio": "Our monthly SEO package is all about getting you seen by the right people. We cover everything from keyword research and on-page fixes to technical site health, local search, and AI-driven optimization. The goal is simple: more visibility, more traffic, and steady long-term growth.",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "seo",
+        "label": "Monthly SEO"
+      }
+    ],
+    "reports": [
+      {
+        "slug": "seo-report-sierra-electrical-july-2026",
+        "title": "July 2026",
+        "monthKey": "2026-07"
+      },
+      {
+        "slug": "seo-report-sierra-electrical-june-2026",
+        "title": "June 2026",
+        "monthKey": "2026-06"
+      },
+      {
+        "slug": "seo-report-sierra-electrical-may-2026",
+        "title": "May 2026",
+        "monthKey": "2026-05"
+      },
+      {
+        "slug": "seo-report-sierra-electrical-april-2026",
+        "title": "April 2026",
+        "monthKey": "2026-04"
+      },
+      {
+        "slug": "seo-report-sierra-electrical-march-2026",
+        "title": "March 2026",
+        "monthKey": "2026-03"
+      },
+      {
+        "slug": "seo-report-sierra-electrical-february-2026",
+        "title": "February 2026",
+        "monthKey": "2026-02"
+      }
+    ]
+  }
+]

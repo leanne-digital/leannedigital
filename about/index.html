@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Leanne Digital | Indigenous-Owned Digital Marketing Agency</title>
-    <meta name="description" content="Learn more about Leanne Digital, an Indigenous-owned digital marketing agency in Winnipeg helping businesses build stronger brands, websites, and SEO.">
+    <!-- lp:seo -->
+    <!-- lp:custom-head -->
+    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-192x192.png" sizes="192x192">
@@ -20,9 +21,12 @@
     <link rel="stylesheet" href="../css/services.css">
     <link rel="stylesheet" href="../css/about.css">
     <link rel="stylesheet" href="../css/contact.css">
-    <link rel="stylesheet" href="../css/footer.css">
-</head>
+        <link rel="stylesheet" href="../css/faq.css">
+<link rel="stylesheet" href="../css/footer.css">
+                </head>
 <body class="page-inner">
+    <!-- lp:custom-body-start -->
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
             <a class="site-logo" href="/" aria-label="Leanne Digital home">
@@ -67,7 +71,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <section class="about-hero" aria-labelledby="about-heading">
             <div class="container about-hero__grid">
                 <div class="about-hero__content">
@@ -217,9 +221,9 @@
                             <p>Whether you're planning a full rebrand, launching something new, or just need your website to actually pull its weight, I'm here for it.</p>
                             <p>Tell me a bit about what you need and we'll figure out the best way to bring it to life. You can fill out the form or book a quick call. Whatever works best for you.</p>
                         </div>
-                        <a class="ld-btn" href="/contact/">Book A Call With mE</a>
+                        <a class="ld-btn" href="/contact/" data-lp-event="contact_cta">Book A Call With mE</a>
                     </div>
-                    <form class="contact-form" action="/contact/" method="get" aria-label="About contact form">
+                    <form class="contact-form" action="/thank-you/" method="post" aria-label="About contact form" data-lp-form="contact">
                         <div class="contact-form__field">
                             <label for="about-contact-email">Email</label>
                             <input type="email" id="about-contact-email" name="email" placeholder="Email" required autocomplete="email">
@@ -228,8 +232,31 @@
                             <label for="about-contact-message">Message</label>
                             <textarea id="about-contact-message" name="message" rows="4" placeholder="Message"></textarea>
                         </div>
-                        <button class="ld-btn" type="submit">Send A Message (I'll respond!)</button>
+                        <button class="ld-btn" type="submit" data-lp-event="contact_form_submit">Send A Message (I'll respond!)</button>
                     </form>
+                </div>
+            </div>
+        </section>
+        <section class="page-faq section--navy" aria-labelledby="page-faq-heading">
+            <div class="container page-faq__inner">
+                <h2 class="page-faq__title" id="page-faq-heading">Frequently Asked Questions</h2>
+                <div class="page-faq__list">
+                <details class="page-faq__item">
+                    <summary>Who is behind Leanne Digital?</summary>
+                    <p>Leanne Digital is led by Leanne Jones, a graphic and web designer, and Gary Burns, who focuses on development, SEO, and technical strategy. We are a proudly Indigenous-owned studio.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>Are you an Indigenous-owned business?</summary>
+                    <p>Yes. Leanne Digital is Indigenous-owned and CCIB certified. Leanne is a member of Peguis First Nation, and Gary has family roots in Kahnawà:ke Mohawk Territory.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>Where are you located?</summary>
+                    <p>We are based in Winnipeg, Manitoba, on Treaty 1 territory, and work with clients across Canada.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>How can I work with you?</summary>
+                    <p>Visit the contact page to send a message or book a discovery call. We will learn about your business and recommend the right mix of design, web, and SEO support.</p>
+                </details>
                 </div>
             </div>
         </section>
@@ -254,19 +281,19 @@
                             <img src="../assets/images/social/instagram.svg" alt="" width="32" height="33">
                         </a>
                     </div>
-                    <a class="ld-btn" href="/contact/">CONTACT ME TODAY!</a>
+                    <a class="ld-btn" href="/contact/" data-lp-event="footer_contact_cta">CONTACT ME TODAY!</a>
                 </div>
-                <div class="site-footer__column">
+                                                                                <div class="site-footer__column">
                     <span class="site-footer__column-title">Brand Design</span>
-                    <p class="site-footer__links">Logo Design<br>Brand Design<br>Graphic Design</p>
+                    <p class="site-footer__links"><a href="/winnipeg-logo-design/">Logo Design</a><br><a href="/graphic-design/">Brand Design</a><br><a href="/graphic-design/">Graphic Design</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">Web Design and Technical Support</span>
-                    <p class="site-footer__links">Website Design<br>Website Hosting<br>Website Maintenance &amp; Security<br>Conversation Rate Optamization<br>Custom Integrations</p>
+                    <p class="site-footer__links"><a href="/website-design/">Website Design</a><br><a href="/website-management-support/">Website Hosting</a><br><a href="/website-management-support/">Website Maintenance &amp; Security</a><br><a href="/contact/">Conversion Rate Optimization</a><br><a href="/contact/">Custom Integrations</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">SEO &amp; Visibility</span>
-                    <p class="site-footer__links">AI Search Optimization (AEO)<br>Ongoing SEO<br>Local SEO<br>Tech SEO<br>Google Ads<br>Reddit Ads</p>
+                    <p class="site-footer__links"><a href="/answer-engine-optimization-aeo/">AI Search Optimization (AEO)</a><br><a href="/seo/">Ongoing SEO</a><br><a href="/seo/">Local SEO</a><br><a href="/seo/">Tech SEO</a><br><a href="/google-ads/">Google Ads</a><br><a href="/contact/">Reddit Ads</a></p>
                 </div>
             </div>
         </div>
@@ -280,5 +307,6 @@
         </div>
     </footer>
     <script src="../js/site-nav.js" defer></script>
+        <!-- lp:custom-body-end -->
 </body>
 </html>

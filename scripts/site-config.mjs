@@ -1,3 +1,17 @@
+import { loadEnv } from './load-env.mjs';
+
+loadEnv();
+
+/** Public site origin — used for canonical URLs and Lilipadd tenant site_url. */
+export const SITE_URL = 'https://leannedigital.com';
+
+/** Lilipadd analytics snippet (set LILIPADD_SITE_KEY in .env — see .env.example). */
+export const LILIPADD = {
+    snippetUrl:
+        process.env.LILIPADD_SNIPPET_URL || 'https://api.lilipadd.com/v1/snippet.js',
+    siteKey: process.env.LILIPADD_SITE_KEY || '',
+};
+
 /** Site pages and navigation — source of truth for static page generation. */
 
 export const SERVICE_LINKS = [
@@ -28,6 +42,10 @@ export const BUILT_PAGES = new Set([
     '/portfolio/',
     ...SERVICE_LINKS.map((link) => link.path),
     '/google-ads/',
+    '/clients/',
+    '/login/',
+    '/login/forgot/',
+    '/login/reset/',
 ]);
 
 /** WordPress pages from Simply Static export (excluding homepage). */
@@ -47,7 +65,7 @@ export const COMING_SOON_PAGES = [
     { path: '/answer-engine-optimization-aeo/', title: 'Answer Engine Optimization (AEO)', description: 'Get found in AI search and answer engines.' },
     { path: '/google-ads/', title: 'Google Ads', description: 'Paid search campaigns that drive leads.' },
     { path: '/privacy-policy/', title: 'Privacy Policy', description: 'How Leanne Digital handles your information.' },
-    { path: '/sitemap/', title: 'Sitemap', description: 'Browse all pages on leanne.digital.' },
+    { path: '/sitemap/', title: 'Sitemap', description: 'Browse all pages and posts on leannedigital.com.' },
     { path: '/client-portal/', title: 'Client Portal', description: 'Client resources and project access.' },
     { path: '/project-tracker/', title: 'Project Tracker', description: 'Track your project with Leanne Digital.' },
     { path: '/ldd-chat/', title: 'LDD Chat', description: 'Leanne Digital chat support.' },

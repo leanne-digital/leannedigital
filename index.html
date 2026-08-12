@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leanne Digital | Winnipeg Digital Marketing Agency</title>
-    <meta name="description" content="Brands that stand out. Websites that help you sell. Leanne Digital is a Winnipeg digital marketing agency for design, web, and growth.">
+    <!-- lp:seo -->
+    <!-- lp:custom-head -->
+    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
     <link rel="icon" href="assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="assets/icons/favicon-192x192.png" sizes="192x192">
@@ -25,9 +26,12 @@
     <link rel="stylesheet" href="css/reviews.css">
     <link rel="stylesheet" href="css/reach.css">
     <link rel="stylesheet" href="css/contact.css">
-    <link rel="stylesheet" href="css/footer.css">
-</head>
+        <link rel="stylesheet" href="css/faq.css">
+<link rel="stylesheet" href="css/footer.css">
+                </head>
 <body>
+    <!-- lp:custom-body-start -->
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
             <a class="site-logo" href="/" aria-label="Leanne Digital home">
@@ -72,7 +76,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <section class="hero" aria-labelledby="hero-heading">
             <div class="hero__bg" aria-hidden="true"></div>
             <picture class="hero__picture">
@@ -108,7 +112,7 @@
 
                 <p class="hero__lead">But we don't stop there! We go beyond logos and website launches, we back it up with digital marketing that helps businesses like yours get seen and grow.</p>
 
-                <a class="ld-btn hero__cta" href="/contact/">Let's Chat! (don't Worry I'm friendly)</a>
+                <a class="ld-btn hero__cta" href="/contact/" data-lp-event="hero_contact_cta">Let's Chat! (don't Worry I'm friendly)</a>
                 </div>
             </div>
         </section>
@@ -481,9 +485,9 @@
                             <p>Got a project in mind? A brand that needs a refresh? Or maybe you're just tired of your website not doing what it's supposed to?</p>
                             <p>I'd love to hear what you're working on and see how I can help. You can fill out the form below or book a free call — whatever feels easiest.</p>
                         </div>
-                        <a class="ld-btn" href="/contact/">Book A Call With mE</a>
+                        <a class="ld-btn" href="/contact/" data-lp-event="contact_cta">Book A Call With mE</a>
                     </div>
-                    <form class="contact-form" action="/contact/" method="get" aria-label="Book a Call">
+                    <form class="contact-form" action="/thank-you/" method="post" aria-label="Book a Call" data-lp-form="contact">
                         <div class="contact-form__field">
                             <label for="contact-email">Email</label>
                             <input type="email" id="contact-email" name="email" placeholder="Email" required autocomplete="email">
@@ -492,8 +496,31 @@
                             <label for="contact-message">Message</label>
                             <textarea id="contact-message" name="message" rows="4" placeholder="Message"></textarea>
                         </div>
-                        <button class="ld-btn" type="submit">Send A Message (I'll respond!)</button>
+                        <button class="ld-btn" type="submit" data-lp-event="contact_form_submit">Send A Message (I'll respond!)</button>
                     </form>
+                </div>
+            </div>
+        </section>
+        <section class="page-faq section--navy" aria-labelledby="page-faq-heading">
+            <div class="container page-faq__inner">
+                <h2 class="page-faq__title" id="page-faq-heading">Frequently Asked Questions</h2>
+                <div class="page-faq__list">
+                <details class="page-faq__item">
+                    <summary>What does Leanne Digital do?</summary>
+                    <p>Leanne Digital is a Winnipeg digital marketing agency that builds brands and websites that look great and actually perform — through design, WordPress, SEO, and ongoing support.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>Who do you work with?</summary>
+                    <p>We work with small businesses, growing brands, and Indigenous organizations that want a website and visual identity people can find, trust, and use.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>How is Leanne Digital different from other agencies?</summary>
+                    <p>You get strategy and technical expertise together. Leanne leads design, branding, and UX. Gary handles development, SEO, and the technical side — so you are not choosing between a beautiful site and one that ranks.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>How do I start a project?</summary>
+                    <p>Send a message or book a call. We will talk through your goals, timeline, and what kind of website or design work will actually help your business.</p>
+                </details>
                 </div>
             </div>
         </section>
@@ -518,19 +545,19 @@
                             <img src="assets/images/social/instagram.svg" alt="" width="32" height="33">
                         </a>
                     </div>
-                    <a class="ld-btn" href="/contact/">CONTACT ME TODAY!</a>
+                    <a class="ld-btn" href="/contact/" data-lp-event="footer_contact_cta">CONTACT ME TODAY!</a>
                 </div>
-                <div class="site-footer__column">
+                                                                                <div class="site-footer__column">
                     <span class="site-footer__column-title">Brand Design</span>
-                    <p class="site-footer__links">Logo Design<br>Brand Design<br>Graphic Design</p>
+                    <p class="site-footer__links"><a href="/winnipeg-logo-design/">Logo Design</a><br><a href="/graphic-design/">Brand Design</a><br><a href="/graphic-design/">Graphic Design</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">Web Design and Technical Support</span>
-                    <p class="site-footer__links">Website Design<br>Website Hosting<br>Website Maintenance &amp; Security<br>Conversation Rate Optamization<br>Custom Integrations</p>
+                    <p class="site-footer__links"><a href="/website-design/">Website Design</a><br><a href="/website-management-support/">Website Hosting</a><br><a href="/website-management-support/">Website Maintenance &amp; Security</a><br><a href="/contact/">Conversion Rate Optimization</a><br><a href="/contact/">Custom Integrations</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">SEO &amp; Visibility</span>
-                    <p class="site-footer__links">AI Search Optimization (AEO)<br>Ongoing SEO<br>Local SEO<br>Tech SEO<br>Google Ads<br>Reddit Ads</p>
+                    <p class="site-footer__links"><a href="/answer-engine-optimization-aeo/">AI Search Optimization (AEO)</a><br><a href="/seo/">Ongoing SEO</a><br><a href="/seo/">Local SEO</a><br><a href="/seo/">Tech SEO</a><br><a href="/google-ads/">Google Ads</a><br><a href="/contact/">Reddit Ads</a></p>
                 </div>
             </div>
         </div>
@@ -545,5 +572,6 @@
     </footer>
     <script src="js/site-nav.js" defer></script>
     <script src="js/process-tabs.js" defer></script>
+    <!-- lp:custom-body-end -->
 </body>
 </html>

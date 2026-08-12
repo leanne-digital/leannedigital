@@ -1,185 +1,123 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { COMING_SOON_PAGES, PRIMARY_NAV, SERVICE_LINKS, BUILT_PAGES } from './site-config.mjs';
-import { renderFavicons } from './favicons.mjs';
+import { COMING_SOON_PAGES, BUILT_PAGES, SITE_URL } from './site-config.mjs';
+import {
+    escapeHtml,
+    renderFullFooter,
+    renderHead,
+    renderNav,
+    renderPageScripts,
+} from './layout.mjs';
+import { faqsForPath, renderFaqSection } from './seo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 
-function assetPrefix(depth) {
-    return depth === 0 ? '' : '../'.repeat(depth);
-}
-
-function renderNav(depth, currentPath) {
-    const prefix = assetPrefix(depth);
-    const home = depth === 0 ? '/' : `${prefix}`.replace(/\/?$/, '/') || '/';
-
-    const items = PRIMARY_NAV.map((item) => {
-        if (item.type === 'services') {
-            const links = SERVICE_LINKS.map(
-                (link) =>
-                    `                        <li><a href="${link.path}"${currentPath === link.path ? ' aria-current="page"' : ''}>${link.title}</a></li>`
-            ).join('\n');
-            return `                <li class="site-nav__item site-nav__item--has-menu">
-                    <button type="button" class="site-nav__trigger" aria-expanded="false" aria-haspopup="true">
-                        ${item.title}
-                        <svg class="site-nav__chevron" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2.5 4.5 6 8l3.5-3.5"/></svg>
-                    </button>
-                    <ul class="site-nav__submenu">
-${links}
-                    </ul>
-                </li>`;
-        }
-        const current = currentPath === item.path ? ' aria-current="page"' : '';
-        return `                <li class="site-nav__item"><a href="${item.path}"${current}>${item.title}</a></li>`;
-    }).join('\n');
-
-    return `    <header class="site-header">
-        <div class="container site-header__inner">
-            <a class="site-logo" href="${depth === 0 ? '/' : '/'}" aria-label="Leanne Digital home">
-                <img
-                    class="site-logo__image"
-                    src="${prefix}assets/images/brand/leanne-digital-logo-white.png"
-                    alt="Leanne Digital"
-                    width="184"
-                    height="52"
-                >
-            </a>
-            <button type="button" class="site-nav__toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav class="site-nav" id="primary-nav" aria-label="Primary">
-                <ul class="site-nav__list">
-${items}
-                </ul>
-            </nav>
-        </div>
-    </header>`;
-}
-
-function renderFooter(depth) {
-    return `    <footer class="site-footer">
-        <div class="container site-footer__inner">
-            <p class="site-footer__brand">&copy; ${new Date().getFullYear()} Leanne Digital</p>
-            <nav class="site-footer__nav" aria-label="Footer">
-                <a href="/privacy-policy/">Privacy Policy</a>
-                <a href="/sitemap/">Sitemap</a>
-            </nav>
-        </div>
-    </footer>`;
-}
-
-function renderHead({ title, description, depth, extraCss = [] }) {
-    const prefix = assetPrefix(depth);
-    const cssLinks = [
-        'tokens.css',
-        'base.css',
-        'header.css',
-        'footer.css',
-        ...extraCss,
-    ]
-        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}">`)
-        .join('\n');
-
-    return `<!DOCTYPE html>
-<html lang="en-CA">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title} | Leanne Digital</title>
-    <meta name="description" content="${description}">
-${renderFavicons(prefix)}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-${cssLinks}
-</head>`;
+function writePage(relativeDir, html) {
+    const dir = path.join(ROOT, relativeDir);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf8');
 }
 
 function renderComingSoon(page, depth) {
-    const prefix = assetPrefix(depth);
     return `${renderHead({
-        title: page.title,
-        description: `${page.description} This page is coming soon.`,
+        title: `${escapeHtml(page.title)} | Leanne Digital`,
+        description: escapeHtml(`${page.description} This page is coming soon.`),
+        depth,
+        extraCss: ['coming-soon.css'],
+        canonical: `${SITE_URL}${page.path}`,
+        path: page.path,
+        robots: 'noindex, follow',
+    })}
+<body class="page-inner">
+${renderNav(depth, page.path)}
+    <main id="main" class="coming-soon">
+        <div class="container coming-soon__inner">
+            <p class="coming-soon__eyebrow">Coming soon</p>
+            <h1 class="coming-soon__title">${escapeHtml(page.title)}</h1>
+            <p class="coming-soon__lead">We're rebuilding this page. In the meantime, send a message and we can still help.</p>
+            <a class="coming-soon__cta" href="/contact/">Contact us</a>
+        </div>
+${renderFaqSection(faqsForPath(page.path))}
+    </main>
+${renderFullFooter(depth)}
+${renderPageScripts(depth)}
+</body>
+</html>
+`;
+}
+
+function renderThankYou(depth) {
+    return `${renderHead({
         depth,
         extraCss: ['coming-soon.css'],
     })}
 <body class="page-inner">
-${renderNav(depth, page.path)}
-    <main class="coming-soon">
+    <!-- lp:custom-body-start -->
+${renderNav(depth, '/thank-you/')}
+    <main id="main" class="coming-soon">
         <div class="container coming-soon__inner">
-            <p class="coming-soon__eyebrow">Coming soon</p>
-            <h1 class="coming-soon__title">${page.title}</h1>
-            <p class="coming-soon__lead">We're rebuilding leanne.digital. This page will be back shortly with updated content.</p>
+            <p class="coming-soon__eyebrow">Message received</p>
+            <h1 class="coming-soon__title">Thank you</h1>
+            <p class="coming-soon__lead">We got your message and will reply soon.</p>
             <a class="coming-soon__cta" href="/">Back to home</a>
         </div>
+${renderFaqSection(faqsForPath('/thank-you/'))}
     </main>
-${renderFooter(depth)}
-    <script src="${prefix}js/site-nav.js" defer></script>
+${renderFullFooter(depth)}
+${renderPageScripts(depth)}
+    <!-- lp:custom-body-end -->
 </body>
 </html>
 `;
 }
 
-function renderSitemapPage(pages, depth) {
-    const grouped = {
-        Main: pages.filter((p) => ['/about/', '/portfolio/', '/blog/', '/contact/'].includes(p.path)),
-        Services: pages.filter((p) => SERVICE_LINKS.some((s) => s.path === p.path)),
-        Other: pages.filter(
-            (p) =>
-                !['/about/', '/portfolio/', '/blog/', '/contact/'].includes(p.path) &&
-                !SERVICE_LINKS.some((s) => s.path === p.path) &&
-                p.path !== '/sitemap/'
-        ),
-    };
-
-    const sections = Object.entries(grouped)
-        .map(([label, items]) => {
-            const links = items
-                .sort((a, b) => a.title.localeCompare(b.title))
-                .map((p) => `                        <li><a href="${p.path}">${p.title}</a></li>`)
-                .join('\n');
-            return `                <section class="sitemap-page__section">
-                    <h2>${label}</h2>
-                    <ul>
-${links}
-                    </ul>
-                </section>`;
-        })
-        .join('\n');
-
+function renderPrivacyPolicy(depth) {
+    const faqs = faqsForPath('/privacy-policy/');
     return `${renderHead({
-        title: 'Sitemap',
-        description: 'Browse all pages on leanne.digital.',
+        title: 'Privacy Policy | Leanne Digital',
+        description: 'How Leanne Digital collects and uses information, including Google Analytics data, when you visit our website or contact us.',
         depth,
-        extraCss: ['coming-soon.css', 'sitemap-page.css'],
+        extraCss: ['legal.css'],
+        canonical: `${SITE_URL}/privacy-policy/`,
+        path: '/privacy-policy/',
     })}
 <body class="page-inner">
-${renderNav(depth, '/sitemap/')}
-    <main class="coming-soon sitemap-page">
-        <div class="container coming-soon__inner">
-            <p class="coming-soon__eyebrow">Site map</p>
-            <h1 class="coming-soon__title">All pages</h1>
-            <p class="coming-soon__lead">Most pages are being rebuilt. Use this list to preview the new site structure.</p>
-            <div class="sitemap-page__grid">
-${sections}
-            </div>
+${renderNav(depth, '/privacy-policy/')}
+    <main id="main" class="legal-page">
+        <div class="container legal-page__inner">
+            <h1>Privacy Policy</h1>
+            <p class="legal-page__updated">Last updated: August 12, 2026</p>
+            <p>Leanne Digital (“we”, “us”) is an Indigenous-owned digital marketing studio in Winnipeg, Manitoba. This policy explains what we collect when you use <a href="https://leannedigital.com">leannedigital.com</a>.</p>
+
+            <h2>Information we collect</h2>
+            <p>We collect information in three ways:</p>
+            <ul>
+                <li><strong>Contact forms.</strong> If you send a message, we collect your name, email address, message, the service you selected (if any), and the page you sent it from.</li>
+                <li><strong>Google Analytics.</strong> We use Google Analytics (gtag.js, measurement ID G-K29LV069TN) to understand how people use this site. Google may collect pages you visit, how long you stay, your device and browser, approximate location, referring website, and similar usage data. This is done with cookies and similar technologies.</li>
+                <li><strong>Spam protection.</strong> Forms may use Google reCAPTCHA, which can collect device and interaction data to tell people from bots.</li>
+            </ul>
+
+            <h2>Google Analytics</h2>
+            <p>We do collect user data with Google Analytics. That data helps us see which pages are useful, where traffic comes from, and how the site is performing. Google processes this information under its own policies. You can learn more in the <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Google Privacy Policy</a> and opt out with the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer">Google Analytics opt-out browser add-on</a>. You can also block or delete cookies in your browser.</p>
+
+            <h2>How we use this information</h2>
+            <p>We use it to reply to inquiries, run and improve the website, measure traffic, and prevent spam or abuse. We do not sell your personal information.</p>
+
+            <h2>How long we keep it</h2>
+            <p>Form messages are kept as long as needed to respond and follow up. Analytics data is kept according to our Google Analytics settings and Google’s retention rules.</p>
+
+            <h2>Contact</h2>
+            <p>Questions about this policy: <a href="mailto:leanne@leannedigital.com">leanne@leannedigital.com</a>.</p>
         </div>
+${renderFaqSection(faqs)}
     </main>
-${renderFooter(depth)}
-    <script src="${assetPrefix(depth)}js/site-nav.js" defer></script>
+${renderFullFooter(depth)}
+${renderPageScripts(depth)}
 </body>
 </html>
 `;
-}
-
-function writePage(relativeDir, filename, html) {
-    const dir = path.join(ROOT, relativeDir);
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, filename), html, 'utf8');
 }
 
 const uniquePages = [...new Map(COMING_SOON_PAGES.map((p) => [p.path, p])).values()];
@@ -188,16 +126,16 @@ for (const page of uniquePages) {
     const slug = page.path.replace(/^\/|\/$/g, '');
     const depth = slug ? 1 : 0;
 
-    if (BUILT_PAGES.has(page.path)) {
+    if (BUILT_PAGES.has(page.path)) continue;
+    if (page.path === '/sitemap/') continue;
+    if (page.path === '/privacy-policy/') {
+        writePage(slug, renderPrivacyPolicy(depth));
         continue;
     }
 
-    if (page.path === '/sitemap/') {
-        writePage(slug, 'index.html', renderSitemapPage(uniquePages, depth));
-        continue;
-    }
-
-    writePage(slug, 'index.html', renderComingSoon(page, depth));
+    writePage(slug, renderComingSoon(page, depth));
 }
 
-console.log(`Generated ${uniquePages.length} coming-soon pages.`);
+writePage('thank-you', renderThankYou(1));
+
+console.log(`Generated ${uniquePages.length} utility pages + thank-you.`);

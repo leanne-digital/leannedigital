@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /clients/
+Disallow: /assets/clients/
+Disallow: /login/
+
+Sitemap: https://leannedigital.com/sitemap.xml
+# LLM / AI crawlers: https://leannedigital.com/llms.txt

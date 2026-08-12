@@ -2,7 +2,7 @@
     min-height: calc(100vh - 8rem);
     display: flex;
     align-items: center;
-    padding: 8rem 0 4rem;
+    padding: calc(8rem + 3em) 0 4rem;
 }
 
 .coming-soon__inner {

@@ -50,7 +50,7 @@ function extractParentSections(html) {
 
     for (const match of entryHtml.matchAll(regex)) {
         const block = match[0].trim();
-        if (/\bid="contact"/i.test(block)) continue;
+        if (/\bid="contact"/i.test(block) && !/<h2[\s\S]*?<\/h2>/i.test(block)) continue;
         if (block.length > 80) sections.push(block);
     }
 

@@ -1,0 +1,130 @@
+{
+  "default": [
+    {
+      "question": "Where is Leanne Digital based?",
+      "answer": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
+    },
+    {
+      "question": "What services does Leanne Digital offer?",
+      "answer": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
+    },
+    {
+      "question": "How do I get started?",
+      "answer": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
+    },
+    {
+      "question": "Do you work with clients outside Winnipeg?",
+      "answer": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
+    }
+  ],
+  "/": [
+    {
+      "question": "What does Leanne Digital do?",
+      "answer": "Leanne Digital is a Winnipeg digital marketing agency that builds brands and websites that look great and actually perform — through design, WordPress, SEO, and ongoing support."
+    },
+    {
+      "question": "Who do you work with?",
+      "answer": "We work with small businesses, growing brands, and Indigenous organizations that want a website and visual identity people can find, trust, and use."
+    },
+    {
+      "question": "How is Leanne Digital different from other agencies?",
+      "answer": "You get strategy and technical expertise together. Leanne leads design, branding, and UX. Gary handles development, SEO, and the technical side — so you are not choosing between a beautiful site and one that ranks."
+    },
+    {
+      "question": "How do I start a project?",
+      "answer": "Send a message or book a call. We will talk through your goals, timeline, and what kind of website or design work will actually help your business."
+    }
+  ],
+  "/about/": [
+    {
+      "question": "Who is behind Leanne Digital?",
+      "answer": "Leanne Digital is led by Leanne Jones, a graphic and web designer, and Gary Burns, who focuses on development, SEO, and technical strategy. We are a proudly Indigenous-owned studio."
+    },
+    {
+      "question": "Are you an Indigenous-owned business?",
+      "answer": "Yes. Leanne Digital is Indigenous-owned and CCIB certified. Leanne is a member of Peguis First Nation, and Gary has family roots in Kahnawà:ke Mohawk Territory."
+    },
+    {
+      "question": "Where are you located?",
+      "answer": "We are based in Winnipeg, Manitoba, on Treaty 1 territory, and work with clients across Canada."
+    },
+    {
+      "question": "How can I work with you?",
+      "answer": "Visit the contact page to send a message or book a discovery call. We will learn about your business and recommend the right mix of design, web, and SEO support."
+    }
+  ],
+  "/contact/": [
+    {
+      "question": "How soon will I hear back?",
+      "answer": "We aim to reply within one business day, Monday to Friday, 9am to 5pm Central Time."
+    },
+    {
+      "question": "Can I book a call instead of sending a form?",
+      "answer": "Yes. The contact page includes a 30-minute discovery call booking option if you would rather talk it through live."
+    },
+    {
+      "question": "What should I include in my message?",
+      "answer": "A short note about your business, what you need (website, branding, SEO, or support), and any timeline or budget range helps us come back with a useful next step."
+    },
+    {
+      "question": "Do you take on projects outside Winnipeg?",
+      "answer": "Yes. We work remotely with clients across Canada and beyond."
+    }
+  ],
+  "/portfolio/": [
+    {
+      "question": "What kinds of projects are in the portfolio?",
+      "answer": "You will find WordPress websites, branding and logo work, and SEO projects for businesses and Indigenous organizations."
+    },
+    {
+      "question": "Can you build something similar for my business?",
+      "answer": "Yes. Every project is custom, but the same mix of strategy, design, and technical SEO applies. Get in touch with what you need and we will talk through fit."
+    },
+    {
+      "question": "Do you show both design and SEO work?",
+      "answer": "Yes. The portfolio includes visual brand and website work as well as sites built to be found in search."
+    }
+  ],
+  "/blog/": [
+    {
+      "question": "What does the Leanne Digital blog cover?",
+      "answer": "Practical articles on web design, SEO, branding, WordPress, and running a small business website — written from a Winnipeg studio that does this work every day."
+    },
+    {
+      "question": "Who writes the articles?",
+      "answer": "Posts are written by Leanne Jones and Gary Burns, the team behind Leanne Digital."
+    },
+    {
+      "question": "Can I get help applying these tips to my site?",
+      "answer": "Yes. If you want the work done for you, book a call or send a message and we can look at your website together."
+    }
+  ],
+  "/privacy-policy/": [
+    {
+      "question": "Do you use Google Analytics?",
+      "answer": "Yes. We use Google Analytics to collect information about how people use this website, including pages viewed, device type, and general location. You can block analytics cookies in your browser or use Google’s opt-out tools."
+    },
+    {
+      "question": "What information do you collect from forms?",
+      "answer": "If you contact us, we collect the name, email, and message you submit, plus the page you sent it from, so we can reply."
+    },
+    {
+      "question": "Do you sell personal information?",
+      "answer": "No. We do not sell your personal information."
+    },
+    {
+      "question": "How do I ask a privacy question?",
+      "answer": "Email leanne@leannedigital.com and we will help."
+    }
+  ],
+  "/sitemap/": [
+    {
+      "question": "What is this sitemap page?",
+      "answer": "This is a human-readable list of pages and posts on leannedigital.com. Search engines also use /sitemap.xml."
+    },
+    {
+      "question": "Where is the XML sitemap?",
+      "answer": "The machine-readable sitemap is at https://leannedigital.com/sitemap.xml and is listed in robots.txt."
+    }
+  ]
+}

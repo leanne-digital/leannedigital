@@ -1,9 +1,10 @@
 .blog-post {
-    padding-bottom: clamp(3rem, 5vw, 5rem);
+    padding-bottom: 0;
 }
 
 .blog-post__header {
-    padding: clamp(6rem, 12vw, 9rem) 0 clamp(2rem, 4vw, 3rem);
+    padding-top: var(--ld-header-offset);
+    padding-bottom: var(--ld-section-gap);
     background:
         linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
         url("../assets/images/about/about-hero-bg.jpg") top center / cover no-repeat;
@@ -56,7 +57,7 @@
 }
 
 .blog-post__content {
-    padding-block: var(--ld-gutter);
+    padding-block: var(--ld-section-gap);
 }
 
 .blog-prose {
@@ -73,13 +74,7 @@
 
 .blog-prose h2 {
     margin: 2rem 0 0.85rem;
-    font-family: var(--ld-font-display);
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-    font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: var(--ld-text);
 }
 
 .blog-prose p {

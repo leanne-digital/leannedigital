@@ -3,3 +3,11 @@ Thumbs.db
 *.log
 .env
 _import/
+*.sql
+node_modules/
+data/portal-users.json
+data/portal-sessions.json
+data/portal-resets.json
+data/portal-bootstrap.json
+data/contact-inbox.jsonl
+.cursor/

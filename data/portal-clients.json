@@ -1,0 +1,488 @@
+[
+  {
+    "id": 22,
+    "slug": "oatley-vigmond",
+    "name": "Oatley Vigmond Personal Injury Firm",
+    "contactName": "Claudia Talaugon",
+    "email": "ctalaugon@oatleyvigmond.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-11-13 04:03:17"
+  },
+  {
+    "id": 23,
+    "slug": "cerebral-findomme",
+    "name": "Cerebral Findomme",
+    "contactName": "Caroline",
+    "email": "carolineharrington214@gmail.com",
+    "location": null,
+    "website": "https://cerebralfindomme.com/",
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-11-13 04:53:08"
+  },
+  {
+    "id": 24,
+    "slug": "ti-yende-movers-and-transportation",
+    "name": "Ti-Yende Movers & Transportation",
+    "contactName": "William Chishimba",
+    "email": "ti-yendemovers@live.com",
+    "location": null,
+    "website": "https://manage.wix.com/",
+    "platform": "Wix",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-11-13 05:10:34"
+  },
+  {
+    "id": 25,
+    "slug": "floco-decking-systems",
+    "name": "Floco Decking Systems",
+    "contactName": "Lexi Aarnes",
+    "email": "lexi@flocodeckingsystems.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-11-16 00:09:00"
+  },
+  {
+    "id": 28,
+    "slug": "mr-pool-guy",
+    "name": "Mr. Pool Guy",
+    "contactName": "Camden Croucher",
+    "email": "camden@itsmrpoolguy.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-11-18 22:07:53"
+  },
+  {
+    "id": 29,
+    "slug": "routein",
+    "name": "Routein",
+    "contactName": "Aiden",
+    "email": null,
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-11-25 04:05:20"
+  },
+  {
+    "id": 31,
+    "slug": "gbt-logistics",
+    "name": "GBT Logistics",
+    "contactName": "Priya",
+    "email": "priyangshi.c@gbtinc.ca",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-12-01 20:42:45"
+  },
+  {
+    "id": 32,
+    "slug": "sierra-electrical",
+    "name": "Sierra Electrical",
+    "contactName": "Bryan Beger",
+    "email": "bryan@sierraelectrical.com",
+    "location": null,
+    "website": "https://sierraelectrical.com",
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2025-12-02 15:50:46"
+  },
+  {
+    "id": 33,
+    "slug": "krane-mechanical-and-electrical",
+    "name": "Krane Mechanical & Electrical",
+    "contactName": "Ashley",
+    "email": "ashley.massey@kenon.ca",
+    "location": "Manitoba",
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 250,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2025-12-19",
+        "nextBillDate": "2026-12-18"
+      }
+    ],
+    "createdAt": "2025-12-12 19:58:07"
+  },
+  {
+    "id": 36,
+    "slug": "we-film-events",
+    "name": "We Film Events",
+    "contactName": "Trevor Marples",
+    "email": "trevor@wefilmevents.ca",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2026-01-09 20:41:27"
+  },
+  {
+    "id": 37,
+    "slug": "sisters-of-the-holy-rock",
+    "name": "Sisters of the Holy Rock",
+    "contactName": null,
+    "email": null,
+    "location": "Manitoba",
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2026-02-04 22:06:12"
+  },
+  {
+    "id": 38,
+    "slug": "azimut-yachts-charter",
+    "name": "Azimut Yachts Charter",
+    "contactName": "Goran Vidović",
+    "email": "govidovi@gmail.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "HostGator",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2026-02-05 16:33:09"
+  },
+  {
+    "id": 39,
+    "slug": "osekowa",
+    "name": "Osekowa",
+    "contactName": "Crystal",
+    "email": "crystal@osekowa.ca",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "SiteGround",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2026-03-05 21:06:52"
+  },
+  {
+    "id": 40,
+    "slug": "davis-window-and-door",
+    "name": "Davis Window and Door",
+    "contactName": "Mauricio James",
+    "email": "mauricio.jaimes@daviswin.com",
+    "location": null,
+    "website": "https://my.hosting.com/",
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": "Other",
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "createdAt": "2026-04-09 17:08:47"
+  },
+  {
+    "id": 41,
+    "slug": "sd-accounting",
+    "name": "SD Accounting",
+    "contactName": "Bradon Levalds",
+    "email": "bradon@sdaccounting.ca",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 250,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-04-17",
+        "nextBillDate": "2027-04-17"
+      }
+    ],
+    "createdAt": "2026-04-19 20:43:32"
+  },
+  {
+    "id": 42,
+    "slug": "ckf",
+    "name": "CKF",
+    "contactName": "Benny Gendelman",
+    "email": "BGendelman@ckfinc.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 1000,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-04-25",
+        "nextBillDate": "2027-04-25"
+      }
+    ],
+    "createdAt": "2026-05-13 18:44:53"
+  },
+  {
+    "id": 43,
+    "slug": "durango-holiday-home",
+    "name": "Durango Holiday Home",
+    "contactName": "Lorrie Boone",
+    "email": "lorrieboone@durangoholidayhome.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 250,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-05-13",
+        "nextBillDate": "2027-05-13"
+      }
+    ],
+    "createdAt": "2026-05-13 18:51:07"
+  },
+  {
+    "id": 44,
+    "slug": "mth-landscaping",
+    "name": "MTH Landscaping",
+    "contactName": "Mack Harman",
+    "email": "mthlandscapes@gmail.com",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 250,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-06-05",
+        "nextBillDate": "2027-06-05"
+      }
+    ],
+    "createdAt": "2026-06-02 20:38:32"
+  },
+  {
+    "id": 45,
+    "slug": "emily-hart-coaching",
+    "name": "Emily Hart Coaching",
+    "contactName": "Emily Hart",
+    "email": "emily@emilyhartcoaching.com",
+    "location": null,
+    "website": "https://emilyhart.kartra.com/",
+    "platform": "Other",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 300,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-06-12",
+        "nextBillDate": "2027-06-12"
+      }
+    ],
+    "createdAt": "2026-06-12 16:28:32"
+  },
+  {
+    "id": 46,
+    "slug": "rational-wealth",
+    "name": "Rational Wealth",
+    "contactName": "Bradon Levalds",
+    "email": "bradon@sdaccounting.ca",
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 300,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-07-10",
+        "nextBillDate": "2027-07-10"
+      }
+    ],
+    "createdAt": "2026-07-25 07:38:56"
+  },
+  {
+    "id": 47,
+    "slug": "thank-you-for-dating-with-us",
+    "name": "Thank You For Dating With Us",
+    "contactName": "Jaida Pervis",
+    "email": null,
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 250,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-08-05",
+        "nextBillDate": "2027-08-05"
+      }
+    ],
+    "createdAt": "2026-08-05 05:39:13"
+  },
+  {
+    "id": 48,
+    "slug": "straightforward-bookkeeping",
+    "name": "Straightforward Bookkeeping",
+    "contactName": "Victoria Madison",
+    "email": null,
+    "location": null,
+    "website": null,
+    "platform": "WordPress",
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "label": "LDD Hosting",
+        "amount": 300,
+        "cycle": "yearly",
+        "taxRate": 5,
+        "lastBilled": "2026-07-17",
+        "nextBillDate": "2027-07-17"
+      }
+    ],
+    "createdAt": "2026-08-05 13:37:13"
+  }
+]

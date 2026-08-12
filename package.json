@@ -1,0 +1,21 @@
+{
+  "name": "leannedigital",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/apply-lilipadd-slots.mjs && node scripts/generate-pages.mjs && node scripts/generate-blog.mjs && node scripts/generate-portfolio.mjs && node scripts/generate-services.mjs && node scripts/generate-clients.mjs && node scripts/apply-public-seo.mjs && node scripts/apply-lilipadd-slots.mjs && node scripts/write-seo-files.mjs",
+    "verify": "node scripts/verify.mjs",
+    "import:clients": "node scripts/import-clients.mjs",
+    "import:portal": "node scripts/import-portal.mjs",
+    "portal": "node server/api.mjs",
+    "portal:api": "node server/api.mjs",
+    "portal:mcp": "node server/mcp.mjs",
+    "integrate": "node scripts/apply-lilipadd.mjs && npm run generate",
+    "integrate:prod": "node scripts/integrate-prod.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "nodemailer": "^6.9.16",
+    "zod": "^3.25.67"
+  }
+}

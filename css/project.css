@@ -1,9 +1,10 @@
 .project {
-    padding-bottom: clamp(3rem, 5vw, 5rem);
+    padding-bottom: 0;
 }
 
 .project__header {
-    padding: clamp(6rem, 12vw, 9rem) 0 var(--ld-gutter);
+    padding-top: var(--ld-header-offset);
+    padding-bottom: var(--ld-section-gap);
     background:
         linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
         url("../assets/images/about/about-hero-bg.jpg") top center / cover no-repeat;
@@ -43,7 +44,7 @@
 }
 
 .project__body {
-    padding-top: var(--ld-gutter);
+    padding-block: var(--ld-section-gap);
 }
 
 .project__panel {
@@ -61,12 +62,7 @@
 
 .project__overview-title {
     margin: 0 0 1rem;
-    font-family: var(--ld-font-display);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 800;
-    letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: var(--ld-text);
 }
 
 .project-prose {
@@ -107,7 +103,7 @@
     height: auto;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 768px) {
     .project__content {
         grid-template-columns: 1.1fr 0.9fr;
         align-items: start;

@@ -7,8 +7,10 @@ import {
     renderFullFooter,
     renderHead,
     renderNav,
+    renderPageScripts,
 } from './layout.mjs';
 import { PORTFOLIO_FILTERS } from './portfolio-filters.mjs';
+import { faqsForPath, renderFaqSection } from './seo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -76,7 +78,7 @@ function renderPortfolioIndex(projects, depth) {
     })}
 <body class="page-inner">
 ${renderNav(depth, '/portfolio/')}
-    <main>
+    <main id="main">
         <section class="portfolio-hero section--navy" aria-labelledby="portfolio-heading">
             <div class="container">
                 <h1 class="portfolio-hero__title" id="portfolio-heading">Our Portfolio</h1>
@@ -94,10 +96,11 @@ ${cards}
                 </div>
             </div>
         </section>
+${renderFaqSection(faqsForPath('/portfolio/'))}
     </main>
 ${renderFullFooter(depth)}
-    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portfolio-filters.js" defer></script>
+${renderPageScripts(depth, `
+    <script src="${prefix}js/portfolio-filters.js" defer></script>`)}
 </body>
 </html>
 `;
@@ -146,7 +149,7 @@ function renderProjectPage(project, projects, depth) {
     })}
 <body class="page-inner">
 ${renderNav(depth, '')}
-    <main>
+    <main id="main">
         <article class="project section--navy">
             <header class="project__header">
                 <div class="container project__header-inner">
@@ -166,10 +169,20 @@ ${renderNav(depth, '')}
                 </div>
             </section>
         </article>
+${renderFaqSection(faqsForPath(project.path, [
+    {
+        question: `What is the ${project.title} project?`,
+        answer: project.description || `${project.title} is a Leanne Digital portfolio project.`,
+    },
+    {
+        question: 'Can you create similar work for my business?',
+        answer: 'Yes. Get in touch with what you need and we will talk through whether a similar website, brand, or SEO project is a fit.',
+    },
+]))}
     </main>
 ${renderFullFooter(depth)}
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
-    <script src="${prefix}js/site-nav.js" defer></script>
+${renderPageScripts(depth)}
 </body>
 </html>
 `;

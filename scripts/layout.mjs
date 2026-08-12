@@ -1,5 +1,6 @@
 import { PRIMARY_NAV, SERVICE_LINKS } from './site-config.mjs';
 import { renderFavicons } from './favicons.mjs';
+import { lpEvent, renderLilipaddSnippet } from './analytics.mjs';
 
 export function assetPrefix(depth) {
     return depth === 0 ? '' : '../'.repeat(depth);
@@ -28,7 +29,8 @@ ${links}
         return `                <li class="site-nav__item"><a href="${item.path}"${current}>${item.title}</a></li>`;
     }).join('\n');
 
-    return `    <header class="site-header">
+    return `    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
         <div class="container site-header__inner">
             <a class="site-logo" href="/" aria-label="Leanne Digital home">
                 <img
@@ -74,19 +76,19 @@ export function renderFullFooter(depth) {
                             <img src="${prefix}assets/images/social/instagram.svg" alt="" width="32" height="33">
                         </a>
                     </div>
-                    <a class="ld-btn" href="/contact/">CONTACT ME TODAY!</a>
+                    <a class="ld-btn" href="/contact/"${lpEvent('footer_contact_cta')}>CONTACT ME TODAY!</a>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">Brand Design</span>
-                    <p class="site-footer__links">Logo Design<br>Brand Design<br>Graphic Design</p>
+                    <p class="site-footer__links"><a href="/winnipeg-logo-design/">Logo Design</a><br><a href="/graphic-design/">Brand Design</a><br><a href="/graphic-design/">Graphic Design</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">Web Design and Technical Support</span>
-                    <p class="site-footer__links">Website Design<br>Website Hosting<br>Website Maintenance &amp; Security<br>Conversation Rate Optamization<br>Custom Integrations</p>
+                    <p class="site-footer__links"><a href="/website-design/">Website Design</a><br><a href="/website-management-support/">Website Hosting</a><br><a href="/website-management-support/">Website Maintenance &amp; Security</a><br><a href="/contact/">Conversion Rate Optimization</a><br><a href="/contact/">Custom Integrations</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">SEO &amp; Visibility</span>
-                    <p class="site-footer__links">AI Search Optimization (AEO)<br>Ongoing SEO<br>Local SEO<br>Tech SEO<br>Google Ads<br>Reddit Ads</p>
+                    <p class="site-footer__links"><a href="/answer-engine-optimization-aeo/">AI Search Optimization (AEO)</a><br><a href="/seo/">Ongoing SEO</a><br><a href="/seo/">Local SEO</a><br><a href="/seo/">Tech SEO</a><br><a href="/google-ads/">Google Ads</a><br><a href="/contact/">Reddit Ads</a></p>
                 </div>
             </div>
         </div>
@@ -101,7 +103,10 @@ export function renderFullFooter(depth) {
     </footer>`;
 }
 
-export function renderHead({ title, description, depth, extraCss = [], canonical = '' }) {
+export function renderHead({
+    depth,
+    extraCss = [],
+}) {
     const prefix = assetPrefix(depth);
     const cssLinks = [
         'tokens.css',
@@ -109,29 +114,33 @@ export function renderHead({ title, description, depth, extraCss = [], canonical
         'header.css',
         'page-inner.css',
         'buttons.css',
+        'faq.css',
         ...extraCss,
         'footer.css',
     ]
         .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}">`)
         .join('\n');
 
-    const canonicalTag = canonical
-        ? `    <link rel="canonical" href="${canonical}">\n`
-        : '';
-
     return `<!DOCTYPE html>
 <html lang="en-CA">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-    <meta name="description" content="${description}">
-${canonicalTag}${renderFavicons(prefix)}
+    <!-- lp:seo -->
+    <!-- lp:custom-head -->
+${renderFavicons(prefix)}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 ${cssLinks}
+${renderLilipaddSnippet()}
 </head>`;
+}
+
+export function renderPageScripts(depth, extra = '') {
+    const prefix = assetPrefix(depth);
+    return `    <script src="${prefix}js/site-nav.js" defer></script>
+${extra}`;
 }
 
 export function escapeHtml(value) {

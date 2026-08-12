@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us | Leanne Digital</title>
-    <meta name="description" content="Reach out to Leanne Digital's small expert team for web design, graphic design &amp; SEO. Let's chat about your project and how we can help you grow.">
+    <!-- lp:seo -->
+    <!-- lp:custom-head -->
+    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-192x192.png" sizes="192x192">
@@ -20,9 +21,12 @@
     <link rel="stylesheet" href="../css/contact.css">
     <link rel="stylesheet" href="../css/contact-page.css">
     <link rel="stylesheet" href="../css/reviews.css">
-    <link rel="stylesheet" href="../css/footer.css">
-</head>
+        <link rel="stylesheet" href="../css/faq.css">
+<link rel="stylesheet" href="../css/footer.css">
+                </head>
 <body class="page-inner">
+    <!-- lp:custom-body-start -->
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
             <a class="site-logo" href="/" aria-label="Leanne Digital home">
@@ -67,7 +71,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <section class="contact-hero section--navy" aria-labelledby="contact-heading">
             <div class="container contact-hero__grid">
                 <div class="contact-hero__intro">
@@ -91,14 +95,11 @@
                     <p class="contact-hero__form-label">CONTACT LEANNE</p>
                     <form
                         class="contact-form"
-                        action="https://formsubmit.co/leanne@leannedigital.com"
-                        method="POST"
+                        action="/thank-you/"
+                        method="post"
                         aria-label="Contact form"
-                    >
-                        <input type="hidden" name="_subject" value="New contact form submission — Leanne Digital">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="https://leannedigital.com/contact/?sent=1">
-                        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="contact-form__honeypot">
+                     data-lp-form="contact">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="contact-form__honeypot">
                         <div class="contact-form__field">
                             <label for="contact-name">Name</label>
                             <input type="text" id="contact-name" name="name" placeholder="Name" required autocomplete="name">
@@ -163,6 +164,29 @@
                 </div>
             </div>
         </section>
+        <section class="page-faq section--navy" aria-labelledby="page-faq-heading">
+            <div class="container page-faq__inner">
+                <h2 class="page-faq__title" id="page-faq-heading">Frequently Asked Questions</h2>
+                <div class="page-faq__list">
+                <details class="page-faq__item">
+                    <summary>How soon will I hear back?</summary>
+                    <p>We aim to reply within one business day, Monday to Friday, 9am to 5pm Central Time.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>Can I book a call instead of sending a form?</summary>
+                    <p>Yes. The contact page includes a 30-minute discovery call booking option if you would rather talk it through live.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>What should I include in my message?</summary>
+                    <p>A short note about your business, what you need (website, branding, SEO, or support), and any timeline or budget range helps us come back with a useful next step.</p>
+                </details>
+                <details class="page-faq__item">
+                    <summary>Do you take on projects outside Winnipeg?</summary>
+                    <p>Yes. We work remotely with clients across Canada and beyond.</p>
+                </details>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="site-footer">
@@ -184,19 +208,19 @@
                             <img src="../assets/images/social/instagram.svg" alt="" width="32" height="33">
                         </a>
                     </div>
-                    <a class="ld-btn" href="/contact/">CONTACT ME TODAY!</a>
+                    <a class="ld-btn" href="/contact/" data-lp-event="footer_contact_cta">CONTACT ME TODAY!</a>
                 </div>
-                <div class="site-footer__column">
+                                                                                <div class="site-footer__column">
                     <span class="site-footer__column-title">Brand Design</span>
-                    <p class="site-footer__links">Logo Design<br>Brand Design<br>Graphic Design</p>
+                    <p class="site-footer__links"><a href="/winnipeg-logo-design/">Logo Design</a><br><a href="/graphic-design/">Brand Design</a><br><a href="/graphic-design/">Graphic Design</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">Web Design and Technical Support</span>
-                    <p class="site-footer__links">Website Design<br>Website Hosting<br>Website Maintenance &amp; Security<br>Conversation Rate Optamization<br>Custom Integrations</p>
+                    <p class="site-footer__links"><a href="/website-design/">Website Design</a><br><a href="/website-management-support/">Website Hosting</a><br><a href="/website-management-support/">Website Maintenance &amp; Security</a><br><a href="/contact/">Conversion Rate Optimization</a><br><a href="/contact/">Custom Integrations</a></p>
                 </div>
                 <div class="site-footer__column">
                     <span class="site-footer__column-title">SEO &amp; Visibility</span>
-                    <p class="site-footer__links">AI Search Optimization (AEO)<br>Ongoing SEO<br>Local SEO<br>Tech SEO<br>Google Ads<br>Reddit Ads</p>
+                    <p class="site-footer__links"><a href="/answer-engine-optimization-aeo/">AI Search Optimization (AEO)</a><br><a href="/seo/">Ongoing SEO</a><br><a href="/seo/">Local SEO</a><br><a href="/seo/">Tech SEO</a><br><a href="/google-ads/">Google Ads</a><br><a href="/contact/">Reddit Ads</a></p>
                 </div>
             </div>
         </div>
@@ -211,5 +235,6 @@
     </footer>
     <script src="../js/site-nav.js" defer></script>
     <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <!-- lp:custom-body-end -->
 </body>
 </html>

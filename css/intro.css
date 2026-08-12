@@ -1,6 +1,5 @@
 .intro {
     background: var(--ld-bg-solid);
-    padding: clamp(3rem, 5vw, 5rem) 0;
 }
 
 .intro__inner {
@@ -12,12 +11,6 @@
 
 .intro__title {
     margin: 0 0 1.25rem;
-    font-family: var(--ld-font-display);
-    font-size: clamp(1.55rem, 3.2vw, 2.25rem);
-    font-weight: 800;
-    line-height: 1.33;
-    letter-spacing: 0.02em;
-    color: var(--ld-text);
 }
 
 .intro__copy {

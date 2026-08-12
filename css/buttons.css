@@ -14,8 +14,14 @@
     line-height: 1.2;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    text-decoration: none;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
+}
+
+a.ld-btn {
+    color: var(--ld-bg-start);
+    text-decoration: none;
 }
 
 .ld-btn:hover,
@@ -26,4 +32,20 @@
 
 .ld-btn--wide {
     padding-inline: 3.5rem;
+}
+
+.ld-btn--ghost {
+    background: transparent;
+    border: 2px solid var(--ld-accent);
+    color: var(--ld-accent);
+}
+
+a.ld-btn--ghost {
+    color: var(--ld-accent);
+}
+
+.ld-btn--ghost:hover,
+.ld-btn--ghost:focus-visible {
+    background: var(--ld-accent);
+    color: var(--ld-bg-start);
 }
