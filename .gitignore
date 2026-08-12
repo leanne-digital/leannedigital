@@ -2,4 +2,5 @@
 Thumbs.db
 *.log
 .env
-_import/
+_import/*
+!_import/README.md

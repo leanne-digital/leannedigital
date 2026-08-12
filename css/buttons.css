@@ -7,21 +7,27 @@
     border: 0;
     border-radius: var(--ld-radius-pill);
     background: var(--ld-accent);
-    color: var(--ld-bg-start);
+    color: #fff;
     font-family: var(--ld-font-body);
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    text-decoration: none;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ld-btn span {
+    color: inherit;
 }
 
 .ld-btn:hover,
 .ld-btn:focus-visible {
     background: var(--ld-text);
     color: var(--ld-bg-solid);
+    text-decoration: none;
 }
 
 .ld-btn--wide {

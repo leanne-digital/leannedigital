@@ -10,6 +10,16 @@ python -m http.server 8081
 
 Open http://localhost:8081/
 
+## Simply Static comparison copy
+
+The WordPress export lives in `_import/` (zip + extracted site). Keep it there so we can compare the rebuild against the original:
+
+```bash
+python -m http.server 8082 --directory _import/simply-static
+```
+
+Open http://localhost:8082/ beside the rebuild.
+
 ## Generate coming-soon pages
 
 After editing `scripts/site-config.mjs`, regenerate inner pages:
