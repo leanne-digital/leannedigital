@@ -1,4 +1,14 @@
 (function () {
+    if (window.__LP_PORTAL__) return;
+
+    if (window.__LP__ && window.__LP__.key && window.__LP__.base) {
+        var script = document.createElement('script');
+        script.src = window.__LP__.base + '/v1/modules/portal.js';
+        script.defer = true;
+        document.head.appendChild(script);
+        return;
+    }
+
     const form = document.querySelector('[data-portal-form]');
     const gated = document.body.hasAttribute('data-portal-gate');
 
