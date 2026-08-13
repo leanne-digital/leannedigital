@@ -10,7 +10,7 @@
     border-radius: 16px;
     background:
         linear-gradient(rgba(12, 13, 27, 0.82), rgba(12, 13, 27, 0.88)),
-        url("../assets/images/home/contact-form-bg.jpg") center / cover no-repeat;
+        url("../assets/images/home/contact-form-bg.webp") center / cover no-repeat;
 }
 
 .contact__title {

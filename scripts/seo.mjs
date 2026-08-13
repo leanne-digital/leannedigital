@@ -21,7 +21,7 @@ export function rewriteLegacyLinks(html) {
         .replaceAll('/services/web-design-winnipeg/', '/website-design/');
 }
 export const GTAG_ID = 'G-K29LV069TN';
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/images/hero/leanne-and-gary-ld-hero-v02.png`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/images/hero/leanne-and-gary-ld-hero-v02.webp`;
 export const CONTACT_EMAIL = 'leanne@leannedigital.com';
 
 let faqCache = null;

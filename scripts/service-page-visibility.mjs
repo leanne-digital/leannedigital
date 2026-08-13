@@ -103,7 +103,7 @@ ${items}
                         </ul>
                     </div>
                     <div class="service-split__media">
-                        <img src="${prefix}assets/images/services/leanne-working.png" alt="Leanne Jones working on WordPress website design in Winnipeg" width="639" height="520" loading="lazy">
+                        <img src="${prefix}assets/images/services/leanne-working.webp" alt="Leanne Jones working on WordPress website design in Winnipeg" width="639" height="520" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@ function renderAudience(prefix) {
             <div class="container">
                 <div class="service-split service-split--media-first">
                     <div class="service-split__media">
-                        <img src="${prefix}assets/images/services/Website-Design-Audit.png" alt="Website design audit illustration" width="632" height="738" loading="lazy">
+                        <img src="${prefix}assets/images/services/Website-Design-Audit.webp" alt="Website design audit illustration" width="632" height="738" loading="lazy">
                     </div>
                     <div class="service-split__content">
                         <h2 class="service-section__heading" id="audience-heading">Who This Is For</h2>

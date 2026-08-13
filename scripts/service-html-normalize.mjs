@@ -377,7 +377,7 @@ export function postProcessSection(section, { slug } = {}) {
         );
         output = output.replace(
             /src="\/assets\/images\/services\/ldd-trust\.png" alt=""/,
-            'src="/assets/images/services/ldd-trust.png" alt="Canadian Council for Indigenous Business, CCIB Certified Indigenous Business, The Winnipeg Chamber of Commerce, and Google Reviews"'
+            'src="/assets/images/services/ldd-trust.webp" alt="Canadian Council for Indigenous Business, CCIB Certified Indigenous Business, The Winnipeg Chamber of Commerce, and Google Reviews"'
         );
     } else if (isBeliefSection(output)) {
         output = tagBeliefLayout();

@@ -36,7 +36,7 @@ ${links}
             <a class="site-logo" href="/" aria-label="Leanne Digital home">
                 <img
                     class="site-logo__image"
-                    src="${prefix}assets/images/brand/leanne-digital-logo-white.png"
+                    src="${prefix}assets/images/brand/leanne-digital-logo-white.webp"
                     alt="Leanne Digital"
                     width="184"
                     height="52"
@@ -63,7 +63,7 @@ export function renderFullFooter(depth) {
             <div class="container site-footer__grid">
                 <div class="site-footer__brand-col">
                     <a href="/" aria-label="Leanne Digital home">
-                        <img src="${prefix}assets/images/brand/leanne-digital-logo-white.png" alt="Leanne Digital" width="184" height="52" loading="lazy">
+                        <img src="${prefix}assets/images/brand/leanne-digital-logo-white.webp" alt="Leanne Digital" width="184" height="52" loading="lazy">
                     </a>
                     <p class="site-footer__about">Leanne Digital, formerly Leanne Digital Design, is an Indigenous-owned brand and digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We help businesses and Indigenous organizations build strong, beautiful brands online and get them seen through website design, SEO, branding, and digital marketing support.</p>
                     <div class="site-footer__social">
