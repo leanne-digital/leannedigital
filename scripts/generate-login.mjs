@@ -21,7 +21,7 @@ function writePage(relativeDir, html) {
 function scripts(depth) {
     const prefix = '../'.repeat(depth);
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260813h" defer></script>`;
+    <script src="${prefix}js/portal-auth.js?v=20260813i" defer></script>`;
 }
 
 function authPage({ title, description, depth, path: currentPath, heading, lead, form, links }) {

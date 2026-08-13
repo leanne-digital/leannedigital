@@ -23,6 +23,7 @@ const SERVICE_LABELS = {
     aeo: 'AEO',
     hosting: 'Hosting',
     maintenance: 'Maintenance',
+    management: 'Site management',
 };
 
 const CHART_ICON = `<span class="client-month-card__icon" aria-hidden="true">
@@ -64,10 +65,13 @@ function serviceTags(client) {
     return types;
 }
 
-function portalScripts(depth) {
+function portalScripts(depth, admin = false) {
     const prefix = '../'.repeat(depth);
+    const adminScript = admin
+        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260813i" defer></script>`
+        : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260813h" defer></script>`;
+    <script src="${prefix}js/portal-auth.js?v=20260813i" defer></script>${adminScript}`;
 }
 
 function renderLinks(client) {
@@ -92,61 +96,90 @@ function formatDay(iso) {
     return date.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 }
 
+function statusLabel(status) {
+    if (status === 'overdue') return 'Overdue';
+    if (status === 'due-soon') return 'Due soon';
+    if (status === 'unbilled') return 'No due date';
+    return 'Upcoming';
+}
+
 function renderDashboard(stats) {
     const currency = stats.totals.currency || 'CAD';
     const cards = [
-        ['Clients', String(stats.clients)],
-        ['Website hosting', String(stats.hosting)],
-        ['Up for renewal', String(stats.renewals.length)],
-        ['Monthly retainers', String(stats.recurringClients)],
+        ['clients', 'Clients', String(stats.clients)],
+        ['hosting', 'Website hosting', String(stats.hosting)],
+        ['renewals', 'Up for renewal', String(stats.renewals.length)],
+        ['retainers', 'Monthly retainers', String(stats.recurringClients)],
     ]
         .map(
-            ([label, value]) => `                <article class="dash-stat">
-                    <p class="dash-stat__value">${escapeHtml(value)}</p>
+            ([key, label, value]) => `                <article class="dash-stat">
+                    <p class="dash-stat__value" data-stat="${key}">${escapeHtml(value)}</p>
                     <h2 class="dash-stat__label">${escapeHtml(label)}</h2>
                 </article>`
         )
         .join('\n');
     const recurring = [
-        ['SEO', stats.recurring.seo],
-        ['AEO', stats.recurring.aeo],
-        ['Site maintenance', stats.recurring.maintenance],
-        ['Combo', stats.recurring.combo],
+        ['recurring-seo', 'SEO', stats.recurring.seo],
+        ['recurring-aeo', 'AEO', stats.recurring.aeo],
+        ['recurring-maintenance', 'Site maintenance', stats.recurring.maintenance],
+        ['recurring-management', 'Site management', stats.recurring.management],
+        ['recurring-combo', 'Combo', stats.recurring.combo],
     ]
         .map(
-            ([label, value]) => `                <article class="dash-stat dash-stat--sub">
-                    <p class="dash-stat__value">${value}</p>
+            ([key, label, value]) => `                <article class="dash-stat dash-stat--sub">
+                    <p class="dash-stat__value" data-stat="${key}">${value}</p>
                     <h2 class="dash-stat__label">${escapeHtml(label)}</h2>
                 </article>`
         )
         .join('\n');
     const totals = [
-        ['Monthly total', money(stats.totals.monthly, currency)],
-        ['Yearly total', money(stats.totals.yearly, currency)],
-        ['Annualized', money(stats.totals.annualized, currency)],
-        ['All-time (est.)', money(stats.totals.allTime, currency)],
+        ['rev-monthly', 'Monthly total', money(stats.totals.monthly, currency)],
+        ['rev-yearly', 'Yearly total', money(stats.totals.yearly, currency)],
+        ['rev-management', 'Site management / mo', money(stats.totals.managementMonthly, currency)],
+        ['rev-hosting', 'Hosting / mo (avg)', money(stats.totals.hostingMonthly, currency)],
+        ['rev-annualized', 'Annualized', money(stats.totals.annualized, currency)],
+        ['rev-alltime', 'All-time (est.)', money(stats.totals.allTime, currency)],
     ]
         .map(
-            ([label, value]) => `                <article class="dash-stat dash-stat--money">
-                    <p class="dash-stat__value">${escapeHtml(value)}</p>
+            ([key, label, value]) => `                <article class="dash-stat dash-stat--money">
+                    <p class="dash-stat__value" data-stat="${key}">${escapeHtml(value)}</p>
                     <h2 class="dash-stat__label">${escapeHtml(label)}</h2>
                 </article>`
         )
         .join('\n');
-    const renewals = stats.renewals.length
-        ? `<div class="dash-renewals">
-                ${stats.renewals
-                    .map((row) => {
-                        const when = row.overdue ? 'Overdue' : formatDay(row.nextBillDate);
-                        return `                <a class="dash-renewal${row.overdue ? ' dash-renewal--overdue' : ''}" href="/clients/${escapeHtml(row.slug)}/">
-                    <span>${escapeHtml(row.name)}</span>
-                    <strong>${escapeHtml(money(row.amount, currency))}</strong>
-                    <em>${escapeHtml(when)}</em>
-                </a>`;
-                    })
-                    .join('\n')}
+    const hostingRows = (stats.hostingAccounts || [])
+        .map((row) => {
+            const cycle = row.cycle === 'monthly' ? 'Monthly' : row.cycle === 'yearly' ? 'Yearly' : '—';
+            const amount = row.amount ? money(row.amount, currency) : '—';
+            return `                    <tr class="dash-hosting__row dash-hosting__row--${escapeHtml(row.status)}">
+                        <td><a href="/clients/${escapeHtml(row.slug)}/">${escapeHtml(row.name)}</a></td>
+                        <td>${escapeHtml(amount)}</td>
+                        <td>${escapeHtml(cycle)}</td>
+                        <td>${escapeHtml(formatDay(row.lastBilled) || '—')}</td>
+                        <td>${escapeHtml(formatDay(row.nextBillDate) || '—')}</td>
+                        <td>${escapeHtml(statusLabel(row.status))}</td>
+                    </tr>`;
+        })
+        .join('\n');
+    const hostingTable = hostingRows
+        ? `<div class="dash-table-wrap">
+                <table class="dash-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Amount paid</th>
+                            <th>Cycle</th>
+                            <th>Last paid</th>
+                            <th>Next due</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody data-hosting-body>
+${hostingRows}
+                    </tbody>
+                </table>
             </div>`
-        : '<p class="client-empty">No hosting renewals in the next 60 days.</p>';
+        : '<p class="client-empty">No website hosting accounts yet.</p>';
 
     return `            <section class="dash-panel" data-admin-only>
                 <h2 class="client-reports__heading">Overview</h2>
@@ -154,16 +187,74 @@ function renderDashboard(stats) {
 ${cards}
                 </div>
                 <h2 class="client-reports__heading">Monthly recurring clients</h2>
-                <p class="dash-copy">SEO, AEO, site maintenance, or a combo of those retainers.</p>
-                <div class="dash-grid">
+                <p class="dash-copy">SEO, AEO, site maintenance, static site management ($50+/mo), or a combo of those retainers.</p>
+                <div class="dash-grid dash-grid--five">
 ${recurring}
                 </div>
                 <h2 class="client-reports__heading">Revenue</h2>
                 <div class="dash-grid">
 ${totals}
                 </div>
-                <h2 class="client-reports__heading">Hosting renewals</h2>
-                ${renewals}
+                <h2 class="client-reports__heading">Website hosting accounts</h2>
+                <p class="dash-copy">Every hosting retainer, when it was last paid, and when the next bill is due.</p>
+                ${hostingTable}
+                <h2 class="client-reports__heading">Add or edit a client</h2>
+                <form class="dash-form" data-client-form>
+                    <p class="login-form__error" data-form-error hidden></p>
+                    <p class="login-form__ok" data-form-ok hidden></p>
+                    <input type="hidden" name="slug" value="">
+                    <div class="dash-form__grid">
+                        <label>Client name
+                            <input name="name" type="text" required>
+                        </label>
+                        <label>Login email
+                            <input name="email" type="email" autocomplete="off">
+                        </label>
+                        <label>Website
+                            <input name="website" type="url" placeholder="https://">
+                        </label>
+                        <label>Platform
+                            <select name="platform">
+                                <option value="WordPress">WordPress</option>
+                                <option value="Static">Static site</option>
+                                <option value="Shopify">Shopify</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </label>
+                        <label>Hosting amount
+                            <input name="hostingAmount" type="number" min="0" step="1" placeholder="250">
+                        </label>
+                        <label>Hosting cycle
+                            <select name="hostingCycle">
+                                <option value="yearly">Yearly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </label>
+                        <label>Hosting last paid
+                            <input name="hostingLastBilled" type="date">
+                        </label>
+                        <label>Hosting next due
+                            <input name="hostingNextBillDate" type="date">
+                        </label>
+                        <label>Site management / mo
+                            <input name="managementAmount" type="number" min="0" step="1" placeholder="50">
+                        </label>
+                        <label>SEO / mo
+                            <input name="seoAmount" type="number" min="0" step="1">
+                        </label>
+                        <label>AEO / mo
+                            <input name="aeoAmount" type="number" min="0" step="1">
+                        </label>
+                        <label>Maintenance / mo
+                            <input name="maintenanceAmount" type="number" min="0" step="1">
+                        </label>
+                    </div>
+                    <p class="dash-copy">Static sites start at $50/month management. Leave a field blank to skip that service.</p>
+                    <div class="dash-form__actions">
+                        <button class="ld-btn" type="submit">Save client</button>
+                        <button class="dash-form__reset" type="reset">Clear</button>
+                    </div>
+                </form>
             </section>`;
 }
 
@@ -185,12 +276,18 @@ function renderIndex(clients) {
                 : reports.length
                     ? `${reports.length} monthly report${reports.length === 1 ? '' : 's'}`
                     : 'Active client';
-            return `                <a class="client-card" href="/clients/${escapeHtml(client.slug)}/">
+            return `                <article class="client-card" data-client-slug="${escapeHtml(client.slug)}">
+                    <a href="/clients/${escapeHtml(client.slug)}/">
                     <h2 class="client-card__name">${escapeHtml(client.name)}</h2>
                     <p class="client-card__tags">${tags}</p>
                     <p class="client-card__meta">${escapeHtml(total)}</p>
                     <span class="client-card__cta">Open client</span>
-                </a>`;
+                    </a>
+                    <p class="client-card__admin" data-admin-only>
+                        <button type="button" data-edit-client="${escapeHtml(client.slug)}">Edit</button>
+                        <button type="button" data-delete-client="${escapeHtml(client.slug)}">Delete</button>
+                    </p>
+                </article>`;
         })
         .join('\n');
 
@@ -207,21 +304,32 @@ ${renderNav(1, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="container">
                 <h1 class="clients-hero__title">Client dashboard</h1>
-                <p class="clients-hero__lead">Client counts, hosting renewals, and recurring SEO, AEO, and maintenance income.</p>
+                <p class="clients-hero__lead">Hosting due dates and amounts, retainers, site management fees, and every client you can add or edit.</p>
             </div>
         </section>
         <section class="clients-list section--navy">
             <div class="container">
 ${renderDashboard(portalStats(clients))}
                 <h2 class="client-reports__heading">All clients</h2>
-                <div class="clients-grid">
+                <div class="clients-grid" data-clients-grid>
 ${cards}
                 </div>
             </div>
         </section>
     </main>
 ${renderFullFooter(1)}
-${portalScripts(1)}
+    <script type="application/json" id="ld-clients-data">${JSON.stringify(clients.map((client) => ({
+        slug: client.slug,
+        name: client.name,
+        email: client.email || '',
+        website: client.website || '',
+        platform: client.platform || '',
+        googleDrive: client.googleDrive || '',
+        contactName: client.contactName || '',
+        hosting: client.hosting || null,
+        services: client.services || [],
+    }))).replace(/</g, '\\u003c')}</script>
+${portalScripts(1, true)}
 </body>
 </html>
 `;

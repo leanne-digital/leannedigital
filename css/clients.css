@@ -246,13 +246,29 @@
     color: var(--ld-text-muted);
     text-align: center;
 }
-    margin: 0;
+
+.client-card > a {
+    display: grid;
+    gap: 0.55rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.client-card__admin {
+    display: flex;
+    gap: 0.85rem;
+    margin: 0.35rem 0 0;
+}
+
+.client-card__admin button {
+    border: 0;
+    padding: 0;
+    background: none;
     color: var(--ld-accent);
-    font-family: var(--ld-font-display);
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
 }
 
 .client-card__meta {
@@ -431,6 +447,24 @@
     color: var(--ld-text-muted);
 }
 
+.dash-form .login-form__error,
+.dash-form .login-form__ok {
+    margin: 0;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.dash-form .login-form__error {
+    background: rgba(220, 80, 80, 0.18);
+    color: #ffd4d4;
+}
+
+.dash-form .login-form__ok {
+    background: var(--ld-accent-soft);
+    color: var(--ld-text);
+}
+
 .dash-grid {
     display: grid;
     gap: 1rem;
@@ -492,12 +526,109 @@
     border-color: rgba(220, 80, 80, 0.55);
 }
 
+.dash-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 2.5rem;
+}
+
+.dash-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.dash-table th,
+.dash-table td {
+    padding: 0.75rem 0.85rem;
+    border-bottom: 1px solid var(--ld-border);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.dash-table th {
+    color: var(--ld-text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.dash-table a {
+    color: inherit;
+}
+
+.dash-hosting__row--overdue td:last-child {
+    color: #ffb4b4;
+}
+
+.dash-hosting__row--due-soon td:last-child {
+    color: var(--ld-accent);
+}
+
+.dash-form {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 1.25rem 1.15rem;
+    border: 1px solid var(--ld-border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dash-form__grid {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: 1fr;
+}
+
+.dash-form label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+}
+
+.dash-form input,
+.dash-form select {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--ld-text);
+    color: var(--ld-bg-solid);
+    font: inherit;
+}
+
+.dash-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    align-items: center;
+}
+
+    .dash-form__reset {
+        border: 0;
+        background: none;
+        color: var(--ld-text-muted);
+        font: inherit;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    @media (min-width: 768px) {
+        .dash-form__grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
 @media (min-width: 768px) {
     .clients-grid,
     .client-month-grid,
     .client-includes__grid,
     .dash-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dash-grid--five {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .dash-renewal {
@@ -515,6 +646,10 @@
 @media (min-width: 1024px) {
     .dash-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .dash-grid--five {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
     .clients-grid {

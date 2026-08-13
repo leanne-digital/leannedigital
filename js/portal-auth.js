@@ -191,6 +191,13 @@
                     }
                     setToken('');
                 },
+                clients(op, extra) {
+                    return request(`${endpoint}clients`, {
+                        method: 'POST',
+                        body: withKey({ op, ...(extra || {}) }),
+                        action: 'clients',
+                    });
+                },
             };
         }
 
@@ -234,6 +241,34 @@
             },
             async logout() {
                 await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            },
+            async clients(op, extra) {
+                extra = extra || {};
+                if (op === 'list' || op === 'seed') {
+                    return request('/api/clients', { method: 'GET', action: 'clients' });
+                }
+                if (op === 'create') {
+                    return request('/api/clients', {
+                        method: 'POST',
+                        body: extra,
+                        action: 'clients',
+                    });
+                }
+                const slug = extra.slug || extra.id;
+                if (op === 'update') {
+                    return request(`/api/clients/${encodeURIComponent(slug)}`, {
+                        method: 'PATCH',
+                        body: extra,
+                        action: 'clients',
+                    });
+                }
+                if (op === 'delete') {
+                    return request(`/api/clients/${encodeURIComponent(slug)}`, {
+                        method: 'DELETE',
+                        action: 'clients',
+                    });
+                }
+                throw new Error('Unknown client operation');
             },
         };
     }
@@ -342,6 +377,8 @@
         }
         injectBar(api, session.user);
         applyRole(session.user);
+        window.__LD_PORTAL__ = { api, user: session.user };
+        document.dispatchEvent(new CustomEvent('ld-portal-ready', { detail: window.__LD_PORTAL__ }));
     }
 
     async function boot() {

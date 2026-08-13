@@ -33,5 +33,6 @@
 @media (max-width: 1024px) {
     :root {
         --ld-section-gap: 2em;
+        --ld-header-offset: 3.25em;
     }
 }

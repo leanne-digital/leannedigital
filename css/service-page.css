@@ -57,8 +57,10 @@
     overflow: visible;
 }
 
-body .site-header + main > .service-hero:has(+ .service-section .ld-section-inner--belief) {
-    padding-top: calc(var(--ld-header-offset) - 4em);
+@media (min-width: 1025px) {
+    body .site-header + main > .service-hero:has(+ .service-section .ld-section-inner--belief) {
+        padding-top: calc(var(--ld-header-offset) - 4em);
+    }
 }
 
 .service-hero:has(+ .service-section .ld-section-inner--belief) .service-hero__grid {

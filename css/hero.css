@@ -133,6 +133,12 @@
     margin-top: 1.5rem;
 }
 
+@media (max-width: 1024px) {
+    .hero {
+        padding-top: var(--ld-header-offset);
+    }
+}
+
 @media (max-width: 767px) {
     .hero__photo {
         margin-top: calc(-100% * var(--hero-mobile-ratio) * var(--hero-crop-top));

@@ -16,6 +16,7 @@ const SERVICE_DEFAULTS = {
     seo: { label: 'Monthly SEO', cycle: 'monthly' },
     aeo: { label: 'Technical SEO & AEO', cycle: 'monthly' },
     maintenance: { label: 'Website Maintenance & Protection', cycle: 'monthly' },
+    management: { label: 'Static site management', cycle: 'monthly' },
 };
 
 export function slugify(name) {
@@ -65,11 +66,15 @@ export function makeService(type, amount, cycle) {
     return service;
 }
 
-function servicesFromInput(input = {}) {
-    const services = [...(input.services || [])];
+function servicesFromInput(input = {}, current = []) {
+    const services = [...(input.services || current)];
     const add = (type, amount, cycle) => {
-        if (amount == null || amount === '') return;
+        if (amount == null) return;
         const existing = services.findIndex((service) => service.type === type);
+        if (amount === '' || Number(amount) === 0) {
+            if (existing >= 0) services.splice(existing, 1);
+            return;
+        }
         const next = makeService(type, amount, cycle);
         if (existing >= 0) services[existing] = { ...services[existing], ...next };
         else services.push(next);
@@ -78,6 +83,16 @@ function servicesFromInput(input = {}) {
     add('seo', input.seoAmount, input.seoCycle);
     add('aeo', input.aeoAmount, input.aeoCycle);
     add('maintenance', input.maintenanceAmount, input.maintenanceCycle);
+    add('management', input.managementAmount, input.managementCycle || 'monthly');
+    const hosting = services.find((service) => service.type === 'hosting');
+    if (hosting && 'hostingNextBillDate' in input) {
+        if (input.hostingNextBillDate) hosting.nextBillDate = input.hostingNextBillDate;
+        else delete hosting.nextBillDate;
+    }
+    if (hosting && 'hostingLastBilled' in input) {
+        if (input.hostingLastBilled) hosting.lastBilled = input.hostingLastBilled;
+        else delete hosting.lastBilled;
+    }
     return services;
 }
 
@@ -179,11 +194,7 @@ function upsertOverlay(record) {
         slug: record.slug,
         name: record.name,
         currency: record.currency || 'CAD',
-        services: overlayServices.length
-            ? overlayServices
-            : index >= 0
-                ? overlays[index].services
-                : [],
+        services: overlayServices,
         reports: record.reports || (index >= 0 ? overlays[index].reports : []) || [],
     };
     if (record.bio) next.bio = record.bio;
@@ -259,7 +270,7 @@ export async function updateClient(slugOrId, input) {
         error.status = 404;
         throw error;
     }
-    const incomingServices = servicesFromInput(input);
+    const incomingServices = servicesFromInput(input, current.services);
     const record = {
         ...current,
         name: input.name || current.name,
@@ -272,9 +283,7 @@ export async function updateClient(slugOrId, input) {
         hosting: input.hosting || current.hosting,
         currency: input.currency || current.currency,
         bio: input.bio ?? current.bio,
-        services: incomingServices.length
-            ? mergeServices(current.services, incomingServices)
-            : current.services,
+        services: incomingServices,
     };
     upsertPortal(record);
     upsertOverlay(record);

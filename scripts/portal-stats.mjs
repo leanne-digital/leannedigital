@@ -1,4 +1,4 @@
-const RECURRING_TYPES = ['seo', 'aeo', 'maintenance'];
+const RECURRING_TYPES = ['seo', 'aeo', 'maintenance', 'management'];
 const RENEWAL_DAYS = 60;
 
 function parseDate(value) {
@@ -33,7 +33,7 @@ export function isHostingClient(client) {
 function recurringTypes(client) {
     const types = new Set(
         (client.services || [])
-            .filter((service) => RECURRING_TYPES.includes(service.type))
+            .filter((service) => RECURRING_TYPES.includes(service.type) && amountOf(service))
             .map((service) => service.type)
     );
     if ((client.reports || []).length) types.add('seo');
@@ -46,12 +46,56 @@ function recurringKind(client) {
     return types[0] || null;
 }
 
+function hostingStatus(nextBillDate, now) {
+    if (!nextBillDate) return 'unbilled';
+    const due = parseDate(nextBillDate);
+    if (!due) return 'unbilled';
+    const days = Math.round((due.getTime() - now.getTime()) / 86400000);
+    if (days < 0) return 'overdue';
+    if (days <= RENEWAL_DAYS) return 'due-soon';
+    return 'upcoming';
+}
+
+export function hostingAccounts(clients, now = new Date()) {
+    const rows = [];
+    for (const client of clients) {
+        const hosting = (client.services || []).find((service) => service.type === 'hosting');
+        if (!hosting && !isHostingClient(client)) continue;
+        const amount = amountOf(hosting);
+        const cycle = hosting?.cycle === 'monthly' ? 'monthly' : 'yearly';
+        const nextBillDate = hosting?.nextBillDate || '';
+        rows.push({
+            slug: client.slug,
+            name: client.name,
+            amount,
+            cycle: amount ? cycle : '',
+            lastBilled: hosting?.lastBilled || '',
+            nextBillDate,
+            status: hostingStatus(nextBillDate, now),
+        });
+    }
+    rows.sort((a, b) => {
+        if (!a.nextBillDate) return 1;
+        if (!b.nextBillDate) return -1;
+        return String(a.nextBillDate).localeCompare(String(b.nextBillDate));
+    });
+    return rows;
+}
+
 export function portalStats(clients, now = new Date()) {
-    const renewals = [];
+    const accounts = hostingAccounts(clients, now);
+    const renewals = accounts.filter((row) => row.status === 'overdue' || row.status === 'due-soon');
     let monthly = 0;
     let yearly = 0;
     let allTime = 0;
-    const recurring = { seo: 0, aeo: 0, maintenance: 0, combo: 0 };
+    const recurring = { seo: 0, aeo: 0, maintenance: 0, management: 0, combo: 0 };
+    const byType = {
+        hosting: 0,
+        management: 0,
+        seo: 0,
+        aeo: 0,
+        maintenance: 0,
+    };
 
     for (const client of clients) {
         const start = clientStart(client);
@@ -62,41 +106,28 @@ export function portalStats(clients, now = new Date()) {
             if (cycle === 'yearly') yearly += amount;
             else monthly += amount;
             allTime += amount * billedPeriods(parseDate(service.lastBilled) || start, now, cycle);
-
-            if (service.type === 'hosting' && service.nextBillDate) {
-                const due = parseDate(service.nextBillDate);
-                if (!due) continue;
-                const days = Math.round((due.getTime() - now.getTime()) / 86400000);
-                if (days <= RENEWAL_DAYS) {
-                    renewals.push({
-                        slug: client.slug,
-                        name: client.name,
-                        amount,
-                        cycle,
-                        nextBillDate: service.nextBillDate,
-                        overdue: days < 0,
-                        days,
-                    });
-                }
+            if (byType[service.type] != null) {
+                byType[service.type] += cycle === 'yearly' ? amount / 12 : amount;
             }
         }
         const kind = recurringKind(client);
         if (kind) recurring[kind] += 1;
     }
 
-    renewals.sort((a, b) => String(a.nextBillDate).localeCompare(String(b.nextBillDate)));
-
     return {
         clients: clients.length,
-        hosting: clients.filter(isHostingClient).length,
+        hosting: accounts.length,
+        hostingAccounts: accounts,
         renewals,
         recurring,
-        recurringClients: recurring.seo + recurring.aeo + recurring.maintenance + recurring.combo,
+        recurringClients: recurring.seo + recurring.aeo + recurring.maintenance + recurring.management + recurring.combo,
         totals: {
             monthly,
             yearly,
             annualized: monthly * 12 + yearly,
             allTime,
+            managementMonthly: Math.round(byType.management * 100) / 100,
+            hostingMonthly: Math.round(byType.hosting * 100) / 100,
             currency: 'CAD',
         },
     };

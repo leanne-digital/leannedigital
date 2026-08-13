@@ -55,6 +55,12 @@ main > section.hero {
     padding-bottom: 0;
 }
 
+@media (max-width: 1024px) {
+    main > section.hero {
+        padding-top: var(--ld-header-offset);
+    }
+}
+
 main > section.trust-bar {
     padding-top: 0;
     padding-bottom: 0;

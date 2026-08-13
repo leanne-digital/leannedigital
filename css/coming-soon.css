@@ -6,6 +6,12 @@
     padding: calc(8rem + 3em) 0 4rem;
 }
 
+@media (max-width: 1024px) {
+    .coming-soon {
+        padding-top: calc(var(--ld-header-offset) + 1.5em);
+    }
+}
+
 .coming-soon__inner {
     max-width: 42rem;
     text-align: center;
