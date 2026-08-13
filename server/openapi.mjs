@@ -44,6 +44,22 @@ export function openApiSpec(port = 4174) {
                         managementAmount: { type: 'number', example: 50 },
                         hostingLastBilled: { type: 'string', example: '2025-12-18' },
                         hostingNextBillDate: { type: 'string', example: '2026-12-18' },
+                        discount: { type: 'number', example: 50 },
+                        taxAmount: { type: 'number', example: 21.25 },
+                        credentials: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    kind: { type: 'string', enum: ['hosting', 'domain', 'email', 'app'] },
+                                    label: { type: 'string' },
+                                    url: { type: 'string' },
+                                    username: { type: 'string' },
+                                    password: { type: 'string' },
+                                    notes: { type: 'string' },
+                                },
+                            },
+                        },
                         bio: { type: 'string' },
                     },
                     required: ['name'],

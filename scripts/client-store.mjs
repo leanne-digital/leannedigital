@@ -54,6 +54,29 @@ function stamp() {
     return new Date().toISOString().slice(0, 19).replace('T', ' ');
 }
 
+export function normalizeCredentials(input) {
+    const list = Array.isArray(input) ? input : [];
+    return list
+        .map((row) => {
+            if (!row || typeof row !== 'object') return null;
+            const kind = ['hosting', 'domain', 'email', 'app'].includes(row.kind) ? row.kind : 'app';
+            const label = String(row.label || '').trim();
+            const url = String(row.url || '').trim();
+            const username = String(row.username || '').trim();
+            const password = String(row.password || '');
+            const notes = String(row.notes || '').trim();
+            if (!label && !url && !username && !password && !notes) return null;
+            return { kind, label, url, username, password, notes };
+        })
+        .filter(Boolean);
+}
+
+function moneyField(value, fallback = 0) {
+    if (value == null || value === '') return fallback;
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+}
+
 export function makeService(type, amount, cycle) {
     const defaults = SERVICE_DEFAULTS[type] || { label: type, cycle: 'monthly' };
     const service = {
@@ -139,6 +162,9 @@ export function loadClients() {
             includes: overlay.includes || current.includes,
             reports: overlay.reports || current.reports || [],
             services: mergeServices(current.services, overlay.services),
+            credentials: overlay.credentials || current.credentials || [],
+            discount: overlay.discount ?? current.discount ?? 0,
+            taxAmount: overlay.taxAmount ?? current.taxAmount ?? 0,
         });
     }
 
@@ -170,6 +196,9 @@ function upsertPortal(record) {
         hosting: record.hosting || { type: 'External', provider: null, lddHosted: false },
         currency: record.currency || 'CAD',
         services: (record.services || []).filter((service) => service.type === 'hosting'),
+        credentials: record.credentials || [],
+        discount: Number(record.discount) || 0,
+        taxAmount: Number(record.taxAmount) || 0,
         createdAt: record.createdAt || stamp(),
     };
     if (index >= 0) portal[index] = { ...portal[index], ...next };
@@ -184,6 +213,9 @@ function upsertOverlay(record) {
         record.includes ||
         record.reports ||
         overlayServices.length ||
+        (record.credentials || []).length ||
+        record.discount ||
+        record.taxAmount ||
         record.googleDrive ||
         record.started;
     const overlays = readJson(OVERLAY_FILE, []);
@@ -195,6 +227,9 @@ function upsertOverlay(record) {
         name: record.name,
         currency: record.currency || 'CAD',
         services: overlayServices,
+        credentials: record.credentials || (index >= 0 ? overlays[index].credentials : []) || [],
+        discount: Number(record.discount) || 0,
+        taxAmount: Number(record.taxAmount) || 0,
         reports: record.reports || (index >= 0 ? overlays[index].reports : []) || [],
     };
     if (record.bio) next.bio = record.bio;
@@ -253,6 +288,9 @@ export async function createClient(input) {
         },
         currency: input.currency || 'CAD',
         services,
+        credentials: normalizeCredentials(input.credentials),
+        discount: moneyField(input.discount, 0),
+        taxAmount: moneyField(input.taxAmount, 0),
         bio: input.bio || '',
         started: input.started || new Date().toISOString().slice(0, 10),
         createdAt: stamp(),
@@ -284,6 +322,9 @@ export async function updateClient(slugOrId, input) {
         currency: input.currency || current.currency,
         bio: input.bio ?? current.bio,
         services: incomingServices,
+        credentials: 'credentials' in input ? normalizeCredentials(input.credentials) : current.credentials || [],
+        discount: 'discount' in input ? moneyField(input.discount, 0) : Number(current.discount) || 0,
+        taxAmount: 'taxAmount' in input ? moneyField(input.taxAmount, 0) : Number(current.taxAmount) || 0,
     };
     upsertPortal(record);
     upsertOverlay(record);

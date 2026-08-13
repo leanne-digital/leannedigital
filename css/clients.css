@@ -604,20 +604,79 @@
     align-items: center;
 }
 
-    .dash-form__reset {
-        border: 0;
-        background: none;
-        color: var(--ld-text-muted);
-        font: inherit;
-        cursor: pointer;
-        text-decoration: underline;
+.dash-form__reset {
+    border: 0;
+    background: none;
+    color: var(--ld-text-muted);
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.dash-form__heading {
+    margin: 0.35rem 0 0;
+    font-family: var(--ld-font-display);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.dash-copy--left {
+    text-align: left;
+    margin: 0 0 0.75rem;
+}
+
+.dash-form__add,
+.dash-form__remove {
+    border: 0;
+    padding: 0;
+    background: none;
+    color: var(--ld-accent);
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.dash-creds {
+    display: grid;
+    gap: 1rem;
+}
+
+.dash-cred {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--ld-border);
+    border-radius: 12px;
+}
+
+.dash-form__total {
+    margin: 0.25rem 0 0;
+    font-family: var(--ld-font-display);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.dash-form__total strong {
+    color: var(--ld-accent);
+}
+
+@media (min-width: 768px) {
+    .dash-form__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    @media (min-width: 768px) {
-        .dash-form__grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+    .dash-cred {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .dash-form__remove {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}
 
 @media (min-width: 768px) {
     .clients-grid,

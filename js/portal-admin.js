@@ -111,16 +111,24 @@
         let hostingMonthly = 0;
         let allTime = 0;
         for (const client of clients) {
+            const bill = {
+                monthly: 0,
+                yearly: 0,
+            };
             for (const row of client.services || []) {
                 const amount = amountOf(row);
                 if (!amount) continue;
                 const yearlyCycle = row.cycle === 'yearly';
-                if (yearlyCycle) yearly += amount;
-                else monthly += amount;
+                if (yearlyCycle) bill.yearly += amount;
+                else bill.monthly += amount;
                 allTime += amount;
                 if (row.type === 'management' && !yearlyCycle) managementMonthly += amount;
                 if (row.type === 'hosting') hostingMonthly += yearlyCycle ? amount / 12 : amount;
             }
+            const subtotal = bill.monthly + bill.yearly / 12;
+            const total = Math.max(0, subtotal - (Number(client.discount) || 0)) + (Number(client.taxAmount) || 0);
+            monthly += total;
+            yearly += bill.yearly;
             const kind = recurringKind(client);
             if (kind) recurring[kind] += 1;
         }
@@ -134,7 +142,7 @@
             yearly,
             managementMonthly,
             hostingMonthly,
-            annualized: monthly * 12 + yearly,
+            annualized: monthly * 12,
             allTime,
             accounts,
         };
@@ -149,16 +157,82 @@
 
     function clientTotal(client) {
         const billed = (client.services || []).filter((row) => amountOf(row));
-        const monthly = billed.filter((row) => row.cycle !== 'yearly');
-        const yearly = billed.filter((row) => row.cycle === 'yearly');
-        const parts = [];
-        if (monthly.length) {
-            parts.push(`${money(monthly.reduce((sum, row) => sum + amountOf(row), 0))} / month`);
+        let monthly = 0;
+        for (const row of billed) {
+            monthly += row.cycle === 'yearly' ? amountOf(row) / 12 : amountOf(row);
         }
-        if (yearly.length) {
-            parts.push(`${money(yearly.reduce((sum, row) => sum + amountOf(row), 0))} / year`);
-        }
-        return parts.join(' · ') || 'Active client';
+        const discount = Number(client.discount) || 0;
+        const tax = Number(client.taxAmount) || 0;
+        const total = Math.max(0, monthly - discount) + tax;
+        if (total) return `${money(total)} / month`;
+        return 'Active client';
+    }
+
+    function packageTotalFromForm(form) {
+        const num = (name) => Number(form.elements[name]?.value) || 0;
+        let monthly = num('managementAmount') + num('seoAmount') + num('aeoAmount') + num('maintenanceAmount');
+        const hosting = num('hostingAmount');
+        if (hosting) monthly += form.hostingCycle.value === 'yearly' ? hosting / 12 : hosting;
+        const discount = num('discount');
+        const tax = num('taxAmount');
+        return Math.round((Math.max(0, monthly - discount) + tax) * 100) / 100;
+    }
+
+    const CRED_KINDS = [
+        ['hosting', 'Hosting'],
+        ['domain', 'Domain'],
+        ['email', 'Email'],
+        ['app', 'Other app'],
+    ];
+
+    function credentialRow(data = {}) {
+        const options = CRED_KINDS.map(
+            ([id, label]) => `<option value="${id}"${data.kind === id ? ' selected' : ''}>${label}</option>`
+        ).join('');
+        const wrap = document.createElement('div');
+        wrap.className = 'dash-cred';
+        wrap.innerHTML = `<label>Type
+                <select data-cred="kind">${options}</select>
+            </label>
+            <label>Where
+                <input data-cred="label" type="text" value="${escapeHtml(data.label || '')}" placeholder="SiteGround, Hover, Google…">
+            </label>
+            <label>Login URL
+                <input data-cred="url" type="url" value="${escapeHtml(data.url || '')}" placeholder="https://">
+            </label>
+            <label>Username
+                <input data-cred="username" type="text" value="${escapeHtml(data.username || '')}" autocomplete="off">
+            </label>
+            <label>Password
+                <input data-cred="password" type="text" value="${escapeHtml(data.password || '')}" autocomplete="new-password">
+            </label>
+            <label>Notes
+                <input data-cred="notes" type="text" value="${escapeHtml(data.notes || '')}">
+            </label>
+            <button class="dash-form__remove" type="button" data-remove-credential>Remove</button>`;
+        return wrap;
+    }
+
+    function readCredentials(list) {
+        return [...list.querySelectorAll('.dash-cred')]
+            .map((row) => {
+                const get = (key) => row.querySelector(`[data-cred="${key}"]`)?.value.trim() || '';
+                const kind = get('kind') || 'app';
+                const label = get('label');
+                const url = get('url');
+                const username = get('username');
+                const password = row.querySelector('[data-cred="password"]')?.value || '';
+                const notes = get('notes');
+                if (!label && !url && !username && !password && !notes) return null;
+                return { kind, label, url, username, password, notes };
+            })
+            .filter(Boolean);
+    }
+
+    function setCredentials(list, rows) {
+        list.innerHTML = '';
+        const items = rows && rows.length ? rows : [{}];
+        for (const row of items) list.appendChild(credentialRow(row));
     }
 
     function setStat(key, value) {
@@ -227,6 +301,11 @@
         }
     }
 
+    function updateTotal(form) {
+        const el = $('[data-package-total]', form);
+        if (el) el.textContent = `${money(packageTotalFromForm(form))} / mo`;
+    }
+
     function payloadFrom(form) {
         const data = Object.fromEntries(new FormData(form).entries());
         const numberish = [
@@ -235,10 +314,13 @@
             'aeoAmount',
             'maintenanceAmount',
             'managementAmount',
+            'discount',
+            'taxAmount',
         ];
         for (const key of numberish) {
             if (data[key] === '') data[key] = '';
         }
+        data.credentials = readCredentials($('[data-credential-list]', form) || document);
         return data;
     }
 
@@ -258,6 +340,10 @@
         form.seoAmount.value = service(client, 'seo')?.amount || '';
         form.aeoAmount.value = service(client, 'aeo')?.amount || '';
         form.maintenanceAmount.value = service(client, 'maintenance')?.amount || '';
+        form.discount.value = client.discount || '';
+        form.taxAmount.value = client.taxAmount || '';
+        setCredentials($('[data-credential-list]', form), client.credentials || []);
+        updateTotal(form);
         form.querySelector('[type="submit"]').textContent = 'Save changes';
         form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -266,6 +352,7 @@
         if (!user || user.role !== 'staff') return;
         const form = $('[data-client-form]');
         if (!form) return;
+        setCredentials($('[data-credential-list]', form), [{}]);
 
         const errorEl = $('[data-form-error]', form);
         const okEl = $('[data-form-ok]', form);
@@ -299,7 +386,24 @@
             if (form.slug.value) return;
             if (form.platform.value === 'Static' && !form.managementAmount.value) {
                 form.managementAmount.value = '50';
+                updateTotal(form);
             }
+        });
+
+        form.addEventListener('input', () => updateTotal(form));
+        form.addEventListener('change', () => updateTotal(form));
+        updateTotal(form);
+
+        $('[data-add-credential]', form)?.addEventListener('click', () => {
+            $('[data-credential-list]', form).appendChild(credentialRow());
+        });
+
+        form.addEventListener('click', (event) => {
+            const remove = event.target.closest('[data-remove-credential]');
+            if (!remove) return;
+            const list = $('[data-credential-list]', form);
+            remove.closest('.dash-cred')?.remove();
+            if (!list.querySelector('.dash-cred')) list.appendChild(credentialRow());
         });
 
         form.addEventListener('reset', () => {
@@ -307,6 +411,8 @@
             form.querySelector('[type="submit"]').textContent = 'Save client';
             show(errorEl, '');
             show(okEl, '');
+            setCredentials($('[data-credential-list]', form), [{}]);
+            updateTotal(form);
         });
 
         form.addEventListener('submit', async (event) => {

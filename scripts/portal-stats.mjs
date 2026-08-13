@@ -82,6 +82,29 @@ export function hostingAccounts(clients, now = new Date()) {
     return rows;
 }
 
+export function packageTotals(client) {
+    let monthly = 0;
+    let yearly = 0;
+    for (const service of client.services || []) {
+        const amount = amountOf(service);
+        if (!amount) continue;
+        if (service.cycle === 'yearly') yearly += amount;
+        else monthly += amount;
+    }
+    const subtotal = monthly + yearly / 12;
+    const discount = Number(client.discount) || 0;
+    const tax = Number(client.taxAmount) || 0;
+    const total = Math.round((Math.max(0, subtotal - discount) + tax) * 100) / 100;
+    return {
+        monthly,
+        yearly,
+        subtotal: Math.round(subtotal * 100) / 100,
+        discount,
+        tax,
+        total,
+    };
+}
+
 export function portalStats(clients, now = new Date()) {
     const accounts = hostingAccounts(clients, now);
     const renewals = accounts.filter((row) => row.status === 'overdue' || row.status === 'due-soon');
@@ -99,12 +122,13 @@ export function portalStats(clients, now = new Date()) {
 
     for (const client of clients) {
         const start = clientStart(client);
+        const bill = packageTotals(client);
+        monthly += bill.total;
+        yearly += bill.yearly;
         for (const service of client.services || []) {
             const amount = amountOf(service);
             if (!amount) continue;
             const cycle = service.cycle === 'yearly' ? 'yearly' : 'monthly';
-            if (cycle === 'yearly') yearly += amount;
-            else monthly += amount;
             allTime += amount * billedPeriods(parseDate(service.lastBilled) || start, now, cycle);
             if (byType[service.type] != null) {
                 byType[service.type] += cycle === 'yearly' ? amount / 12 : amount;
@@ -122,9 +146,9 @@ export function portalStats(clients, now = new Date()) {
         recurring,
         recurringClients: recurring.seo + recurring.aeo + recurring.maintenance + recurring.management + recurring.combo,
         totals: {
-            monthly,
+            monthly: Math.round(monthly * 100) / 100,
             yearly,
-            annualized: monthly * 12 + yearly,
+            annualized: Math.round(monthly * 12 * 100) / 100,
             allTime,
             managementMonthly: Math.round(byType.management * 100) / 100,
             hostingMonthly: Math.round(byType.hosting * 100) / 100,

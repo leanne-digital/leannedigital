@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/tokens.css?v=20260813l">
-    <link rel="stylesheet" href="../css/base.css?v=20260813l">
-    <link rel="stylesheet" href="../css/header.css?v=20260813l">
-    <link rel="stylesheet" href="../css/page-inner.css?v=20260813l">
-    <link rel="stylesheet" href="../css/buttons.css?v=20260813l">
-    <link rel="stylesheet" href="../css/faq.css?v=20260813l">
-    <link rel="stylesheet" href="../css/clients.css?v=20260813l">
-    <link rel="stylesheet" href="../css/footer.css?v=20260813l">
+    <link rel="stylesheet" href="../css/tokens.css?v=20260813m">
+    <link rel="stylesheet" href="../css/base.css?v=20260813m">
+    <link rel="stylesheet" href="../css/header.css?v=20260813m">
+    <link rel="stylesheet" href="../css/page-inner.css?v=20260813m">
+    <link rel="stylesheet" href="../css/buttons.css?v=20260813m">
+    <link rel="stylesheet" href="../css/faq.css?v=20260813m">
+    <link rel="stylesheet" href="../css/clients.css?v=20260813m">
+    <link rel="stylesheet" href="../css/footer.css?v=20260813m">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -150,7 +150,7 @@
                 <h2 class="client-reports__heading">Revenue</h2>
                 <div class="dash-grid">
                 <article class="dash-stat dash-stat--money">
-                    <p class="dash-stat__value" data-stat="rev-monthly">$375 CAD</p>
+                    <p class="dash-stat__value" data-stat="rev-monthly">$637.48 CAD</p>
                     <h2 class="dash-stat__label">Monthly total</h2>
                 </article>
                 <article class="dash-stat dash-stat--money">
@@ -166,7 +166,7 @@
                     <h2 class="dash-stat__label">Hosting / mo (avg)</h2>
                 </article>
                 <article class="dash-stat dash-stat--money">
-                    <p class="dash-stat__value" data-stat="rev-annualized">$7650 CAD</p>
+                    <p class="dash-stat__value" data-stat="rev-annualized">$7649.76 CAD</p>
                     <h2 class="dash-stat__label">Annualized</h2>
                 </article>
                 <article class="dash-stat dash-stat--money">
@@ -269,11 +269,12 @@
                     <p class="login-form__error" data-form-error hidden></p>
                     <p class="login-form__ok" data-form-ok hidden></p>
                     <input type="hidden" name="slug" value="">
+                    <h3 class="dash-form__heading">Client</h3>
                     <div class="dash-form__grid">
                         <label>Client name
                             <input name="name" type="text" required>
                         </label>
-                        <label>Login email
+                        <label>Portal login email
                             <input name="email" type="email" autocomplete="off">
                         </label>
                         <label>Website
@@ -287,6 +288,14 @@
                                 <option value="Other">Other</option>
                             </select>
                         </label>
+                    </div>
+                    <h3 class="dash-form__heading">Credentials</h3>
+                    <p class="dash-copy dash-copy--left">Logins for hosting, domain, email, and other apps. Staff only — clients never see this.</p>
+                    <div class="dash-creds" data-credential-list></div>
+                    <p><button class="dash-form__add" type="button" data-add-credential>Add login</button></p>
+                    <h3 class="dash-form__heading">Packages</h3>
+                    <p class="dash-copy dash-copy--left">Our hosting, site management, maintenance, SEO, and AEO. Static sites start at $50/month management.</p>
+                    <div class="dash-form__grid">
                         <label>Hosting amount
                             <input name="hostingAmount" type="number" min="0" step="1" placeholder="250">
                         </label>
@@ -314,8 +323,15 @@
                         <label>Maintenance / mo
                             <input name="maintenanceAmount" type="number" min="0" step="1">
                         </label>
+                        <label>Discount
+                            <input name="discount" type="number" min="0" step="1" placeholder="0">
+                        </label>
+                        <label>Tax amount
+                            <input name="taxAmount" type="number" min="0" step="0.01" placeholder="0">
+                        </label>
                     </div>
-                    <p class="dash-copy">Static sites start at $50/month management. Leave a field blank to skip that service.</p>
+                    <p class="dash-form__total">Total <strong data-package-total>$0 / mo</strong></p>
+                    <p class="dash-copy dash-copy--left">Yearly hosting is averaged into the monthly total. Discount comes off before tax.</p>
                     <div class="dash-form__actions">
                         <button class="ld-btn" type="submit">Save client</button>
                         <button class="dash-form__reset" type="reset">Clear</button>
@@ -352,7 +368,7 @@
                     <a href="/clients/ckf/">
                     <h2 class="client-card__name">CKF</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$1000 CAD / year</p>
+                    <p class="client-card__meta">$83.33 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -376,7 +392,7 @@
                     <a href="/clients/durango-holiday-home/">
                     <h2 class="client-card__name">Durango Holiday Home</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$250 CAD / year</p>
+                    <p class="client-card__meta">$20.83 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -388,7 +404,7 @@
                     <a href="/clients/emily-hart-coaching/">
                     <h2 class="client-card__name">Emily Hart Coaching</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$300 CAD / year</p>
+                    <p class="client-card__meta">$25 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -424,7 +440,7 @@
                     <a href="/clients/krane-mechanical-and-electrical/">
                     <h2 class="client-card__name">Krane Mechanical &amp; Electrical</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$250 CAD / year</p>
+                    <p class="client-card__meta">$20.83 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -448,7 +464,7 @@
                     <a href="/clients/mth-landscaping/">
                     <h2 class="client-card__name">MTH Landscaping</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$250 CAD / year</p>
+                    <p class="client-card__meta">$20.83 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -484,7 +500,7 @@
                     <a href="/clients/rational-wealth/">
                     <h2 class="client-card__name">Rational Wealth</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$300 CAD / year</p>
+                    <p class="client-card__meta">$25 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -508,7 +524,7 @@
                     <a href="/clients/sd-accounting/">
                     <h2 class="client-card__name">SD Accounting</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$250 CAD / year</p>
+                    <p class="client-card__meta">$20.83 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -556,7 +572,7 @@
                     <a href="/clients/straightforward-bookkeeping/">
                     <h2 class="client-card__name">Straightforward Bookkeeping</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$300 CAD / year</p>
+                    <p class="client-card__meta">$25 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -568,7 +584,7 @@
                     <a href="/clients/thank-you-for-dating-with-us/">
                     <h2 class="client-card__name">Thank You For Dating With Us</h2>
                     <p class="client-card__tags"><span class="client-tag">Hosting</span></p>
-                    <p class="client-card__meta">$250 CAD / year</p>
+                    <p class="client-card__meta">$20.83 CAD / month</p>
                     <span class="client-card__cta">Open client</span>
                     </a>
                     <p class="client-card__admin" data-admin-only>
@@ -648,9 +664,9 @@
             </div>
         </div>
     </footer>
-    <script type="application/json" id="ld-clients-data">[{"slug":"azimut-yachts-charter","name":"Azimut Yachts Charter","email":"govidovi@gmail.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Goran Vidović","hosting":{"type":"External","provider":"HostGator","lddHosted":false},"services":[]},{"slug":"cerebral-findomme","name":"Cerebral Findomme","email":"carolineharrington214@gmail.com","website":"https://cerebralfindomme.com/","platform":"WordPress","googleDrive":"","contactName":"Caroline","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[]},{"slug":"ckf","name":"CKF","email":"BGendelman@ckfinc.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Benny Gendelman","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":1000,"cycle":"yearly","taxRate":5,"lastBilled":"2026-04-25","nextBillDate":"2027-04-25"}]},{"slug":"davis-window-and-door","name":"Davis Window and Door","email":"mauricio.jaimes@daviswin.com","website":"https://daviswin.com/","platform":"WordPress","googleDrive":"","contactName":"Mauricio James","hosting":{"type":"External","provider":"Other","lddHosted":false},"services":[{"type":"maintenance","label":"Website Maintenance & Protection","amount":75},{"type":"aeo","label":"Technical SEO & AEO","amount":300}]},{"slug":"durango-holiday-home","name":"Durango Holiday Home","email":"lorrieboone@durangoholidayhome.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Lorrie Boone","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-05-13","nextBillDate":"2027-05-13"}]},{"slug":"emily-hart-coaching","name":"Emily Hart Coaching","email":"emily@emilyhartcoaching.com","website":"https://emilyhart.kartra.com/","platform":"Other","googleDrive":"","contactName":"Emily Hart","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":300,"cycle":"yearly","taxRate":5,"lastBilled":"2026-06-12","nextBillDate":"2027-06-12"}]},{"slug":"floco-decking-systems","name":"Floco Decking Systems","email":"lexi@flocodeckingsystems.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Lexi Aarnes","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[]},{"slug":"gbt-logistics","name":"GBT Logistics","email":"priyangshi.c@gbtinc.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Priya","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[]},{"slug":"krane-mechanical-and-electrical","name":"Krane Mechanical & Electrical","email":"ashley.massey@kenon.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Ashley","hosting":{"type":"External","provider":"SiteGround","lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2025-12-19","nextBillDate":"2026-12-18"}]},{"slug":"mr-pool-guy","name":"Mr. Pool Guy","email":"camden@itsmrpoolguy.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Camden Croucher","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[]},{"slug":"mth-landscaping","name":"MTH Landscaping","email":"mthlandscapes@gmail.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Mack Harman","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-06-05","nextBillDate":"2027-06-05"}]},{"slug":"oatley-vigmond","name":"Oatley Vigmond","email":"ctalaugon@oatleyvigmond.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Claudia Talaugon","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[{"type":"seo","label":"Monthly SEO"}]},{"slug":"osekowa","name":"Osekowa","email":"crystal@osekowa.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Crystal","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[]},{"slug":"rational-wealth","name":"Rational Wealth","email":"bradon@sdaccounting.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Bradon Levalds","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[{"type":"hosting","label":"LDD Hosting","amount":300,"cycle":"yearly","taxRate":5,"lastBilled":"2026-07-10","nextBillDate":"2027-07-10"}]},{"slug":"routein","name":"Routein","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"Aiden","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[]},{"slug":"sd-accounting","name":"SD Accounting","email":"bradon@sdaccounting.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Bradon Levalds","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-04-17","nextBillDate":"2027-04-17"}]},{"slug":"shift-physiotherapy","name":"Shift Physiotherapy","email":"","website":"","platform":"","googleDrive":"","contactName":"","hosting":null,"services":[{"type":"seo","label":"Monthly SEO"}]},{"slug":"sierra-electrical","name":"Sierra Electrical","email":"bryan@sierraelectrical.com","website":"https://sierraelectrical.com","platform":"WordPress","googleDrive":"","contactName":"Bryan Beger","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[{"type":"seo","label":"Monthly SEO"}]},{"slug":"sisters-of-the-holy-rock","name":"Sisters of the Holy Rock","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[]},{"slug":"straightforward-bookkeeping","name":"Straightforward Bookkeeping","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"Victoria Madison","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[{"type":"hosting","label":"LDD Hosting","amount":300,"cycle":"yearly","taxRate":5,"lastBilled":"2026-07-17","nextBillDate":"2027-07-17"}]},{"slug":"thank-you-for-dating-with-us","name":"Thank You For Dating With Us","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"Jaida Pervis","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-08-05","nextBillDate":"2027-08-05"}]},{"slug":"ti-yende-movers-and-transportation","name":"Ti-Yende Movers & Transportation","email":"ti-yendemovers@live.com","website":"https://manage.wix.com/","platform":"Wix","googleDrive":"","contactName":"William Chishimba","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[]},{"slug":"we-film-events","name":"We Film Events","email":"trevor@wefilmevents.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Trevor Marples","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[]}]</script>
+    <script type="application/json" id="ld-clients-data">[{"slug":"azimut-yachts-charter","name":"Azimut Yachts Charter","email":"govidovi@gmail.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Goran Vidović","hosting":{"type":"External","provider":"HostGator","lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"cerebral-findomme","name":"Cerebral Findomme","email":"carolineharrington214@gmail.com","website":"https://cerebralfindomme.com/","platform":"WordPress","googleDrive":"","contactName":"Caroline","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"ckf","name":"CKF","email":"BGendelman@ckfinc.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Benny Gendelman","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":1000,"cycle":"yearly","taxRate":5,"lastBilled":"2026-04-25","nextBillDate":"2027-04-25"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"davis-window-and-door","name":"Davis Window and Door","email":"mauricio.jaimes@daviswin.com","website":"https://daviswin.com/","platform":"WordPress","googleDrive":"","contactName":"Mauricio James","hosting":{"type":"External","provider":"Other","lddHosted":false},"services":[{"type":"maintenance","label":"Website Maintenance & Protection","amount":75},{"type":"aeo","label":"Technical SEO & AEO","amount":300}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"durango-holiday-home","name":"Durango Holiday Home","email":"lorrieboone@durangoholidayhome.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Lorrie Boone","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-05-13","nextBillDate":"2027-05-13"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"emily-hart-coaching","name":"Emily Hart Coaching","email":"emily@emilyhartcoaching.com","website":"https://emilyhart.kartra.com/","platform":"Other","googleDrive":"","contactName":"Emily Hart","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":300,"cycle":"yearly","taxRate":5,"lastBilled":"2026-06-12","nextBillDate":"2027-06-12"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"floco-decking-systems","name":"Floco Decking Systems","email":"lexi@flocodeckingsystems.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Lexi Aarnes","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"gbt-logistics","name":"GBT Logistics","email":"priyangshi.c@gbtinc.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Priya","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"krane-mechanical-and-electrical","name":"Krane Mechanical & Electrical","email":"ashley.massey@kenon.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Ashley","hosting":{"type":"External","provider":"SiteGround","lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2025-12-19","nextBillDate":"2026-12-18"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"mr-pool-guy","name":"Mr. Pool Guy","email":"camden@itsmrpoolguy.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Camden Croucher","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"mth-landscaping","name":"MTH Landscaping","email":"mthlandscapes@gmail.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Mack Harman","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-06-05","nextBillDate":"2027-06-05"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"oatley-vigmond","name":"Oatley Vigmond","email":"ctalaugon@oatleyvigmond.com","website":"","platform":"WordPress","googleDrive":"","contactName":"Claudia Talaugon","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[{"type":"seo","label":"Monthly SEO"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"osekowa","name":"Osekowa","email":"crystal@osekowa.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Crystal","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"rational-wealth","name":"Rational Wealth","email":"bradon@sdaccounting.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Bradon Levalds","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[{"type":"hosting","label":"LDD Hosting","amount":300,"cycle":"yearly","taxRate":5,"lastBilled":"2026-07-10","nextBillDate":"2027-07-10"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"routein","name":"Routein","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"Aiden","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"sd-accounting","name":"SD Accounting","email":"bradon@sdaccounting.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Bradon Levalds","hosting":{"type":"External","provider":null,"lddHosted":true},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-04-17","nextBillDate":"2027-04-17"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"shift-physiotherapy","name":"Shift Physiotherapy","email":"","website":"","platform":"","googleDrive":"","contactName":"","hosting":null,"services":[{"type":"seo","label":"Monthly SEO"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"sierra-electrical","name":"Sierra Electrical","email":"bryan@sierraelectrical.com","website":"https://sierraelectrical.com","platform":"WordPress","googleDrive":"","contactName":"Bryan Beger","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[{"type":"seo","label":"Monthly SEO"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"sisters-of-the-holy-rock","name":"Sisters of the Holy Rock","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"straightforward-bookkeeping","name":"Straightforward Bookkeeping","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"Victoria Madison","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[{"type":"hosting","label":"LDD Hosting","amount":300,"cycle":"yearly","taxRate":5,"lastBilled":"2026-07-17","nextBillDate":"2027-07-17"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"thank-you-for-dating-with-us","name":"Thank You For Dating With Us","email":"","website":"","platform":"WordPress","googleDrive":"","contactName":"Jaida Pervis","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[{"type":"hosting","label":"LDD Hosting","amount":250,"cycle":"yearly","taxRate":5,"lastBilled":"2026-08-05","nextBillDate":"2027-08-05"}],"credentials":[],"discount":0,"taxAmount":0},{"slug":"ti-yende-movers-and-transportation","name":"Ti-Yende Movers & Transportation","email":"ti-yendemovers@live.com","website":"https://manage.wix.com/","platform":"Wix","googleDrive":"","contactName":"William Chishimba","hosting":{"type":"External","provider":"SiteGround","lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0},{"slug":"we-film-events","name":"We Film Events","email":"trevor@wefilmevents.ca","website":"","platform":"WordPress","googleDrive":"","contactName":"Trevor Marples","hosting":{"type":"External","provider":null,"lddHosted":false},"services":[],"credentials":[],"discount":0,"taxAmount":0}]</script>
     <script src="../js/site-nav.js" defer></script>
-    <script src="../js/portal-auth.js?v=20260813i" defer></script>
-    <script src="../js/portal-admin.js?v=20260813i" defer></script>
+    <script src="../js/portal-auth.js?v=20260813l" defer></script>
+    <script src="../js/portal-admin.js?v=20260813m" defer></script>
 </body>
 </html>

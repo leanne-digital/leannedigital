@@ -9,7 +9,7 @@ import {
 } from './layout.mjs';
 import { SITE_URL } from './site-config.mjs';
 import { loadClients } from './client-store.mjs';
-import { portalStats } from './portal-stats.mjs';
+import { portalStats, packageTotals } from './portal-stats.mjs';
 import { generateLoginPages } from './generate-login.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
 
@@ -68,10 +68,10 @@ function serviceTags(client) {
 function portalScripts(depth, admin = false) {
     const prefix = '../'.repeat(depth);
     const adminScript = admin
-        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260813i" defer></script>`
+        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260813m" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260813i" defer></script>${adminScript}`;
+    <script src="${prefix}js/portal-auth.js?v=20260813l" defer></script>${adminScript}`;
 }
 
 function renderLinks(client) {
@@ -203,11 +203,12 @@ ${totals}
                     <p class="login-form__error" data-form-error hidden></p>
                     <p class="login-form__ok" data-form-ok hidden></p>
                     <input type="hidden" name="slug" value="">
+                    <h3 class="dash-form__heading">Client</h3>
                     <div class="dash-form__grid">
                         <label>Client name
                             <input name="name" type="text" required>
                         </label>
-                        <label>Login email
+                        <label>Portal login email
                             <input name="email" type="email" autocomplete="off">
                         </label>
                         <label>Website
@@ -221,6 +222,14 @@ ${totals}
                                 <option value="Other">Other</option>
                             </select>
                         </label>
+                    </div>
+                    <h3 class="dash-form__heading">Credentials</h3>
+                    <p class="dash-copy dash-copy--left">Logins for hosting, domain, email, and other apps. Staff only — clients never see this.</p>
+                    <div class="dash-creds" data-credential-list></div>
+                    <p><button class="dash-form__add" type="button" data-add-credential>Add login</button></p>
+                    <h3 class="dash-form__heading">Packages</h3>
+                    <p class="dash-copy dash-copy--left">Our hosting, site management, maintenance, SEO, and AEO. Static sites start at $50/month management.</p>
+                    <div class="dash-form__grid">
                         <label>Hosting amount
                             <input name="hostingAmount" type="number" min="0" step="1" placeholder="250">
                         </label>
@@ -248,8 +257,15 @@ ${totals}
                         <label>Maintenance / mo
                             <input name="maintenanceAmount" type="number" min="0" step="1">
                         </label>
+                        <label>Discount
+                            <input name="discount" type="number" min="0" step="1" placeholder="0">
+                        </label>
+                        <label>Tax amount
+                            <input name="taxAmount" type="number" min="0" step="0.01" placeholder="0">
+                        </label>
                     </div>
-                    <p class="dash-copy">Static sites start at $50/month management. Leave a field blank to skip that service.</p>
+                    <p class="dash-form__total">Total <strong data-package-total>$0 / mo</strong></p>
+                    <p class="dash-copy dash-copy--left">Yearly hosting is averaged into the monthly total. Discount comes off before tax.</p>
                     <div class="dash-form__actions">
                         <button class="ld-btn" type="submit">Save client</button>
                         <button class="dash-form__reset" type="reset">Clear</button>
@@ -266,16 +282,14 @@ function renderIndex(clients) {
                 .join('');
             const reports = client.reports || [];
             const billed = (client.services || []).filter((service) => service.amount);
-            const monthly = billed.filter((service) => service.cycle !== 'yearly');
-            const yearly = billed.filter((service) => service.cycle === 'yearly');
-            const totals = [];
-            if (monthly.length) totals.push(`${money(serviceTotal(monthly))} / month`);
-            if (yearly.length) totals.push(`${money(serviceTotal(yearly))} / year`);
-            const total = totals.length
-                ? totals.join(' · ')
-                : reports.length
-                    ? `${reports.length} monthly report${reports.length === 1 ? '' : 's'}`
-                    : 'Active client';
+            const bill = packageTotals(client);
+            const total = bill.total
+                ? `${money(bill.total)} / month`
+                : billed.length
+                    ? cycleLabel(billed[0])
+                    : reports.length
+                        ? `${reports.length} monthly report${reports.length === 1 ? '' : 's'}`
+                        : 'Active client';
             return `                <article class="client-card" data-client-slug="${escapeHtml(client.slug)}">
                     <a href="/clients/${escapeHtml(client.slug)}/">
                     <h2 class="client-card__name">${escapeHtml(client.name)}</h2>
@@ -328,6 +342,9 @@ ${renderFullFooter(1)}
         contactName: client.contactName || '',
         hosting: client.hosting || null,
         services: client.services || [],
+        credentials: client.credentials || [],
+        discount: Number(client.discount) || 0,
+        taxAmount: Number(client.taxAmount) || 0,
     }))).replace(/</g, '\\u003c')}</script>
 ${portalScripts(1, true)}
 </body>
@@ -337,7 +354,7 @@ ${portalScripts(1, true)}
 
 function renderRetainer(client) {
     const services = client.services || [];
-    if (!services.length) return '';
+    if (!services.length && !client.discount && !client.taxAmount) return '';
     const rows = services
         .map((service) => {
             const amount = service.amount ? cycleLabel(service) : 'Included';
@@ -347,24 +364,33 @@ function renderRetainer(client) {
                     </div>`;
         })
         .join('\n');
-    const billed = services.filter((service) => service.amount);
-    const monthly = billed.filter((service) => service.cycle !== 'yearly');
-    const yearly = billed.filter((service) => service.cycle === 'yearly');
-    const totals = [];
-    if (monthly.length) totals.push(`${money(serviceTotal(monthly))} / month`);
-    if (yearly.length) totals.push(`${money(serviceTotal(yearly))} / year`);
-    const nextBill = billed.find((service) => service.nextBillDate)?.nextBillDate;
+    const bill = packageTotals(client);
+    const extras = [];
+    if (bill.discount) {
+        extras.push(`                    <div class="client-retainer__row">
+                        <span>Discount</span>
+                        <strong>−${escapeHtml(money(bill.discount))} / month</strong>
+                    </div>`);
+    }
+    if (bill.tax) {
+        extras.push(`                    <div class="client-retainer__row">
+                        <span>Tax</span>
+                        <strong>${escapeHtml(money(bill.tax))} / month</strong>
+                    </div>`);
+    }
+    const nextBill = services.find((service) => service.nextBillDate)?.nextBillDate;
     const footer = [
-        totals.length ? `<p class="client-retainer__total">${escapeHtml(totals.join(' · '))}</p>` : '',
+        bill.total ? `<p class="client-retainer__total">Total ${escapeHtml(money(bill.total))} / month</p>` : '',
         nextBill ? `<p class="client-retainer__next">Next hosting bill ${escapeHtml(nextBill)}</p>` : '',
     ]
         .filter(Boolean)
         .join('\n');
 
     return `            <section class="client-retainer">
-                <h2 class="client-reports__heading">Retainer</h2>
+                <h2 class="client-reports__heading">Packages</h2>
                 <div class="client-retainer__card">
 ${rows}
+${extras.join('\n')}
                     ${footer}
                 </div>
             </section>`;
