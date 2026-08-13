@@ -31,7 +31,8 @@
     "slug": "effy-blue",
     "path": "/projects/effy-blue/",
     "title": "Effy Blue",
-    "description": "",
+    "seoTitle": "Effy Blue Coaching Website Design",
+    "description": "Custom website for Effy Blue, an ethical non-monogamy coach, with a warm design and clear paths to book a coaching call.",
     "tags": [
       "web_design-full-custom",
       "industry-dating"
@@ -102,8 +103,8 @@
   {
     "slug": "krane-electrical-mechanical",
     "path": "/projects/krane-electrical-mechanical/",
-    "title": "Krane Electrical + Mechanical",
-    "description": "",
+    "title": "Krane Electrical + Mechanical Website",
+    "description": "One-page website for Krane Electrical + Mechanical, built to showcase electrical and mechanical services and position the company as a trusted trades expert.",
     "tags": [
       "web_design-one-page"
     ],
@@ -115,8 +116,8 @@
   {
     "slug": "krane-electrical-mechanical-branding-logo-design",
     "path": "/projects/krane-electrical-mechanical-branding-logo-design/",
-    "title": "Krane Electrical + Mechanical",
-    "description": "",
+    "title": "Krane Electrical + Mechanical Branding",
+    "description": "Brand identity and logo design for Krane Electrical + Mechanical, plus a one-page WordPress site with an industrial look that builds trust and drives inquiries.",
     "tags": [
       "web_design-one-page",
       "graphic_design-branding",
@@ -161,7 +162,8 @@
     "slug": "mr-pool-guy",
     "path": "/projects/mr-pool-guy/",
     "title": "Mr. Pool Guy",
-    "description": "",
+    "seoTitle": "Mr. Pool Guy Miami Pool Service Website",
+    "description": "Custom website for Mr. Pool Guy in Miami, designed to look tropical, build trust, and help homeowners find pool cleaning and repair services.",
     "tags": [
       "web_design-full-custom"
     ],
@@ -188,7 +190,8 @@
     "slug": "osekowa",
     "path": "/projects/osekowa/",
     "title": "Oséko:wa",
-    "description": "",
+    "seoTitle": "Oséko:wa Indigenous Furniture Website",
+    "description": "Bilingual website for Oséko:wa, an Indigenous-owned furniture supplier, built for government procurement and a professional first impression.",
     "tags": [
       "web_design-full-custom",
       "graphic_design-indigenous-design",

@@ -141,7 +141,7 @@ function renderProjectPage(project, projects, depth) {
     };
 
     return `${renderHead({
-        title: `${escapeHtml(project.title)} | Leanne Digital`,
+        title: `${escapeHtml(project.seoTitle || project.title)} | Leanne Digital`,
         description: escapeHtml(project.description || project.title),
         depth,
         extraCss: ['project.css'],

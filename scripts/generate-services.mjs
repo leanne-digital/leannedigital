@@ -211,7 +211,7 @@ function renderServicePage(page, depth) {
         : renderFaqSection(faqs);
 
     return `${renderHead({
-        title: `${escapeHtml(page.title)} | Leanne Digital`,
+        title: `${escapeHtml(page.seoTitle || page.title)} | Leanne Digital`,
         description: escapeHtml(page.description || page.title),
         depth,
         extraCss: ['services.css', 'service-page.css', 'contact.css'],

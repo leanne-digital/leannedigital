@@ -86,7 +86,7 @@ ${renderList(items, titles)}
         .join('\n');
 
     const html = `${renderHead({
-        title: 'Sitemap | Leanne Digital',
+        title: 'HTML Sitemap of Pages, Services & Blog | Leanne Digital',
         description: 'A simple list of pages and posts on Leanne Digital, including services, portfolio, and blog.',
         depth: 1,
         extraCss: ['legal.css'],

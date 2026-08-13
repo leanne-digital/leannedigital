@@ -157,7 +157,7 @@ function renderPostPage(post, posts, depth) {
     };
 
     return `${renderHead({
-        title: `${escapeHtml(post.title)} | Leanne Digital`,
+        title: `${escapeHtml(post.seoTitle || post.title)} | Leanne Digital`,
         description: escapeHtml(post.description),
         depth,
         extraCss: ['blog-post.css'],
