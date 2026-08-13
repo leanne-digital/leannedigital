@@ -12,7 +12,7 @@
     z-index: 0;
     background:
         radial-gradient(circle at 50% 18%, rgba(78, 195, 204, 0.12), transparent 42%),
-        var(--ld-bg-gradient);
+        var(--ld-bg-solid);
 }
 
 .hero__picture {

@@ -50,6 +50,12 @@ main > section {
     padding-bottom: var(--ld-section-gap);
 }
 
+main > section.hero,
+main > section.trust-bar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
