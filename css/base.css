@@ -50,7 +50,11 @@ main > section {
     padding-bottom: var(--ld-section-gap);
 }
 
-main > section.hero,
+main > section.hero {
+    padding-top: calc(var(--ld-header-height) + 1.75rem);
+    padding-bottom: 0;
+}
+
 main > section.trust-bar {
     padding-top: 0;
     padding-bottom: 0;
