@@ -108,6 +108,7 @@ export function renderHead({
     extraCss = [],
 }) {
     const prefix = assetPrefix(depth);
+    const CSS_V = '20260813e';
     const cssLinks = [
         'tokens.css',
         'base.css',
@@ -118,7 +119,7 @@ export function renderHead({
         ...extraCss,
         'footer.css',
     ]
-        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}">`)
+        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}?v=${CSS_V}">`)
         .join('\n');
 
     return `<!DOCTYPE html>

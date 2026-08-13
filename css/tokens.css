@@ -10,6 +10,7 @@
     --ld-text: #ffffff;
     --ld-text-muted: rgba(255, 255, 255, 0.78);
     --ld-border: rgba(255, 255, 255, 0.08);
+    --ld-card-border: rgba(255, 255, 255, 0.12);
     --ld-font-display: "Nunito", system-ui, sans-serif;
     --ld-font-body: "Lato", system-ui, sans-serif;
     --ld-font-nav: "Open Sans", system-ui, sans-serif;

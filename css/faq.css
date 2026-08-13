@@ -19,7 +19,7 @@
 
 .page-faq__item {
     padding: 0.85rem 1.1rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--ld-card-border);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.03);
 }

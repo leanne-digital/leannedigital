@@ -56,6 +56,7 @@
 
 .contact-hero__form-panel {
     padding: var(--ld-section-gap);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background:
         linear-gradient(rgba(12, 13, 27, 0.82), rgba(12, 13, 27, 0.88)),

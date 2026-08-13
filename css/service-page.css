@@ -290,7 +290,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
 
 .service-card {
     padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--ld-card-border);
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.03);
 }
@@ -572,7 +572,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     gap: 0.85rem;
     align-content: start;
     padding: 1.35rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(8, 10, 20, 0.55);
 }
@@ -756,7 +756,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     padding: 0.85rem;
     border-radius: 16px;
     background: linear-gradient(145deg, rgba(78, 195, 204, 0.12), rgba(255, 255, 255, 0.03));
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--ld-card-border);
 }
 
 .ld-section-inner--why-us > .ld-col > .ld-col:nth-child(2) {
@@ -851,7 +851,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     gap: 0.85rem;
     align-content: start;
     padding: 1.35rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(8, 10, 20, 0.55);
 }
@@ -924,7 +924,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     gap: clamp(1rem, 2.5vw, 2rem);
     align-items: start;
     padding: clamp(1.25rem, 2.5vw, 1.75rem);
-    border: 1px solid rgba(78, 195, 204, 0.35);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(8, 10, 20, 0.45);
     text-align: left;
@@ -997,7 +997,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     display: grid;
     grid-template-rows: auto 1fr;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(8, 10, 20, 0.55);
 }
@@ -1079,7 +1079,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     align-items: center;
     gap: 0.75rem;
     padding: 0.9rem 1.15rem;
-    border: 1px solid rgba(78, 195, 204, 0.17);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(8, 10, 20, 0.45);
 }
@@ -1174,17 +1174,14 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     align-content: start;
     height: 100%;
     padding: 1.75rem 1.5rem 2rem;
-    border: 1px solid rgba(78, 195, 204, 0.28);
+    border: 1px solid var(--ld-accent);
     border-radius: 16px;
     background: rgba(10, 14, 28, 0.78);
     text-align: left;
 }
 
 .ld-pricing-card--featured {
-    border-color: var(--ld-accent);
-    box-shadow:
-        0 0 0 1px var(--ld-accent),
-        0 0 32px rgba(78, 195, 204, 0.38);
+    box-shadow: 0 0 12px rgba(78, 195, 204, 0.2);
 }
 
 .ld-pricing-card h2 {
@@ -1356,14 +1353,14 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     align-content: start;
     height: 100%;
     padding: 1.35rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(8, 10, 20, 0.55);
 }
 
 .ld-icon-card {
     padding: 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--ld-card-border);
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.03);
 }
@@ -1445,7 +1442,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     min-height: 4.5rem;
     margin: 0;
     padding: 1.15rem 1.35rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.03);
 }
@@ -1542,7 +1539,7 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     gap: 0.55rem;
     min-height: 7.5rem;
     padding: 1.1rem 0.7rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--ld-card-border);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.03);
 }
