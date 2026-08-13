@@ -239,6 +239,7 @@
     }
 
     async function localApiAlive() {
+        if (validLilipadd() || hasPlatformLoader()) return false;
         try {
             const res = await fetch('/api/auth/me', { credentials: 'include' });
             return isJsonResponse(res);
@@ -251,19 +252,20 @@
         if (document.querySelector('.portal-bar')) return;
         const bar = document.createElement('div');
         bar.className = 'portal-bar';
-        const dashboard =
-            user.role === 'staff'
-                ? '<a href="/clients/">Dashboard</a>'
-                : user.clientSlug
-                    ? `<a href="/clients/${user.clientSlug}/">Your portal</a>`
-                    : '';
-        bar.innerHTML = `${dashboard}<span class="portal-bar__email"></span><button type="button">Log out</button>`;
+        bar.setAttribute('role', 'navigation');
+        bar.setAttribute('aria-label', 'Account');
+        const dashboardHref = user.role === 'staff' || !user.clientSlug
+            ? '/clients/'
+            : `/clients/${user.clientSlug}/`;
+        const dashboardLabel = user.role === 'staff' || !user.clientSlug ? 'Dashboard' : 'Your portal';
+        bar.innerHTML = `<a class="portal-bar__dash" href="${dashboardHref}">${dashboardLabel}</a><span class="portal-bar__email"></span><button type="button">Log out</button>`;
         bar.querySelector('.portal-bar__email').textContent = user.email;
         bar.querySelector('button').addEventListener('click', async () => {
             await api.logout();
             location.replace('/login/');
         });
         document.body.prepend(bar);
+        document.documentElement.classList.add('has-portal-bar');
     }
 
     function applyRole(user) {

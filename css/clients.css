@@ -311,35 +311,6 @@
     margin-top: 1rem;
 }
 
-.portal-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.75rem 1rem;
-    padding: 0.65rem var(--ld-gutter);
-    background: rgba(12, 13, 27, 0.92);
-    border-bottom: 1px solid var(--ld-border);
-    font-size: 0.9rem;
-    color: var(--ld-text-muted);
-}
-
-.portal-bar__email {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.portal-bar button {
-    border: 0;
-    background: transparent;
-    color: var(--ld-accent);
-    font: inherit;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-}
-
 .client-reports__heading {
     margin: 0 0 1.25rem;
     text-align: center;
@@ -448,12 +419,6 @@
     color: var(--ld-accent);
     font-size: 0.75rem;
     font-weight: 700;
-}
-
-.portal-bar a {
-    color: var(--ld-accent);
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
 }
 
 .dash-panel {
