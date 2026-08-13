@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { faqsForPath, htmlHasVisibleFaq, renderFaqSection } from './seo.mjs';
 import { transformHtml } from './lilipadd-slots.mjs';
+import { bakeSeoIntoTree } from './bake-seo.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -72,6 +73,8 @@ function main() {
         fs.writeFileSync(filePath, html, 'utf8');
         console.log(`Lilipadd-patched ${page.file}`);
     }
+    const baked = bakeSeoIntoTree();
+    console.log(`Baked SEO titles into ${baked.changed}/${baked.files} pages.`);
 }
 
 main();

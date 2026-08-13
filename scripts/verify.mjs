@@ -52,7 +52,7 @@ function checkPage(file) {
     if (!hasHeadSlot) issues.push('missing <!-- lp:custom-head --> slot');
     if (!hasBodyEnd) issues.push('missing <!-- lp:custom-body-end --> slot');
     if (!hasLoader) issues.push('missing platform.js loader placeholders');
-    if (hasBakedTitle) issues.push('baked <title> should live in Lilipadd SEO, not git');
+    if (!isPrivate(pagePath) && !hasBakedTitle) issues.push('missing <title> tag');
     if (hasGtag) issues.push('baked Google tag — use Lilipadd custom code / Google settings');
     if (hasLocalSnippet) issues.push('legacy snippet.js / localhost loader');
     if (hasLocalForm) issues.push('form still posts to /api/contact or loads contact-form.js');

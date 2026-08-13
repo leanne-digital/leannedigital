@@ -6,44 +6,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/5-easy-seo-fixes-you-can-do-today-on-your-wordpress-site/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “5 Easy SEO Fixes You Can Do Today on Your WordPress Site” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "SEO in 30 Minutes or Less (Seriously!) So, you’ve got your WordPress website up and running, but it's not showing up on Google the way you want it to. Don’t stress — improving…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Gary Burns at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/about/",
@@ -98,44 +61,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/anatomy-of-a-high-converting-hero/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Anatomy of a High-Converting Hero” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "What is a Hero? Your&nbsp;hero section&nbsp;is your website’s&nbsp;first impression—and let’s be real, first impressions&nbsp;matter. It’s that&nbsp;big, bold section&nbsp;at the…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/answer-engine-optimization-aeo/",
@@ -198,74 +124,16 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/blog/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What does the Leanne Digital blog cover?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Practical articles on web design, SEO, branding, WordPress, and running a small business website — written from a Winnipeg studio that does this work every day."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who writes the articles?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Posts are written by Leanne Jones and Gary Burns, the team behind Leanne Digital."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I get help applying these tips to my site?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. If you want the work done for you, book a call or send a message and we can look at your website together."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/blog/page/2/",
     "title": "Blog — Page 2 | Leanne Digital",
     "description": "Leanne Digital is a Winnipeg-based studio helping small businesses grow through smart web design, development, SEO, and branding. Explore tips, insights, and inspiration.",
-    "robots": "noindex,nofollow",
+    "robots": "index,follow",
     "canonical": "https://leannedigital.com/blog/page/2/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What does the Leanne Digital blog cover?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Practical articles on web design, SEO, branding, WordPress, and running a small business website — written from a Winnipeg studio that does this work every day."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who writes the articles?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Posts are written by Leanne Jones and Gary Burns, the team behind Leanne Digital."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I get help applying these tips to my site?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. If you want the work done for you, book a call or send a message and we can look at your website together."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/client-portal/",
@@ -891,44 +759,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/how-to-design-your-home-page/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “How To Design Your Home Page” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Want to know how to create the perfect home page for your website? Your home page is kind of like a first date. You want to make a great impression, show off your best qualities,…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/",
@@ -1075,44 +906,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/is-website-security-still-important/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Why Is Website Security So Important?” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Why Website Security Matters More Than Ever"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Gary Burns at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/is-your-website-readable/",
@@ -1121,44 +915,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/is-your-website-readable/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Is your website readable?” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We spend so much time and energy creating great content—so let’s make sure it’s easy for people to enjoy it! Improving readability is one of my biggest priorities as a web design…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/ld-hosting/",
@@ -1259,44 +1016,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/leanne-digital-design-featured-in-the-winnipeg-free-press/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Leanne Digital Featured in the Winnipeg Free Press” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "I’m so excited to share that I was recently featured in the Winnipeg Free Press ! Eva Wasney wrote an article highlighting Indigenous entrepreneurs participating in this year’s…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/leanne-jones-leanne-digital-design-advances-to-pow-wow-pitch-semi-finals/",
@@ -1305,44 +1025,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/leanne-jones-leanne-digital-design-advances-to-pow-wow-pitch-semi-finals/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Leanne Jones, Leanne Digital, Advances to Pow Wow Pitch Semi-Finals” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Indigenous entrepreneur member of Peguis First Nation, Manitoba, selected for a chance to win $25,000 Pow Wow Pitch, an Indigenous-led non-profit organization that empowers and…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/login/forgot/",
@@ -1378,44 +1061,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/my-favorite-spots-in-winnipeg-to-work-remotely/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “My Favourite Spots in Winnipeg to Work Remotely” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Key Takeaways The Forks is the perfect mix of focus and fun — grab a cinnamon bun, find a seat upstairs, and take a quick arcade break when you need to reset. Starbucks is…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/newsletter/",
@@ -2805,44 +2451,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/so-you-want-to-sell-on-amazon/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “So You Want to Sell on Amazon” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Key Takeaways Amazon is not a flexible storefront — it’s a rigid, rule-based system where many decisions are permanent and mistakes compound over time. Testing and “figuring it…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Gary Burns at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/steal-this-web-design-process/",
@@ -2851,44 +2460,16 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/steal-this-web-design-process/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Steal This Web Design Process!” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Design for Humans. Structure for Google. Build with Purpose. After more than 10 years in design and building strategic WordPress websites for service-based businesses, I've…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
+  },
+  {
+    "path": "/thank-you/",
+    "title": "Thank you | Leanne Digital",
+    "description": "We got your message and will reply soon.",
+    "robots": "noindex,nofollow",
+    "canonical": "https://leannedigital.com/thank-you/",
+    "inSitemap": false,
+    "schema": null
   },
   {
     "path": "/the-hidden-costs-of-using-freelancer-websites-like-fiverr-or-upwork/",
@@ -2897,44 +2478,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/the-hidden-costs-of-using-freelancer-websites-like-fiverr-or-upwork/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “The Hidden Costs of Using Freelancer Websites Like Fiverr or Upwork for Your Business” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "TLDR: Freelancer platforms like Fiverr and Upwork can be great for small, simple tasks — but when it comes to critical parts of your business like your website or eCommerce…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Gary Burns at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/top-indigenous-creatives-from-peguis-first-nation/",
@@ -2943,44 +2487,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/top-indigenous-creatives-from-peguis-first-nation/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Top Indigenous Creatives from Peguis First Nation” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Key Takeaways Jordan Stranger, Leanne Jones, Diandre Thomas Hart, and Fredrick Spence are leading the way in art, design, and creative storytelling. Designers like Alyssia…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/top-indigenous-owned-print-shops/",
@@ -2989,44 +2496,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/top-indigenous-owned-print-shops/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Top Indigenous-Owned Print Shops” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Key Takeaways Indigenous-owned print shops in Canada provide branding, tradeshow, and promo materials that strengthen business visibility. Supporting Indigenous-owned businesses…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/vector-files-what-are-they/",
@@ -3035,44 +2505,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/vector-files-what-are-they/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Vector Files, what are they?” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "When you're working on graphic design projects, you’ll often hear the term &#8220;vector file&#8221; come up. These files are essential for making sure your designs look sharp and…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/web-designer-vs-web-developer-whats-the-difference/",
@@ -3081,44 +2514,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/web-designer-vs-web-developer-whats-the-difference/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Web Designer vs. Web Developer: What’s the Difference” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Key Takeaways A web design er focuses on what people see and how they experience your website. A web developer focuses on how everything works behind the scenes. The roles often…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/website-design/",
@@ -3189,44 +2585,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/website-domain-and-email-hosting-whats-the-difference/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Website, Domain, and Email Hosting: What’s the Difference?” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Domain Hosting"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Gary Burns at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/website-management-support/",
@@ -3305,44 +2664,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/what-even-is-seo/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “What Even is SEO?” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Understanding Websites and SEO When you're building a website, the first thing you need is hosting. Think of hosting as renting a plot of land to build your website on. Just like…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/why-is-typography-important-in-web-design/",
@@ -3351,44 +2673,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/why-is-typography-important-in-web-design/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Why is Typography Important in Web Design?” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Typography is one of the most critical elements in web design, shaping not only the look and feel of your site but also its effectiveness in communicating your message. It's more…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/why-strategic-graphic-and-web-design-matters-more-than-ever/",
@@ -3397,44 +2682,7 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/why-strategic-graphic-and-web-design-matters-more-than-ever/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is “Why Strategic Graphic and Web Design Matters More Than Ever” about?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Key Takeaways Strategic graphic and web design is more than making things look nice — it is about connecting with your audience, solving their problems, and guiding them toward a…"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who wrote this article?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Jones at Leanne Digital, a Winnipeg digital marketing studio."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/winnipeg-logo-design/",

@@ -72,6 +72,12 @@
     margin-top: 0;
 }
 
+.blog-prose h3 {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.25rem;
+    text-transform: none;
+}
+
 .blog-prose h2 {
     margin: 2rem 0 0.85rem;
     text-transform: uppercase;

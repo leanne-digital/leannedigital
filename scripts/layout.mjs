@@ -1,6 +1,7 @@
-import { PRIMARY_NAV, SERVICE_LINKS } from './site-config.mjs';
+import { PRIMARY_NAV, SERVICE_LINKS, SITE_URL } from './site-config.mjs';
 import { renderFavicons } from './favicons.mjs';
 import { lpEvent, renderLilipaddSnippet } from './analytics.mjs';
+import { renderSeoBlock } from './seo.mjs';
 
 export function assetPrefix(depth) {
     return depth === 0 ? '' : '../'.repeat(depth);
@@ -106,6 +107,13 @@ export function renderFullFooter(depth) {
 export function renderHead({
     depth,
     extraCss = [],
+    title = '',
+    description = '',
+    canonical = '',
+    path = '',
+    robots = 'index,follow',
+    ogImage,
+    schema,
 }) {
     const prefix = assetPrefix(depth);
     const CSS_V = '20260813e';
@@ -121,6 +129,17 @@ export function renderHead({
     ]
         .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}?v=${CSS_V}">`)
         .join('\n');
+    const canonicalUrl = canonical || (path ? `${SITE_URL}${path === '/' ? '/' : path}` : '');
+    const seo = title
+        ? `${renderSeoBlock({
+            title,
+            description,
+            canonical: canonicalUrl,
+            robots,
+            ogImage,
+            schema,
+        })}\n`
+        : '';
 
     return `<!DOCTYPE html>
 <html lang="en-CA">
@@ -128,7 +147,7 @@ export function renderHead({
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- lp:seo -->
-    <!-- lp:custom-head -->
+${seo}    <!-- lp:custom-head -->
 ${renderFavicons(prefix)}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

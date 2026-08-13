@@ -127,10 +127,18 @@ export function renderGtag() {
     </script>`;
 }
 
+export function unescapeBasicHtml(value) {
+    return String(value || '')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"');
+}
+
 export function renderOgTags({ title, description, canonical, ogImage, ogType = 'website' }) {
     const image = ogImage || DEFAULT_OG_IMAGE;
-    const safeTitle = escapeHtml(String(title || '').replace(/\s+/g, ' ').trim());
-    const safeDesc = escapeHtml(String(description || '').replace(/\s+/g, ' ').trim());
+    const safeTitle = escapeHtml(unescapeBasicHtml(title).replace(/\s+/g, ' ').trim());
+    const safeDesc = escapeHtml(unescapeBasicHtml(description).replace(/\s+/g, ' ').trim());
     return `    <meta property="og:type" content="${escapeHtml(ogType)}">
     <meta property="og:title" content="${safeTitle}">
     <meta property="og:description" content="${safeDesc}">
@@ -141,6 +149,27 @@ export function renderOgTags({ title, description, canonical, ogImage, ogType = 
     <meta name="twitter:title" content="${safeTitle}">
     <meta name="twitter:description" content="${safeDesc}">
     <meta name="twitter:image" content="${escapeHtml(image)}">`;
+}
+
+export function renderSeoBlock({
+    title,
+    description,
+    canonical,
+    robots = 'index,follow',
+    ogImage,
+    ogType = 'website',
+    schema,
+}) {
+    const safeTitle = escapeHtml(unescapeBasicHtml(title).replace(/\s+/g, ' ').trim());
+    const safeDesc = escapeHtml(unescapeBasicHtml(description).replace(/\s+/g, ' ').trim());
+    const safeCanonical = escapeHtml(String(canonical || '').trim());
+    const safeRobots = escapeHtml(String(robots || 'index,follow').trim());
+    const jsonLd = schema ? `\n${renderJsonLd(schema)}` : '';
+    return `    <title>${safeTitle}</title>
+    <meta name="description" content="${safeDesc}">
+    <meta name="robots" content="${safeRobots}">
+    <link rel="canonical" href="${safeCanonical}">
+${renderOgTags({ title, description, canonical, ogImage, ogType })}${jsonLd}`;
 }
 
 export function renderFaqSection(faqs, { heading = 'Frequently Asked Questions' } = {}) {

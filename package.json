@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate": "node scripts/apply-lilipadd-slots.mjs && node scripts/generate-pages.mjs && node scripts/generate-blog.mjs && node scripts/generate-portfolio.mjs && node scripts/generate-services.mjs && node scripts/generate-clients.mjs && node scripts/apply-public-seo.mjs && node scripts/apply-lilipadd-slots.mjs && node scripts/write-seo-files.mjs",
+    "generate": "node scripts/apply-lilipadd-slots.mjs && node scripts/generate-pages.mjs && node scripts/generate-blog.mjs && node scripts/generate-portfolio.mjs && node scripts/generate-services.mjs && node scripts/generate-clients.mjs && node scripts/apply-public-seo.mjs && node scripts/apply-lilipadd-slots.mjs && node scripts/bake-seo.mjs && node scripts/write-seo-files.mjs",
     "verify": "node scripts/verify.mjs",
     "import:clients": "node scripts/import-clients.mjs",
     "import:portal": "node scripts/import-portal.mjs",

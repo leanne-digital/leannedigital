@@ -79,13 +79,6 @@ export function collectSeoInventory() {
 export function transformHtml(html) {
     let out = html;
 
-    out = out.replace(/<title>[^<]*<\/title>\s*/gi, '');
-    out = out.replace(/<meta\s+name="description"[^>]*>\s*/gi, '');
-    out = out.replace(/<meta\s+name="robots"[^>]*>\s*/gi, '');
-    out = out.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');
-    out = out.replace(/<meta\s+property="og:[^"]*"[^>]*>\s*/gi, '');
-    out = out.replace(/<meta\s+name="twitter:[^"]*"[^>]*>\s*/gi, '');
-    out = out.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
     out = out.replace(
         /<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"]*"><\/script>\s*/gi,
         '',
