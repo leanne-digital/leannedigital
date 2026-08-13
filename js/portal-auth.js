@@ -107,17 +107,25 @@
         return 'Login did not work. Please try again.';
     }
 
+    function isCrossOrigin(url) {
+        return /^https?:/i.test(url) && !url.startsWith(location.origin);
+    }
+
     async function request(url, { method = 'GET', body, action } = {}) {
         let res;
         try {
             res = await fetch(url, {
                 method,
-                credentials: 'include',
+                credentials: isCrossOrigin(url) ? 'omit' : 'include',
                 headers: body ? { 'Content-Type': 'application/json' } : undefined,
                 body: body ? JSON.stringify(body) : undefined,
             });
         } catch {
-            throw new Error('We could not reach the login service. Check your connection and try again.');
+            throw new Error(
+                isCrossOrigin(url)
+                    ? 'The portal server blocked this login request. Please try again shortly.'
+                    : 'We could not reach the login service. Check your connection and try again.'
+            );
         }
         const data = isJsonResponse(res) ? await res.json().catch(() => ({})) : {};
         if (!res.ok) throw new Error(messageFor(res, data, action));

@@ -67,7 +67,7 @@ function serviceTags(client) {
 function portalScripts(depth) {
     const prefix = '../'.repeat(depth);
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260813f" defer></script>`;
+    <script src="${prefix}js/portal-auth.js?v=20260813g" defer></script>`;
 }
 
 function renderLinks(client) {
