@@ -261,7 +261,7 @@
     }
 }
 
-body .site-header + main:not(.coming-soon) > :first-child {
+body .site-header + main:not(.coming-soon) > :first-child:not(.hero) {
     padding-top: var(--ld-header-offset);
 }
 

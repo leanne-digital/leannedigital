@@ -91,11 +91,6 @@ export async function handleContact(req, body) {
         error.status = 400;
         throw error;
     }
-    if (message.length < 2) {
-        const error = new Error('Please include a short message.');
-        error.status = 400;
-        throw error;
-    }
     const allowed = await verifyRecaptcha(body.recaptchaToken, ip);
     if (!allowed) {
         const error = new Error('Spam check failed. Please try again.');

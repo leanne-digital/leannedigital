@@ -159,7 +159,7 @@ function renderContactCta(depth, intro = {}) {
     const buttonHref = intro.buttonHref || '/contact/';
     const buttonText = intro.buttonText || 'Book A Call With Me';
 
-    return `        <section class="contact section--navy" id="contact" aria-labelledby="service-contact-heading">
+    return `        <section class="contact section--navy" aria-labelledby="service-contact-heading">
             <div class="container">
                 <div class="contact__panel">
                     <div class="contact__intro">
@@ -169,7 +169,7 @@ function renderContactCta(depth, intro = {}) {
                         </div>
                         <a class="ld-btn" href="${escapeHtml(buttonHref)}"${lpEvent('service_contact_cta')}>${escapeHtml(buttonText)}</a>
                     </div>
-                    <form class="contact-form lp-form" id="service-contact" method="post" action="/thank-you/" data-lp-form="contact" aria-label="Service contact form">
+                    <form class="contact-form lp-form" id="contact" method="post" action="/thank-you/" data-lp-form="contact" aria-label="Service contact form">
                         <input type="text" name="website" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <p class="contact-form__status" data-lp-form-message hidden></p>
                         <div class="contact-form__field">

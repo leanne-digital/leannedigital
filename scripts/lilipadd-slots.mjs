@@ -123,6 +123,8 @@ export function transformHtml(html) {
         if (!/\blp-form\b/.test(next)) {
             next = next.replace(/class="([^"]*)"/, 'class="$1 lp-form"');
         }
+        if (/\bid="/.test(next)) next = next.replace(/\bid="[^"]*"/, 'id="contact"');
+        else next += ' id="contact"';
         if (/action="/.test(next)) next = next.replace(/action="[^"]*"/, 'action="/thank-you/"');
         else next += ' action="/thank-you/"';
         if (/method="/.test(next)) next = next.replace(/method="[^"]*"/, 'method="post"');

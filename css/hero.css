@@ -1,8 +1,9 @@
 .hero {
     position: relative;
     overflow: visible;
-    padding-top: var(--ld-header-offset);
-    padding-bottom: var(--ld-section-gap);
+    padding-top: calc(var(--ld-header-height) + 1.75rem);
+    padding-bottom: 0;
+    background: var(--ld-bg-solid);
 }
 
 .hero__bg {
@@ -21,7 +22,9 @@
     width: 100%;
     max-width: none;
     margin: 0;
+    overflow: hidden;
     line-height: 0;
+    max-height: calc(100vw * var(--hero-img-ratio) * (1 - var(--hero-crop-top)));
 }
 
 .hero__photo {
@@ -29,7 +32,7 @@
     width: 100%;
     max-width: none;
     height: auto;
-    margin: 0;
+    margin: calc(-100vw * var(--hero-img-ratio) * var(--hero-crop-top)) 0 0;
     opacity: 1;
     background: transparent;
 }
@@ -130,6 +133,14 @@
 }
 
 @media (max-width: 767px) {
+    .hero__picture {
+        max-height: calc(100vw * var(--hero-mobile-ratio) * (1 - var(--hero-crop-top)));
+    }
+
+    .hero__photo {
+        margin-top: calc(-100vw * var(--hero-mobile-ratio) * var(--hero-crop-top));
+    }
+
     .hero__content {
         margin-top: calc(-100vw * var(--hero-mobile-ratio) * var(--hero-mobile-content-lift));
     }

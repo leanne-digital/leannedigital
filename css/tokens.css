@@ -25,6 +25,7 @@
     --hero-content-lift: 0.06;
     --hero-mobile-ratio: 0.555956;
     --hero-mobile-content-lift: 0.04;
+    --hero-crop-top: 0.16;
 }
 
 @media (max-width: 1024px) {

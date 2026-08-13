@@ -68,21 +68,36 @@ function actor(req) {
     return { user: null, session: null };
 }
 
-function readBody(req) {
+function readRawBody(req) {
     return new Promise((resolve, reject) => {
         const chunks = [];
         req.on('data', (chunk) => chunks.push(chunk));
-        req.on('end', () => {
-            const raw = Buffer.concat(chunks).toString('utf8');
-            if (!raw) return resolve({});
-            try {
-                resolve(JSON.parse(raw));
-            } catch {
-                reject(Object.assign(new Error('Invalid JSON'), { status: 400 }));
-            }
-        });
+        req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
         req.on('error', reject);
     });
+}
+
+function readBody(req) {
+    return readRawBody(req).then((raw) => {
+        if (!raw) return {};
+        try {
+            return JSON.parse(raw);
+        } catch {
+            throw Object.assign(new Error('Invalid JSON'), { status: 400 });
+        }
+    });
+}
+
+function parseFormBody(raw, req) {
+    const params = new URLSearchParams(raw);
+    return {
+        name: params.get('name') || '',
+        email: params.get('email') || '',
+        message: params.get('message') || '',
+        service: params.get('service') || '',
+        honey: params.get('website') || params.get('_honey') || '',
+        page: params.get('page') || req.headers.referer || '/',
+    };
 }
 
 function originFrom(req) {
@@ -114,8 +129,8 @@ function portalAccess(pathname, user) {
     return slug === own ? 'allow' : 'forbid';
 }
 
-function redirect(res, location) {
-    res.writeHead(302, { Location: location });
+function redirect(res, location, status = 302) {
+    res.writeHead(status, { Location: location });
     res.end();
 }
 
@@ -261,6 +276,17 @@ async function handle(req, res) {
 
     const pathname = requestPath(req.url);
     const method = req.method;
+    if (method === 'POST' && (pathname === '/thank-you' || pathname === '/thank-you/')) {
+        const raw = await readRawBody(req);
+        const body = parseFormBody(raw, req);
+        try {
+            await handleContact(req, body);
+        } catch (error) {
+            console.error('Contact form:', error.message);
+        }
+        redirect(res, '/thank-you/', 303);
+        return;
+    }
     const legacy = {
         '/services/graphic-design-winnipeg/': '/graphic-design/',
         '/services/graphic-design-winnipeg': '/graphic-design/',
