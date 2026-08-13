@@ -5,11 +5,16 @@ loadEnv();
 /** Public site origin — used for canonical URLs and Lilipadd tenant site_url. */
 export const SITE_URL = 'https://leannedigital.com';
 
-/** Lilipadd analytics snippet (set LILIPADD_SITE_KEY in .env — see .env.example). */
+/** Lilipadd loader. Placeholders stay for publish; these fallbacks are used if deploy copies source as-is. */
 export const LILIPADD = {
     snippetUrl:
         process.env.LILIPADD_SNIPPET_URL || 'https://api.lilipadd.com/v1/snippet.js',
-    siteKey: process.env.LILIPADD_SITE_KEY || '',
+    platformUrl:
+        process.env.LILIPADD_PLATFORM_URL || 'https://app.lilipadd.com/v1/platform.js',
+    // Public site key (same value that belongs in the HTML data-key attribute).
+    siteKey:
+        process.env.LILIPADD_SITE_KEY ||
+        'lp_638916a39896504d0e9da82ff8976dee0edb4a1721805587',
 };
 
 /** Site pages and navigation — source of truth for static page generation. */

@@ -44,7 +44,9 @@ function checkPage(file) {
     const hasLoader = html.includes('data-key="__SITE_KEY__"') || html.includes('/v1/platform.js');
     const hasBakedTitle = /<title>[^<]+<\/title>/i.test(html);
     const hasGtag = html.includes('gtag/js?id=');
-    const hasLocalSnippet = html.includes('localhost:4000') || html.includes('snippet.js');
+    const hasLocalSnippet =
+        html.includes('localhost:4000') ||
+        /src="[^"]*snippet\.js/i.test(html);
     const hasLocalForm = html.includes('/api/contact') || html.includes('contact-form.js');
     const hasFaqVisible = /Frequently Asked Questions/i.test(html) && /<details[\s\S]*?<summary/i.test(html);
 

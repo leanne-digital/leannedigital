@@ -34,7 +34,20 @@
     <link rel="stylesheet" href="../../css/faq.css?v=20260813e">
     <link rel="stylesheet" href="../../css/clients.css?v=20260813e">
     <link rel="stylesheet" href="../../css/footer.css?v=20260813e">
-    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
+    <script data-key="__SITE_KEY__">
+    (function () {
+        var url = "__PLATFORM_URL__";
+        var key = (document.currentScript && document.currentScript.getAttribute("data-key")) || "";
+        if (!/^https?:/i.test(url)) url = "https://app.lilipadd.com/v1/platform.js";
+        if (!/^lp_/.test(key)) key = "lp_638916a39896504d0e9da82ff8976dee0edb4a1721805587";
+        if (!key) return;
+        var script = document.createElement("script");
+        script.src = url;
+        script.setAttribute("data-key", key);
+        script.defer = true;
+        document.head.appendChild(script);
+    })();
+    </script>
 </head>
 <body class="page-inner" data-portal-gate data-client-slug="routein">
     <!-- lp:custom-body-start -->
@@ -151,7 +164,7 @@
         </div>
     </footer>
     <script src="../../js/site-nav.js" defer></script>
-    <script src="../../js/portal-auth.js" defer></script>
+    <script src="../../js/portal-auth.js?v=20260813f" defer></script>
     <!-- lp:custom-body-end -->
 </body>
 </html>

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SITE_URL } from './site-config.mjs';
+import { renderLilipaddSnippet } from './analytics.mjs';
 import { isNoindexPath } from './seo.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -18,8 +19,7 @@ const SKIP_DIRS = new Set([
     'js',
 ]);
 
-const PLATFORM_SCRIPT =
-    '    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>';
+const PLATFORM_SCRIPT = renderLilipaddSnippet();
 
 export function urlPathFor(file) {
     const rel = path.relative(ROOT, path.dirname(file)).replaceAll('\\', '/');
@@ -85,6 +85,10 @@ export function transformHtml(html) {
     );
     out = out.replace(/<script>\s*window\.dataLayer[\s\S]*?gtag\('config'[\s\S]*?<\/script>\s*/gi, '');
     out = out.replace(/<script[^>]*(?:snippet\.js|platform\.js)[^>]*>\s*<\/script>\s*/gi, '');
+    out = out.replace(
+        /\s*<script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer><\/script>/g,
+        `\n${PLATFORM_SCRIPT}`,
+    );
     out = out.replace(/<script[^>]*lilipadd-events\.js[^>]*>\s*<\/script>\s*/gi, '');
     out = out.replace(/<script[^>]*contact-form\.js[^>]*>\s*<\/script>\s*/gi, '');
     out = out.replace(/<script>window\.LD_RECAPTCHA_SITE_KEY[\s\S]*?<\/script>\s*/gi, '');

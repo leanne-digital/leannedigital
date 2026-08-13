@@ -20,7 +20,20 @@
     <meta name="twitter:image" content="https://leannedigital.com/assets/images/hero/leanne-and-gary-ld-hero-v02.webp">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How soon will I hear back?","acceptedAnswer":{"@type":"Answer","text":"We aim to reply within one business day, Monday to Friday, 9am to 5pm Central Time."}},{"@type":"Question","name":"Can I book a call instead of sending a form?","acceptedAnswer":{"@type":"Answer","text":"Yes. The contact page includes a 30-minute discovery call booking option if you would rather talk it through live."}},{"@type":"Question","name":"What should I include in my message?","acceptedAnswer":{"@type":"Answer","text":"A short note about your business, what you need (website, branding, SEO, or support), and any timeline or budget range helps us come back with a useful next step."}},{"@type":"Question","name":"Do you take on projects outside Winnipeg?","acceptedAnswer":{"@type":"Answer","text":"Yes. We work remotely with clients across Canada and beyond."}}]}</script>
     <!-- lp:custom-head -->
-    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
+    <script data-key="__SITE_KEY__">
+    (function () {
+        var url = "__PLATFORM_URL__";
+        var key = (document.currentScript && document.currentScript.getAttribute("data-key")) || "";
+        if (!/^https?:/i.test(url)) url = "https://app.lilipadd.com/v1/platform.js";
+        if (!/^lp_/.test(key)) key = "lp_638916a39896504d0e9da82ff8976dee0edb4a1721805587";
+        if (!key) return;
+        var script = document.createElement("script");
+        script.src = url;
+        script.setAttribute("data-key", key);
+        script.defer = true;
+        document.head.appendChild(script);
+    })();
+    </script>
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-192x192.png" sizes="192x192">

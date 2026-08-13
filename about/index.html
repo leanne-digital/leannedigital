@@ -20,7 +20,20 @@
     <meta name="twitter:image" content="https://leannedigital.com/assets/images/hero/leanne-and-gary-ld-hero-v02.webp">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who is behind Leanne Digital?","acceptedAnswer":{"@type":"Answer","text":"Leanne Digital is led by Leanne Jones, a graphic and web designer, and Gary Burns, who focuses on development, SEO, and technical strategy. We are a proudly Indigenous-owned studio."}},{"@type":"Question","name":"Are you an Indigenous-owned business?","acceptedAnswer":{"@type":"Answer","text":"Yes. Leanne Digital is Indigenous-owned and CCIB certified. Leanne is a member of Peguis First Nation, and Gary has family roots in Kahnawà:ke Mohawk Territory."}},{"@type":"Question","name":"Where are you located?","acceptedAnswer":{"@type":"Answer","text":"We are based in Winnipeg, Manitoba, on Treaty 1 territory, and work with clients across Canada."}},{"@type":"Question","name":"How can I work with you?","acceptedAnswer":{"@type":"Answer","text":"Visit the contact page to send a message or book a discovery call. We will learn about your business and recommend the right mix of design, web, and SEO support."}}]}</script>
     <!-- lp:custom-head -->
-    <script src="__PLATFORM_URL__" data-key="__SITE_KEY__" defer></script>
+    <script data-key="__SITE_KEY__">
+    (function () {
+        var url = "__PLATFORM_URL__";
+        var key = (document.currentScript && document.currentScript.getAttribute("data-key")) || "";
+        if (!/^https?:/i.test(url)) url = "https://app.lilipadd.com/v1/platform.js";
+        if (!/^lp_/.test(key)) key = "lp_638916a39896504d0e9da82ff8976dee0edb4a1721805587";
+        if (!key) return;
+        var script = document.createElement("script");
+        script.src = url;
+        script.setAttribute("data-key", key);
+        script.defer = true;
+        document.head.appendChild(script);
+    })();
+    </script>
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/icons/favicon-192x192.png" sizes="192x192">
