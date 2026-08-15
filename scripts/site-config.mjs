@@ -51,6 +51,7 @@ export const BUILT_PAGES = new Set([
     '/login/',
     '/login/forgot/',
     '/login/reset/',
+    '/admin/',
 ]);
 
 /** WordPress pages from Simply Static export (excluding homepage). */

@@ -30,7 +30,7 @@ function sitemapTitles() {
     };
     for (const link of SERVICE_LINKS) titles[link.path] = link.title;
     for (const post of loadJson('data/blog-posts.json')) titles[post.path] = post.title;
-    for (const project of loadJson('data/portfolio-projects.json')) titles[project.path] = project.title;
+    for (const project of loadJson('data/portfolio-projects.json').filter((project) => !project.hidden)) titles[project.path] = project.title;
     return titles;
 }
 
@@ -40,7 +40,11 @@ function displayTitle(page, titles) {
 
 function groupSitemapPages(pages) {
     const blogPaths = new Set(loadJson('data/blog-posts.json').map((post) => post.path));
-    const projectPaths = new Set(loadJson('data/portfolio-projects.json').map((project) => project.path));
+    const projectPaths = new Set(
+        loadJson('data/portfolio-projects.json')
+            .filter((project) => !project.hidden)
+            .map((project) => project.path)
+    );
     const servicePaths = new Set([...SERVICE_LINKS.map((link) => link.path), '/google-ads/']);
     const groups = {
         Pages: [],

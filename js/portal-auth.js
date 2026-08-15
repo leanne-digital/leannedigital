@@ -66,12 +66,12 @@
         const safe = next && next.startsWith('/') && !next.startsWith('//') ? next : '';
         if (user?.role === 'client' && user.clientSlug) {
             const own = `/clients/${user.clientSlug}`;
-            if (!safe || safe === '/clients/' || safe === '/clients' || !safe.startsWith(`${own}/`) && safe !== own) {
+            if (!safe || safe === '/clients/' || safe === '/clients' || safe.startsWith('/admin') || (!safe.startsWith(`${own}/`) && safe !== own)) {
                 return `${own}/`;
             }
             return safe.endsWith('/') || safe.includes('.') ? safe : `${safe}/`;
         }
-        return safe || '/clients/';
+        return safe || '/admin/';
     }
 
     function isJsonResponse(res) {
@@ -290,7 +290,7 @@
         bar.setAttribute('role', 'navigation');
         bar.setAttribute('aria-label', 'Account');
         const dashboardHref = user.role === 'staff' || !user.clientSlug
-            ? '/clients/'
+            ? '/admin/'
             : `/clients/${user.clientSlug}/`;
         const dashboardLabel = user.role === 'staff' || !user.clientSlug ? 'Dashboard' : 'Your portal';
         bar.innerHTML = `<a class="portal-bar__dash" href="${dashboardHref}">${dashboardLabel}</a><span class="portal-bar__email"></span><button type="button">Log out</button>`;
@@ -371,7 +371,13 @@
             location.replace(`/login/?next=${encodeURIComponent(location.pathname)}`);
             return;
         }
-        if (session.user.role !== 'staff' && (location.pathname === '/clients/' || location.pathname === '/clients')) {
+        if (
+            session.user.role !== 'staff' &&
+            (location.pathname === '/clients/' ||
+                location.pathname === '/clients' ||
+                location.pathname === '/admin/' ||
+                location.pathname === '/admin')
+        ) {
             location.replace(`/clients/${session.user.clientSlug}/`);
             return;
         }

@@ -146,6 +146,7 @@ function renderProjectPage(project, projects, depth) {
         depth,
         extraCss: ['project.css'],
         canonical: `${SITE}${project.path}`,
+        robots: project.hidden ? 'noindex, nofollow' : 'index,follow',
     })}
 <body class="page-inner">
 ${renderNav(depth, '')}
@@ -188,21 +189,22 @@ ${renderPageScripts(depth)}
 `;
 }
 
-function main() {
+export function generatePortfolio() {
     if (!fs.existsSync(DATA_FILE)) {
-        console.error('Missing data/portfolio-projects.json — run: node scripts/import-portfolio.mjs');
-        process.exit(1);
+        throw new Error('Missing data/portfolio-projects.json');
     }
 
     const projects = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    const visible = projects.filter((project) => !project.hidden);
 
-    writePage('portfolio', renderPortfolioIndex(projects, depthFromDir('portfolio')));
+    writePage('portfolio', renderPortfolioIndex(visible, depthFromDir('portfolio')));
 
     for (const project of projects) {
         writePage(`projects/${project.slug}`, renderProjectPage(project, projects, depthFromDir(`projects/${project.slug}`)));
     }
 
-    console.log(`Generated portfolio index and ${projects.length} project pages.`);
+    console.log(`Generated portfolio index (${visible.length} public) and ${projects.length} project pages.`);
 }
 
-main();
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) generatePortfolio();

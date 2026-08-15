@@ -4,9 +4,9 @@ export function openApiSpec(port = 4174) {
         openapi: '3.1.0',
         info: {
             title: 'Leanne Digital Client Portal API',
-            version: '1.1.0',
+            version: '1.3.0',
             description:
-                'Staff dashboard and client CRUD. Creating a client also creates a portal login. Staff see every client; clients only see their own page.',
+                'Leanne Digital staff API: clients, client/service projects, revenue, portfolio, leads, Calendly. Portfolio is public website work; /api/projects is agency work (SEO, hosting, maintenance).',
         },
         servers: [{ url: server }],
         security: [{ apiKey: [] }, { cookieAuth: [] }],
@@ -192,6 +192,78 @@ export function openApiSpec(port = 4174) {
                     operationId: 'deleteClient',
                     responses: { 200: { description: 'Deleted' } },
                 },
+            },
+            '/api/clients/seo': {
+                get: {
+                    summary: 'Active SEO/AEO clients',
+                    operationId: 'listSeoClients',
+                    responses: { 200: { description: 'Clients with an active SEO or AEO project' } },
+                },
+            },
+            '/api/projects': {
+                get: {
+                    summary: 'List client/service projects',
+                    operationId: 'listProjects',
+                    parameters: [
+                        { name: 'client', in: 'query', schema: { type: 'string' } },
+                        { name: 'serviceType', in: 'query', schema: { type: 'string' } },
+                        { name: 'status', in: 'query', schema: { type: 'string' } },
+                    ],
+                    responses: { 200: { description: 'Agency projects, not public portfolio pieces' } },
+                },
+                post: {
+                    summary: 'Create a client/service project',
+                    operationId: 'createProject',
+                    responses: { 201: { description: 'Created' } },
+                },
+            },
+            '/api/projects/{id}': {
+                parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+                get: { summary: 'Get project and history', operationId: 'getProject', responses: { 200: { description: 'Project' } } },
+                patch: { summary: 'Update project', operationId: 'updateProject', responses: { 200: { description: 'Updated' } } },
+            },
+            '/api/projects/{id}/pause': {
+                post: { summary: 'Pause project', operationId: 'pauseProject', responses: { 200: { description: 'Paused' } } },
+            },
+            '/api/projects/{id}/resume': {
+                post: { summary: 'Resume project', operationId: 'resumeProject', responses: { 200: { description: 'Active' } } },
+            },
+            '/api/projects/{id}/complete': {
+                post: { summary: 'Complete project', operationId: 'completeProject', responses: { 200: { description: 'Completed' } } },
+            },
+            '/api/projects/{id}/updates': {
+                get: { summary: 'List project status updates', operationId: 'listProjectUpdates', responses: { 200: { description: 'Chronological history' } } },
+                post: { summary: 'Add a project status update', operationId: 'addProjectUpdate', responses: { 201: { description: 'Appended' } } },
+            },
+            '/api/revenue': {
+                get: {
+                    summary: 'Monthly recurring / expected operational revenue from active projects',
+                    operationId: 'getMonthlyRevenue',
+                    parameters: [{ name: 'month', in: 'query', schema: { type: 'string', example: '2026-08' } }],
+                    responses: { 200: { description: 'Totals, by service, by client' } },
+                },
+            },
+            '/api/revenue/by-service': {
+                get: { summary: 'Revenue by service type', operationId: 'getRevenueByService', responses: { 200: { description: 'Breakdown' } } },
+            },
+            '/api/revenue/clients/{id}': {
+                get: { summary: 'Revenue for one client', operationId: 'getClientRevenue', responses: { 200: { description: 'Client revenue' } } },
+            },
+            '/api/analytics/statistics': {
+                get: { summary: 'Site traffic from Lilipadd', operationId: 'getSiteStatistics', responses: { 200: { description: 'Lilipadd payload or unavailable' } } },
+            },
+            '/api/analytics/conversions': {
+                get: { summary: 'Conversions from Lilipadd', operationId: 'getSiteConversions', responses: { 200: { description: 'Lilipadd payload or unavailable' } } },
+            },
+            '/api/portfolio': {
+                get: { summary: 'Public portfolio pieces', operationId: 'listPortfolio', responses: { 200: { description: 'Portfolio' } } },
+                post: { summary: 'Create a public portfolio piece', operationId: 'createPortfolio', responses: { 201: { description: 'Created' } } },
+            },
+            '/api/inbox': {
+                get: { summary: 'Contact form submissions', operationId: 'listInbox', responses: { 200: { description: 'Inbox' } } },
+            },
+            '/api/calendly': {
+                get: { summary: 'Stored Calendly bookings', operationId: 'listCalendly', responses: { 200: { description: 'Bookings' } } },
             },
         },
     };

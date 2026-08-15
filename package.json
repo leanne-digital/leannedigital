@@ -11,6 +11,7 @@
     "portal": "node server/api.mjs",
     "portal:api": "node server/api.mjs",
     "portal:mcp": "node server/mcp.mjs",
+    "test": "node scripts/test-remote-mcp.mjs",
     "integrate": "node scripts/apply-lilipadd.mjs && npm run generate",
     "integrate:prod": "node scripts/integrate-prod.mjs"
   },

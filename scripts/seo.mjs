@@ -16,7 +16,7 @@ const FAQ_FILE = path.join(ROOT, 'data', 'page-faqs.json');
 
 export function rewriteLegacyLinks(html) {
     return String(html || '')
-        .replaceAll('/admin/', '/clients/')
+        .replaceAll('/wp-admin/', '/clients/')
         .replaceAll('/services/graphic-design-winnipeg/', '/graphic-design/')
         .replaceAll('/services/web-design-winnipeg/', '/website-design/');
 }
@@ -217,7 +217,7 @@ export function renderContactFormScript(depth) {
     <script src="${prefix}js/contact-form.js" defer></script>`;
 }
 
-const NOINDEX_PREFIXES = ['/clients/', '/login/', '/assets/clients/'];
+const NOINDEX_PREFIXES = ['/clients/', '/login/', '/assets/clients/', '/admin/'];
 const NOINDEX_PATHS = new Set(['/client-portal/', '/project-tracker/', '/ldd-chat/']);
 
 export function isNoindexPath(pagePath) {

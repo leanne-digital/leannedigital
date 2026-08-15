@@ -72,6 +72,16 @@ npm run seed
 npm run seed:leannedigital   # writes .env here with LILIPADD_SITE_KEY
 ```
 
+Staff analytics **read** (optional) also needs a private Lilipadd server key on this backend only:
+
+```
+LILIPADD_API_URL=https://api.lilipadd.com
+LILIPADD_API_KEY=<tenant server key, stats:read>
+LILIPADD_SITE_KEY=<public lp_ site key>
+```
+
+Do not put `LILIPADD_API_KEY` in HTML or `platform.js`. See [connection.md](connection.md).
+
 **Apply snippet to all pages:**
 
 ```bash
@@ -80,6 +90,8 @@ npm run integrate            # patches hand-built pages + regenerates HTML
 ```
 
 For production, run `npm run integrate:prod` before deploy (uses `api.lilipadd.com`).
+
+Connecting an LLM to **clients, projects, and revenue** is this repo: local stdio (`npm run portal:mcp`) or remote Streamable HTTP (`/mcp`). See [connection.md](connection.md). Lilipadd remains generic site infrastructure (analytics collection, SEO publishing). Do not put `REMOTE_MCP_API_KEY` in HTML.
 
 ## Structure
 

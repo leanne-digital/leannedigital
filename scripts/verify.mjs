@@ -29,7 +29,9 @@ function isPrivate(pagePath) {
     return (
         pagePath.startsWith('/clients/') ||
         pagePath.startsWith('/login/') ||
+        pagePath.startsWith('/admin/') ||
         pagePath === '/clients/' ||
+        pagePath === '/admin/' ||
         pagePath === '/thank-you/'
     );
 }

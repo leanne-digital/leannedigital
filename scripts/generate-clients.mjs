@@ -11,6 +11,7 @@ import { SITE_URL } from './site-config.mjs';
 import { loadClients } from './client-store.mjs';
 import { portalStats, packageTotals } from './portal-stats.mjs';
 import { generateLoginPages } from './generate-login.mjs';
+import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -68,10 +69,10 @@ function serviceTags(client) {
 function portalScripts(depth, admin = false) {
     const prefix = '../'.repeat(depth);
     const adminScript = admin
-        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260813m" defer></script>`
+        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260815a" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260813l" defer></script>${adminScript}`;
+    <script src="${prefix}js/portal-auth.js?v=20260815a" defer></script>${adminScript}`;
 }
 
 function renderLinks(client) {
@@ -318,7 +319,7 @@ ${renderNav(1, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="container">
                 <h1 class="clients-hero__title">Client dashboard</h1>
-                <p class="clients-hero__lead">Hosting due dates and amounts, retainers, site management fees, and every client you can add or edit.</p>
+                <p class="clients-hero__lead">Hosting due dates and amounts, retainers, site management fees, and every client you can add or edit. <a href="/admin/">Back to admin</a></p>
             </div>
         </section>
         <section class="clients-list section--navy">
@@ -474,7 +475,7 @@ ${renderNav(2, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="${headerClass}">
                 <div class="client-profile__copy">
-                    <a class="client-reports__back" href="/clients/" data-admin-only>Dashboard</a>
+                    <a class="client-reports__back" href="/admin/" data-admin-only>Admin</a>
                     <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
                     ${contact ? `<p class="client-profile__lead">${contact}</p>` : ''}
                     ${links}
@@ -558,6 +559,7 @@ ${portalScripts(2)}
 
 function main() {
     generateLoginPages();
+    generateAdminDashboard();
     const clients = loadClients();
     writePage('clients', renderIndex(clients));
     for (const client of clients) {
@@ -567,7 +569,7 @@ function main() {
         }
     }
     writePage(path.join('clients', 'shift'), renderShiftRedirect());
-    console.log(`Generated client hub, login pages, and ${clients.length} client pages.`);
+    console.log(`Generated client hub, login pages, admin dashboard, and ${clients.length} client pages.`);
 }
 
 main();

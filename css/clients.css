@@ -23,6 +23,12 @@
     text-transform: uppercase;
 }
 
+.clients-hero__lead a {
+    color: var(--ld-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
 .clients-hero__lead,
 .client-profile__bio,
 .client-profile__lead {
