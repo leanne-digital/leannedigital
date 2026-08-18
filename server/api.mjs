@@ -46,6 +46,9 @@ import {
     updatesForProject,
 } from './services/agency.mjs';
 import { handleRemoteMcp, isMcpPath } from './mcp-http.mjs';
+import { startOAuth } from './oauth/auth.mjs';
+import { handleOAuth, isOAuthPath } from './oauth/routes.mjs';
+import { oauthEnabled } from './oauth/config.mjs';
 
 loadEnv();
 
@@ -458,6 +461,10 @@ async function handle(req, res) {
         rawPath.startsWith('/api/') && rawPath.endsWith('/') && rawPath.length > 5
             ? rawPath.slice(0, -1)
             : rawPath;
+    if (isOAuthPath(pathname)) {
+        await handleOAuth(req, res);
+        return;
+    }
     if (isMcpPath(pathname)) {
         await handleRemoteMcp(req, res);
         return;
@@ -517,14 +524,20 @@ export function startPortal({ port = PORT, bind = BIND } = {}) {
     return new Promise((resolve, reject) => {
         server.listen(port, bind, async () => {
             try {
-                const staff = await seedStaffAccount();
-                const accounts = await ensureClientAccounts();
                 const address = server.address();
                 const actualPort = typeof address === 'object' && address ? address.port : port;
+                if (oauthEnabled()) {
+                    await startOAuth({ port: actualPort });
+                }
+                const staff = await seedStaffAccount();
+                const accounts = await ensureClientAccounts();
                 console.log(`Client portal http://${bind}:${actualPort}/login/`);
                 console.log(`Admin dashboard http://${bind}:${actualPort}/admin/`);
                 console.log(`API http://${bind}:${actualPort}/api/clients`);
                 console.log(`Remote MCP http://${bind}:${actualPort}/mcp`);
+                if (oauthEnabled()) {
+                    console.log(`OAuth login http://${bind}:${actualPort}/oauth/login`);
+                }
                 if (staff?.temporaryPassword) {
                     console.log(`Staff login ${staff.email} / ${staff.temporaryPassword}`);
                     console.log('This password is also in data/portal-bootstrap.json (not committed).');

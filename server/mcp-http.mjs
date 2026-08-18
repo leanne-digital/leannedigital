@@ -1,6 +1,11 @@
 import { timingSafeEqual } from 'node:crypto';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { getOAuthProtectedResourceMetadataUrl } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { createMcpServer } from './mcp-tools.mjs';
+import { getOAuth } from './oauth/auth.mjs';
+import { oauthEnabled, oauthResource, MCP_SCOPE_READ } from './oauth/config.mjs';
+import { oauthWwwAuthenticate } from './oauth/routes.mjs';
+import { tokenHasWriteScope, verifyMcpAccessToken } from './oauth/verify.mjs';
 
 export const MCP_PATH = '/mcp';
 const MAX_BODY_BYTES = 256 * 1024;
@@ -23,12 +28,16 @@ function allowRequest(id) {
 function safeEqual(provided, expected) {
     const a = Buffer.from(String(provided || ''));
     const b = Buffer.from(String(expected || ''));
-    if (!a.length || a.length !== b.length) return false;
+    if (a.length !== b.length || !a.length) return false;
     return timingSafeEqual(a, b);
 }
 
 function configuredKey() {
     return String(process.env.REMOTE_MCP_API_KEY || '').trim();
+}
+
+function envReadOnly() {
+    return String(process.env.REMOTE_MCP_READ_ONLY || '') === '1';
 }
 
 function bearerToken(req) {
@@ -37,26 +46,82 @@ function bearerToken(req) {
     return String(req.headers['x-mcp-api-key'] || '').trim();
 }
 
+function resourceUrl() {
+    return getOAuth()?.resource || oauthResource();
+}
+
+function challengeHeaders({ error = 'invalid_token', description = 'Authentication required', extra = {} } = {}) {
+    return {
+        'WWW-Authenticate': oauthWwwAuthenticate(resourceUrl(), { error, description, scopes: [MCP_SCOPE_READ] }),
+        'Access-Control-Expose-Headers': 'WWW-Authenticate',
+        ...extra,
+    };
+}
+
 /**
- * Dedicated remote-MCP credential. Intentionally not PORTAL_API_KEY:
- * that key also unlocks the full staff HTTP API. OAuth can replace this
- * function later without changing createMcpServer().
+ * Dedicated remote-MCP credential, plus OAuth access tokens.
+ * PORTAL_API_KEY is intentionally not accepted here.
  */
-export function authenticateRemoteMcp(req) {
+export async function authenticateRemoteMcp(req) {
     const expected = configuredKey();
-    if (!expected) {
-        return { ok: false, status: 503, error: 'Remote MCP is not configured (set REMOTE_MCP_API_KEY)' };
+    const oauthOn = oauthEnabled() && Boolean(getOAuth());
+    if (!expected && !oauthOn) {
+        return { ok: false, status: 503, error: 'Remote MCP is not configured (set REMOTE_MCP_API_KEY or OAuth)' };
     }
+
     const provided = bearerToken(req);
-    if (!provided) {
-        return { ok: false, status: 401, error: 'Missing Bearer token' };
+    if (provided && expected && safeEqual(provided, expected)) {
+        return {
+            ok: true,
+            method: 'api-key',
+            readOnly: envReadOnly(),
+            actorEmail: 'remote-mcp',
+        };
     }
-    if (!safeEqual(provided, expected)) {
-        return { ok: false, status: 401, error: 'Invalid Bearer token' };
+
+    if (provided && oauthOn) {
+        const verified = await verifyMcpAccessToken(provided, {
+            audience: resourceUrl(),
+            requiredScopes: [MCP_SCOPE_READ],
+        });
+        if (verified.ok) {
+            return {
+                ok: true,
+                method: 'oauth',
+                readOnly: envReadOnly() || !tokenHasWriteScope(verified.scopes),
+                actorEmail: verified.email || verified.subject || 'oauth',
+                scopes: verified.scopes,
+            };
+        }
+        if (verified.error === 'insufficient_scope') {
+            return {
+                ok: false,
+                status: 403,
+                error: verified.error,
+                error_description: verified.description,
+            };
+        }
+        return {
+            ok: false,
+            status: 401,
+            error: 'invalid_token',
+            error_description: verified.description || 'Invalid Bearer token',
+        };
+    }
+
+    if (!provided) {
+        return {
+            ok: false,
+            status: 401,
+            error: 'invalid_token',
+            error_description: 'Missing Bearer token',
+        };
     }
     return {
-        ok: true,
-        readOnly: String(process.env.REMOTE_MCP_READ_ONLY || '') === '1',
+        ok: false,
+        status: 401,
+        error: 'invalid_token',
+        error_description: 'Invalid Bearer token',
     };
 }
 
@@ -65,13 +130,15 @@ function mcpCors() {
         'Access-Control-Allow-Headers': 'Authorization, Content-Type, Accept, X-MCP-API-Key, MCP-Protocol-Version',
         'Access-Control-Allow-Methods': 'POST, GET, DELETE, OPTIONS',
         'Access-Control-Max-Age': '600',
+        'Access-Control-Expose-Headers': 'WWW-Authenticate',
     };
 }
 
-function sendJson(res, status, body) {
+function sendJson(res, status, body, extraHeaders = {}) {
     res.writeHead(status, {
         'Content-Type': 'application/json; charset=utf-8',
         ...mcpCors(),
+        ...extraHeaders,
     });
     res.end(JSON.stringify(body));
 }
@@ -104,14 +171,32 @@ export function isMcpPath(pathname) {
 
 export async function handleRemoteMcp(req, res) {
     if (req.method === 'OPTIONS') {
-        res.writeHead(204, mcpCors());
+        res.writeHead(204, {
+            ...mcpCors(),
+            'WWW-Authenticate': oauthWwwAuthenticate(resourceUrl(), {
+                description: 'Authentication required',
+            }),
+            'Access-Control-Expose-Headers': 'WWW-Authenticate',
+        });
         res.end();
         return;
     }
 
-    const auth = authenticateRemoteMcp(req);
+    const auth = await authenticateRemoteMcp(req);
     if (!auth.ok) {
-        sendJson(res, auth.status, { error: auth.error });
+        const description = auth.error_description || auth.error || 'Authentication required';
+        sendJson(
+            res,
+            auth.status,
+            {
+                error: auth.error,
+                error_description: description,
+            },
+            challengeHeaders({
+                error: auth.status === 403 ? 'insufficient_scope' : 'invalid_token',
+                description,
+            })
+        );
         return;
     }
 
@@ -143,7 +228,7 @@ export async function handleRemoteMcp(req, res) {
         enableJsonResponse: true,
     });
     const mcp = createMcpServer({
-        actor: { email: 'remote-mcp', createdBy: 'remote-mcp' },
+        actor: { email: auth.actorEmail || 'remote-mcp', createdBy: auth.actorEmail || 'remote-mcp' },
         readOnly: auth.readOnly,
     });
     res.on('close', () => {

@@ -11,12 +11,15 @@
     "portal": "node server/api.mjs",
     "portal:api": "node server/api.mjs",
     "portal:mcp": "node server/mcp.mjs",
-    "test": "node scripts/test-remote-mcp.mjs",
+    "test": "node scripts/test-remote-mcp.mjs && node scripts/test-mcp-oauth.mjs",
     "integrate": "node scripts/apply-lilipadd.mjs && npm run generate",
     "integrate:prod": "node scripts/integrate-prod.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@better-auth/oauth-provider": "^1.6.29",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "better-auth": "^1.6.29",
+    "jose": "^6.2.9",
     "nodemailer": "^6.9.16",
     "zod": "^3.25.67"
   },

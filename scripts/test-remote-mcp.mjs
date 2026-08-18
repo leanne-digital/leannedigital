@@ -1,10 +1,17 @@
 import { spawn } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 process.env.REMOTE_MCP_API_KEY ||= 'ld-test-remote-mcp-key-32chars-xxxx';
 process.env.PORTAL_API_KEY ||= 'ld-test-portal-api-key';
 process.env.PORTAL_BIND ||= '127.0.0.1';
+process.env.REMOTE_MCP_READ_ONLY = '';
+process.env.OAUTH_SECRET ||= 'ld-test-oauth-secret-32-chars-minimum';
+process.env.OAUTH_ADMIN_EMAIL ||= 'gary@leannedigital.com';
+process.env.OAUTH_ADMIN_PASSWORD ||= 'oauth-admin-test-password';
+process.env.OAUTH_DATA_DIR ||= fs.mkdtempSync(path.join(os.tmpdir(), 'ld-oauth-static-'));
 
 const { startPortal } = await import('../server/api.mjs');
 const { MCP_READ_TOOLS, MCP_WRITE_TOOLS, sanitizeForMcp } = await import('../server/mcp-tools.mjs');
@@ -53,7 +60,7 @@ async function mcpPost(token, body, extraHeaders = {}) {
             }
         }
     }
-    return { status: res.status, json, raw };
+    return { status: res.status, json, raw, headers: res.headers };
 }
 
 async function callTool(name, args = {}, token = TOKEN) {
@@ -76,7 +83,11 @@ const noAuth = await mcpPost('', rpcPayload(1, 'initialize', {
     capabilities: {},
     clientInfo: { name: 'test', version: '0.0.1' },
 }));
+const wwwAuth = noAuth.headers.get('www-authenticate') || '';
 check('invalid/missing authentication', noAuth.status === 401, `status=${noAuth.status}`);
+check('missing auth WWW-Authenticate includes resource_metadata',
+    /resource_metadata=/.test(wwwAuth),
+    wwwAuth.slice(0, 180));
 
 const badAuth = await mcpPost('wrong-key', rpcPayload(1, 'initialize', {
     protocolVersion: '2025-03-26',

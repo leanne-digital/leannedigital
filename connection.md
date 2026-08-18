@@ -25,7 +25,7 @@ OpenAPI: `http://127.0.0.1:4174/api/openapi.json`
 Staff UI: `/admin/` after `/login/`
 
 HTTP auth: session cookie `ld_portal`, or `X-API-Key` / `Authorization: Bearer` using `PORTAL_API_KEY`.  
-Remote MCP auth: `Authorization: Bearer` using `REMOTE_MCP_API_KEY` (not the portal key, not a Lilipadd site key).  
+Remote MCP auth: ChatGPT uses OAuth (see below). Manual tests may still use `Authorization: Bearer` with `REMOTE_MCP_API_KEY`.  
 Do not put keys, passwords, or `data/portal-*.json` in frontend JS or public GPT instructions.
 
 ---
@@ -156,47 +156,150 @@ Read tools (`[read]`, `readOnlyHint`) do not change data. Write tools (`[write]`
 
 ## Remote MCP
 
-Standards-based **Streamable HTTP** (MCP SDK), mounted on the existing portal Node server. Same tools as local stdio via `server/mcp-tools.mjs` → `server/services/agency.mjs`. Local stdio is unchanged.
+Standards-based **Streamable HTTP** (MCP SDK 1.30), mounted on the existing portal Node server. Same tools as local stdio via `server/mcp-tools.mjs` → `server/services/agency.mjs`. Local stdio is unchanged and does not use OAuth.
+
+The MCP endpoint is an OAuth 2.1 **resource server**. Authorization (login, consent, tokens, DCR) is a Better Auth **OAuth 2.1 Provider**, not the MCP SDK's frozen authorization-server helpers.
+
+```
+ChatGPT
+  → POST https://leannedigital.com/mcp  (no token)
+  ← 401 WWW-Authenticate resource_metadata=...
+  → GET /.well-known/oauth-protected-resource/mcp
+  → GET /.well-known/oauth-authorization-server
+  → POST /oauth/oauth2/register          (dynamic client registration)
+  → GET  /oauth/oauth2/authorize         (Authorization Code + S256 PKCE)
+  → staff signs in at /oauth/login and Allow at /oauth/consent
+  ← redirect with code
+  → POST /oauth/oauth2/token
+  ← access_token + refresh_token
+  → POST https://leannedigital.com/mcp   Authorization: Bearer <access_token>
+```
 
 ### Endpoint
 
 | Environment | URL |
 | --- | --- |
 | Local | `http://127.0.0.1:4174/mcp` |
-| Production (recommended) | `https://mcp.leannedigital.com/mcp` |
+| Production | `https://leannedigital.com/mcp` |
 
-`leannedigital.com` stays the static marketing site. Put MCP on a dedicated subdomain (or reverse-proxy only `/mcp`) so the Node process is not the public website.
+Do **not** proxy the whole Node portal publicly. Reverse-proxy only `/mcp` plus the OAuth discovery and `/oauth` routes listed below. Leave `/admin`, `/clients`, and `/api/*` (except OAuth) off the public vhost.
 
 ### Authentication
 
+`/mcp` accepts either:
+
+1. `Authorization: Bearer <REMOTE_MCP_API_KEY>` for manual/server-to-server tests (`X-MCP-API-Key` is still an alias)
+2. `Authorization: Bearer <OAuth access token>` issued by Better Auth after staff consent
+
+`PORTAL_API_KEY`, Lilipadd keys, portal session cookies, and the static MCP key are **not** OAuth tokens. The static key is never returned by the token endpoint and must not be given to ChatGPT.
+
+Missing/invalid credentials return **401** with:
+
 ```
-Authorization: Bearer <REMOTE_MCP_API_KEY>
+WWW-Authenticate: Bearer realm="mcp", error="invalid_token", ..., resource_metadata="https://leannedigital.com/.well-known/oauth-protected-resource/mcp"
 ```
 
-`X-MCP-API-Key` is accepted as an alias. `PORTAL_API_KEY`, Lilipadd public site keys, and session cookies are **not** valid here. Missing/invalid tokens return **401**. If `REMOTE_MCP_API_KEY` is unset, the endpoint returns **503**.
+Tokens missing `mcp:read` return **403** `insufficient_scope`. If neither `REMOTE_MCP_API_KEY` nor OAuth (`OAUTH_SECRET`) is configured, `/mcp` returns **503**.
 
-This is a dedicated credential so a ChatGPT connector leak does not unlock the staff HTTP API. OAuth can replace `authenticateRemoteMcp()` later without rewriting tools.
+`REMOTE_MCP_READ_ONLY=1` remains the final authority on whether write tools are registered. OAuth currently grants only `mcp:read` (plus `offline_access` for refresh). A future `mcp:write` scope can be added without rewriting tools.
+
+Only the OAuth admin / portal **staff** identity can approve access. Client portal users are rejected on the login and consent screens.
+
+### Discovery URLs (production)
+
+| Document | URL |
+| --- | --- |
+| Protected resource metadata (RFC 9728) | `https://leannedigital.com/.well-known/oauth-protected-resource/mcp` |
+| Authorization server metadata (RFC 8414) | `https://leannedigital.com/.well-known/oauth-authorization-server` |
+| JWKS (asymmetric access-token signing) | `https://leannedigital.com/oauth/jwks` |
+
+### OAuth endpoints
+
+Better Auth is mounted at `/oauth` so it does not collide with the portal's `/api/auth/*`.
+
+| Use | Path |
+| --- | --- |
+| Authorization | `https://leannedigital.com/oauth/oauth2/authorize` |
+| Token | `https://leannedigital.com/oauth/oauth2/token` |
+| Dynamic client registration | `https://leannedigital.com/oauth/oauth2/register` |
+| Token revocation | `https://leannedigital.com/oauth/oauth2/revoke` |
+| Token introspection | `https://leannedigital.com/oauth/oauth2/introspect` |
+| Staff login | `https://leannedigital.com/oauth/login` |
+| Consent | `https://leannedigital.com/oauth/consent` |
+
+Discovery metadata advertises the live authorization/token/registration URLs. Public clients use PKCE (`S256`). Redirect URIs are exact-match. The authorization endpoint always returns an HTTP 302 (Better Auth's JSON `{redirect,url}` responses are converted) so ChatGPT and other browser clients keep the signed query across login and consent.
+
+`validAudiences` is a single value (`OAUTH_RESOURCE`) so a client cannot request a token for another resource. Better Auth 1.6 binds `aud` at the token endpoint; 1.7+ binds it to the authorization grant as well.
+
+### Scopes
+
+| Scope | Meaning |
+| --- | --- |
+| `mcp:read` | Required to call the remote MCP (read tools only) |
+| `offline_access` | Refresh token so ChatGPT can stay connected |
+| `mcp:write` | **Not granted.** Reserved for a later change; `REMOTE_MCP_READ_ONLY=1` still wins |
+
+Protected resource / audience: `https://leannedigital.com/mcp`
+
+### Refresh tokens
+
+Refresh tokens are issued when `offline_access` is granted. They last 30 days by default (`OAUTH_REFRESH_TOKEN_TTL`). Better Auth rotates the refresh token on each refresh. Access tokens are short-lived (15 minutes by default, `OAUTH_ACCESS_TOKEN_TTL`).
+
+### Client ID Metadata Documents
+
+Better Auth has a separate `@better-auth/cimd` plugin. It is **not** enabled here. ChatGPT's current custom-plugin OAuth flow uses Dynamic Client Registration, which is enabled for public clients with PKCE. CIMD can be added later without changing MCP tools.
 
 ### Environment variables
 
 ```
 REMOTE_MCP_API_KEY=<long random token>
-# optional
 REMOTE_MCP_READ_ONLY=1
 REMOTE_MCP_RATE_LIMIT_PER_MIN=60
 PORTAL_API_PORT=4174
 PORTAL_BIND=127.0.0.1
+
+OAUTH_ISSUER=https://leannedigital.com
+OAUTH_RESOURCE=https://leannedigital.com/mcp
+OAUTH_DATA_DIR=/home/leannedigital.com/private/oauth
+OAUTH_SECRET=<32+ random bytes>
+OAUTH_ADMIN_EMAIL=gary@leannedigital.com
+OAUTH_ADMIN_PASSWORD=<new password, not the portal bootstrap password>
 ```
 
-Never commit real secrets. Never put `REMOTE_MCP_API_KEY` in HTML or `platform.js`.
+Never commit real secrets. Never put `REMOTE_MCP_API_KEY`, `OAUTH_SECRET`, or `OAUTH_ADMIN_PASSWORD` in HTML or `platform.js`.
 
-### Local testing
+OAuth data (SQLite, JWKS private keys, sessions, registered clients, tokens) lives in `OAUTH_DATA_DIR`. Local default is gitignored `runtime/oauth`. Production must be a directory **outside** `/opt/sites/leannedigital`, for example:
 
 ```bash
-# .env must include REMOTE_MCP_API_KEY
+sudo mkdir -p /home/leannedigital.com/private/oauth
+sudo chown leannedigital.com:leannedigital.com /home/leannedigital.com/private/oauth
+sudo chmod 700 /home/leannedigital.com/private/oauth
+```
+
+Do not create that production directory from this repo.
+
+### OpenLiteSpeed paths to proxy to `127.0.0.1:4174`
+
+Proxy **only** these prefixes (plus trailing-slash variants as needed):
+
+- `/mcp`
+- `/.well-known/oauth-protected-resource`
+- `/.well-known/oauth-authorization-server`
+- `/oauth`
+
+Do not proxy `/admin`, `/clients`, `/api/clients`, or the rest of the portal.
+
+### Local OAuth test procedure
+
+```bash
+# .env: REMOTE_MCP_API_KEY, OAUTH_SECRET (32+ chars), OAUTH_ADMIN_EMAIL, OAUTH_ADMIN_PASSWORD
 npm run portal
 npm test
 ```
+
+`npm test` runs the existing remote-MCP checks and the OAuth Authorization Code + PKCE suite. OAuth tests keep `REMOTE_MCP_READ_ONLY=1`.
+
+Manual static-key check:
 
 ```bash
 curl -sS http://127.0.0.1:4174/mcp \
@@ -206,42 +309,60 @@ curl -sS http://127.0.0.1:4174/mcp \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"curl","version":"0"}}}'
 ```
 
-Then `tools/list` and `tools/call` with the same Bearer header.
+Unauthenticated discovery check:
+
+```bash
+curl -sSI http://127.0.0.1:4174/mcp
+curl -sS http://127.0.0.1:4174/.well-known/oauth-protected-resource/mcp
+curl -sS http://127.0.0.1:4174/.well-known/oauth-authorization-server
+```
 
 ### Production testing
 
-After TLS + reverse proxy:
+After TLS + the LiteSpeed paths above:
 
 ```bash
-curl -sS https://mcp.leannedigital.com/mcp \
+curl -sSI https://leannedigital.com/mcp
+curl -sS https://leannedigital.com/.well-known/oauth-protected-resource/mcp
+curl -sS https://leannedigital.com/.well-known/oauth-authorization-server
+```
+
+Static key (ops only, not ChatGPT):
+
+```bash
+curl -sS https://leannedigital.com/mcp \
   -H "Authorization: Bearer $REMOTE_MCP_API_KEY" \
   -H "Accept: application/json, text/event-stream" \
   -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_clients","arguments":{}}}'
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_seo_clients","arguments":{}}}'
 ```
 
 ### Deploy
 
-This repo has no automatic production deploy for the Node portal. Recommended model:
+This repo has no automatic production deploy. After code is on the host:
 
-1. Run `npm run portal` (or a process manager) on the app host, bound to `127.0.0.1:4174`.
-2. Point `mcp.leannedigital.com` at that host.
-3. Reverse-proxy `https://mcp.leannedigital.com/mcp` → `http://127.0.0.1:4174/mcp` with TLS.
-4. Set `REMOTE_MCP_API_KEY` in the process environment only.
-5. Do not expose `data/`, `.env`, or the staff UI on that public hostname unless you intend to.
+1. Create `OAUTH_DATA_DIR` outside the site tree with mode `700`.
+2. Set the OAuth env vars on the systemd unit (not in Git). Use a new `OAUTH_ADMIN_PASSWORD`; do not reuse the earlier portal bootstrap password.
+3. Keep `PORTAL_BIND=127.0.0.1`, `REMOTE_MCP_READ_ONLY=1`, and `REMOTE_MCP_API_KEY` for ops testing.
+4. Restart the Node systemd service.
+5. Add the OpenLiteSpeed proxy paths listed above. Do not expose the rest of the portal.
+6. Confirm discovery URLs over HTTPS, then complete the ChatGPT plugin form.
 
 Do not deploy automatically from this task.
 
-### ChatGPT (Developer Mode)
+### ChatGPT (custom plugin / Developer Mode)
 
 1. Enable Developer Mode / custom MCP connectors.
-2. Add a remote MCP server URL: `https://mcp.leannedigital.com/mcp` (or your tunnel URL while testing).
-3. Authentication: Bearer token = `REMOTE_MCP_API_KEY`.
-4. ChatGPT cannot use `npm run portal:mcp` (stdio).
+2. New plugin:
+   - **Name:** Leanne Digital
+   - **Server URL:** `https://leannedigital.com/mcp`
+   - **Authentication:** OAuth
+3. ChatGPT should scan `/mcp`, follow `resource_metadata`, register as a public client, and open `/oauth/oauth2/authorize`.
+4. Sign in with `OAUTH_ADMIN_EMAIL` / `OAUTH_ADMIN_PASSWORD` and click **Allow**.
+5. ChatGPT stores access + refresh tokens and lists MCP tools.
+6. ChatGPT cannot use `npm run portal:mcp` (stdio).
 
-Until the hostname has public HTTPS, ChatGPT cannot reach it. Workspace OAuth (CIMD) is not implemented yet; Bearer is the current auth. If ChatGPT requires OAuth for your plan, that still needs to be added in front of the same tool layer.
-
-Claude and other MCP clients use the same Streamable HTTP endpoint.
+Claude and other MCP clients can use the same Streamable HTTP endpoint with either OAuth or the static Bearer key.
 
 ---
 
@@ -257,16 +378,17 @@ Claude and other MCP clients use the same Streamable HTTP endpoint.
 | `data/portfolio-projects.json` | Public portfolio |
 | `data/contact-inbox.jsonl` | Form submissions (gitignored) |
 | `data/lead-status.json` | Lead pipeline (gitignored) |
-| `data/calendly-bookings.json` | Bookings (gitignored) |
+| `runtime/oauth/` (gitignored) or `OAUTH_DATA_DIR` | Better Auth SQLite: users, sessions, OAuth clients, tokens, JWKS |
 
 ---
 
 ## Still required before ChatGPT can use this in production
 
-1. Public HTTPS URL (DNS + TLS reverse proxy to the Node portal `/mcp`).
-2. `REMOTE_MCP_API_KEY` set on the server (not in the browser).
-3. ChatGPT custom MCP / Developer Mode connector pointed at that URL.
-4. OAuth only if your ChatGPT plan refuses static Bearer tokens — the tool layer does not need a rewrite.
-5. Do not copy client/project/revenue models into Lilipadd.
+1. Public HTTPS already exists at `https://leannedigital.com/mcp`. Add LiteSpeed proxy paths for `/.well-known/oauth-*` and `/oauth`.
+2. Set `OAUTH_ISSUER`, `OAUTH_RESOURCE`, `OAUTH_SECRET`, `OAUTH_ADMIN_EMAIL`, `OAUTH_ADMIN_PASSWORD`, and `OAUTH_DATA_DIR` on the systemd service.
+3. Create the OAuth data directory outside the site tree (`chmod 700`).
+4. Restart Node, confirm discovery URLs, then use ChatGPT **Authentication: OAuth** with Server URL `https://leannedigital.com/mcp`.
+5. Keep `REMOTE_MCP_API_KEY` for ops testing only. Do not paste it into ChatGPT.
+6. Do not copy client/project/revenue models into Lilipadd.
 
 Analytics read is already on Lilipadd (`GET /api/public/v1/analytics`). This repo only consumes it.

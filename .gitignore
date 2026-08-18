@@ -13,3 +13,4 @@ data/contact-inbox.jsonl
 data/lead-status.json
 data/calendly-bookings.json
 .cursor/
+runtime/
