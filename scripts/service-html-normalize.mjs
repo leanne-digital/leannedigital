@@ -307,12 +307,16 @@ function isFaqSection(html) {
 }
 
 function isPricingSection(html) {
-    return (
+    const isSecurity =
         /Choose the Right Security Package/i.test(html) &&
         /Starter/i.test(html) &&
         /Pro Plans/i.test(html) &&
-        /Expert/i.test(html)
-    );
+        /Expert/i.test(html);
+    const isWebsitePackages =
+        /Choose the Right Website Package/i.test(html) &&
+        /Static Website/i.test(html) &&
+        /AI Managed/i.test(html);
+    return isSecurity || isWebsitePackages;
 }
 
 function isAiPlatformsSection(html) {
@@ -340,6 +344,10 @@ function tagPricingCards(html) {
         .replace(
             '<div class="ld-problem-card ld-col ld-pricing-card"><div class="ld-widget-heading"><div><h2>Pro Plans</h2>',
             '<div class="ld-problem-card ld-col ld-pricing-card ld-pricing-card--featured"><div class="ld-widget-heading"><div><h2>Pro Plans</h2>'
+        )
+        .replace(
+            '<div class="ld-problem-card ld-col ld-pricing-card"><div class="ld-widget-heading"><div><h2>AI Managed</h2>',
+            '<div class="ld-problem-card ld-col ld-pricing-card ld-pricing-card--featured"><div class="ld-widget-heading"><div><h2>AI Managed</h2>'
         );
 }
 

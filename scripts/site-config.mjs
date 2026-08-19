@@ -61,7 +61,7 @@ export const COMING_SOON_PAGES = [
     { path: '/portfolio/', title: 'Portfolio', description: 'Recent website, brand, and marketing work.' },
     { path: '/blog/', title: 'Blog', description: 'Tips on web design, SEO, and digital marketing.' },
     { path: '/contact/', title: 'Contact', description: 'Get in touch with Leanne Digital.' },
-    { path: '/website-design/', title: 'Website Design', description: 'Custom WordPress websites for Winnipeg businesses.' },
+    { path: '/website-design/', title: 'Website Design', description: 'Winnipeg website design across three paths: static sites, AI-managed websites, and full WordPress.' },
     { path: '/website-management-support/', title: 'Website Management & Support', description: 'Ongoing website care and support plans.' },
     { path: '/seo/', title: 'SEO Services', description: 'Search engine optimization for local growth.' },
     { path: '/graphic-design/', title: 'Graphic Design', description: 'Branding, logos, and marketing materials.' },

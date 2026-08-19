@@ -1247,6 +1247,66 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
     position: relative;
 }
 
+.ld-pricing-card .ld-widget-button {
+    margin-top: auto;
+    padding-top: 0.5rem;
+}
+
+.ld-pricing-card .ld-widget-button a {
+    width: 100%;
+    justify-content: center;
+}
+
+.ld-package-jump {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-top: 0.35rem;
+}
+
+.ld-package-jump a {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--ld-card-border);
+    border-radius: var(--ld-radius-pill);
+    padding: 0.55rem 1.05rem;
+    color: var(--ld-text);
+    font-family: var(--ld-font-display);
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.ld-package-jump a:hover,
+.ld-package-jump a:focus-visible {
+    border-color: rgba(78, 195, 204, 0.55);
+    background: var(--ld-accent-soft);
+    color: var(--ld-accent);
+}
+
+#website-packages,
+#static-website,
+#ai-managed,
+#wordpress {
+    scroll-margin-top: calc(var(--ld-header-offset) + 1.25rem);
+}
+
+.ld-section-inner--package {
+    gap: clamp(1.75rem, 3vw, 2.75rem);
+    align-items: start;
+}
+
+.ld-section-inner--package > .ld-col:first-child .ld-widget-heading h2 {
+    margin: 0.15rem 0 0.85rem;
+}
+
+.ld-section-inner--package .ld-problem-card {
+    height: 100%;
+}
+
 .ld-pricing-card .ld-icon::after {
     content: "";
     position: absolute;
@@ -1784,6 +1844,10 @@ body.page-inner main > .service-hero + .service-section:has(.ld-section-inner--t
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1.25rem;
         align-items: stretch;
+    }
+
+    .ld-section-inner--package {
+        grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
     }
 
     .ld-pricing-card--featured {
