@@ -3,14 +3,15 @@ import {
     renderFullFooter,
     renderHead,
     renderNav,
-    renderPageScripts,
 } from './layout.mjs';
+import { generateClientPortalPage } from './generate-portal.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
+const SCRIPT_V = '20260819a';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -21,7 +22,7 @@ function writePage(relativeDir, html) {
 function scripts(depth) {
     const prefix = '../'.repeat(depth);
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260815a" defer></script>`;
+    <script src="${prefix}js/portal-auth.js?v=${SCRIPT_V}" defer></script>`;
 }
 
 function authPage({ title, description, depth, path: currentPath, heading, lead, form, links }) {
@@ -113,7 +114,7 @@ export function generateLoginPages() {
             depth: 1,
             path: '/login/',
             heading: 'Client login',
-            lead: 'Use the email and password we sent you to open your reports, retainer, and files.',
+            lead: 'Use the login we emailed you. If this is your first visit, choose a password from that message first.',
             form: loginForm(),
             links: links([{ href: '/login/forgot/', label: 'Forgot password' }]),
         })
@@ -144,10 +145,11 @@ export function generateLoginPages() {
             links: links([{ href: '/login/', label: 'Back to login' }]),
         })
     );
+    generateClientPortalPage();
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) {
     generateLoginPages();
-    console.log('Generated login, forgot password, and reset pages.');
+    console.log('Generated login, forgot password, reset, and client portal pages.');
 }

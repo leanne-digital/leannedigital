@@ -3,7 +3,12 @@ import { portalStats } from '../../scripts/portal-stats.mjs';
 import {
     createClientWithAccount,
     deleteClientWithAccount,
+    getPortalMe,
+    inviteClient,
+    listClientsFor,
+    presentClient,
     updateClientWithAccount,
+    updateOwnClientProfile,
 } from '../portal-service.mjs';
 import {
     createProject as createPortfolioProject,
@@ -49,19 +54,21 @@ export function listAgencyClients(user, filters = {}) {
     const serviceType = filters.serviceType ? String(filters.serviceType).toLowerCase() : '';
     if (serviceType === 'seo' || filters.seo === '1' || filters.seo === 'true') {
         const slugs = new Set(listSeoClients().map((client) => client.slug));
-        return clients.filter((client) => slugs.has(client.slug));
+        clients = clients.filter((client) => slugs.has(client.slug));
+        return listClientsFor(user, clients);
     }
     if (serviceType) {
         const slugs = new Set(
             listClientProjects({ serviceType, status: filters.status || 'active' }).map((row) => row.clientSlug)
         );
-        return clients.filter(
+        clients = clients.filter(
             (client) =>
                 slugs.has(client.slug) ||
                 (client.services || []).some((service) => service.type === serviceType)
         );
+        return listClientsFor(user, clients);
     }
-    return clients;
+    return listClientsFor(user, clients);
 }
 
 export function getAgencyClient(id) {
@@ -178,6 +185,10 @@ export {
     createClientWithAccount,
     updateClientWithAccount,
     deleteClientWithAccount,
+    getPortalMe,
+    inviteClient,
+    presentClient,
+    updateOwnClientProfile,
     listClientProjects,
     getClientProject,
     createClientProject,

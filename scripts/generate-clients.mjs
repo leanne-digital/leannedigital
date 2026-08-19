@@ -69,10 +69,10 @@ function serviceTags(client) {
 function portalScripts(depth, admin = false) {
     const prefix = '../'.repeat(depth);
     const adminScript = admin
-        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260815a" defer></script>`
+        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819a" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260815a" defer></script>${adminScript}`;
+    <script src="${prefix}js/portal-auth.js?v=20260819a" defer></script>${adminScript}`;
 }
 
 function renderLinks(client) {
@@ -209,8 +209,14 @@ ${totals}
                         <label>Client name
                             <input name="name" type="text" required>
                         </label>
+                        <label>Contact name
+                            <input name="contactName" type="text" autocomplete="off">
+                        </label>
                         <label>Portal login email
                             <input name="email" type="email" autocomplete="off">
+                        </label>
+                        <label>Phone
+                            <input name="phone" type="tel" autocomplete="off">
                         </label>
                         <label>Website
                             <input name="website" type="url" placeholder="https://">
@@ -218,12 +224,21 @@ ${totals}
                         <label>Platform
                             <select name="platform">
                                 <option value="WordPress">WordPress</option>
-                                <option value="Static">Static site</option>
+                                <option value="Wix">Wix</option>
+                                <option value="Webflow">Webflow</option>
+                                <option value="Squarespace">Squarespace</option>
                                 <option value="Shopify">Shopify</option>
+                                <option value="Showit">Showit</option>
+                                <option value="Static">Static site</option>
+                                <option value="Custom / HTML">Custom / HTML</option>
+                                <option value="None yet">None yet</option>
                                 <option value="Other">Other</option>
                             </select>
                         </label>
                     </div>
+                    <p class="dash-copy dash-copy--left" data-invite-note>Saving a new client emails them a login link to set their password. You can resend it after they exist.</p>
+                    <p><button class="dash-form__add" type="button" data-invite-client hidden>Send login link</button></p>
+                    <div class="dash-creds" data-client-apps hidden></div>
                     <h3 class="dash-form__heading">Credentials</h3>
                     <p class="dash-copy dash-copy--left">Logins for hosting, domain, email, and other apps. Staff only — clients never see this.</p>
                     <div class="dash-creds" data-credential-list></div>
@@ -337,6 +352,7 @@ ${renderFullFooter(1)}
         slug: client.slug,
         name: client.name,
         email: client.email || '',
+        phone: client.phone || '',
         website: client.website || '',
         platform: client.platform || '',
         googleDrive: client.googleDrive || '',
@@ -344,6 +360,7 @@ ${renderFullFooter(1)}
         hosting: client.hosting || null,
         services: client.services || [],
         credentials: client.credentials || [],
+        clientApps: client.clientApps || [],
         discount: Number(client.discount) || 0,
         taxAmount: Number(client.taxAmount) || 0,
     }))).replace(/</g, '\\u003c')}</script>
@@ -475,6 +492,7 @@ ${renderNav(2, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="${headerClass}">
                 <div class="client-profile__copy">
+                    <a class="client-reports__back" href="/client-portal/">Your portal</a>
                     <a class="client-reports__back" href="/admin/" data-admin-only>Admin</a>
                     <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
                     ${contact ? `<p class="client-profile__lead">${contact}</p>` : ''}
@@ -569,7 +587,7 @@ function main() {
         }
     }
     writePage(path.join('clients', 'shift'), renderShiftRedirect());
-    console.log(`Generated client hub, login pages, admin dashboard, and ${clients.length} client pages.`);
+    console.log(`Generated client hub, login pages, client portal, admin dashboard, and ${clients.length} client pages.`);
 }
 
 main();

@@ -328,7 +328,9 @@
         form.reset();
         form.slug.value = client.slug || '';
         form.name.value = client.name || '';
+        if (form.contactName) form.contactName.value = client.contactName || '';
         form.email.value = client.email || '';
+        if (form.phone) form.phone.value = client.phone || '';
         form.website.value = client.website || '';
         form.platform.value = client.platform || 'WordPress';
         const hosting = service(client, 'hosting');
@@ -345,6 +347,21 @@
         setCredentials($('[data-credential-list]', form), client.credentials || []);
         updateTotal(form);
         form.querySelector('[type="submit"]').textContent = 'Save changes';
+        const inviteBtn = $('[data-invite-client]', form);
+        if (inviteBtn) inviteBtn.hidden = false;
+        const appsBox = $('[data-client-apps]', form);
+        if (appsBox) {
+            const apps = client.clientApps || [];
+            appsBox.hidden = !apps.length;
+            appsBox.innerHTML = apps.length
+                ? `<p class="dash-copy dash-copy--left">Client-submitted services</p>${apps
+                      .map(
+                          (app) =>
+                              `<p>${escapeHtml(app.label || 'Service')}${app.username ? ` — ${escapeHtml(app.username)}` : ''}${app.notes ? ` (${escapeHtml(app.notes)})` : ''}</p>`
+                      )
+                      .join('')}`
+                : '';
+        }
         form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -398,6 +415,22 @@
             $('[data-credential-list]', form).appendChild(credentialRow());
         });
 
+        $('[data-invite-client]', form)?.addEventListener('click', async () => {
+            const slug = form.slug.value;
+            if (!slug) return;
+            show(errorEl, '');
+            show(okEl, '');
+            try {
+                const result = await api.inviteClient(slug);
+                const parts = [`Login link sent to ${result.invite?.email || form.email.value}.`];
+                if (result.invite?.inviteUrl) parts.push(`Link: ${result.invite.inviteUrl}`);
+                if (!result.invite?.emailed) parts.push('Email was not sent — copy the link above.');
+                show(okEl, parts.join(' '));
+            } catch (error) {
+                show(errorEl, error.message || 'Could not send that login link.');
+            }
+        });
+
         form.addEventListener('click', (event) => {
             const remove = event.target.closest('[data-remove-credential]');
             if (!remove) return;
@@ -409,6 +442,13 @@
         form.addEventListener('reset', () => {
             form.slug.value = '';
             form.querySelector('[type="submit"]').textContent = 'Save client';
+            const inviteBtn = $('[data-invite-client]', form);
+            if (inviteBtn) inviteBtn.hidden = true;
+            const appsBox = $('[data-client-apps]', form);
+            if (appsBox) {
+                appsBox.hidden = true;
+                appsBox.innerHTML = '';
+            }
             show(errorEl, '');
             show(okEl, '');
             setCredentials($('[data-credential-list]', form), [{}]);
@@ -429,7 +469,20 @@
                 else await refresh();
                 render(clients);
                 form.reset();
-                show(okEl, op === 'create' ? 'Client added.' : 'Client updated.');
+                if (op === 'create') {
+                    const email = result.account?.email || payload.email;
+                    const invited = result.invite?.emailed;
+                    const link = result.invite?.inviteUrl;
+                    const temp = result.account?.temporaryPassword;
+                    const parts = [`Client added. Login email: ${email || 'n/a'}.`];
+                    if (invited) parts.push('A set-password link was emailed to them.');
+                    else parts.push('Invite email was not sent (check SMTP), so share the login link or temporary password.');
+                    if (link) parts.push(`Login link: ${link}`);
+                    if (temp) parts.push(`Temporary password: ${temp}`);
+                    show(okEl, parts.join(' '));
+                } else {
+                    show(okEl, 'Client updated.');
+                }
             } catch (error) {
                 show(errorEl, error.message || 'Could not save that client.');
             } finally {

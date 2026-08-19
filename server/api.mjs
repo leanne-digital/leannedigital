@@ -4,14 +4,18 @@ import { pathToFileURL } from 'node:url';
 import { loadEnv } from '../scripts/load-env.mjs';
 import { openApiSpec } from './openapi.mjs';
 import {
+    avatarFileFor,
+    changePassword,
     cookieHeader,
     destroySession,
     ensureClientAccounts,
     getSessionUser,
+    getUserById,
     login,
     publicUser,
     requestPasswordReset,
     resetPassword,
+    saveUserAvatar,
     seedStaffAccount,
 } from './auth.mjs';
 import { handleContact } from './contact.mjs';
@@ -29,19 +33,23 @@ import {
     getClientRevenue,
     getDashboardStats,
     getMonthlyRevenue,
+    getPortalMe,
     getRevenueByService,
     getSiteConversions,
     getSiteStatistics,
+    inviteClient,
     listAgencyClients,
     listClientProjects,
     listSeoClients,
     loadCalendlyBookings,
     loadPortfolioProjects,
     loadSubmissions,
+    presentClient,
     setLeadStatus,
     setProjectStatus,
     updateClientProject,
     updateClientWithAccount,
+    updateOwnClientProfile,
     updatePortfolioProject,
     updatesForProject,
 } from './services/agency.mjs';
@@ -142,11 +150,13 @@ function portalAccess(pathname, user) {
     const isClientHub = pathname === '/clients' || pathname === '/clients/';
     const isClientPage = pathname.startsWith('/clients/');
     const isClientAsset = pathname.startsWith('/assets/clients/');
-    if (!isAdminDash && !isClientHub && !isClientPage && !isClientAsset) return 'allow';
+    const isClientPortal = pathname === '/client-portal' || pathname.startsWith('/client-portal/');
+    if (!isAdminDash && !isClientHub && !isClientPage && !isClientAsset && !isClientPortal) return 'allow';
     if (!user) return 'login';
-    if (user.role === 'staff') return 'allow';
+    if (user.role === 'staff') return isClientPortal ? 'admin' : 'allow';
     const own = user.clientSlug;
     if (!own) return 'forbid';
+    if (isClientPortal) return 'allow';
     if (isAdminDash || isClientHub) return 'own';
     if (isClientAsset) {
         const assetSlug = pathname.split('/')[3] || '';
@@ -205,6 +215,13 @@ async function handleAuth(req, res, method, pathname) {
         const user = await resetPassword(body.token, body.password);
         return json(req, res, 200, { user });
     }
+    if (pathname === '/api/auth/password' && method === 'POST') {
+        const { user } = getSessionUser(req);
+        if (!user) return json(req, res, 401, { error: 'Unauthorized' });
+        const body = await readBody(req);
+        const next = await changePassword(user.id, body);
+        return json(req, res, 200, { user: next });
+    }
     if (pathname === '/api/contact' && method === 'POST') {
         const body = await readBody(req);
         const result = await handleContact(req, body);
@@ -236,6 +253,38 @@ async function handleApi(req, res, method, pathname, user) {
     if (!pathname.startsWith('/api/')) return false;
     if (!user) {
         json(req, res, 401, { error: 'Unauthorized' });
+        return true;
+    }
+
+    if (pathname === '/api/portal/me' && method === 'GET') {
+        json(req, res, 200, await getPortalMe(getUserById(user.id) || user));
+        return true;
+    }
+    if (pathname === '/api/portal/profile' && method === 'PATCH') {
+        if (user.role !== 'client') {
+            json(req, res, 403, { error: 'Client account required' });
+            return true;
+        }
+        const body = await readBody(req);
+        const full = getUserById(user.id) || user;
+        json(req, res, 200, { client: await updateOwnClientProfile(full, body), user: publicUser(full) });
+        return true;
+    }
+    if (pathname === '/api/portal/avatar' && method === 'GET') {
+        const full = getUserById(user.id);
+        const file = avatarFileFor(full);
+        if (!file) {
+            res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+            res.end('Not found');
+            return true;
+        }
+        sendFile(res, file, { 'Cache-Control': 'private, no-store' });
+        return true;
+    }
+    if (pathname === '/api/portal/avatar' && method === 'POST') {
+        const body = await readBody(req);
+        const next = saveUserAvatar(user.id, body.image || body.dataUrl);
+        json(req, res, 200, { user: next });
         return true;
     }
 
@@ -396,8 +445,16 @@ async function handleApi(req, res, method, pathname, user) {
     if (pathname === '/api/clients' && method === 'POST') {
         if (!requireStaff(user, req, res)) return true;
         const body = await readBody(req);
-        const created = await createClientWithAccount(body);
+        const created = await createClientWithAccount(body, { origin: originFrom(req) });
         json(req, res, 201, created);
+        return true;
+    }
+    const inviteMatch = pathname.match(/^\/api\/clients\/([^/]+)\/invite$/);
+    if (inviteMatch && method === 'POST') {
+        if (!requireStaff(user, req, res)) return true;
+        const client = getAgencyClient(decodeURIComponent(inviteMatch[1]));
+        const invite = await inviteClient(client, originFrom(req));
+        json(req, res, 200, { invite, client });
         return true;
     }
     const match = pathname.match(/^\/api\/clients\/([^/]+)$/);
@@ -411,7 +468,7 @@ async function handleApi(req, res, method, pathname, user) {
         if (user.role !== 'staff' && client.slug !== user.clientSlug) {
             return json(req, res, 403, { error: 'Forbidden' });
         }
-        json(req, res, 200, { client, projects: listClientProjects({ client: client.slug }) });
+        json(req, res, 200, { client: presentClient(client, user), projects: listClientProjects({ client: client.slug }) });
         return true;
     }
     if (!requireStaff(user, req, res)) return true;
@@ -444,8 +501,12 @@ function handleStatic(req, res, pathname, user) {
         redirect(res, `/login/?next=${encodeURIComponent(pathname)}`);
         return;
     }
+    if (access === 'admin') {
+        redirect(res, '/admin/');
+        return;
+    }
     if (access === 'own') {
-        redirect(res, `/clients/${user.clientSlug}/`);
+        redirect(res, `/client-portal/`);
         return;
     }
     if (access === 'forbid') {

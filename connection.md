@@ -28,6 +28,8 @@ HTTP auth: session cookie `ld_portal`, or `X-API-Key` / `Authorization: Bearer` 
 Remote MCP auth: ChatGPT uses OAuth (see below). Manual tests may still use `Authorization: Bearer` with `REMOTE_MCP_API_KEY`.  
 Do not put keys, passwords, or `data/portal-*.json` in frontend JS or public GPT instructions.
 
+The client portal is a closed system. Staff add a client with a real email; the API creates a login and emails a set-password link (`/login/reset/?token=`). Clients then land on `/client-portal/` to change their password, complete onboarding (providers, not domain/hosting passwords), add extra apps like Mailchimp, and upload an avatar. Reports stay at `/clients/{slug}/`.
+
 ---
 
 ## Two kinds of “project”
@@ -73,7 +75,11 @@ The adapter calls `GET {LILIPADD_API_URL}/api/public/v1/analytics?key={LILIPADD_
 
 **Existing (unchanged behaviour)**
 
-- Auth: `/api/auth/login|logout|me|forgot|reset`
+- Auth: `/api/auth/login|logout|me|forgot|reset|password`
+- `GET /api/portal/me` — signed-in user + their client profile (clients only)
+- `PATCH /api/portal/profile` — client onboarding, contact, stack, and extra apps
+- `GET|POST /api/portal/avatar` — account photo
+- `POST /api/clients/{id}/invite` — staff resend set-password email
 - `GET /api/dashboard` — retainer stats from client `services[]`
 - `GET|POST /api/clients`, `GET|PATCH|DELETE /api/clients/{id}`
 - `GET|POST /api/portfolio`, `PATCH|DELETE /api/portfolio/{slug}`

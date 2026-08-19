@@ -66,9 +66,12 @@
         const safe = next && next.startsWith('/') && !next.startsWith('//') ? next : '';
         if (user?.role === 'client' && user.clientSlug) {
             const own = `/clients/${user.clientSlug}`;
-            if (!safe || safe === '/clients/' || safe === '/clients' || safe.startsWith('/admin') || (!safe.startsWith(`${own}/`) && safe !== own)) {
-                return `${own}/`;
+            if (user.mustChangePassword) return '/client-portal/';
+            if (!safe || safe === '/clients/' || safe === '/clients' || safe.startsWith('/admin')) {
+                return '/client-portal/';
             }
+            if (safe === '/client-portal' || safe.startsWith('/client-portal/')) return '/client-portal/';
+            if (!safe.startsWith(`${own}/`) && safe !== own) return '/client-portal/';
             return safe.endsWith('/') || safe.includes('.') ? safe : `${safe}/`;
         }
         return safe || '/admin/';
@@ -191,6 +194,21 @@
                     }
                     setToken('');
                 },
+                portalMe() {
+                    return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
+                },
+                saveProfile() {
+                    return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
+                },
+                changePassword() {
+                    return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
+                },
+                saveAvatar() {
+                    return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
+                },
+                inviteClient() {
+                    return Promise.reject(new Error('Invites need the Leanne Digital login service.'));
+                },
                 clients(op, extra) {
                     return request(`${endpoint}clients`, {
                         method: 'POST',
@@ -242,6 +260,37 @@
             async logout() {
                 await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
             },
+            portalMe() {
+                return request('/api/portal/me', { action: 'me' });
+            },
+            saveProfile(body) {
+                return request('/api/portal/profile', {
+                    method: 'PATCH',
+                    body,
+                    action: 'profile',
+                });
+            },
+            changePassword(body) {
+                return request('/api/auth/password', {
+                    method: 'POST',
+                    body,
+                    action: 'reset',
+                });
+            },
+            saveAvatar(image) {
+                return request('/api/portal/avatar', {
+                    method: 'POST',
+                    body: { image },
+                    action: 'profile',
+                });
+            },
+            inviteClient(slug) {
+                return request(`/api/clients/${encodeURIComponent(slug)}/invite`, {
+                    method: 'POST',
+                    body: {},
+                    action: 'clients',
+                });
+            },
             async clients(op, extra) {
                 extra = extra || {};
                 if (op === 'list' || op === 'seed') {
@@ -291,9 +340,15 @@
         bar.setAttribute('aria-label', 'Account');
         const dashboardHref = user.role === 'staff' || !user.clientSlug
             ? '/admin/'
-            : `/clients/${user.clientSlug}/`;
+            : '/client-portal/';
         const dashboardLabel = user.role === 'staff' || !user.clientSlug ? 'Dashboard' : 'Your portal';
-        bar.innerHTML = `<a class="portal-bar__dash" href="${dashboardHref}">${dashboardLabel}</a><span class="portal-bar__email"></span><button type="button">Log out</button>`;
+        const reports = user.role === 'client' && user.clientSlug
+            ? `<a href="/clients/${user.clientSlug}/">Reports</a>`
+            : '';
+        const avatar = user.avatarUrl
+            ? `<img class="portal-bar__avatar" src="${user.avatarUrl}" alt="">`
+            : '';
+        bar.innerHTML = `${avatar}<a class="portal-bar__dash" href="${dashboardHref}">${dashboardLabel}</a>${reports}<span class="portal-bar__email"></span><button type="button">Log out</button>`;
         bar.querySelector('.portal-bar__email').textContent = user.email;
         bar.querySelector('button').addEventListener('click', async () => {
             await api.logout();
@@ -378,7 +433,7 @@
                 location.pathname === '/admin/' ||
                 location.pathname === '/admin')
         ) {
-            location.replace(`/clients/${session.user.clientSlug}/`);
+            location.replace('/client-portal/');
             return;
         }
         injectBar(api, session.user);

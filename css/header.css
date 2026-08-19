@@ -45,6 +45,15 @@
     white-space: nowrap;
 }
 
+.portal-bar__avatar {
+    width: 1.6rem;
+    height: 1.6rem;
+    overflow: hidden;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--ld-accent-soft);
+}
+
 html.has-portal-bar .site-header,
 body:has(.portal-bar) .site-header {
     top: var(--ld-portal-bar-height);

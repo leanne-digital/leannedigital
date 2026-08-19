@@ -42,6 +42,7 @@ const SECRET_KEYS = new Set([
     'api_key',
     'authorization',
     'credentials',
+    'clientapps',
     'smtppass',
     'smtp_pass',
 ]);

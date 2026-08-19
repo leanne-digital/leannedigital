@@ -4,7 +4,7 @@ export function openApiSpec(port = 4174) {
         openapi: '3.1.0',
         info: {
             title: 'Leanne Digital Client Portal API',
-            version: '1.3.0',
+            version: '1.4.0',
             description:
                 'Leanne Digital staff API: clients, client/service projects, revenue, portfolio, leads, Calendly. Portfolio is public website work; /api/projects is agency work (SEO, hosting, maintenance).',
         },
@@ -34,7 +34,11 @@ export function openApiSpec(port = 4174) {
                         website: { type: 'string' },
                         googleDrive: { type: 'string', example: 'https://drive.google.com/drive/folders/...' },
                         location: { type: 'string' },
+                        phone: { type: 'string' },
                         platform: { type: 'string', example: 'WordPress' },
+                        domainProvider: { type: 'string' },
+                        emailProvider: { type: 'string' },
+                        hostingProvider: { type: 'string' },
                         currency: { type: 'string', example: 'CAD' },
                         hostingAmount: { type: 'number', example: 250 },
                         hostingCycle: { type: 'string', enum: ['monthly', 'yearly'], example: 'yearly' },
@@ -133,6 +137,45 @@ export function openApiSpec(port = 4174) {
                     responses: { 200: { description: 'Password updated' } },
                 },
             },
+            '/api/auth/password': {
+                post: {
+                    summary: 'Change password while signed in',
+                    requestBody: {
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        currentPassword: { type: 'string' },
+                                        password: { type: 'string' },
+                                    },
+                                    required: ['password'],
+                                },
+                            },
+                        },
+                    },
+                    responses: { 200: { description: 'Password updated' } },
+                },
+            },
+            '/api/portal/me': {
+                get: {
+                    summary: 'Current user and client onboarding profile',
+                    responses: { 200: { description: 'User plus client-safe profile' } },
+                },
+            },
+            '/api/portal/profile': {
+                patch: {
+                    summary: 'Client updates onboarding, contact, and extra services',
+                    responses: { 200: { description: 'Updated client profile' } },
+                },
+            },
+            '/api/portal/avatar': {
+                get: { summary: 'Current user avatar image', responses: { 200: { description: 'Image' } } },
+                post: {
+                    summary: 'Upload an avatar as a data URL',
+                    responses: { 200: { description: 'Updated user' } },
+                },
+            },
             '/api/dashboard': {
                 get: {
                     summary: 'Staff dashboard totals',
@@ -191,6 +234,21 @@ export function openApiSpec(port = 4174) {
                     summary: 'Delete a client',
                     operationId: 'deleteClient',
                     responses: { 200: { description: 'Deleted' } },
+                },
+            },
+            '/api/clients/{id}/invite': {
+                parameters: [
+                    {
+                        name: 'id',
+                        in: 'path',
+                        required: true,
+                        schema: { type: 'string' },
+                    },
+                ],
+                post: {
+                    summary: 'Email a set-password login link',
+                    operationId: 'inviteClient',
+                    responses: { 200: { description: 'Invite sent or login URL returned' } },
                 },
             },
             '/api/clients/seo': {

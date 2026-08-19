@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { randomBytes } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { isLddProvider } from './portal-options.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PORTAL_FILE = path.join(ROOT, 'data', 'portal-clients.json');
@@ -69,6 +71,68 @@ export function normalizeCredentials(input) {
             return { kind, label, url, username, password, notes };
         })
         .filter(Boolean);
+}
+
+export function normalizeClientApps(input) {
+    const list = Array.isArray(input) ? input : [];
+    return list
+        .map((row) => {
+            if (!row || typeof row !== 'object') return null;
+            const label = String(row.label || '').trim();
+            const url = String(row.url || '').trim();
+            const username = String(row.username || '').trim();
+            const password = String(row.password || '');
+            const notes = String(row.notes || '').trim();
+            if (!label && !url && !username && !password && !notes) return null;
+            return {
+                id: String(row.id || '').trim() || `app-${randomBytes(6).toString('hex')}`,
+                label: label || 'Other service',
+                url,
+                username,
+                password,
+                notes,
+            };
+        })
+        .filter(Boolean);
+}
+
+export function normalizeOnboarding(input = {}, current = {}) {
+    const src = input && typeof input === 'object' ? input : {};
+    const prev = current && typeof current === 'object' ? current : {};
+    const servicesNeeded = Array.isArray(src.servicesNeeded)
+        ? src.servicesNeeded.map((item) => String(item).trim()).filter(Boolean)
+        : prev.servicesNeeded || [];
+    const socialsIn = src.socials && typeof src.socials === 'object' ? src.socials : {};
+    const socialsPrev = prev.socials && typeof prev.socials === 'object' ? prev.socials : {};
+    const completedAt =
+        src.completedAt === null
+            ? null
+            : src.completedAt || prev.completedAt || null;
+    return {
+        completedAt,
+        goals: String(src.goals ?? prev.goals ?? '').trim(),
+        notes: String(src.notes ?? prev.notes ?? '').trim(),
+        preferredContact: String(src.preferredContact ?? prev.preferredContact ?? 'email').trim() || 'email',
+        googleAnalytics: String(src.googleAnalytics ?? prev.googleAnalytics ?? '').trim(),
+        searchConsole: String(src.searchConsole ?? prev.searchConsole ?? '').trim(),
+        servicesNeeded,
+        socials: {
+            facebook: String(socialsIn.facebook ?? socialsPrev.facebook ?? '').trim(),
+            instagram: String(socialsIn.instagram ?? socialsPrev.instagram ?? '').trim(),
+            linkedin: String(socialsIn.linkedin ?? socialsPrev.linkedin ?? '').trim(),
+            googleBusiness: String(socialsIn.googleBusiness ?? socialsPrev.googleBusiness ?? '').trim(),
+        },
+    };
+}
+
+export function hostingFromProvider(provider, current = {}) {
+    const name = String(provider || '').trim();
+    const ldd = isLddProvider(name);
+    return {
+        type: ldd ? 'LDD' : current.type || 'External',
+        provider: name || current.provider || null,
+        lddHosted: ldd || Boolean(current.lddHosted),
+    };
 }
 
 function moneyField(value, fallback = 0) {
@@ -156,6 +220,7 @@ export function loadClients() {
             hosting: overlay.hosting || current.hosting,
             contactName: overlay.contactName || current.contactName,
             email: overlay.email || current.email,
+            phone: overlay.phone || current.phone,
             website: overlay.website || current.website,
             googleDrive: overlay.googleDrive || current.googleDrive,
             bio: overlay.bio || current.bio,
@@ -163,6 +228,10 @@ export function loadClients() {
             reports: overlay.reports || current.reports || [],
             services: mergeServices(current.services, overlay.services),
             credentials: overlay.credentials || current.credentials || [],
+            clientApps: overlay.clientApps || current.clientApps || [],
+            domainProvider: overlay.domainProvider || current.domainProvider,
+            emailProvider: overlay.emailProvider || current.emailProvider,
+            onboarding: overlay.onboarding || current.onboarding,
             discount: overlay.discount ?? current.discount ?? 0,
             taxAmount: overlay.taxAmount ?? current.taxAmount ?? 0,
         });
@@ -189,14 +258,19 @@ function upsertPortal(record) {
         name: record.name,
         contactName: record.contactName || null,
         email: record.email || null,
+        phone: record.phone || null,
         location: record.location || null,
         website: record.website || null,
         googleDrive: record.googleDrive || null,
         platform: record.platform || 'WordPress',
+        domainProvider: record.domainProvider || null,
+        emailProvider: record.emailProvider || null,
         hosting: record.hosting || { type: 'External', provider: null, lddHosted: false },
         currency: record.currency || 'CAD',
         services: (record.services || []).filter((service) => service.type === 'hosting'),
         credentials: record.credentials || [],
+        clientApps: record.clientApps || [],
+        onboarding: record.onboarding || null,
         discount: Number(record.discount) || 0,
         taxAmount: Number(record.taxAmount) || 0,
         createdAt: record.createdAt || stamp(),
@@ -277,18 +351,23 @@ export async function createClient(input) {
         name,
         contactName: input.contactName || null,
         email: input.email || null,
+        phone: input.phone || null,
         location: input.location || null,
         website: input.website || null,
         googleDrive: input.googleDrive || null,
         platform: input.platform || 'WordPress',
+        domainProvider: input.domainProvider || null,
+        emailProvider: input.emailProvider || null,
         hosting: input.hosting || {
             type: hostingService ? 'LDD' : 'External',
-            provider: hostingService ? 'LDD Self Hosting' : null,
+            provider: hostingService ? 'LDD Self Hosting' : input.hostingProvider || null,
             lddHosted: Boolean(hostingService),
         },
         currency: input.currency || 'CAD',
         services,
         credentials: normalizeCredentials(input.credentials),
+        clientApps: normalizeClientApps(input.clientApps),
+        onboarding: normalizeOnboarding(input.onboarding),
         discount: moneyField(input.discount, 0),
         taxAmount: moneyField(input.taxAmount, 0),
         bio: input.bio || '',
@@ -301,7 +380,7 @@ export async function createClient(input) {
     return getClient(slug);
 }
 
-export async function updateClient(slugOrId, input) {
+export async function updateClient(slugOrId, input, { regenerate = true } = {}) {
     const current = getClient(slugOrId);
     if (!current) {
         const error = new Error('Client not found');
@@ -314,22 +393,35 @@ export async function updateClient(slugOrId, input) {
         name: input.name || current.name,
         contactName: input.contactName ?? current.contactName,
         email: input.email ?? current.email,
+        phone: 'phone' in input ? input.phone || null : current.phone,
         location: input.location ?? current.location,
         website: input.website ?? current.website,
         googleDrive: input.googleDrive ?? current.googleDrive,
         platform: input.platform || current.platform,
-        hosting: input.hosting || current.hosting,
+        domainProvider: 'domainProvider' in input ? input.domainProvider || null : current.domainProvider,
+        emailProvider: 'emailProvider' in input ? input.emailProvider || null : current.emailProvider,
+        hosting: input.hosting
+            ? input.hosting
+            : input.hostingProvider
+              ? hostingFromProvider(input.hostingProvider, current.hosting)
+              : current.hosting,
         currency: input.currency || current.currency,
         bio: input.bio ?? current.bio,
         services: incomingServices,
         credentials: 'credentials' in input ? normalizeCredentials(input.credentials) : current.credentials || [],
+        clientApps: 'clientApps' in input ? normalizeClientApps(input.clientApps) : current.clientApps || [],
+        onboarding: 'onboarding' in input ? normalizeOnboarding(input.onboarding, current.onboarding) : current.onboarding,
         discount: 'discount' in input ? moneyField(input.discount, 0) : Number(current.discount) || 0,
         taxAmount: 'taxAmount' in input ? moneyField(input.taxAmount, 0) : Number(current.taxAmount) || 0,
     };
     upsertPortal(record);
     upsertOverlay(record);
-    await regeneratePages();
+    if (regenerate) await regeneratePages();
     return getClient(current.slug);
+}
+
+export async function updateClientPortalProfile(slugOrId, input) {
+    return updateClient(slugOrId, input, { regenerate: false });
 }
 
 export async function deleteClient(slugOrId) {

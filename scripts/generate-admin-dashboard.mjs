@@ -11,7 +11,7 @@ import { PORTFOLIO_FILTERS } from './portfolio-filters.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260815a';
+const SCRIPT_V = '20260819a';
 
 const SECTIONS = [
     { id: 'overview', label: 'Overview' },

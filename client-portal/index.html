@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- lp:seo -->
     <title>Client Portal | Leanne Digital</title>
-    <meta name="description" content="Client resources and project access. This page is coming soon.">
-    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="Your Leanne Digital account, onboarding details, and project files.">
+    <meta name="robots" content="noindex, nofollow">
     <link rel="canonical" href="https://leannedigital.com/client-portal/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Client Portal | Leanne Digital">
-    <meta property="og:description" content="Client resources and project access. This page is coming soon.">
+    <meta property="og:description" content="Your Leanne Digital account, onboarding details, and project files.">
     <meta property="og:url" content="https://leannedigital.com/client-portal/">
     <meta property="og:image" content="https://leannedigital.com/assets/images/hero/leanne-and-gary-ld-hero-v02.webp">
     <meta property="og:site_name" content="Leanne Digital">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Client Portal | Leanne Digital">
-    <meta name="twitter:description" content="Client resources and project access. This page is coming soon.">
+    <meta name="twitter:description" content="Your Leanne Digital account, onboarding details, and project files.">
     <meta name="twitter:image" content="https://leannedigital.com/assets/images/hero/leanne-and-gary-ld-hero-v02.webp">
     <!-- lp:custom-head -->
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
@@ -26,14 +26,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/tokens.css?v=20260813l">
-    <link rel="stylesheet" href="../css/base.css?v=20260813l">
-    <link rel="stylesheet" href="../css/header.css?v=20260813l">
-    <link rel="stylesheet" href="../css/page-inner.css?v=20260813l">
-    <link rel="stylesheet" href="../css/buttons.css?v=20260813l">
-    <link rel="stylesheet" href="../css/faq.css?v=20260813l">
-    <link rel="stylesheet" href="../css/coming-soon.css?v=20260813l">
-    <link rel="stylesheet" href="../css/footer.css?v=20260813l">
+    <link rel="stylesheet" href="../css/tokens.css?v=20260813m">
+    <link rel="stylesheet" href="../css/base.css?v=20260813m">
+    <link rel="stylesheet" href="../css/header.css?v=20260813m">
+    <link rel="stylesheet" href="../css/page-inner.css?v=20260813m">
+    <link rel="stylesheet" href="../css/buttons.css?v=20260813m">
+    <link rel="stylesheet" href="../css/faq.css?v=20260813m">
+    <link rel="stylesheet" href="../css/login.css?v=20260813m">
+    <link rel="stylesheet" href="../css/clients.css?v=20260813m">
+    <link rel="stylesheet" href="../css/portal.css?v=20260813m">
+    <link rel="stylesheet" href="../css/footer.css?v=20260813m">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -49,7 +51,7 @@
     })();
     </script>
 </head>
-<body class="page-inner">
+<body class="page-inner" data-portal-gate data-portal-page="client">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
@@ -94,37 +96,213 @@
             </nav>
         </div>
     </header>
-    <main id="main" class="coming-soon">
-        <div class="container coming-soon__inner">
-            <p class="coming-soon__eyebrow">Coming soon</p>
-            <h1 class="coming-soon__title">Client Portal</h1>
-            <p class="coming-soon__lead">We're rebuilding this page. In the meantime, send a message and we can still help.</p>
-            <a class="coming-soon__cta" href="/contact/">Contact us</a>
-        </div>
-        <section class="page-faq section--navy" aria-labelledby="page-faq-heading">
-            <div class="container page-faq__inner">
-                <h2 class="page-faq__title" id="page-faq-heading">Frequently Asked Questions</h2>
-                <div class="page-faq__list">
-                <details class="page-faq__item">
-                    <summary>Where is Leanne Digital based?</summary>
-                    <p>Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond.</p>
-                </details>
-                <details class="page-faq__item">
-                    <summary>What services does Leanne Digital offer?</summary>
-                    <p>We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads.</p>
-                </details>
-                <details class="page-faq__item">
-                    <summary>How do I get started?</summary>
-                    <p>The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step.</p>
-                </details>
-                <details class="page-faq__item">
-                    <summary>Do you work with clients outside Winnipeg?</summary>
-                    <p>Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely.</p>
-                </details>
-                </div>
+    <main id="main">
+        <section class="portal-page section--navy">
+            <div class="container portal-page__wrap">
+                <header class="portal-hero">
+                    <p class="portal-hero__eyebrow">Client portal</p>
+                    <h1 class="portal-hero__title">Your workspace</h1>
+                    <p class="portal-hero__lead" data-portal-lead>Log in to finish onboarding, update your details, and open your reports.</p>
+                </header>
+                <p class="login-form__error" data-portal-error hidden></p>
+                <p class="login-form__ok" data-portal-ok hidden></p>
+
+                <section class="portal-panel" data-panel="password" hidden>
+                    <div class="login-card portal-card">
+                        <h2 class="login-card__title">Choose a password</h2>
+                        <p class="login-card__lead" data-password-lead>Pick a password you will remember. Use at least 8 characters.</p>
+                        <form class="login-form" data-password-form>
+                            <div class="login-form__field" data-current-wrap>
+                                <label for="current-password">Current password</label>
+                                <input id="current-password" name="currentPassword" type="password" autocomplete="current-password">
+                            </div>
+                            <div class="login-form__field">
+                                <label for="new-password">New password</label>
+                                <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                            </div>
+                            <div class="login-form__field">
+                                <label for="confirm-password">Confirm password</label>
+                                <input id="confirm-password" name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+                            </div>
+                            <button class="ld-btn" type="submit">Save password</button>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="portal-panel" data-panel="onboarding" hidden>
+                    <form class="dash-form portal-form" data-onboarding-form>
+                        <h2 class="dash-form__heading">Onboarding</h2>
+                        <p class="dash-copy dash-copy--left">Tell us how to reach you and which tools you already use. We only need the provider names here — not the passwords.</p>
+                        <h3 class="dash-form__heading">Business</h3>
+                        <div class="dash-form__grid">
+                            <label>Business name
+                                <input name="name" type="text" required autocomplete="organization">
+                            </label>
+                            <label>Your name
+                                <input name="contactName" type="text" required autocomplete="name">
+                            </label>
+                            <label>Email
+                                <input name="email" type="email" required autocomplete="email">
+                            </label>
+                            <label>Cellphone
+                                <input name="phone" type="tel" required autocomplete="tel">
+                            </label>
+                            <label>City / location
+                                <input name="location" type="text" autocomplete="address-level2">
+                            </label>
+                            <label>Current website
+                                <input name="website" type="url" placeholder="https://">
+                            </label>
+                            <label>Preferred contact
+                                <select name="preferredContact"><option value="email">Email</option><option value="phone">Phone call</option><option value="text">Text message</option></select>
+                            </label>
+                            <label>Website platform
+                                <select name="platform"><option value="">Select</option><option value="WordPress">WordPress</option><option value="Wix">Wix</option><option value="Webflow">Webflow</option><option value="Squarespace">Squarespace</option><option value="Shopify">Shopify</option><option value="Showit">Showit</option><option value="Custom / HTML">Custom / HTML</option><option value="None yet">None yet</option><option value="Other">Other</option></select>
+                            </label>
+                            <label data-other-wrap="platform" hidden>Platform (other)
+                                <input name="platformOther" type="text" placeholder="What do you use?">
+                            </label>
+                            <label>Domain provider
+                                <select name="domainProvider"><option value="">Select</option><option value="GoDaddy">GoDaddy</option><option value="Hover">Hover</option><option value="Namecheap">Namecheap</option><option value="Google Domains / Squarespace">Google Domains / Squarespace</option><option value="Cloudflare">Cloudflare</option><option value="Network Solutions">Network Solutions</option><option value="Name.com">Name.com</option><option value="Leanne Digital">Leanne Digital</option><option value="Other">Other</option><option value="Not sure">Not sure</option></select>
+                            </label>
+                            <label data-other-wrap="domainProvider" hidden>Domain provider (other)
+                                <input name="domainProviderOther" type="text">
+                            </label>
+                            <label>Hosting provider
+                                <select name="hostingProvider"><option value="">Select</option><option value="SiteGround">SiteGround</option><option value="WP Engine">WP Engine</option><option value="Kinsta">Kinsta</option><option value="Cloudways">Cloudways</option><option value="Bluehost">Bluehost</option><option value="HostGator">HostGator</option><option value="Shopify">Shopify</option><option value="Wix">Wix</option><option value="Squarespace">Squarespace</option><option value="Webflow">Webflow</option><option value="Leanne Digital">Leanne Digital</option><option value="Other">Other</option><option value="Not sure">Not sure</option></select>
+                            </label>
+                            <label data-other-wrap="hostingProvider" hidden>Hosting provider (other)
+                                <input name="hostingProviderOther" type="text">
+                            </label>
+                            <label>Email provider
+                                <select name="emailProvider"><option value="">Select</option><option value="Google Workspace">Google Workspace</option><option value="Microsoft 365">Microsoft 365</option><option value="GoDaddy">GoDaddy</option><option value="Fastmail">Fastmail</option><option value="Proton">Proton</option><option value="iCloud">iCloud</option><option value="Leanne Digital">Leanne Digital</option><option value="Other">Other</option><option value="Not sure">Not sure</option></select>
+                            </label>
+                            <label data-other-wrap="emailProvider" hidden>Email provider (other)
+                                <input name="emailProviderOther" type="text">
+                            </label>
+                        </div>
+                        <h3 class="dash-form__heading">What you need help with</h3>
+                        <div class="portal-checks">
+                        <label class="portal-check">
+                            <input type="checkbox" name="need-website" value="website">
+                            <span>Website design or rebuild</span>
+                        </label>
+                        <label class="portal-check">
+                            <input type="checkbox" name="need-seo" value="seo">
+                            <span>SEO</span>
+                        </label>
+                        <label class="portal-check">
+                            <input type="checkbox" name="need-hosting" value="hosting">
+                            <span>Hosting or domain help</span>
+                        </label>
+                        <label class="portal-check">
+                            <input type="checkbox" name="need-design" value="design">
+                            <span>Graphic design / branding</span>
+                        </label>
+                        <label class="portal-check">
+                            <input type="checkbox" name="need-ads" value="ads">
+                            <span>Google Ads</span>
+                        </label>
+                        <label class="portal-check">
+                            <input type="checkbox" name="need-maintenance" value="maintenance">
+                            <span>Ongoing website care</span>
+                        </label>
+                        </div>
+                        <h3 class="dash-form__heading">Analytics &amp; social</h3>
+                        <div class="dash-form__grid">
+                            <label>Google Analytics
+                                <select name="googleAnalytics">
+                                    <option value="">Not sure</option>
+                                    <option value="yes">Yes, we have it</option>
+                                    <option value="no">No</option>
+                                    <option value="help">Need help setting it up</option>
+                                </select>
+                            </label>
+                            <label>Google Search Console
+                                <select name="searchConsole">
+                                    <option value="">Not sure</option>
+                                    <option value="yes">Yes, we have it</option>
+                                    <option value="no">No</option>
+                                    <option value="help">Need help setting it up</option>
+                                </select>
+                            </label>
+                            <label>Instagram
+                                <input name="instagram" type="url" placeholder="https://">
+                            </label>
+                            <label>Facebook
+                                <input name="facebook" type="url" placeholder="https://">
+                            </label>
+                            <label>LinkedIn
+                                <input name="linkedin" type="url" placeholder="https://">
+                            </label>
+                            <label>Google Business Profile
+                                <input name="googleBusiness" type="url" placeholder="https://">
+                            </label>
+                        </div>
+                        <label>Anything else we should know
+                            <textarea name="notes" rows="4" placeholder="Goals, deadlines, brand files, or tools you already pay for."></textarea>
+                        </label>
+                        <div class="dash-form__actions">
+                            <button class="ld-btn" type="submit">Save onboarding</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="portal-panel portal-home" data-panel="home" hidden>
+                    <div class="portal-home__grid">
+                        <article class="portal-card portal-card--profile">
+                            <h2 class="dash-form__heading">Profile</h2>
+                            <form class="portal-avatar" data-avatar-form>
+                                <div class="portal-avatar__preview">
+                                    <img alt="" data-avatar-img hidden>
+                                    <span data-avatar-fallback>LD</span>
+                                </div>
+                                <div>
+                                    <p class="dash-copy dash-copy--left">Add a photo for your account. Square JPG or PNG, under 400 KB.</p>
+                                    <label class="portal-avatar__pick">
+                                        <span>Upload photo</span>
+                                        <input name="avatar" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                                    </label>
+                                </div>
+                            </form>
+                            <p class="portal-profile__meta" data-profile-meta></p>
+                            <p><a class="ld-btn ld-btn--ghost" data-reports-link href="/clients/">Open reports</a></p>
+                        </article>
+                        <article class="portal-card">
+                            <h2 class="dash-form__heading">Your stack</h2>
+                            <dl class="portal-stack" data-stack-list></dl>
+                            <p><button class="dash-form__add" type="button" data-edit-onboarding>Edit details</button></p>
+                        </article>
+                    </div>
+                    <form class="dash-form portal-form" data-apps-form>
+                        <h2 class="dash-form__heading">Other services</h2>
+                        <p class="dash-copy dash-copy--left">Add logins for Mailchimp, plugins, or anything else we may need to manage. Skip the password if you would rather send it another way.</p>
+                        <div class="dash-creds" data-app-list></div>
+                        <p><button class="dash-form__add" type="button" data-add-app>Add a service</button></p>
+                        <div class="dash-form__actions">
+                            <button class="ld-btn" type="submit">Save services</button>
+                        </div>
+                    </form>
+                    <form class="dash-form portal-form" data-account-password-form>
+                        <h2 class="dash-form__heading">Password</h2>
+                        <div class="dash-form__grid">
+                            <label>Current password
+                                <input name="currentPassword" type="password" autocomplete="current-password" required>
+                            </label>
+                            <label>New password
+                                <input name="password" type="password" autocomplete="new-password" minlength="8" required>
+                            </label>
+                            <label>Confirm password
+                                <input name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+                            </label>
+                        </div>
+                        <div class="dash-form__actions">
+                            <button class="ld-btn" type="submit">Update password</button>
+                        </div>
+                    </form>
+                </section>
             </div>
         </section>
-
     </main>
     <footer class="site-footer">
         <div class="site-footer__main">
@@ -171,6 +349,7 @@
         </div>
     </footer>
     <script src="../js/site-nav.js" defer></script>
-
+    <script src="../js/portal-auth.js?v=20260819a" defer></script>
+    <script src="../js/portal-client.js?v=20260819a" defer></script>
 </body>
 </html>

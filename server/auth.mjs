@@ -4,6 +4,8 @@ import { createHash, randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { loadClients } from '../scripts/client-store.mjs';
+import { SITE_URL } from '../scripts/site-config.mjs';
+import { mailConfigured, sendMail } from './mail.mjs';
 
 const scryptAsync = promisify(scrypt);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -11,10 +13,12 @@ const USERS_FILE = path.join(ROOT, 'data', 'portal-users.json');
 const SESSIONS_FILE = path.join(ROOT, 'data', 'portal-sessions.json');
 const RESETS_FILE = path.join(ROOT, 'data', 'portal-resets.json');
 const BOOTSTRAP_FILE = path.join(ROOT, 'data', 'portal-bootstrap.json');
+const AVATARS_DIR = path.join(ROOT, 'data', 'avatars');
 
 export const COOKIE_NAME = 'ld_portal';
 const SESSION_DAYS = 7;
 const RESET_MINUTES = 60;
+const INVITE_DAYS = 14;
 const PASSWORD_MIN = 8;
 
 function readJson(file, fallback) {
@@ -79,6 +83,7 @@ function publicUser(user) {
         clientSlug: user.clientSlug || null,
         name: user.name || null,
         mustChangePassword: Boolean(user.mustChangePassword),
+        avatarUrl: user.avatarFile ? `/api/portal/avatar?u=${user.id}` : null,
     };
 }
 
@@ -276,26 +281,171 @@ function hashToken(token) {
     return createHash('sha256').update(token).digest('hex');
 }
 
+export function createResetToken(userId, { minutes = RESET_MINUTES } = {}) {
+    const token = randomBytes(32).toString('hex');
+    const resets = readJson(RESETS_FILE, []).filter((row) => new Date(row.expiresAt).getTime() > Date.now());
+    resets.push({
+        userId,
+        tokenHash: hashToken(token),
+        expiresAt: new Date(Date.now() + minutes * 60 * 1000).toISOString(),
+    });
+    writeJson(RESETS_FILE, resets);
+    return token;
+}
+
+function resetUrlFor(origin, token) {
+    const base = String(origin || process.env.SITE_URL || SITE_URL).replace(/\/$/, '');
+    return `${base}/login/reset/?token=${token}`;
+}
+
+async function emailResetLink(user, resetUrl, kind = 'reset') {
+    const name = user.name || 'there';
+    const invite = kind === 'invite';
+    const subject = invite
+        ? 'Your Leanne Digital client portal'
+        : 'Reset your Leanne Digital portal password';
+    const text = invite
+        ? [
+              `Hi ${name},`,
+              '',
+              'We set up your Leanne Digital client portal. Choose a password with this link, then you can add your business details:',
+              resetUrl,
+              '',
+              `This link expires in ${INVITE_DAYS} days. After that, use Forgot password on the login page.`,
+              '',
+              'Leanne Digital',
+          ].join('\n')
+        : [
+              `Hi ${name},`,
+              '',
+              'Use this link to choose a new password for your Leanne Digital client portal:',
+              resetUrl,
+              '',
+              'This link expires in 60 minutes. If you did not ask for a reset, you can ignore this email.',
+              '',
+              'Leanne Digital',
+          ].join('\n');
+    if (!mailConfigured()) {
+        console.log(`${invite ? 'Portal invite' : 'Password reset'} for ${user.email}: ${resetUrl}`);
+        return false;
+    }
+    try {
+        await sendMail({ to: user.email, subject, text });
+        return true;
+    } catch (error) {
+        console.error('Portal email failed:', error.message);
+        console.log(`${invite ? 'Portal invite' : 'Password reset'} for ${user.email}: ${resetUrl}`);
+        return false;
+    }
+}
+
 export async function requestPasswordReset(email, origin) {
     const user = getUserByEmail(email);
     const generic = { ok: true, message: 'If that email has an account, a reset link is on the way.' };
     if (!user) return generic;
 
-    const token = randomBytes(32).toString('hex');
-    const resets = readJson(RESETS_FILE, []).filter((row) => new Date(row.expiresAt).getTime() > Date.now());
-    resets.push({
-        userId: user.id,
-        tokenHash: hashToken(token),
-        expiresAt: new Date(Date.now() + RESET_MINUTES * 60 * 1000).toISOString(),
-    });
-    writeJson(RESETS_FILE, resets);
-
-    const resetUrl = `${origin}/login/reset/?token=${token}`;
-    console.log(`Password reset for ${user.email}: ${resetUrl}`);
+    const token = createResetToken(user.id);
+    const resetUrl = resetUrlFor(origin, token);
+    const emailed = await emailResetLink(user, resetUrl, 'reset');
     return {
         ...generic,
-        ...(process.env.PORTAL_DEV_RESET_LINKS === '1' ? { resetUrl } : {}),
+        ...(process.env.PORTAL_DEV_RESET_LINKS === '1' ? { resetUrl, emailed } : {}),
     };
+}
+
+export async function inviteUser(user, origin) {
+    if (!user) {
+        const error = new Error('Account not found');
+        error.status = 404;
+        throw error;
+    }
+    const token = createResetToken(user.id, { minutes: INVITE_DAYS * 24 * 60 });
+    const resetUrl = resetUrlFor(origin, token);
+    const emailed = await emailResetLink(user, resetUrl, 'invite');
+    return {
+        email: user.email,
+        emailed,
+        ...(process.env.PORTAL_DEV_RESET_LINKS === '1' || !emailed ? { inviteUrl: resetUrl } : {}),
+    };
+}
+
+export async function changePassword(userId, { currentPassword, password } = {}) {
+    const users = loadUsers();
+    const user = users.find((row) => String(row.id) === String(userId));
+    if (!user) {
+        const error = new Error('Not signed in');
+        error.status = 401;
+        throw error;
+    }
+    if (String(password || '').length < PASSWORD_MIN) {
+        const error = new Error(`Password must be at least ${PASSWORD_MIN} characters`);
+        error.status = 400;
+        throw error;
+    }
+    if (!user.mustChangePassword) {
+        if (!(await verifyPassword(currentPassword, user.passwordHash))) {
+            const error = new Error('Current password is incorrect');
+            error.status = 400;
+            throw error;
+        }
+    }
+    user.passwordHash = await hashPassword(password);
+    user.mustChangePassword = false;
+    saveUsers(users);
+    return publicUser(user);
+}
+
+export function updateUserProfile(userId, input = {}) {
+    const users = loadUsers();
+    const user = users.find((row) => String(row.id) === String(userId));
+    if (!user) {
+        const error = new Error('Not signed in');
+        error.status = 401;
+        throw error;
+    }
+    if (input.name) user.name = String(input.name).trim();
+    if ('avatarFile' in input) user.avatarFile = input.avatarFile || null;
+    saveUsers(users);
+    return publicUser(user);
+}
+
+function avatarExtension(mime) {
+    if (mime === 'image/webp') return 'webp';
+    if (mime === 'image/png') return 'png';
+    if (mime === 'image/gif') return 'gif';
+    return 'jpg';
+}
+
+export function saveUserAvatar(userId, dataUrl) {
+    const match = String(dataUrl || '').match(/^data:(image\/(?:jpeg|jpg|png|webp|gif));base64,([A-Za-z0-9+/=\s]+)$/i);
+    if (!match) {
+        const error = new Error('Upload a JPG, PNG, WebP, or GIF image');
+        error.status = 400;
+        throw error;
+    }
+    const buffer = Buffer.from(match[2].replace(/\s/g, ''), 'base64');
+    if (!buffer.length || buffer.length > 400 * 1024) {
+        const error = new Error('Keep the image under 400 KB');
+        error.status = 400;
+        throw error;
+    }
+    fs.mkdirSync(AVATARS_DIR, { recursive: true });
+    const ext = avatarExtension(match[1].toLowerCase());
+    const filename = `${userId}.${ext}`;
+    const previous = fs.existsSync(AVATARS_DIR)
+        ? fs.readdirSync(AVATARS_DIR).filter((name) => name.startsWith(`${userId}.`))
+        : [];
+    for (const name of previous) {
+        fs.unlinkSync(path.join(AVATARS_DIR, name));
+    }
+    fs.writeFileSync(path.join(AVATARS_DIR, filename), buffer);
+    return updateUserProfile(userId, { avatarFile: filename });
+}
+
+export function avatarFileFor(user) {
+    if (!user?.avatarFile) return null;
+    const file = path.join(AVATARS_DIR, path.basename(user.avatarFile));
+    return fs.existsSync(file) ? file : null;
 }
 
 export async function resetPassword(token, password) {
@@ -351,4 +501,4 @@ export function clientVisibleTo(user, client) {
     return canAccessClient(user, client.slug);
 }
 
-export { publicUser, PASSWORD_MIN };
+export { publicUser, PASSWORD_MIN, AVATARS_DIR };

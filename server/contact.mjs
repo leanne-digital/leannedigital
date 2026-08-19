@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import nodemailer from 'nodemailer';
 import { CONTACT_EMAIL } from '../scripts/seo.mjs';
+import { sendMail } from './mail.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const INBOX = path.join(ROOT, 'data', 'contact-inbox.jsonl');
@@ -45,20 +45,8 @@ function saveInbox(entry) {
     fs.appendFileSync(INBOX, `${JSON.stringify(entry)}\n`, 'utf8');
 }
 
-async function sendMail(entry) {
-    const host = process.env.SMTP_HOST;
-    if (!host) return false;
-    const transporter = nodemailer.createTransport({
-        host,
-        port: Number(process.env.SMTP_PORT || 587),
-        secure: String(process.env.SMTP_PORT || '587') === '465',
-        auth:
-            process.env.SMTP_USER && process.env.SMTP_PASS
-                ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-                : undefined,
-    });
-    await transporter.sendMail({
-        from: process.env.MAIL_FROM || process.env.SMTP_USER || CONTACT_EMAIL,
+async function sendContactMail(entry) {
+    return sendMail({
         to: process.env.MAIL_TO || CONTACT_EMAIL,
         replyTo: entry.email,
         subject: `Website inquiry${entry.service ? ` — ${entry.service}` : ''} from ${entry.name || entry.email}`,
@@ -71,7 +59,6 @@ async function sendMail(entry) {
             entry.message || '(no message)',
         ].join('\n'),
     });
-    return true;
 }
 
 export async function handleContact(req, body) {
@@ -108,7 +95,7 @@ export async function handleContact(req, body) {
     };
     saveInbox(entry);
     try {
-        await sendMail(entry);
+        await sendContactMail(entry);
     } catch (error) {
         console.error('Contact email failed:', error.message);
     }

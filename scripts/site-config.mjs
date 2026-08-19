@@ -52,6 +52,7 @@ export const BUILT_PAGES = new Set([
     '/login/forgot/',
     '/login/reset/',
     '/admin/',
+    '/client-portal/',
 ]);
 
 /** WordPress pages from Simply Static export (excluding homepage). */

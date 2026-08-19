@@ -9,6 +9,7 @@ data/portal-users.json
 data/portal-sessions.json
 data/portal-resets.json
 data/portal-bootstrap.json
+data/avatars/
 data/contact-inbox.jsonl
 data/lead-status.json
 data/calendly-bookings.json
