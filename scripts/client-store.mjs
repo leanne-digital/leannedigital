@@ -22,9 +22,24 @@ const SERVICE_DEFAULTS = {
     website: { label: 'Web development', cycle: 'monthly' },
     development: { label: 'Web development', cycle: 'monthly' },
     design: { label: 'Graphic design', cycle: 'monthly' },
+    updates: { label: 'Site updates', cycle: 'monthly' },
+    ads: { label: 'Paid ads management', cycle: 'monthly' },
+    integrations: { label: 'Integrations', cycle: 'monthly' },
+    automations: { label: 'Automations', cycle: 'monthly' },
 };
 
-const ADMIN_SERVICE_TYPES = ['website', 'development', 'maintenance', 'hosting', 'design', 'management'];
+export const ADMIN_SERVICE_TYPES = [
+    'website',
+    'development',
+    'maintenance',
+    'hosting',
+    'design',
+    'management',
+    'updates',
+    'ads',
+    'integrations',
+    'automations',
+];
 
 export function slugify(name) {
     const slug = String(name || '')
@@ -193,6 +208,8 @@ function servicesFromInput(input = {}, current = []) {
             .map((type) => {
                 if (type === 'web-development') return 'website';
                 if (type === 'graphic-design') return 'design';
+                if (type === 'site-updates') return 'updates';
+                if (type === 'google-ads' || type === 'paid-ads') return 'ads';
                 return type;
             })
     );
@@ -289,7 +306,7 @@ function upsertPortal(record) {
         emailProvider: record.emailProvider || null,
         hosting: record.hosting || { type: 'External', provider: null, lddHosted: false },
         currency: record.currency || 'CAD',
-        services: (record.services || []).filter((service) => service.type === 'hosting'),
+        services: record.services || [],
         credentials: record.credentials || [],
         clientApps: record.clientApps || [],
         onboarding: record.onboarding || null,
@@ -318,6 +335,11 @@ function upsertOverlay(record) {
     const overlays = readJson(OVERLAY_FILE, []);
     const index = overlays.findIndex((row) => row.slug === record.slug);
     if (!hasOverlay && index < 0) return;
+    if (!hasOverlay && index >= 0 && !overlayServices.length) {
+        overlays[index] = { ...overlays[index], services: [] };
+        writeJson(OVERLAY_FILE, overlays);
+        return;
+    }
     const next = {
         ...(index >= 0 ? overlays[index] : {}),
         slug: record.slug,

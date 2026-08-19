@@ -55,9 +55,12 @@
         { types: ['hosting'], label: 'Hosting' },
         { types: ['design', 'graphic-design'], label: 'Graphic design' },
         { types: ['management'], label: 'Site management' },
+        { types: ['updates'], label: 'Site updates' },
+        { types: ['ads', 'google-ads'], label: 'Paid ads' },
+        { types: ['integrations'], label: 'Integrations' },
+        { types: ['automations'], label: 'Automations' },
         { types: ['seo'], label: 'SEO' },
         { types: ['aeo'], label: 'AEO' },
-        { types: ['google-ads'], label: 'Google Ads' },
     ];
 
     function serviceTypesOf(client) {
@@ -88,6 +91,110 @@
             reader.onerror = () => reject(new Error('Could not read that image.'));
             reader.readAsDataURL(file);
         });
+    }
+
+    const CRED_KINDS = [
+        ['hosting', 'Hosting'],
+        ['domain', 'Domain'],
+        ['email', 'Email'],
+        ['app', 'Other app / SaaS'],
+    ];
+
+    function credPlaceholder(kind) {
+        if (kind === 'hosting') return 'SiteGround, WP Engine, Leanne Digital…';
+        if (kind === 'domain') return 'Hover, GoDaddy, Cloudflare…';
+        if (kind === 'email') return 'Google Workspace, Microsoft 365…';
+        return 'Mailchimp, HubSpot, custom SaaS…';
+    }
+
+    function defaultCredentialRows() {
+        return [{ kind: 'hosting' }, { kind: 'domain' }, { kind: 'email' }];
+    }
+
+    function credentialRow(data = {}) {
+        const kind = data.kind || 'app';
+        const options = CRED_KINDS.map(
+            ([id, label]) => `<option value="${id}"${kind === id ? ' selected' : ''}>${label}</option>`
+        ).join('');
+        const wrap = document.createElement('div');
+        wrap.className = 'dash-cred';
+        wrap.setAttribute('data-cred-source', data.source === 'client' ? 'client' : 'staff');
+        if (data.id) wrap.setAttribute('data-cred-id', data.id);
+        wrap.innerHTML = `${
+            data.source === 'client'
+                ? '<p class="dash-cred__badge dash-cred__wide">Client submitted</p>'
+                : ''
+        }<label>Type
+                <select data-cred="kind">${options}</select>
+            </label>
+            <label>Where
+                <input data-cred="label" type="text" value="${escapeHtml(data.label || '')}" placeholder="${escapeHtml(credPlaceholder(kind))}">
+            </label>
+            <label>Login URL
+                <input data-cred="url" type="url" value="${escapeHtml(data.url || '')}" placeholder="https://">
+            </label>
+            <label>Username
+                <input data-cred="username" type="text" value="${escapeHtml(data.username || '')}" autocomplete="off">
+            </label>
+            <label class="dash-cred__wide">Password
+                <input data-cred="password" type="password" value="${escapeHtml(data.password || '')}" autocomplete="new-password">
+            </label>
+            <label class="dash-cred__wide">Notes
+                <input data-cred="notes" type="text" value="${escapeHtml(data.notes || '')}">
+            </label>
+            <button class="dash-form__remove dash-cred__wide" type="button" data-remove-credential>Remove</button>`;
+        wrap.querySelector('[data-cred="kind"]')?.addEventListener('change', (event) => {
+            const label = wrap.querySelector('[data-cred="label"]');
+            if (label) label.placeholder = credPlaceholder(event.target.value);
+        });
+        return wrap;
+    }
+
+    function setCredentials(list, rows) {
+        if (!list) return;
+        list.innerHTML = '';
+        const items = rows && rows.length ? rows : defaultCredentialRows();
+        for (const row of items) list.appendChild(credentialRow(row));
+    }
+
+    function readCredentialState(list) {
+        const credentials = [];
+        const clientApps = [];
+        if (!list) return { credentials, clientApps };
+        for (const row of list.querySelectorAll('.dash-cred')) {
+            const get = (key) => row.querySelector(`[data-cred="${key}"]`)?.value.trim() || '';
+            const kind = get('kind') || 'app';
+            const label = get('label');
+            const url = get('url');
+            const username = get('username');
+            const password = row.querySelector('[data-cred="password"]')?.value || '';
+            const notes = get('notes');
+            if (!label && !url && !username && !password && !notes) continue;
+            if (row.getAttribute('data-cred-source') === 'client') {
+                clientApps.push({
+                    id: row.getAttribute('data-cred-id') || '',
+                    label: label || 'Other service',
+                    url,
+                    username,
+                    password,
+                    notes,
+                });
+            } else {
+                credentials.push({ kind, label, url, username, password, notes });
+            }
+        }
+        return { credentials, clientApps };
+    }
+
+    function credentialRowsFrom(client) {
+        const staff = (client?.credentials || []).map((row) => ({ ...row, source: 'staff' }));
+        const submitted = (client?.clientApps || []).map((row) => ({
+            ...row,
+            kind: 'app',
+            source: 'client',
+        }));
+        const rows = [...staff, ...submitted];
+        return rows.length ? rows : defaultCredentialRows();
     }
 
     async function request(url, { method = 'GET', body } = {}) {
@@ -291,7 +398,55 @@
             projects: bootData?.projects || [],
             inbox: bootData?.inbox || [],
             calendly: bootData?.calendly || [],
+            staff: bootData?.staff || [],
         };
+
+        const canCreateStaff = user.privilege !== 'admin';
+
+        function accountType() {
+            return clientForm?.accountType?.value || 'client';
+        }
+
+        function syncAccountType() {
+            if (!clientForm) return;
+            const type = accountType();
+            const isClient = type === 'client' || Boolean(clientForm.slug.value);
+            $$('[data-client-only]', clientForm).forEach((el) => {
+                el.hidden = !isClient;
+            });
+            const nameLabel = $('[data-name-label]', clientForm);
+            if (nameLabel) nameLabel.textContent = isClient ? 'Contact name' : 'Full name';
+            const lead = $('[data-account-lead]');
+            if (lead) {
+                lead.textContent = isClient
+                    ? 'Clients get their own portal. Admins and super admins can sign in to this dashboard.'
+                    : type === 'super-admin'
+                      ? 'Super admins can create clients and invite other admins.'
+                      : 'Admins can manage clients and the dashboard, but cannot invite other admins.';
+            }
+            if (clientForm.name) clientForm.name.required = isClient && !clientForm.slug.value;
+            if (clientForm.contactName) clientForm.contactName.required = !isClient;
+            const submit = clientForm.querySelector('[type="submit"]');
+            if (submit && !clientForm.slug.value) {
+                submit.textContent = isClient ? 'Create client' : 'Create account';
+            }
+            if (clientForm.accountType) clientForm.accountType.disabled = Boolean(clientForm.slug.value);
+        }
+
+        function renderStaff(staff) {
+            const body = $('[data-staff-body]');
+            if (!body) return;
+            const labels = { 'super-admin': 'Super admin', admin: 'Admin' };
+            body.innerHTML = (staff || [])
+                .map(
+                    (row) => `<tr>
+                    <td>${escapeHtml(row.name || '—')}</td>
+                    <td>${escapeHtml(row.email)}</td>
+                    <td>${escapeHtml(labels[row.privilege] || row.privilege || 'Admin')}</td>
+                </tr>`
+                )
+                .join('');
+        }
 
         function paint() {
             renderOverview(data);
@@ -304,6 +459,7 @@
             renderLeads(data.inbox);
             renderSubmissions(data.inbox);
             renderCalendly(data.calendly);
+            renderStaff(data.staff);
         }
 
         async function tryRequest(url, options) {
@@ -324,6 +480,7 @@
         function fillClientForm(client) {
             if (!clientForm) return;
             clientForm.slug.value = client?.slug || '';
+            if (clientForm.accountType) clientForm.accountType.value = 'client';
             clientForm.name.value = client?.name || '';
             clientForm.contactName.value = client?.contactName || '';
             clientForm.email.value = client?.email || '';
@@ -331,22 +488,37 @@
             clientForm.website.value = client?.website || '';
             const have = serviceTypesOf(client || {});
             $$('input[name="serviceTypes"]', clientForm).forEach((input) => {
-                const aliases = input.value === 'website' ? ['website', 'development'] : input.value === 'design' ? ['design', 'graphic-design'] : [input.value];
+                const aliases =
+                    input.value === 'website'
+                        ? ['website', 'development']
+                        : input.value === 'design'
+                          ? ['design', 'graphic-design']
+                          : input.value === 'ads'
+                            ? ['ads', 'google-ads']
+                            : [input.value];
                 input.checked = aliases.some((type) => have.has(type));
             });
             clientForm.querySelector('[type="submit"]').textContent = client ? 'Save client' : 'Create client';
             if (inviteBtn) inviteBtn.hidden = !client;
             showInvite(null);
+            const loaded = !client || 'credentials' in client || 'clientApps' in client;
+            clientForm.dataset.credentialsLoaded = loaded ? '1' : '0';
+            setCredentials(
+                $('[data-credential-list]', clientForm),
+                loaded ? credentialRowsFrom(client) : defaultCredentialRows()
+            );
+            syncAccountType();
         }
 
         async function refresh() {
             show(errorEl, '');
-            const dash = await tryRequest('/api/clients/dashboard');
-            if (dash) {
+            const dash = await tryRequest('/api/clients?view=dashboard');
+            if (dash?.clients) {
                 data.clients = dash.clients || [];
-                data.projects = dash.projects || [];
-                data.inbox = dash.inbox || [];
-                data.calendly = dash.calendly || [];
+                if (dash.projects) data.projects = dash.projects;
+                if (dash.inbox) data.inbox = dash.inbox;
+                if (dash.calendly) data.calendly = dash.calendly;
+                if (dash.staff) data.staff = dash.staff;
                 paint();
                 return;
             }
@@ -380,10 +552,34 @@
         window.addEventListener('hashchange', () => setSection(location.hash.replace('#', '') || 'overview'));
         setSection(location.hash.replace('#', '') || 'overview');
 
+        clientForm?.accountType?.addEventListener('change', syncAccountType);
+        if (!canCreateStaff && clientForm?.accountType) {
+            $$('option', clientForm.accountType).forEach((opt) => {
+                if (opt.value !== 'client') opt.remove();
+            });
+            const typeLabel = clientForm.accountType.closest('label');
+            if (typeLabel) typeLabel.hidden = true;
+        }
+        syncAccountType();
+        fillClientForm(null);
+
         clientForm?.addEventListener('reset', () => {
             fillClientForm(null);
             show(errorEl, '');
             show(okEl, '');
+        });
+
+        clientForm?.addEventListener('click', (event) => {
+            const add = event.target.closest('[data-add-credential]');
+            const remove = event.target.closest('[data-remove-credential]');
+            if (!add && !remove) return;
+            const list = $('[data-credential-list]', clientForm);
+            if (add) {
+                list.appendChild(credentialRow({ kind: 'app' }));
+                return;
+            }
+            remove.closest('.dash-cred')?.remove();
+            if (!list.querySelector('.dash-cred')) setCredentials(list, defaultCredentialRows());
         });
 
         clientForm?.addEventListener('submit', async (event) => {
@@ -393,14 +589,29 @@
             const submit = clientForm.querySelector('[type="submit"]');
             submit.disabled = true;
             try {
-                const payload = {
-                    name: clientForm.name.value,
-                    contactName: clientForm.contactName.value,
-                    email: clientForm.email.value,
-                    phone: clientForm.phone.value,
-                    website: clientForm.website.value,
-                    serviceTypes: $$('input[name="serviceTypes"]:checked', clientForm).map((input) => input.value),
-                };
+                const type = accountType();
+                const isStaffAccount = (type === 'admin' || type === 'super-admin') && !clientForm.slug.value;
+                const payload = isStaffAccount
+                    ? {
+                          accountType: type,
+                          contactName: clientForm.contactName.value,
+                          email: clientForm.email.value,
+                      }
+                    : {
+                          name: clientForm.name.value,
+                          contactName: clientForm.contactName.value,
+                          email: clientForm.email.value,
+                          phone: clientForm.phone.value,
+                          website: /^https?:\/\/$/i.test(String(clientForm.website.value || '').trim())
+                              ? ''
+                              : clientForm.website.value,
+                          serviceTypes: $$('input[name="serviceTypes"]', clientForm)
+                              .filter((input) => input.checked)
+                              .map((input) => input.value),
+                      };
+                if (!isStaffAccount && (!clientForm.slug.value || clientForm.dataset.credentialsLoaded === '1')) {
+                    Object.assign(payload, readCredentialState($('[data-credential-list]', clientForm)));
+                }
                 const slug = clientForm.slug.value;
                 if (slug) {
                     await request(`/api/clients/${encodeURIComponent(slug)}`, { method: 'PATCH', body: payload });
@@ -411,14 +622,24 @@
                 }
                 const created = await request('/api/clients', { method: 'POST', body: payload });
                 await refresh();
-                fillClientForm(created.client);
+                if (created.client) fillClientForm(created.client);
+                else {
+                    fillClientForm(null);
+                    if (clientForm.accountType) clientForm.accountType.value = type;
+                    clientForm.contactName.value = created.account?.name || payload.contactName;
+                    clientForm.email.value = created.account?.email || payload.email;
+                    syncAccountType();
+                    if (inviteBtn) inviteBtn.hidden = false;
+                }
                 showInvite(created.invite);
                 const emailed = created.invite?.emailed;
+                const who = created.account?.email || created.invite?.email || payload.email;
+                const kind = isStaffAccount ? (type === 'super-admin' ? 'Super admin' : 'Admin') : 'Client';
                 show(
                     okEl,
                     emailed
-                        ? `Client created. A login email was sent to ${created.invite.email}. Copy the link below if you also want to send it yourself.`
-                        : 'Client created. Copy the login link below and send it to them — email was not sent from the server.'
+                        ? `${kind} created. A login email was sent to ${who}. Copy the link below if you also want to send it yourself.`
+                        : `${kind} created. Copy the login link below and send it to ${who} — email was not sent from the server.`
                 );
             } catch (error) {
                 show(errorEl, error.message || 'Could not save that client.');
@@ -429,10 +650,29 @@
 
         inviteBtn?.addEventListener('click', async () => {
             const slug = clientForm?.slug.value;
-            if (!slug) return;
             show(errorEl, '');
             show(okEl, '');
             try {
+                if (!slug) {
+                    const type = accountType();
+                    if (type !== 'admin' && type !== 'super-admin') return;
+                    const result = await request('/api/clients', {
+                        method: 'POST',
+                        body: {
+                            accountType: type,
+                            email: clientForm.email.value,
+                            contactName: clientForm.contactName.value,
+                        },
+                    });
+                    showInvite(result.invite);
+                    show(
+                        okEl,
+                        result.invite?.emailed
+                            ? `Login link sent to ${result.invite.email}.`
+                            : `Copy the login link below and send it to ${result.invite?.email || 'them'}.`
+                    );
+                    return;
+                }
                 const result = await request(`/api/clients/${encodeURIComponent(slug)}/invite`, { method: 'POST' });
                 showInvite(result.invite);
                 show(
@@ -507,7 +747,8 @@
                 if (!client) return;
                 try {
                     if (editClient) {
-                        fillClientForm(client);
+                        const live = await tryRequest(`/api/clients/${encodeURIComponent(slug)}`);
+                        fillClientForm(live?.client || client);
                         setSection('new-client');
                         return;
                     }

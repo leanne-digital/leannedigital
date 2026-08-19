@@ -70,7 +70,7 @@
                 <input data-app="username" type="text" value="${escapeHtml(data.username || '')}" autocomplete="off">
             </label>
             <label>Password
-                <input data-app="password" type="text" value="${escapeHtml(data.password || '')}" autocomplete="new-password">
+                <input data-app="password" type="password" value="${escapeHtml(data.password || '')}" autocomplete="new-password">
             </label>
             <label>Notes
                 <input data-app="notes" type="text" value="${escapeHtml(data.notes || '')}">

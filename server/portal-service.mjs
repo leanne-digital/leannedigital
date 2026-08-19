@@ -134,7 +134,7 @@ export async function createClientWithAccount(input, { origin } = {}) {
 }
 
 export async function updateClientWithAccount(id, input) {
-    const client = await updateClient(id, input);
+    const client = await updateClient(id, input, { regenerate: false });
     seedProjectsFromClientServices();
     const existing = syncClientUser(client, input);
     if (!existing) await provisionClientAccount(client, input);

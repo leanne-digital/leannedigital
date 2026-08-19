@@ -18,6 +18,10 @@ export const SERVICE_TYPES = [
     'google-ads',
     'development',
     'design',
+    'updates',
+    'ads',
+    'integrations',
+    'automations',
     'custom',
 ];
 
@@ -53,9 +57,12 @@ function money(value, fallback = 0) {
 
 function normalizeServiceType(value) {
     const raw = String(value || 'custom').trim().toLowerCase().replace(/\s+/g, '-');
-    if (raw === 'google_ads' || raw === 'ads') return 'google-ads';
+    if (raw === 'google_ads' || raw === 'google-ads' || raw === 'paid-ads' || raw === 'ads') return 'ads';
     if (raw === 'web' || raw === 'web-design' || raw === 'web-development') return 'website';
     if (raw === 'graphic-design' || raw === 'graphic') return 'design';
+    if (raw === 'site-updates' || raw === 'update') return 'updates';
+    if (raw === 'integration') return 'integrations';
+    if (raw === 'automation') return 'automations';
     return raw || 'custom';
 }
 
@@ -81,6 +88,11 @@ function defaultName(client, serviceType) {
         'google-ads': 'Google Ads',
         development: 'Web development',
         design: 'Graphic design',
+        updates: 'Site updates',
+        ads: 'Paid ads',
+        'google-ads': 'Paid ads',
+        integrations: 'Integrations',
+        automations: 'Automations',
         custom: 'Project',
     };
     return `${client.name} — ${labels[serviceType] || serviceType}`;

@@ -15,7 +15,7 @@ import { loadCalendlyBookings, loadSubmissions } from './admin-inbox.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260819e';
+const SCRIPT_V = '20260819i';
 
 const SECTIONS = [
     { id: 'overview', label: 'Overview' },
@@ -27,7 +27,7 @@ const SECTIONS = [
     { id: 'leads', label: 'Leads' },
     { id: 'submissions', label: 'Form submissions' },
     { id: 'calendly', label: 'Calendly bookings' },
-    { id: 'new-client', label: 'Create new client' },
+    { id: 'new-client', label: 'Create account' },
 ];
 
 function writePage(relativeDir, html) {
@@ -134,6 +134,7 @@ ${renderNav(1, '/admin/')}
             <div class="container admin-shell">
                 <nav class="admin-nav" aria-label="Admin sections">
 ${nav()}
+                    <a class="admin-nav__link" href="/profile/">Profile</a>
                     <a class="admin-nav__link" href="/clients/">All clients</a>
                 </nav>
                 <div class="admin-content">
@@ -293,49 +294,85 @@ ${panel(
 )}
 ${panel(
     'new-client',
-    'Create new client',
-    'Set up their workspace, choose the services they have with us, then copy the login link to send them.',
+    'Create account',
+    'Add a client workspace, or invite an admin. Copy the login link after you save.',
     `                    <form class="dash-form" data-client-form>
                         <input type="hidden" name="slug" value="">
+                        <label>Account type
+                            <select name="accountType" data-account-type>
+                                <option value="client">Client</option>
+                                <option value="admin">Admin</option>
+                                <option value="super-admin">Super admin</option>
+                            </select>
+                        </label>
+                        <p class="dash-copy dash-copy--left" data-account-lead>Clients get their own portal. Admins and super admins can sign in to this dashboard.</p>
                         <div class="dash-form__grid">
-                            <label>Business name
-                                <input name="name" type="text" required autocomplete="organization">
+                            <label data-client-only>Business name
+                                <input name="name" type="text" autocomplete="organization">
                             </label>
-                            <label>Contact name
+                            <label><span data-name-label>Contact name</span>
                                 <input name="contactName" type="text" autocomplete="name">
                             </label>
                             <label>Email
                                 <input name="email" type="email" required autocomplete="email">
                             </label>
-                            <label>Phone
+                            <label data-client-only>Phone
                                 <input name="phone" type="tel" autocomplete="tel">
                             </label>
-                            <label>Website
+                            <label data-client-only>Website
                                 <input name="website" type="url" placeholder="https://">
                             </label>
                         </div>
-                        <h3 class="dash-form__heading">Services with us</h3>
-                        <div class="portal-checks admin-service-checks">
-                            <label class="portal-check"><input type="checkbox" name="serviceTypes" value="website"><span>Web development</span></label>
-                            <label class="portal-check"><input type="checkbox" name="serviceTypes" value="maintenance"><span>Site maintenance</span></label>
-                            <label class="portal-check"><input type="checkbox" name="serviceTypes" value="hosting"><span>Hosting</span></label>
-                            <label class="portal-check"><input type="checkbox" name="serviceTypes" value="design"><span>Graphic design</span></label>
-                            <label class="portal-check"><input type="checkbox" name="serviceTypes" value="management"><span>Site management</span></label>
+                        <div data-client-only>
+                            <h3 class="dash-form__heading">Services with us</h3>
+                            <div class="portal-checks admin-service-checks">
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="website"><span>Web development</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="maintenance"><span>Site maintenance</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="updates"><span>Site updates</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="hosting"><span>Hosting</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="design"><span>Graphic design</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="management"><span>Site management</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="ads"><span>Paid ads management</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="integrations"><span>Integrations</span></label>
+                                <label class="portal-check"><input type="checkbox" name="serviceTypes" value="automations"><span>Automations</span></label>
+                            </div>
+                        </div>
+                        <div data-client-only>
+                            <h3 class="dash-form__heading">Credentials</h3>
+                            <p class="dash-copy dash-copy--left">Hosting, domain, email, and any other logins we keep for this client. Passwords stay hidden until you tap the eye. Clients never see this list.</p>
+                            <div class="dash-creds" data-credential-list></div>
+                            <p><button class="dash-form__add" type="button" data-add-credential>Add a login</button></p>
                         </div>
                         <div class="dash-form__actions">
-                            <button class="ld-btn" type="submit">Create client</button>
+                            <button class="ld-btn" type="submit">Create account</button>
                             <button class="dash-form__reset" type="reset">Clear</button>
                             <button class="ld-btn ld-btn--ghost" type="button" data-invite-client hidden>Send login link</button>
                         </div>
                     </form>
                     <aside class="admin-invite" data-invite-card hidden>
                         <h3 class="dash-form__heading">Send this login link</h3>
-                        <p class="dash-copy dash-copy--left">Copy this and send it to the client. When they set a password they land in their own portal.</p>
+                        <p class="dash-copy dash-copy--left" data-invite-copy>Copy this and send it. They will choose a password, then land in the right portal.</p>
                         <input class="admin-invite__url" data-invite-url type="text" readonly>
                         <div class="dash-form__actions">
                             <button class="ld-btn" type="button" data-copy-invite>Copy link</button>
                         </div>
-                    </aside>`
+                    </aside>
+                    <div class="admin-team" data-staff-wrap>
+                        <h3 class="dash-form__heading">Team</h3>
+                        <p class="dash-copy dash-copy--left">Admins and super admins who can open this dashboard.</p>
+                        <div class="dash-table-wrap">
+                            <table class="dash-table admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-staff-body></tbody>
+                            </table>
+                        </div>
+                    </div>`
 )}
                 </div>
             </div>

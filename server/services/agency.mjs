@@ -1,5 +1,6 @@
 import { getClient, loadClients } from '../../scripts/client-store.mjs';
 import { portalStats } from '../../scripts/portal-stats.mjs';
+import { listStaffAccounts } from '../auth.mjs';
 import {
     createClientWithAccount,
     deleteClientWithAccount,
@@ -217,6 +218,7 @@ export function getAdminDashboard(user) {
         projects: loadPortfolioProjects(),
         inbox: loadSubmissions(),
         calendly: loadCalendlyBookings(),
+        staff: listStaffAccounts(),
     };
 }
 

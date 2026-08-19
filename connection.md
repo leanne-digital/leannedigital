@@ -82,7 +82,9 @@ The adapter calls `GET {LILIPADD_API_URL}/api/public/v1/analytics?key={LILIPADD_
 - `POST /api/clients/{id}/invite` — staff resend set-password email (always returns `inviteUrl` to copy)
 - `POST /api/clients/{id}/archive` — hide a client from staff lists without deleting the login
 - `GET /api/dashboard` — retainer stats from client `services[]`
-- `GET /api/clients/dashboard` — staff overview payload (clients, portfolio, inbox, Calendly)
+- `GET /api/clients?view=dashboard` — staff overview payload (clients, portfolio, inbox, Calendly, team). Use this on production; LiteSpeed proxies `/api/clients` and may 404 `/api/clients/dashboard`.
+- `GET /api/clients/dashboard` — same payload locally; keep for compatibility
+- `POST /api/clients` with `accountType: client|admin|super-admin` — create a client or invite staff
 - `GET /api/admin/dashboard` — same payload; not proxied on production LiteSpeed
 - `GET|POST /api/clients`, `GET|PATCH|DELETE /api/clients/{id}`
 - `GET|POST /api/portfolio`, `PATCH|DELETE /api/portfolio/{slug}`

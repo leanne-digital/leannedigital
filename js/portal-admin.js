@@ -182,7 +182,7 @@
         ['hosting', 'Hosting'],
         ['domain', 'Domain'],
         ['email', 'Email'],
-        ['app', 'Other app'],
+        ['app', 'Other app / SaaS'],
     ];
 
     function credentialRow(data = {}) {
@@ -195,7 +195,7 @@
                 <select data-cred="kind">${options}</select>
             </label>
             <label>Where
-                <input data-cred="label" type="text" value="${escapeHtml(data.label || '')}" placeholder="SiteGround, Hover, Google…">
+                <input data-cred="label" type="text" value="${escapeHtml(data.label || '')}" placeholder="SiteGround, Hover, Mailchimp…">
             </label>
             <label>Login URL
                 <input data-cred="url" type="url" value="${escapeHtml(data.url || '')}" placeholder="https://">
@@ -204,7 +204,7 @@
                 <input data-cred="username" type="text" value="${escapeHtml(data.username || '')}" autocomplete="off">
             </label>
             <label>Password
-                <input data-cred="password" type="text" value="${escapeHtml(data.password || '')}" autocomplete="new-password">
+                <input data-cred="password" type="password" value="${escapeHtml(data.password || '')}" autocomplete="new-password">
             </label>
             <label>Notes
                 <input data-cred="notes" type="text" value="${escapeHtml(data.notes || '')}">
@@ -412,7 +412,7 @@
         updateTotal(form);
 
         $('[data-add-credential]', form)?.addEventListener('click', () => {
-            $('[data-credential-list]', form).appendChild(credentialRow());
+            $('[data-credential-list]', form).appendChild(credentialRow({ kind: 'app' }));
         });
 
         $('[data-invite-client]', form)?.addEventListener('click', async () => {

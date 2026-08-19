@@ -11,12 +11,15 @@ import {
     ensureClientAccounts,
     getSessionUser,
     getUserById,
+    isSuperAdmin,
     login,
+    provisionStaffAccount,
     publicUser,
     requestPasswordReset,
     resetPassword,
     saveUserAvatar,
     seedStaffAccount,
+    updateUserProfile,
 } from './auth.mjs';
 import { handleContact } from './contact.mjs';
 import { requestPath, resolvePublicFile, sendFile } from './static.mjs';
@@ -158,8 +161,10 @@ function portalAccess(pathname, user) {
     const isClientPage = pathname.startsWith('/clients/');
     const isClientAsset = pathname.startsWith('/assets/clients/');
     const isClientPortal = pathname === '/client-portal' || pathname.startsWith('/client-portal/');
-    if (!isAdminDash && !isClientHub && !isClientPage && !isClientAsset && !isClientPortal) return 'allow';
+    const isProfile = pathname === '/profile' || pathname.startsWith('/profile/');
+    if (!isAdminDash && !isClientHub && !isClientPage && !isClientAsset && !isClientPortal && !isProfile) return 'allow';
     if (!user) return 'login';
+    if (isProfile) return 'allow';
     if (user.role === 'staff') return isClientPortal ? 'admin' : 'allow';
     const own = user.clientSlug;
     if (!own) return 'forbid';
@@ -268,13 +273,17 @@ async function handleApi(req, res, method, pathname, user) {
         return true;
     }
     if (pathname === '/api/portal/profile' && method === 'PATCH') {
-        if (user.role !== 'client') {
-            json(req, res, 403, { error: 'Client account required' });
-            return true;
-        }
         const body = await readBody(req);
         const full = getUserById(user.id) || user;
-        json(req, res, 200, { client: await updateOwnClientProfile(full, body), user: publicUser(full) });
+        if (full.role === 'staff') {
+            json(req, res, 200, { user: updateUserProfile(full.id, { name: body.name || body.contactName }), client: null });
+            return true;
+        }
+        if (full.role !== 'client') {
+            json(req, res, 403, { error: 'Account required' });
+            return true;
+        }
+        json(req, res, 200, { client: await updateOwnClientProfile(full, body), user: publicUser(getUserById(full.id) || full) });
         return true;
     }
     if (pathname === '/api/portal/avatar' && method === 'GET') {
@@ -444,6 +453,10 @@ async function handleApi(req, res, method, pathname, user) {
     }
     if (pathname === '/api/clients' && method === 'GET') {
         const query = queryFrom(req);
+        if ((query.view === 'dashboard' || query.dashboard === '1') && user.role === 'staff') {
+            json(req, res, 200, getAdminDashboard(user));
+            return true;
+        }
         json(req, res, 200, { clients: listAgencyClients(user, query) });
         return true;
     }
@@ -460,6 +473,15 @@ async function handleApi(req, res, method, pathname, user) {
     if (pathname === '/api/clients' && method === 'POST') {
         if (!requireStaff(user, req, res)) return true;
         const body = await readBody(req);
+        const accountType = String(body.accountType || body.privilege || 'client').toLowerCase();
+        if (accountType === 'admin' || accountType === 'super-admin') {
+            if (!isSuperAdmin(user)) {
+                json(req, res, 403, { error: 'Only a super admin can create admin accounts' });
+                return true;
+            }
+            json(req, res, 201, await provisionStaffAccount(body, originFrom(req)));
+            return true;
+        }
         const created = await createClientWithAccount(body, { origin: originFrom(req) });
         json(req, res, 201, created);
         return true;

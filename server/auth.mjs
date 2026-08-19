@@ -83,6 +83,7 @@ function publicUser(user) {
         clientSlug: user.clientSlug || null,
         name: user.name || null,
         mustChangePassword: Boolean(user.mustChangePassword),
+        privilege: staffPrivilege(user),
         avatarUrl: user.avatarFile ? `/api/portal/avatar?u=${user.id}` : null,
     };
 }
@@ -98,6 +99,27 @@ export function getUserByEmail(email) {
 
 export function getUserById(id) {
     return loadUsers().find((user) => String(user.id) === String(id)) || null;
+}
+
+export function staffPrivilege(user) {
+    if (!user || user.role !== 'staff') return null;
+    return user.privilege === 'admin' ? 'admin' : 'super-admin';
+}
+
+export function isSuperAdmin(user) {
+    return staffPrivilege(user) === 'super-admin';
+}
+
+export function listStaffAccounts() {
+    return loadUsers()
+        .filter((user) => user.role === 'staff')
+        .map((user) => ({
+            id: user.id,
+            email: user.email,
+            name: user.name || '',
+            privilege: staffPrivilege(user),
+        }))
+        .sort((a, b) => a.email.localeCompare(b.email));
 }
 
 export function usersForClient(slug) {
@@ -116,7 +138,7 @@ function appendBootstrap(entry) {
     writeJson(BOOTSTRAP_FILE, current);
 }
 
-export async function createUser({ email, password, role, clientSlug, name, mustChangePassword = false }) {
+export async function createUser({ email, password, role, clientSlug, name, mustChangePassword = false, privilege } = {}) {
     const users = loadUsers();
     const normalized = String(email || '').trim().toLowerCase();
     if (!looksLikeEmail(normalized)) {
@@ -141,6 +163,7 @@ export async function createUser({ email, password, role, clientSlug, name, must
         role: role === 'staff' ? 'staff' : 'client',
         clientSlug: role === 'staff' ? null : clientSlug || null,
         name: name || null,
+        privilege: role === 'staff' ? (privilege === 'admin' ? 'admin' : 'super-admin') : null,
         mustChangePassword: Boolean(mustChangePassword),
         createdAt: stamp(),
     };
@@ -198,6 +221,7 @@ export async function seedStaffAccount() {
         password,
         role: 'staff',
         name: 'Leanne Digital',
+        privilege: 'super-admin',
         mustChangePassword: !fromEnv,
     });
     if (!fromEnv) {
@@ -207,6 +231,50 @@ export async function seedStaffAccount() {
         });
     }
     return { email: user.email, temporaryPassword: fromEnv ? undefined : password, created: true };
+}
+
+export async function provisionStaffAccount(input = {}, origin) {
+    const email = String(input.email || '').trim().toLowerCase();
+    const name = String(input.contactName || input.name || '').trim() || email;
+    const privilege = String(input.accountType || input.privilege || 'super-admin').toLowerCase() === 'admin'
+        ? 'admin'
+        : 'super-admin';
+    if (!looksLikeEmail(email)) {
+        const error = new Error('A valid email is required');
+        error.status = 400;
+        throw error;
+    }
+    let user = getUserByEmail(email);
+    if (user && user.role !== 'staff') {
+        const error = new Error('That email already has a client account');
+        error.status = 409;
+        throw error;
+    }
+    if (!user) {
+        const temporaryPassword = randomPassword();
+        user = await createUser({
+            email,
+            password: temporaryPassword,
+            role: 'staff',
+            name,
+            privilege,
+            mustChangePassword: true,
+        });
+    } else if (name) {
+        updateUserProfile(user.id, { name });
+        user = getUserById(user.id);
+    }
+    const invite = await inviteUser(user, origin);
+    return {
+        account: {
+            email: user.email,
+            name: user.name,
+            privilege: staffPrivilege(user),
+            created: true,
+        },
+        invite,
+        client: null,
+    };
 }
 
 export async function ensureClientAccounts() {
@@ -300,21 +368,35 @@ function resetUrlFor(origin, token) {
 
 async function emailResetLink(user, resetUrl, kind = 'reset') {
     const name = user.name || 'there';
-    const invite = kind === 'invite';
+    const invite = kind === 'invite' || kind === 'staff-invite';
+    const staffInvite = kind === 'staff-invite';
     const subject = invite
-        ? 'Your Leanne Digital client portal'
+        ? staffInvite
+            ? 'Your Leanne Digital admin login'
+            : 'Your Leanne Digital client portal'
         : 'Reset your Leanne Digital portal password';
     const text = invite
-        ? [
-              `Hi ${name},`,
-              '',
-              'We set up your Leanne Digital client portal. Choose a password with this link, then you can add your business details:',
-              resetUrl,
-              '',
-              `This link expires in ${INVITE_DAYS} days. After that, use Forgot password on the login page.`,
-              '',
-              'Leanne Digital',
-          ].join('\n')
+        ? staffInvite
+            ? [
+                  `Hi ${name},`,
+                  '',
+                  'We set up your Leanne Digital admin account. Choose a password with this link, then you can open the dashboard:',
+                  resetUrl,
+                  '',
+                  `This link expires in ${INVITE_DAYS} days. After that, use Forgot password on the login page.`,
+                  '',
+                  'Leanne Digital',
+              ].join('\n')
+            : [
+                  `Hi ${name},`,
+                  '',
+                  'We set up your Leanne Digital client portal. Choose a password with this link, then you can add your business details:',
+                  resetUrl,
+                  '',
+                  `This link expires in ${INVITE_DAYS} days. After that, use Forgot password on the login page.`,
+                  '',
+                  'Leanne Digital',
+              ].join('\n')
         : [
               `Hi ${name},`,
               '',
@@ -361,7 +443,7 @@ export async function inviteUser(user, origin) {
     }
     const token = createResetToken(user.id, { minutes: INVITE_DAYS * 24 * 60 });
     const resetUrl = resetUrlFor(origin, token);
-    const emailed = await emailResetLink(user, resetUrl, 'invite');
+    const emailed = await emailResetLink(user, resetUrl, user.role === 'staff' ? 'staff-invite' : 'invite');
     return {
         email: user.email,
         emailed,
@@ -403,7 +485,7 @@ export function updateUserProfile(userId, input = {}) {
         error.status = 401;
         throw error;
     }
-    if (input.name) user.name = String(input.name).trim();
+    if ('name' in input && input.name != null) user.name = String(input.name).trim();
     if ('avatarFile' in input) user.avatarFile = input.avatarFile || null;
     saveUsers(users);
     return publicUser(user);
