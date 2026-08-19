@@ -121,7 +121,7 @@ function renderPostPage(post, posts, depth) {
 
     const featured = post.featuredImage
         ? `<figure class="blog-post__featured">
-                <img src="${prefix}${post.featuredImage.replace(/^\//, '')}" alt="" width="1024" height="578" loading="eager">
+                <img src="${prefix}${post.featuredImage.replace(/^\//, '')}" alt="${escapeHtml(post.title)}" width="1024" height="578" loading="eager">
             </figure>`
         : '';
 
@@ -162,6 +162,7 @@ function renderPostPage(post, posts, depth) {
         depth,
         extraCss: ['blog-post.css'],
         canonical: `${SITE}${post.path}`,
+        ogImage: post.featuredImage ? `${SITE}${post.featuredImage}` : undefined,
     })}
 <body class="page-inner">
 ${renderNav(depth, '')}
