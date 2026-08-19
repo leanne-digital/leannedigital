@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260819a';
+const SCRIPT_V = '20260819b';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);

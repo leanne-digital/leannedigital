@@ -69,10 +69,10 @@ function serviceTags(client) {
 function portalScripts(depth, admin = false) {
     const prefix = '../'.repeat(depth);
     const adminScript = admin
-        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819a" defer></script>`
+        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819b" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260819a" defer></script>${adminScript}`;
+    <script src="${prefix}js/portal-auth.js?v=20260819b" defer></script>${adminScript}`;
 }
 
 function renderLinks(client) {

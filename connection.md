@@ -286,14 +286,22 @@ Do not create that production directory from this repo.
 
 ### OpenLiteSpeed paths to proxy to `127.0.0.1:4174`
 
-Proxy **only** these prefixes (plus trailing-slash variants as needed):
+Proxy these prefixes (plus trailing-slash variants as needed):
+
+**MCP / OAuth**
 
 - `/mcp`
 - `/.well-known/oauth-protected-resource`
 - `/.well-known/oauth-authorization-server`
 - `/oauth`
 
-Do not proxy `/admin`, `/clients`, `/api/clients`, or the rest of the portal.
+**Client portal login** (same `leannedigital-mcp` proxy handler)
+
+- `/api/auth`
+- `/api/portal`
+- `/api/clients`
+
+Do not proxy `/admin` or `/clients` — those stay static HTML. Node still gates them with the session cookie once `/api/auth` is reachable.
 
 ### Local OAuth test procedure
 

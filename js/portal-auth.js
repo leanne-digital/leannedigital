@@ -323,7 +323,6 @@
     }
 
     async function localApiAlive() {
-        if (validLilipadd() || hasPlatformLoader()) return false;
         try {
             const res = await fetch('/api/auth/me', { credentials: 'include' });
             return isJsonResponse(res);
