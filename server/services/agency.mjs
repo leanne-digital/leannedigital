@@ -3,6 +3,7 @@ import { portalStats } from '../../scripts/portal-stats.mjs';
 import {
     createClientWithAccount,
     deleteClientWithAccount,
+    archiveClientWithAccount,
     getPortalMe,
     inviteClient,
     listClientsFor,
@@ -25,7 +26,9 @@ import {
     addProjectUpdate,
     createClientProject,
     getClientProject,
+    loadClientProjects,
     listClientProjects,
+    presentProject,
     seedProjectsFromClientServices,
     setProjectStatus,
     updateClientProject,
@@ -44,6 +47,19 @@ function roundMoney(value) {
     return Math.round((Number(value) || 0) * 100) / 100;
 }
 
+function serviceTypesForClient(client, projects) {
+    const types = new Set();
+    for (const service of client.services || []) {
+        if (service?.type) types.add(service.type);
+    }
+    for (const project of projects) {
+        if (project.clientSlug !== client.slug && String(project.clientId) !== String(client.id)) continue;
+        if (project.status === 'cancelled') continue;
+        if (project.serviceType) types.add(project.serviceType);
+    }
+    return [...types];
+}
+
 export function listAgencyClients(user, filters = {}) {
     let clients = loadClients();
     if (user?.role !== 'staff' && user?.clientSlug) {
@@ -51,11 +67,15 @@ export function listAgencyClients(user, filters = {}) {
     } else if (user && user.role !== 'staff' && !user.clientSlug) {
         clients = [];
     }
+    const includeArchived = filters.archived === '1' || filters.archived === 'true';
+    if (!includeArchived) {
+        clients = clients.filter((client) => !client.archivedAt);
+    }
     const serviceType = filters.serviceType ? String(filters.serviceType).toLowerCase() : '';
     if (serviceType === 'seo' || filters.seo === '1' || filters.seo === 'true') {
         const slugs = new Set(listSeoClients().map((client) => client.slug));
         clients = clients.filter((client) => slugs.has(client.slug));
-        return listClientsFor(user, clients);
+        return attachServiceTypes(user, listClientsFor(user, clients));
     }
     if (serviceType) {
         const slugs = new Set(
@@ -66,9 +86,18 @@ export function listAgencyClients(user, filters = {}) {
                 slugs.has(client.slug) ||
                 (client.services || []).some((service) => service.type === serviceType)
         );
-        return listClientsFor(user, clients);
+        return attachServiceTypes(user, listClientsFor(user, clients));
     }
-    return listClientsFor(user, clients);
+    return attachServiceTypes(user, listClientsFor(user, clients));
+}
+
+function attachServiceTypes(user, clients) {
+    if (user?.role !== 'staff') return clients;
+    const projects = loadClientProjects();
+    return clients.map((client) => ({
+        ...client,
+        serviceTypes: serviceTypesForClient(client, projects),
+    }));
 }
 
 export function getAgencyClient(id) {
@@ -88,6 +117,7 @@ export function listSeoClients() {
     const slugs = new Set(fromProjects.map((row) => row.clientSlug));
     return loadClients()
         .filter((client) => {
+            if (client.archivedAt) return false;
             if (slugs.has(client.slug)) return true;
             const types = (client.services || []).map((service) => service.type);
             return types.includes('seo') || types.includes('aeo') || (client.reports || []).length > 0;
@@ -181,13 +211,24 @@ export function getDashboardStats() {
     return portalStats(loadClients());
 }
 
+export function getAdminDashboard(user) {
+    return {
+        clients: listAgencyClients(user),
+        projects: loadPortfolioProjects(),
+        inbox: loadSubmissions(),
+        calendly: loadCalendlyBookings(),
+    };
+}
+
 export {
     createClientWithAccount,
     updateClientWithAccount,
+    archiveClientWithAccount,
     deleteClientWithAccount,
     getPortalMe,
     inviteClient,
     presentClient,
+    presentProject,
     updateOwnClientProfile,
     listClientProjects,
     getClientProject,

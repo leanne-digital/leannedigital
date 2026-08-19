@@ -42,7 +42,42 @@
     }
 
     function hasService(client, types) {
-        return (client.services || []).some((row) => types.includes(row.type) && Number(row.amount));
+        return (
+            (client.services || []).some((row) => types.includes(row.type)) ||
+            (client.serviceTypes || []).some((type) => types.includes(type)) ||
+            (types.includes('seo') && (client.reports || []).length)
+        );
+    }
+
+    const SERVICE_LABELS = [
+        { types: ['website', 'development'], label: 'Web development' },
+        { types: ['maintenance'], label: 'Site maintenance' },
+        { types: ['hosting'], label: 'Hosting' },
+        { types: ['design', 'graphic-design'], label: 'Graphic design' },
+        { types: ['management'], label: 'Site management' },
+        { types: ['seo'], label: 'SEO' },
+        { types: ['aeo'], label: 'AEO' },
+        { types: ['google-ads'], label: 'Google Ads' },
+    ];
+
+    function serviceTypesOf(client) {
+        return new Set([...(client.serviceTypes || []), ...(client.services || []).map((row) => row.type)].filter(Boolean));
+    }
+
+    function serviceLabels(client) {
+        const have = serviceTypesOf(client);
+        const labels = SERVICE_LABELS.filter((row) => row.types.some((type) => have.has(type))).map((row) => row.label);
+        const known = new Set(SERVICE_LABELS.flatMap((row) => row.types));
+        for (const type of have) {
+            if (!known.has(type)) labels.push(type.replace(/-/g, ' '));
+        }
+        return labels;
+    }
+
+    function servicePills(client) {
+        const labels = serviceLabels(client);
+        if (!labels.length) return '<span class="admin-muted">None yet</span>';
+        return labels.map((label) => `<span class="admin-pill">${escapeHtml(label)}</span>`).join(' ');
     }
 
     function fileToImage(file) {
@@ -82,11 +117,11 @@
         }
     }
 
-    function statCard(label, value) {
-        return `<article class="dash-stat">
-            <p class="dash-stat__value">${escapeHtml(String(value))}</p>
-            <h3 class="dash-stat__label">${escapeHtml(label)}</h3>
-        </article>`;
+    function statCard(label, value, section) {
+        const inner = `<p class="dash-stat__value">${escapeHtml(String(value))}</p>
+            <h3 class="dash-stat__label">${escapeHtml(label)}</h3>`;
+        if (!section) return `<article class="dash-stat">${inner}</article>`;
+        return `<button type="button" class="dash-stat dash-stat--link" data-admin-section="${escapeHtml(section)}">${inner}</button>`;
     }
 
     function clientCard(client) {
@@ -100,26 +135,53 @@
     }
 
     function renderOverview(data) {
-        const seo = data.clients.filter((client) => hasService(client, ['seo', 'aeo']) || (client.reports || []).length);
-        const maintenance = data.clients.filter((client) => hasService(client, ['maintenance', 'management', 'hosting']));
-        const hidden = data.projects.filter((project) => project.hidden).length;
+        const seo = data.clients.filter((client) => hasService(client, ['seo', 'aeo']));
+        const maintenance = data.clients.filter((client) => hasService(client, ['maintenance']));
+        const hosting = data.clients.filter((client) => hasService(client, ['hosting']));
+        const management = data.clients.filter((client) => hasService(client, ['management']));
         $('[data-overview-stats]').innerHTML = [
-            statCard('SEO clients', seo.length),
-            statCard('Maintenance clients', maintenance.length),
-            statCard('Portfolio projects', data.projects.length),
-            statCard('Hidden projects', hidden),
-            statCard('Leads', data.inbox.length),
-            statCard('Form submissions', data.inbox.length),
-            statCard('Calendly bookings', data.calendly.length),
+            statCard('SEO clients', seo.length, 'seo-clients'),
+            statCard('Maintenance clients', maintenance.length, 'maintenance-clients'),
+            statCard('Hosting clients', hosting.length, 'hosting-clients'),
+            statCard('Site management', management.length, 'management-clients'),
+            statCard('Portfolio projects', data.projects.length, 'portfolio'),
+            statCard('All clients', data.clients.length),
+            statCard('Leads', data.inbox.length, 'leads'),
+            statCard('Calendly bookings', data.calendly.length, 'calendly'),
         ].join('');
     }
 
+    function renderClientsTable(clients) {
+        const body = $('[data-clients-body]');
+        const empty = $('[data-clients-empty]');
+        if (!body) return;
+        body.innerHTML = clients
+            .map(
+                (client) => `<tr>
+                    <td>
+                        <strong>${escapeHtml(client.name)}</strong>
+                        <div class="admin-muted">${escapeHtml(client.email || 'No email')}</div>
+                    </td>
+                    <td>${escapeHtml(client.contactName || '—')}</td>
+                    <td class="admin-services">${servicePills(client)}</td>
+                    <td>
+                        <a class="admin-row-btn" href="/clients/${encodeURIComponent(client.slug)}/">View</a>
+                        <button type="button" class="admin-row-btn" data-edit-client="${escapeHtml(client.slug)}">Edit</button>
+                        <button type="button" class="admin-row-btn admin-row-btn--danger" data-archive-client="${escapeHtml(client.slug)}">Delete</button>
+                    </td>
+                </tr>`
+            )
+            .join('');
+        if (empty) empty.hidden = clients.length > 0;
+    }
+
     function renderClientGrid(clients, gridSel, emptySel, types) {
-        const list = clients.filter((client) => hasService(client, types) || (types.includes('seo') && (client.reports || []).length));
         const grid = $(gridSel);
         const empty = $(emptySel);
+        if (!grid) return;
+        const list = clients.filter((client) => hasService(client, types));
         grid.innerHTML = list.map(clientCard).join('');
-        empty.hidden = list.length > 0;
+        if (empty) empty.hidden = list.length > 0;
     }
 
     function renderPortfolio(projects) {
@@ -219,27 +281,88 @@
         const errorEl = $('[data-admin-error]');
         const okEl = $('[data-admin-ok]');
         const form = $('[data-portfolio-form]');
-        let data = { clients: [], projects: [], inbox: [], calendly: [] };
+        const clientForm = $('[data-client-form]');
+        const inviteCard = $('[data-invite-card]');
+        const inviteUrlEl = $('[data-invite-url]');
+        const inviteBtn = $('[data-invite-client]');
+        const bootData = window.__LD_ADMIN_BOOTSTRAP__;
+        let data = {
+            clients: bootData?.clients || [],
+            projects: bootData?.projects || [],
+            inbox: bootData?.inbox || [],
+            calendly: bootData?.calendly || [],
+        };
 
         function paint() {
             renderOverview(data);
+            renderClientsTable(data.clients);
             renderClientGrid(data.clients, '[data-seo-grid]', '[data-seo-empty]', ['seo', 'aeo']);
-            renderClientGrid(data.clients, '[data-maintenance-grid]', '[data-maintenance-empty]', [
-                'maintenance',
-                'management',
-                'hosting',
-            ]);
+            renderClientGrid(data.clients, '[data-maintenance-grid]', '[data-maintenance-empty]', ['maintenance']);
+            renderClientGrid(data.clients, '[data-hosting-grid]', '[data-hosting-empty]', ['hosting']);
+            renderClientGrid(data.clients, '[data-management-grid]', '[data-management-empty]', ['management']);
             renderPortfolio(data.projects);
             renderLeads(data.inbox);
             renderSubmissions(data.inbox);
             renderCalendly(data.calendly);
         }
 
-        async function refresh() {
-            data = await request('/api/admin/dashboard');
-            paint();
+        async function tryRequest(url, options) {
+            try {
+                return await request(url, options);
+            } catch {
+                return null;
+            }
         }
 
+        function showInvite(invite) {
+            const url = invite?.inviteUrl || '';
+            if (!inviteCard || !inviteUrlEl) return;
+            inviteCard.hidden = !url;
+            inviteUrlEl.value = url;
+        }
+
+        function fillClientForm(client) {
+            if (!clientForm) return;
+            clientForm.slug.value = client?.slug || '';
+            clientForm.name.value = client?.name || '';
+            clientForm.contactName.value = client?.contactName || '';
+            clientForm.email.value = client?.email || '';
+            clientForm.phone.value = client?.phone || '';
+            clientForm.website.value = client?.website || '';
+            const have = serviceTypesOf(client || {});
+            $$('input[name="serviceTypes"]', clientForm).forEach((input) => {
+                const aliases = input.value === 'website' ? ['website', 'development'] : input.value === 'design' ? ['design', 'graphic-design'] : [input.value];
+                input.checked = aliases.some((type) => have.has(type));
+            });
+            clientForm.querySelector('[type="submit"]').textContent = client ? 'Save client' : 'Create client';
+            if (inviteBtn) inviteBtn.hidden = !client;
+            showInvite(null);
+        }
+
+        async function refresh() {
+            show(errorEl, '');
+            const dash = await tryRequest('/api/clients/dashboard');
+            if (dash) {
+                data.clients = dash.clients || [];
+                data.projects = dash.projects || [];
+                data.inbox = dash.inbox || [];
+                data.calendly = dash.calendly || [];
+                paint();
+                return;
+            }
+            const clientsRes = await tryRequest('/api/clients');
+            if (clientsRes) {
+                data.clients = clientsRes.clients || [];
+                paint();
+                return;
+            }
+            paint();
+            if (!data.clients.length) {
+                throw new Error('Could not load live client data.');
+            }
+        }
+
+        paint();
         try {
             await refresh();
         } catch (error) {
@@ -249,10 +372,91 @@
 
         document.addEventListener('click', (event) => {
             const btn = event.target.closest('[data-admin-section]');
-            if (btn) setSection(btn.getAttribute('data-admin-section'));
+            if (!btn) return;
+            const id = btn.getAttribute('data-admin-section');
+            if (id === 'new-client') fillClientForm(null);
+            setSection(id);
         });
         window.addEventListener('hashchange', () => setSection(location.hash.replace('#', '') || 'overview'));
         setSection(location.hash.replace('#', '') || 'overview');
+
+        clientForm?.addEventListener('reset', () => {
+            fillClientForm(null);
+            show(errorEl, '');
+            show(okEl, '');
+        });
+
+        clientForm?.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            show(errorEl, '');
+            show(okEl, '');
+            const submit = clientForm.querySelector('[type="submit"]');
+            submit.disabled = true;
+            try {
+                const payload = {
+                    name: clientForm.name.value,
+                    contactName: clientForm.contactName.value,
+                    email: clientForm.email.value,
+                    phone: clientForm.phone.value,
+                    website: clientForm.website.value,
+                    serviceTypes: $$('input[name="serviceTypes"]:checked', clientForm).map((input) => input.value),
+                };
+                const slug = clientForm.slug.value;
+                if (slug) {
+                    await request(`/api/clients/${encodeURIComponent(slug)}`, { method: 'PATCH', body: payload });
+                    await refresh();
+                    show(okEl, 'Client updated.');
+                    setSection('overview');
+                    return;
+                }
+                const created = await request('/api/clients', { method: 'POST', body: payload });
+                await refresh();
+                fillClientForm(created.client);
+                showInvite(created.invite);
+                const emailed = created.invite?.emailed;
+                show(
+                    okEl,
+                    emailed
+                        ? `Client created. A login email was sent to ${created.invite.email}. Copy the link below if you also want to send it yourself.`
+                        : 'Client created. Copy the login link below and send it to them — email was not sent from the server.'
+                );
+            } catch (error) {
+                show(errorEl, error.message || 'Could not save that client.');
+            } finally {
+                submit.disabled = false;
+            }
+        });
+
+        inviteBtn?.addEventListener('click', async () => {
+            const slug = clientForm?.slug.value;
+            if (!slug) return;
+            show(errorEl, '');
+            show(okEl, '');
+            try {
+                const result = await request(`/api/clients/${encodeURIComponent(slug)}/invite`, { method: 'POST' });
+                showInvite(result.invite);
+                show(
+                    okEl,
+                    result.invite?.emailed
+                        ? `Login link sent to ${result.invite.email}.`
+                        : `Copy the login link below and send it to ${result.invite?.email || 'the client'}.`
+                );
+            } catch (error) {
+                show(errorEl, error.message || 'Could not create a login link.');
+            }
+        });
+
+        $('[data-copy-invite]')?.addEventListener('click', async () => {
+            const url = inviteUrlEl?.value;
+            if (!url) return;
+            try {
+                await navigator.clipboard.writeText(url);
+                show(okEl, 'Login link copied.');
+            } catch {
+                inviteUrlEl.select();
+                show(errorEl, 'Copy failed — select the link and copy it manually.');
+            }
+        });
 
         form.addEventListener('reset', () => {
             fillProjectForm(form, null);
@@ -293,6 +497,32 @@
         });
 
         document.addEventListener('click', async (event) => {
+            const editClient = event.target.closest('[data-edit-client]');
+            const archiveClient = event.target.closest('[data-archive-client]');
+            if (editClient || archiveClient) {
+                show(errorEl, '');
+                show(okEl, '');
+                const slug = (editClient || archiveClient).getAttribute(editClient ? 'data-edit-client' : 'data-archive-client');
+                const client = data.clients.find((row) => row.slug === slug);
+                if (!client) return;
+                try {
+                    if (editClient) {
+                        fillClientForm(client);
+                        setSection('new-client');
+                        return;
+                    }
+                    if (!confirm(`Archive ${client.name}? They will leave this list. Their login still works until you remove the account later.`)) {
+                        return;
+                    }
+                    await request(`/api/clients/${encodeURIComponent(slug)}/archive`, { method: 'POST' });
+                    await refresh();
+                    if (clientForm?.slug.value === slug) fillClientForm(null);
+                    show(okEl, `${client.name} archived.`);
+                } catch (error) {
+                    show(errorEl, error.message || 'Could not update that client.');
+                }
+                return;
+            }
             const edit = event.target.closest('[data-edit-project]');
             const toggle = event.target.closest('[data-toggle-project]');
             const remove = event.target.closest('[data-delete-project]');

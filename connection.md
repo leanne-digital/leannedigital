@@ -79,13 +79,15 @@ The adapter calls `GET {LILIPADD_API_URL}/api/public/v1/analytics?key={LILIPADD_
 - `GET /api/portal/me` — signed-in user + their client profile (clients only)
 - `PATCH /api/portal/profile` — client onboarding, contact, stack, and extra apps
 - `GET|POST /api/portal/avatar` — account photo
-- `POST /api/clients/{id}/invite` — staff resend set-password email
+- `POST /api/clients/{id}/invite` — staff resend set-password email (always returns `inviteUrl` to copy)
+- `POST /api/clients/{id}/archive` — hide a client from staff lists without deleting the login
 - `GET /api/dashboard` — retainer stats from client `services[]`
+- `GET /api/clients/dashboard` — staff overview payload (clients, portfolio, inbox, Calendly)
+- `GET /api/admin/dashboard` — same payload; not proxied on production LiteSpeed
 - `GET|POST /api/clients`, `GET|PATCH|DELETE /api/clients/{id}`
 - `GET|POST /api/portfolio`, `PATCH|DELETE /api/portfolio/{slug}`
 - `GET /api/inbox`, `PATCH /api/leads`
 - `GET /api/calendly`, `POST /api/webhooks/calendly`
-- `GET /api/admin/dashboard`
 
 **Client/service projects**
 

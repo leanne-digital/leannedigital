@@ -23,12 +23,14 @@ import { requestPath, resolvePublicFile, sendFile } from './static.mjs';
 import { saveCalendlyBooking } from '../scripts/admin-inbox.mjs';
 import {
     addProjectUpdate,
+    archiveClientWithAccount,
     createClientProject,
     createClientWithAccount,
     createPortfolioProject,
     deleteClientWithAccount,
     deletePortfolioProject,
     getAgencyClient,
+    getAdminDashboard,
     getClientProject,
     getClientRevenue,
     getDashboardStats,
@@ -45,6 +47,7 @@ import {
     loadPortfolioProjects,
     loadSubmissions,
     presentClient,
+    presentProject,
     setLeadStatus,
     setProjectStatus,
     updateClientProject,
@@ -137,7 +140,11 @@ function parseFormBody(raw, req) {
 }
 
 function originFrom(req) {
-    return `http://${req.headers.host || `127.0.0.1:${PORT}`}`;
+    const forwarded = String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim();
+    const host = String(req.headers['x-forwarded-host'] || req.headers.host || `127.0.0.1:${PORT}`).split(',')[0].trim();
+    const local = /^127\.0\.0\.1(?::\d+)?$|^localhost(?::\d+)?$/i.test(host);
+    const scheme = forwarded === 'https' || forwarded === 'http' ? forwarded : local ? 'http' : 'https';
+    return `${scheme}://${host}`;
 }
 
 function clientSlugFromPath(pathname) {
@@ -295,12 +302,7 @@ async function handleApi(req, res, method, pathname, user) {
     }
     if (pathname === '/api/admin/dashboard' && method === 'GET') {
         if (!requireStaff(user, req, res)) return true;
-        json(req, res, 200, {
-            clients: listAgencyClients(user),
-            projects: loadPortfolioProjects(),
-            inbox: loadSubmissions(),
-            calendly: loadCalendlyBookings(),
-        });
+        json(req, res, 200, getAdminDashboard(user));
         return true;
     }
     if (pathname === '/api/revenue' && method === 'GET') {
@@ -330,9 +332,17 @@ async function handleApi(req, res, method, pathname, user) {
         return true;
     }
     if (pathname === '/api/projects' && method === 'GET') {
+        if (user.role === 'client' && user.clientSlug) {
+            json(req, res, 200, {
+                projects: listClientProjects({ client: user.clientSlug }).map((row) => presentProject(row, user)),
+            });
+            return true;
+        }
         if (!requireStaff(user, req, res)) return true;
         const query = queryFrom(req);
-        json(req, res, 200, { projects: listClientProjects(query) });
+        json(req, res, 200, {
+            projects: listClientProjects(query).map((row) => presentProject(row, user)),
+        });
         return true;
     }
     if (pathname === '/api/projects' && method === 'POST') {
@@ -442,6 +452,11 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 200, { clients: listSeoClients() });
         return true;
     }
+    if (pathname === '/api/clients/dashboard' && method === 'GET') {
+        if (!requireStaff(user, req, res)) return true;
+        json(req, res, 200, getAdminDashboard(user));
+        return true;
+    }
     if (pathname === '/api/clients' && method === 'POST') {
         if (!requireStaff(user, req, res)) return true;
         const body = await readBody(req);
@@ -457,6 +472,12 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 200, { invite, client });
         return true;
     }
+    const archiveMatch = pathname.match(/^\/api\/clients\/([^/]+)\/archive$/);
+    if (archiveMatch && method === 'POST') {
+        if (!requireStaff(user, req, res)) return true;
+        json(req, res, 200, await archiveClientWithAccount(decodeURIComponent(archiveMatch[1])));
+        return true;
+    }
     const match = pathname.match(/^\/api\/clients\/([^/]+)$/);
     if (!match) {
         json(req, res, 404, { error: 'Not found' });
@@ -468,7 +489,10 @@ async function handleApi(req, res, method, pathname, user) {
         if (user.role !== 'staff' && client.slug !== user.clientSlug) {
             return json(req, res, 403, { error: 'Forbidden' });
         }
-        json(req, res, 200, { client: presentClient(client, user), projects: listClientProjects({ client: client.slug }) });
+        json(req, res, 200, {
+            client: presentClient(client, user),
+            projects: listClientProjects({ client: client.slug }).map((row) => presentProject(row, user)),
+        });
         return true;
     }
     if (!requireStaff(user, req, res)) return true;

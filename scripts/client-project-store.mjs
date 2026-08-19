@@ -17,6 +17,7 @@ export const SERVICE_TYPES = [
     'management',
     'google-ads',
     'development',
+    'design',
     'custom',
 ];
 
@@ -53,7 +54,8 @@ function money(value, fallback = 0) {
 function normalizeServiceType(value) {
     const raw = String(value || 'custom').trim().toLowerCase().replace(/\s+/g, '-');
     if (raw === 'google_ads' || raw === 'ads') return 'google-ads';
-    if (raw === 'web' || raw === 'web-design') return 'website';
+    if (raw === 'web' || raw === 'web-design' || raw === 'web-development') return 'website';
+    if (raw === 'graphic-design' || raw === 'graphic') return 'design';
     return raw || 'custom';
 }
 
@@ -72,12 +74,13 @@ function defaultName(client, serviceType) {
     const labels = {
         seo: 'SEO',
         aeo: 'Technical SEO/AEO',
-        website: 'Website',
+        website: 'Web development',
         hosting: 'Hosting',
-        maintenance: 'Website Maintenance',
+        maintenance: 'Site maintenance',
         management: 'Site management',
         'google-ads': 'Google Ads',
-        development: 'Development',
+        development: 'Web development',
+        design: 'Graphic design',
         custom: 'Project',
     };
     return `${client.name} — ${labels[serviceType] || serviceType}`;
@@ -215,6 +218,35 @@ export function setProjectStatus(id, status, actor = {}) {
         },
         actor
     );
+}
+
+export function projectProgress(project) {
+    const status = String(project?.status || '').toLowerCase();
+    if (status === 'completed') return 100;
+    if (status === 'cancelled') return 0;
+    if (status === 'paused') return 40;
+    const startRaw = project.startDate || project.createdAt;
+    const start = startRaw ? new Date(startRaw) : null;
+    if (!start || Number.isNaN(start.getTime())) return 20;
+    const days = Math.max(0, (Date.now() - start.getTime()) / 86400000);
+    return Math.max(15, Math.min(85, Math.round(15 + days * 0.9)));
+}
+
+export function presentProject(project, user) {
+    if (!project) return null;
+    const progress = Number.isFinite(Number(project.progress))
+        ? Math.max(0, Math.min(100, Math.round(Number(project.progress))))
+        : projectProgress(project);
+    if (user?.role === 'staff') return { ...project, progress };
+    return {
+        id: project.id,
+        name: project.name,
+        serviceType: project.serviceType,
+        status: project.status,
+        startDate: project.startDate,
+        notes: project.notes || '',
+        progress,
+    };
 }
 
 export function listClientProjects(filters = {}) {

@@ -19,7 +19,12 @@ const SERVICE_DEFAULTS = {
     aeo: { label: 'Technical SEO & AEO', cycle: 'monthly' },
     maintenance: { label: 'Website Maintenance & Protection', cycle: 'monthly' },
     management: { label: 'Static site management', cycle: 'monthly' },
+    website: { label: 'Web development', cycle: 'monthly' },
+    development: { label: 'Web development', cycle: 'monthly' },
+    design: { label: 'Graphic design', cycle: 'monthly' },
 };
+
+const ADMIN_SERVICE_TYPES = ['website', 'development', 'maintenance', 'hosting', 'design', 'management'];
 
 export function slugify(name) {
     const slug = String(name || '')
@@ -180,7 +185,24 @@ function servicesFromInput(input = {}, current = []) {
         if (input.hostingLastBilled) hosting.lastBilled = input.hostingLastBilled;
         else delete hosting.lastBilled;
     }
-    return services;
+    if (!Array.isArray(input.serviceTypes)) return services;
+    const wanted = new Set(
+        input.serviceTypes
+            .map((type) => String(type || '').trim().toLowerCase())
+            .filter(Boolean)
+            .map((type) => {
+                if (type === 'web-development') return 'website';
+                if (type === 'graphic-design') return 'design';
+                return type;
+            })
+    );
+    for (const type of wanted) {
+        if (!services.some((service) => service.type === type)) services.push(makeService(type));
+    }
+    return services.filter((service) => {
+        if (!ADMIN_SERVICE_TYPES.includes(service.type)) return true;
+        return wanted.has(service.type);
+    });
 }
 
 function mergeServices(current = [], incoming = []) {
@@ -273,6 +295,7 @@ function upsertPortal(record) {
         onboarding: record.onboarding || null,
         discount: Number(record.discount) || 0,
         taxAmount: Number(record.taxAmount) || 0,
+        archivedAt: record.archivedAt || null,
         createdAt: record.createdAt || stamp(),
     };
     if (index >= 0) portal[index] = { ...portal[index], ...next };
@@ -413,6 +436,7 @@ export async function updateClient(slugOrId, input, { regenerate = true } = {}) 
         onboarding: 'onboarding' in input ? normalizeOnboarding(input.onboarding, current.onboarding) : current.onboarding,
         discount: 'discount' in input ? moneyField(input.discount, 0) : Number(current.discount) || 0,
         taxAmount: 'taxAmount' in input ? moneyField(input.taxAmount, 0) : Number(current.taxAmount) || 0,
+        archivedAt: 'archivedAt' in input ? input.archivedAt || null : current.archivedAt || null,
     };
     upsertPortal(record);
     upsertOverlay(record);
@@ -422,6 +446,10 @@ export async function updateClient(slugOrId, input, { regenerate = true } = {}) 
 
 export async function updateClientPortalProfile(slugOrId, input) {
     return updateClient(slugOrId, input, { regenerate: false });
+}
+
+export async function archiveClient(slugOrId) {
+    return updateClient(slugOrId, { archivedAt: new Date().toISOString() }, { regenerate: false });
 }
 
 export async function deleteClient(slugOrId) {

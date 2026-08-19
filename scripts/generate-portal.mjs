@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260819b';
+const SCRIPT_V = '20260819c';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -213,6 +213,12 @@ ${needChecks}
                             <p><button class="dash-form__add" type="button" data-edit-onboarding>Edit details</button></p>
                         </article>
                     </div>
+                    <section class="portal-card" data-projects-card>
+                        <h2 class="dash-form__heading">Your projects</h2>
+                        <p class="dash-copy dash-copy--left">Each piece of work has a status meter so you can see where things stand.</p>
+                        <div class="portal-projects" data-projects-list></div>
+                        <p class="admin-empty" data-projects-empty hidden>No projects yet. We’ll add them once work starts.</p>
+                    </section>
                     <form class="dash-form portal-form" data-apps-form>
                         <h2 class="dash-form__heading">Other services</h2>
                         <p class="dash-copy dash-copy--left">Add logins for Mailchimp, plugins, or anything else we may need to manage. Skip the password if you would rather send it another way.</p>

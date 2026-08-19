@@ -365,7 +365,7 @@ export async function inviteUser(user, origin) {
     return {
         email: user.email,
         emailed,
-        ...(process.env.PORTAL_DEV_RESET_LINKS === '1' || !emailed ? { inviteUrl: resetUrl } : {}),
+        inviteUrl: resetUrl,
     };
 }
 

@@ -138,7 +138,7 @@
             emailProvider: bindOther(onboardForm, 'emailProvider', EMAIL),
         };
 
-        let state = { user, client: null };
+        let state = { user, client: null, projects: [] };
         let editingOnboarding = false;
 
         function setPanel(name) {
@@ -234,6 +234,7 @@
                     .join('');
             }
             setApps($('[data-app-list]'), client.clientApps || []);
+            renderProjects(state.projects);
             const img = $('[data-avatar-img]');
             const fallback = $('[data-avatar-fallback]');
             const avatarUrl = state.user?.avatarUrl;
@@ -248,6 +249,39 @@
                     fallback.textContent = initials(client.contactName || client.name || state.user?.name);
                 }
             }
+        }
+
+        function statusLabel(status) {
+            const labels = { active: 'In progress', paused: 'Paused', completed: 'Complete', cancelled: 'Cancelled' };
+            return labels[status] || status || 'In progress';
+        }
+
+        function renderProjects(projects) {
+            const list = $('[data-projects-list]');
+            const empty = $('[data-projects-empty]');
+            if (!list) return;
+            const rows = Array.isArray(projects) ? projects : [];
+            if (!rows.length) {
+                list.innerHTML = '';
+                if (empty) empty.hidden = false;
+                return;
+            }
+            if (empty) empty.hidden = true;
+            list.innerHTML = rows
+                .map((project) => {
+                    const progress = Math.max(0, Math.min(100, Number(project.progress) || 0));
+                    return `<article class="portal-project">
+                        <div class="portal-project__head">
+                            <h3>${escapeHtml(project.name)}</h3>
+                            <span class="admin-pill">${escapeHtml(statusLabel(project.status))}</span>
+                        </div>
+                        <div class="portal-meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}" aria-label="${escapeHtml(project.name)} progress">
+                            <span class="portal-meter__fill" style="width:${progress}%"></span>
+                        </div>
+                        <p class="portal-meter__label">${progress}% · ${escapeHtml(statusLabel(project.status))}</p>
+                    </article>`;
+                })
+                .join('');
         }
 
         function showWorkspace() {
@@ -270,7 +304,7 @@
 
         async function refresh() {
             const data = await api.portalMe();
-            state = { user: data.user || state.user, client: data.client };
+            state = { user: data.user || state.user, client: data.client, projects: data.projects || [] };
             window.__LD_PORTAL__.user = state.user;
             showWorkspace();
         }

@@ -1,10 +1,12 @@
 import {
     createClient,
+    archiveClient as archiveClientRecord,
     deleteClient,
     getClient,
     updateClient,
     updateClientPortalProfile,
 } from '../scripts/client-store.mjs';
+import { listClientProjects, presentProject, seedProjectsFromClientServices } from '../scripts/client-project-store.mjs';
 import { onboardingComplete } from '../scripts/portal-options.mjs';
 import {
     deleteUsersForClient,
@@ -79,6 +81,7 @@ export function presentClient(client, user) {
         onboardingComplete: onboardingComplete(client),
         clientApps: client.clientApps || [],
         reports: (client.reports || []).map((report) => ({ slug: report.slug, title: report.title })),
+        services: (client.services || []).map((service) => ({ type: service.type, label: service.label })),
     };
 }
 
@@ -109,6 +112,7 @@ export async function inviteClient(client, origin) {
 
 export async function createClientWithAccount(input, { origin } = {}) {
     const client = await createClient(input);
+    seedProjectsFromClientServices();
     const account = await provisionClientAccount(client, input);
     let invite = null;
     if (!isPlaceholderEmail(account.email)) {
@@ -131,9 +135,14 @@ export async function createClientWithAccount(input, { origin } = {}) {
 
 export async function updateClientWithAccount(id, input) {
     const client = await updateClient(id, input);
+    seedProjectsFromClientServices();
     const existing = syncClientUser(client, input);
     if (!existing) await provisionClientAccount(client, input);
     return { client };
+}
+
+export async function archiveClientWithAccount(id) {
+    return { client: await archiveClientRecord(id), archived: true };
 }
 
 export async function updateOwnClientProfile(user, input = {}) {
@@ -182,7 +191,11 @@ export async function getPortalMe(user) {
         error.status = 404;
         throw error;
     }
-    return { user: publicUser(user), client: presentClient(client, user) };
+    return {
+        user: publicUser(user),
+        client: presentClient(client, user),
+        projects: listClientProjects({ client: client.slug }).map((row) => presentProject(row, user)),
+    };
 }
 
 export async function deleteClientWithAccount(id) {
