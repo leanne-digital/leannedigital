@@ -36,7 +36,7 @@ export function loadPageFaqs() {
 export function faqsForPath(pagePath, extras = []) {
     const all = loadPageFaqs();
     const specific = all[pagePath] || [];
-    if (specific.length >= 8) return specific;
+    if (specific.length >= 4) return specific;
     const fallback = all.default || [];
     const merged = [...extras, ...specific];
     if (merged.length >= 3) return merged.slice(0, 8);

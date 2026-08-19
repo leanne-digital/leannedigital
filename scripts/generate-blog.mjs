@@ -11,11 +11,13 @@ import {
     renderPageScripts,
 } from './layout.mjs';
 import { unwrapInternalLinksInHeadings } from './service-html-normalize.mjs';
+import { lpEvent } from './analytics.mjs';
 import { faqsForPath, faqSchema, renderFaqSection, renderJsonLd, rewriteLegacyLinks } from './seo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DATA_FILE = path.join(ROOT, 'data', 'blog-posts.json');
+const LAYOUT_FILE = path.join(ROOT, 'data', 'blog-post-layout.json');
 const POSTS_PER_PAGE = 12;
 const SITE = 'https://leannedigital.com';
 
@@ -113,7 +115,40 @@ ${renderPageScripts(depth)}
 `;
 }
 
-function renderPostPage(post, posts, depth) {
+function renderSummaryBox(summary) {
+    if (!summary?.question || !Array.isArray(summary.answers) || !summary.answers.length) {
+        return '';
+    }
+
+    const items = summary.answers
+        .map((answer) => `                        <li>${escapeHtml(answer)}</li>`)
+        .join('\n');
+
+    return `                <aside class="blog-summary">
+                    <p class="blog-summary__label">Summary</p>
+                    <p class="blog-summary__question">${escapeHtml(summary.question)}</p>
+                    <ul class="blog-summary__answers">
+${items}
+                    </ul>
+                </aside>`;
+}
+
+function renderContactSection(contact) {
+    if (!contact?.body) return '';
+
+    const title = contact.title || 'Contact Leanne Digital';
+    const cta = contact.cta || "Let's Talk";
+    const href = contact.href || '/contact/';
+
+    return `                <section class="blog-contact" aria-labelledby="blog-contact-heading">
+                    <p class="blog-contact__label">Work with us</p>
+                    <h2 class="blog-contact__title" id="blog-contact-heading">${escapeHtml(title)}</h2>
+                    <div class="blog-contact__body">${contact.body}</div>
+                    <a class="ld-btn" href="${escapeHtml(href)}"${lpEvent('blog_contact_cta')}>${escapeHtml(cta)}</a>
+                </section>`;
+}
+
+function renderPostPage(post, posts, depth, layout = {}) {
     const prefix = assetPrefix(depth);
     const index = posts.findIndex((item) => item.slug === post.slug);
     const prev = index < posts.length - 1 ? posts[index + 1] : null;
@@ -156,16 +191,19 @@ function renderPostPage(post, posts, depth) {
         image: post.featuredImage ? `${SITE}${post.featuredImage}` : undefined,
     };
 
-    const faqs = faqsForPath(post.path, [
-        {
-            question: `What is “${post.title}” about?`,
-            answer: post.excerpt || post.description || 'A practical article from the Leanne Digital blog.',
-        },
-        {
-            question: 'Who wrote this article?',
-            answer: `${post.author} at Leanne Digital, a Winnipeg digital marketing studio.`,
-        },
-    ]);
+    const faqs =
+        Array.isArray(layout.faqs) && layout.faqs.length
+            ? layout.faqs
+            : faqsForPath(post.path, [
+                  {
+                      question: `What is “${post.title}” about?`,
+                      answer: post.excerpt || post.description || 'A practical article from the Leanne Digital blog.',
+                  },
+                  {
+                      question: 'Who wrote this article?',
+                      answer: `${post.author} at Leanne Digital, a Winnipeg digital marketing studio.`,
+                  },
+              ]);
 
     return `${renderHead({
         title: `${escapeHtml(post.seoTitle || post.title)} | Leanne Digital`,
@@ -192,16 +230,18 @@ ${renderNav(depth, '')}
                 </div>
             </header>
             <div class="container blog-post__content">
+${renderSummaryBox(layout.summary)}
                 <div class="blog-prose">
                     ${unwrapInternalLinksInHeadings(rewriteLegacyLinks(post.content))}
                 </div>
+${renderContactSection(layout.contact)}
+${renderFaqSection(faqs)}
                 <nav class="blog-post-nav" aria-label="Post navigation">
 ${nav.join('\n')}
                 </nav>
                 <p class="blog-post__back"><a href="/blog/">← Back to Blog</a></p>
             </div>
         </article>
-${renderFaqSection(faqs)}
     </main>
 ${renderFullFooter(depth)}
 ${renderJsonLd([jsonLd, faqs.length ? faqSchema(faqs) : null])}
@@ -218,6 +258,9 @@ function main() {
     }
 
     const posts = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    const layouts = fs.existsSync(LAYOUT_FILE)
+        ? JSON.parse(fs.readFileSync(LAYOUT_FILE, 'utf8'))
+        : {};
     const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
 
     writePage('blog', renderBlogIndex(posts, 1, depthFromDir('blog')));
@@ -228,7 +271,7 @@ function main() {
     }
 
     for (const post of posts) {
-        writePage(post.slug, renderPostPage(post, posts, 1));
+        writePage(post.slug, renderPostPage(post, posts, 1, layouts[post.slug] || {}));
     }
 
     console.log(`Generated blog index (${totalPages} page(s)) and ${posts.length} posts.`);

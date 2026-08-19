@@ -116,7 +116,7 @@ export function renderHead({
     schema,
 }) {
     const prefix = assetPrefix(depth);
-    const CSS_V = '20260819k';
+    const CSS_V = '20260819l';
     const cssLinks = [
         'tokens.css',
         'base.css',

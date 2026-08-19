@@ -168,5 +168,375 @@
       "question": "Is an AI Managed website right for my business?",
       "answer": "It is worth considering if your current site is slow to update, hard to manage or dependent on a pile of plugins just to keep up. If you are planning a new website or replacing an older WordPress site, this is the direction we recommend. Visit our website design page to compare static, AI Managed and WordPress packages."
     }
+  ],
+  "/the-hidden-costs-of-using-freelancer-websites-like-fiverr-or-upwork/": [
+    {
+      "question": "Is Fiverr or Upwork bad for business?",
+      "answer": "Not at all. They are useful when the task is simple, repeatable, and easy to brief. The risk goes up when the work is custom, undocumented, or tied directly to how your website makes money."
+    },
+    {
+      "question": "Can you build a full WordPress site using a freelancer?",
+      "answer": "You can, but it comes with risk. Without planning, documentation, and long-term support, you may run into plugin conflicts, custom-code issues, or a builder who is no longer available."
+    },
+    {
+      "question": "Why are freelancer prices so low?",
+      "answer": "Many freelancers operate on volume and take on several projects at once. Lower pricing can also reflect differences in experience, specialization, or how much ongoing support is included."
+    },
+    {
+      "question": "What should I look for when hiring a freelancer?",
+      "answer": "Look for a strong portfolio, consistent reviews, clear communication, and start with a small test task before committing to a larger project."
+    },
+    {
+      "question": "Is it more expensive to fix issues later?",
+      "answer": "In many cases, yes. Troubleshooting and repairing existing work can take more time than building something properly from the start, especially when there is little documentation."
+    }
+  ],
+  "/steal-this-web-design-process/": [
+    {
+      "question": "Should I design my website before writing the copy?",
+      "answer": "No. Copy first. If the page cannot explain who it is for, what it offers, and what to do next, no layout will fix that."
+    },
+    {
+      "question": "Why should each page cover only one topic?",
+      "answer": "One page, one topic helps visitors understand the offer and helps search engines rank the page for a clear intent. Mixing services on one page usually makes both the message and the SEO weaker."
+    },
+    {
+      "question": "Do I need a complicated font pairing?",
+      "answer": "No. One headline font with personality and one simple body font is enough. Hierarchy and readability matter more than collecting typefaces."
+    },
+    {
+      "question": "When should I worry about colours and images?",
+      "answer": "After the audience, copy, and page structure are clear. Visuals should support the message, not replace it."
+    },
+    {
+      "question": "Can Leanne Digital use this process on an existing site?",
+      "answer": "Yes. We use the same sequence for new builds and redesigns: audience, copy, structure, then design and development."
+    }
+  ],
+  "/so-you-want-to-sell-on-amazon/": [
+    {
+      "question": "Is Amazon like Shopify?",
+      "answer": "No. Amazon is closer to a rule-based catalog than a customizable store. Edits can be slow, some fields are permanent, and the platform rarely explains what went wrong."
+    },
+    {
+      "question": "What is the difference between a GTIN and a SKU?",
+      "answer": "A GTIN identifies the physical product worldwide and Amazon treats it as permanent. A SKU is your internal tracking code and can be changed. Mixing the two is a common expensive mistake."
+    },
+    {
+      "question": "Why do parents have to be created before children?",
+      "answer": "Amazon’s variation tree is strict. Parent products group the children. Create them in the wrong order and you often have to delete and rebuild, with leftover conflicts in Amazon’s system."
+    },
+    {
+      "question": "Can I test products and clean them up later?",
+      "answer": "Usually not. Amazon remembers GTINs and ASINs even after you delete a listing. Tests can lock identifiers you planned to use on real products."
+    },
+    {
+      "question": "Do you help with Amazon product images and copy?",
+      "answer": "Yes. We can plan the product tree, create compliant white-background primary images, write Amazon-ready copy, and fill in the backend details that affect fees and eligibility."
+    }
+  ],
+  "/top-indigenous-creatives-from-peguis-first-nation/": [
+    {
+      "question": "Is Leanne Jones from Peguis First Nation?",
+      "answer": "Yes. Leanne is a member of Peguis First Nation and the founder of Leanne Digital, an Indigenous-owned design and digital marketing studio based in Winnipeg."
+    },
+    {
+      "question": "Do you only work with Indigenous clients?",
+      "answer": "No. We work with Indigenous organizations and businesses as well as other companies that want thoughtful brand and website work. Indigenous-led work is a core part of what we do."
+    },
+    {
+      "question": "Can you help an Indigenous business with branding and a website?",
+      "answer": "Yes. We offer Indigenous graphic design, logo design, and website design with a focus on storytelling, trust, and a professional online presence."
+    },
+    {
+      "question": "Where can I see more of this kind of work?",
+      "answer": "Visit the portfolio and the Indigenous web design and Indigenous graphic design service pages, or contact us with what you are building."
+    }
+  ],
+  "/web-designer-vs-web-developer-whats-the-difference/": [
+    {
+      "question": "Can one person be both designer and developer?",
+      "answer": "Some people span both, but most businesses get a better result when a designer owns the experience and a developer owns the technical build."
+    },
+    {
+      "question": "Who is Gary at Leanne Digital?",
+      "answer": "Gary Burns is the CTO and developer partner. He handles development, integrations, hosting, DNS, email, performance, and the technical side of SEO."
+    },
+    {
+      "question": "Do I hire a designer or a developer first?",
+      "answer": "Start with strategy and design so you know what you are building. Then development turns that plan into a working website. We do both in one process."
+    },
+    {
+      "question": "Does this apply to WordPress and AI Managed sites?",
+      "answer": "Yes. The split is the same: design for humans, build the platform properly, then keep it fast and maintainable."
+    }
+  ],
+  "/my-favorite-spots-in-winnipeg-to-work-remotely/": [
+    {
+      "question": "Is The Forks good for working on a laptop?",
+      "answer": "Yes. It is one of Leanne’s favourite spots for a mix of focus and a chance to reset, with food, seating, and plenty happening around you."
+    },
+    {
+      "question": "Can I work from IKEA in Winnipeg?",
+      "answer": "You can. This post recommends it especially for parents: coffee, outlets, and a way to get work done without being stuck at home."
+    },
+    {
+      "question": "Do you only work with Winnipeg businesses?",
+      "answer": "No. We are based in Winnipeg and love local work, but we also work remotely with clients across Canada."
+    },
+    {
+      "question": "Can you build a website for a remote-first business?",
+      "answer": "Yes. Location-independent businesses still need a clear website, SEO, and a brand that holds up on a phone. That is core work for us."
+    }
+  ],
+  "/why-strategic-graphic-and-web-design-matters-more-than-ever/": [
+    {
+      "question": "What is strategic graphic design?",
+      "answer": "It is design that starts with who you help, what they need, and what you want them to do next. Looks still matter. They just serve the goal instead of replacing it."
+    },
+    {
+      "question": "Is a pretty website enough?",
+      "answer": "No. If visitors cannot tell what you do or why they should trust you, they leave. Strategy is what makes the visuals useful."
+    },
+    {
+      "question": "How do you measure design success?",
+      "answer": "By whether people understand the offer, stay on the page, and take action: inquiries, bookings, sales, or the next step you defined."
+    },
+    {
+      "question": "Do you rebrand existing businesses?",
+      "answer": "Yes. We have used this process on our own brand and on client work: audience, goals, visual story, then a website that matches."
+    }
+  ],
+  "/leanne-digital-design-featured-in-the-winnipeg-free-press/": [
+    {
+      "question": "Where can I read the Free Press article?",
+      "answer": "The blog post links out to the Winnipeg Free Press story by Eva Wasney on Indigenous entrepreneurs in Pow Wow Pitch."
+    },
+    {
+      "question": "What is Pow Wow Pitch?",
+      "answer": "Pow Wow Pitch is an Indigenous-led non-profit that supports Indigenous entrepreneurs with capital, mentorship, training, and community."
+    },
+    {
+      "question": "Is Leanne Digital Indigenous-owned?",
+      "answer": "Yes. Leanne is a member of Peguis First Nation. The studio is CCIB certified and based in Winnipeg on Treaty 1 territory."
+    },
+    {
+      "question": "How do I hire Leanne Digital?",
+      "answer": "Use the contact page to send a message or book a call. Tell us whether you need a website, branding, SEO, or ongoing support."
+    }
+  ],
+  "/top-indigenous-owned-print-shops/": [
+    {
+      "question": "Why use an Indigenous-owned print shop?",
+      "answer": "It keeps dollars circulating in Indigenous businesses and helps promotional materials get produced with cultural care, not as an afterthought."
+    },
+    {
+      "question": "Do you print in-house?",
+      "answer": "We design. For production we point clients toward trusted print partners, including Indigenous-owned shops like the ones in this article."
+    },
+    {
+      "question": "Can you prepare files for a print shop?",
+      "answer": "Yes. We supply print-ready artwork, including vector logos and outlined text when the printer needs it."
+    },
+    {
+      "question": "Do you work with shops outside Manitoba?",
+      "answer": "Yes. The shops in this roundup are in B.C., Saskatchewan, and Manitoba. We can design in Winnipeg and send files wherever you print."
+    }
+  ],
+  "/is-website-security-still-important/": [
+    {
+      "question": "What is website security?",
+      "answer": "It is the work of keeping hackers out, protecting customer data, and keeping the site online. That includes updates, backups, monitoring, and a host that is actually maintained."
+    },
+    {
+      "question": "Is WordPress less secure than other platforms?",
+      "answer": "WordPress is widely targeted because it is widely used. A neglected WordPress site is risky. A maintained one with updates, backups, and monitoring is a proven, stable setup."
+    },
+    {
+      "question": "What happens if I skip updates?",
+      "answer": "Outdated plugins, themes, and PHP versions are common ways sites get compromised. Fixes after a hack usually cost more than a monthly maintenance plan."
+    },
+    {
+      "question": "Do you offer website security and maintenance?",
+      "answer": "Yes. Our website management plans include backups, scans, updates, and monitoring. That is the ongoing work this article is arguing for."
+    }
+  ],
+  "/leanne-jones-leanne-digital-design-advances-to-pow-wow-pitch-semi-finals/": [
+    {
+      "question": "What is Pow Wow Pitch?",
+      "answer": "It is an Indigenous-led non-profit that helps Indigenous entrepreneurs with access to capital, mentorship, training, and community. Semi-finalists compete for funding to grow their businesses."
+    },
+    {
+      "question": "What was Leanne pitching?",
+      "answer": "Funding to hire more Indigenous designers and developers, scale the web design studio, and create remote jobs for Indigenous talent across Canada."
+    },
+    {
+      "question": "Is Leanne Digital still taking clients?",
+      "answer": "Yes. The pitch is about capacity to grow. We continue to take on website, brand, and SEO work."
+    },
+    {
+      "question": "How can I support Indigenous-owned businesses?",
+      "answer": "Hire them. If you need design or a website, working with an Indigenous-owned studio is a direct way to keep that work in community."
+    }
+  ],
+  "/how-to-design-your-home-page/": [
+    {
+      "question": "What belongs in a hero section?",
+      "answer": "A clear statement of what you do, who it is for, and a primary call to action. If someone cannot understand the offer in a few seconds, the hero is not working."
+    },
+    {
+      "question": "Do I need testimonials on the home page?",
+      "answer": "Usually yes. Social proof after the offer helps people trust the next step. Logos, reviews, or short quotes all work if they are real."
+    },
+    {
+      "question": "Should the home page list every service?",
+      "answer": "Give people the main paths, not a dump of every page. Link to focused service pages. One home page cannot rank for everything."
+    },
+    {
+      "question": "Can you design a home page without rebuilding the whole site?",
+      "answer": "Sometimes. If the rest of the site is solid, a hero and home-page restructure can still lift conversions. We will tell you if a fuller rebuild is the better spend."
+    }
+  ],
+  "/is-your-website-readable/": [
+    {
+      "question": "Does readability affect SEO?",
+      "answer": "Yes. If people bounce because they cannot scan the page, search engines notice. Clear headings and usable layouts help both humans and crawlers."
+    },
+    {
+      "question": "What is the fastest readability win?",
+      "answer": "Break walls of text into short paragraphs, add descriptive headings, and increase contrast between text and background."
+    },
+    {
+      "question": "Are large decorative fonts a problem?",
+      "answer": "They can be, especially in body copy. Save personality for headlines. Body text needs to be simple and large enough to read on a phone."
+    },
+    {
+      "question": "Can you audit an existing site for readability?",
+      "answer": "Yes. That is part of how we redesign pages: hierarchy, spacing, type, and calls to action before we talk about decoration."
+    }
+  ],
+  "/anatomy-of-a-high-converting-hero/": [
+    {
+      "question": "What is a hero section?",
+      "answer": "It is the first large block on a page, usually with a headline, supporting line, image, and button. People decide whether to stay in those first seconds."
+    },
+    {
+      "question": "How many calls to action should a hero have?",
+      "answer": "One primary action. A quieter secondary link is fine. Three competing buttons usually means the offer is not clear yet."
+    },
+    {
+      "question": "Should the headline be clever or clear?",
+      "answer": "Clear. Specific beats clever. If the audience cannot tell what you do, the clever line is costing you leads."
+    },
+    {
+      "question": "Do stock photos hurt conversions?",
+      "answer": "They can, when they feel generic and disconnected from the business. Real photos and a layout that supports the message convert better."
+    }
+  ],
+  "/website-domain-and-email-hosting-whats-the-difference/": [
+    {
+      "question": "Is my domain the same as my website?",
+      "answer": "No. The domain is the name. The website is the content and files that load when someone visits that name. They are connected through DNS."
+    },
+    {
+      "question": "Can email live somewhere else than the website?",
+      "answer": "Yes. That is common. Google Workspace or Microsoft 365 can run email while the website is hosted on another server."
+    },
+    {
+      "question": "What happens if I change web hosts?",
+      "answer": "The domain stays with the registrar unless you move that too. You point DNS at the new host. Email can stay put if the MX records are left alone."
+    },
+    {
+      "question": "Do you manage domains and email as well as websites?",
+      "answer": "Yes. We help with hosting, DNS, professional email setup, and ongoing website management so those pieces stop feeling like three different vendors."
+    }
+  ],
+  "/5-easy-seo-fixes-you-can-do-today-on-your-wordpress-site/": [
+    {
+      "question": "Is Yoast enough for SEO?",
+      "answer": "It helps you control titles, descriptions, and on-page basics. It does not replace strategy, content, internal linking, or technical work."
+    },
+    {
+      "question": "How many H1 tags should a page have?",
+      "answer": "One. It should describe the page topic. Extra H1s usually come from theme bugs or treating headings as decoration."
+    },
+    {
+      "question": "Do image file names and alt text really matter?",
+      "answer": "Yes. Descriptive file names and alt text help accessibility and give search engines another clue about the page. Large uncompressed images also slow the site down."
+    },
+    {
+      "question": "Can you do these fixes for me?",
+      "answer": "Yes. These are the kinds of on-page fixes we include in SEO retainers and in new website builds so they are not left as a weekend homework list."
+    }
+  ],
+  "/why-is-typography-important-in-web-design/": [
+    {
+      "question": "How many fonts should a website use?",
+      "answer": "Two is plenty: one for headlines and one for body copy. More than that usually looks messy and slower to load."
+    },
+    {
+      "question": "Is typography part of branding or web design?",
+      "answer": "Both. The brand chooses the voice. The website has to apply it at sizes people can actually read on a phone."
+    },
+    {
+      "question": "What is the most important part of web typography?",
+      "answer": "Readability. Contrast, size, spacing, and hierarchy beat a trendy typeface that falls apart at 16 pixels."
+    },
+    {
+      "question": "Can you redo fonts without a full redesign?",
+      "answer": "Sometimes. If the layout is already clear, a type and spacing pass can lift the whole site. We will say if the layout itself is the real problem."
+    }
+  ],
+  "/vector-files-what-are-they/": [
+    {
+      "question": "Why are vector files important for design?",
+      "answer": "They stay sharp at any size. That matters for logos, signs, embroidery, and print, where a JPEG will pixelate."
+    },
+    {
+      "question": "What are common vector file formats?",
+      "answer": "SVG for the web, AI for Adobe Illustrator, EPS as a common exchange format, and PDF when the artwork is saved as vectors rather than a flattened image."
+    },
+    {
+      "question": "How are vector files different from raster files?",
+      "answer": "Raster files (JPG, PNG, GIF) are a grid of pixels. Stretch them and they get blurry. Vectors are math-based paths, so they redraw cleanly at any size."
+    },
+    {
+      "question": "Can I convert a raster image into a vector?",
+      "answer": "You can trace it, but the quality depends on the original. A low-resolution logo screenshot rarely becomes a perfect vector. It is better to redraw it properly."
+    },
+    {
+      "question": "Do I need special software to open vector files?",
+      "answer": "Illustrator, Affinity Designer, or similar tools open AI and EPS files. SVG can open in a browser. Your designer should also send PDF or PNG previews for everyday use."
+    },
+    {
+      "question": "Why do printers prefer vector files?",
+      "answer": "They print at the actual size of the job without losing quality. Outlined text means they do not need your fonts installed."
+    },
+    {
+      "question": "What is outlined text in a vector file?",
+      "answer": "The letters are converted from a live font into shapes. That locks the look for print, but you will need the original file if you want to edit the words later."
+    },
+    {
+      "question": "Can vector files be used on the web?",
+      "answer": "Yes. SVG is the usual web format for logos and simple illustrations. Photos still belong as optimized raster images."
+    }
+  ],
+  "/what-even-is-seo/": [
+    {
+      "question": "What is SEO in plain language?",
+      "answer": "It is the work of helping search engines understand your site and send the right people to it. Content, technical setup, and links all play a part."
+    },
+    {
+      "question": "Is SEO the same as my domain name?",
+      "answer": "No. The domain is the address. SEO is how people discover that address when they search instead of typing it."
+    },
+    {
+      "question": "How long does SEO take?",
+      "answer": "Longer than a weekend. Like building roads, you see progress over months, not overnight, especially in competitive searches."
+    },
+    {
+      "question": "Do I still need SEO if I run ads?",
+      "answer": "Ads stop when you stop paying. SEO is slower to build and keeps working. Most businesses benefit from both, used on purpose."
+    }
   ]
 }
