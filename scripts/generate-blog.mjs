@@ -11,7 +11,7 @@ import {
     renderPageScripts,
 } from './layout.mjs';
 import { unwrapInternalLinksInHeadings } from './service-html-normalize.mjs';
-import { faqsForPath, renderFaqSection, rewriteLegacyLinks } from './seo.mjs';
+import { faqsForPath, faqSchema, renderFaqSection, renderJsonLd, rewriteLegacyLinks } from './seo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -156,6 +156,17 @@ function renderPostPage(post, posts, depth) {
         image: post.featuredImage ? `${SITE}${post.featuredImage}` : undefined,
     };
 
+    const faqs = faqsForPath(post.path, [
+        {
+            question: `What is “${post.title}” about?`,
+            answer: post.excerpt || post.description || 'A practical article from the Leanne Digital blog.',
+        },
+        {
+            question: 'Who wrote this article?',
+            answer: `${post.author} at Leanne Digital, a Winnipeg digital marketing studio.`,
+        },
+    ]);
+
     return `${renderHead({
         title: `${escapeHtml(post.seoTitle || post.title)} | Leanne Digital`,
         description: escapeHtml(post.description),
@@ -163,6 +174,7 @@ function renderPostPage(post, posts, depth) {
         extraCss: ['blog-post.css'],
         canonical: `${SITE}${post.path}`,
         ogImage: post.featuredImage ? `${SITE}${post.featuredImage}` : undefined,
+        ogType: 'article',
     })}
 <body class="page-inner">
 ${renderNav(depth, '')}
@@ -189,19 +201,10 @@ ${nav.join('\n')}
                 <p class="blog-post__back"><a href="/blog/">← Back to Blog</a></p>
             </div>
         </article>
-${renderFaqSection(faqsForPath(post.path, [
-    {
-        question: `What is “${post.title}” about?`,
-        answer: post.excerpt || post.description || 'A practical article from the Leanne Digital blog.',
-    },
-    {
-        question: 'Who wrote this article?',
-        answer: `${post.author} at Leanne Digital, a Winnipeg digital marketing studio.`,
-    },
-]))}
+${renderFaqSection(faqs)}
     </main>
 ${renderFullFooter(depth)}
-    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+${renderJsonLd([jsonLd, faqs.length ? faqSchema(faqs) : null])}
 ${renderPageScripts(depth)}
 </body>
 </html>

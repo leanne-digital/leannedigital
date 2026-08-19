@@ -119,6 +119,14 @@
     margin: 1.5rem 0;
 }
 
+.blog-prose figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--ld-text-muted);
+    text-align: center;
+}
+
 .blog-prose strong {
     color: var(--ld-text);
 }
