@@ -70,7 +70,7 @@
         if (user?.role === 'client' && user.clientSlug) {
             const own = `/clients/${user.clientSlug}`;
             if (!safe || safe === '/clients/' || safe === '/clients' || safe.startsWith('/admin')) {
-                return '/client-portal/';
+                return `${own}/`;
             }
             if (safe === '/client-portal' || safe.startsWith('/client-portal/')) return '/client-portal/';
             if (!safe.startsWith(`${own}/`) && safe !== own) return '/client-portal/';
@@ -199,6 +199,9 @@
                 portalMe() {
                     return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
                 },
+                getClient() {
+                    return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
+                },
                 saveProfile() {
                     return Promise.reject(new Error('This client portal needs the Leanne Digital login service.'));
                 },
@@ -264,6 +267,9 @@
             },
             portalMe() {
                 return request('/api/portal/me', { action: 'me' });
+            },
+            getClient(slug) {
+                return request(`/api/clients/${encodeURIComponent(slug)}`, { action: 'clients' });
             },
             saveProfile(body) {
                 return request('/api/portal/profile', {
@@ -343,13 +349,15 @@
             ? '/admin/'
             : '/client-portal/';
         const dashboardLabel = user.role === 'staff' || !user.clientSlug ? 'Dashboard' : 'Your portal';
-        const reports = user.role === 'client' && user.clientSlug
-            ? `<a href="/clients/${user.clientSlug}/">Reports</a>`
-            : '';
+        const extra = user.role === 'staff'
+            ? `<a href="/clients/">Clients</a>`
+            : user.clientSlug
+              ? `<a href="/clients/${user.clientSlug}/">Your account</a>`
+              : '';
         const avatar = user.avatarUrl
             ? `<img class="portal-bar__avatar" src="${user.avatarUrl}" alt="">`
             : '';
-        bar.innerHTML = `${avatar}<a class="portal-bar__dash" href="${dashboardHref}">${dashboardLabel}</a>${reports}<a class="portal-bar__profile" href="/profile/">Profile</a><a class="portal-bar__email" href="/profile/"></a><button type="button">Log out</button>`;
+        bar.innerHTML = `${avatar}<a class="portal-bar__dash" href="${dashboardHref}">${dashboardLabel}</a>${extra}<a class="portal-bar__profile" href="/profile/">Profile</a><a class="portal-bar__email" href="/profile/"></a><button type="button">Log out</button>`;
         bar.querySelector('.portal-bar__email').textContent = user.email;
         bar.querySelector('button').addEventListener('click', async () => {
             await api.logout();
@@ -360,7 +368,10 @@
     }
 
     function applyRole(user) {
-        if (user.role === 'staff') return;
+        if (user.role === 'staff') {
+            document.querySelectorAll('[data-client-only]').forEach((el) => el.remove());
+            return;
+        }
         document.querySelectorAll('[data-admin-only]').forEach((el) => el.remove());
         const pageSlug = document.body.getAttribute('data-client-slug');
         if (pageSlug && user.clientSlug && pageSlug !== user.clientSlug) {
@@ -434,14 +445,7 @@
                 location.pathname === '/admin/' ||
                 location.pathname === '/admin')
         ) {
-            location.replace('/client-portal/');
-            return;
-        }
-        if (
-            session.user.role === 'staff' &&
-            (location.pathname === '/clients/' || location.pathname === '/clients')
-        ) {
-            location.replace('/admin/');
+            location.replace(session.user.clientSlug ? `/clients/${session.user.clientSlug}/` : '/client-portal/');
             return;
         }
         injectBar(api, session.user);

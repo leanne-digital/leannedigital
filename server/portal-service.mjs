@@ -80,8 +80,24 @@ export function presentClient(client, user) {
         onboarding: client.onboarding || { completedAt: null },
         onboardingComplete: onboardingComplete(client),
         clientApps: client.clientApps || [],
-        reports: (client.reports || []).map((report) => ({ slug: report.slug, title: report.title })),
-        services: (client.services || []).map((service) => ({ type: service.type, label: service.label })),
+        reports: (client.reports || []).map((report) => ({
+            slug: report.slug,
+            title: report.title,
+            monthKey: report.monthKey || '',
+            kind: report.kind || (String(report.slug || '').includes('maintenance') ? 'maintenance' : 'seo'),
+        })),
+        services: (client.services || []).map((service) => ({
+            type: service.type,
+            label: service.label,
+            amount: service.amount,
+            cycle: service.cycle,
+            lastBilled: service.lastBilled || '',
+            nextBillDate: service.nextBillDate || '',
+        })),
+        includes: client.includes || [],
+        started: client.started || '',
+        createdAt: client.createdAt || '',
+        bio: client.bio || '',
     };
 }
 

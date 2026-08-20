@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- lp:seo -->
     <title>Clients | Leanne Digital</title>
-    <meta name="description" content="Client records live in the admin dashboard.">
+    <meta name="description" content="Choose a client to open their account.">
     <meta name="robots" content="noindex, nofollow">
-    <link rel="canonical" href="https://leannedigital.com/admin/">
+    <link rel="canonical" href="https://leannedigital.com/clients/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Clients | Leanne Digital">
-    <meta property="og:description" content="Client records live in the admin dashboard.">
-    <meta property="og:url" content="https://leannedigital.com/admin/">
+    <meta property="og:description" content="Choose a client to open their account.">
+    <meta property="og:url" content="https://leannedigital.com/clients/">
     <meta property="og:image" content="https://leannedigital.com/assets/images/hero/leanne-and-gary-ld-hero-v02.webp">
     <meta property="og:site_name" content="Leanne Digital">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Clients | Leanne Digital">
-    <meta name="twitter:description" content="Client records live in the admin dashboard.">
+    <meta name="twitter:description" content="Choose a client to open their account.">
     <meta name="twitter:image" content="https://leannedigital.com/assets/images/hero/leanne-and-gary-ld-hero-v02.webp">
     <!-- lp:custom-head -->
     <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/tokens.css?v=20260820b">
-    <link rel="stylesheet" href="../css/base.css?v=20260820b">
-    <link rel="stylesheet" href="../css/header.css?v=20260820b">
-    <link rel="stylesheet" href="../css/page-inner.css?v=20260820b">
-    <link rel="stylesheet" href="../css/buttons.css?v=20260820b">
-    <link rel="stylesheet" href="../css/faq.css?v=20260820b">
-    <link rel="stylesheet" href="../css/clients.css?v=20260820b">
-    <link rel="stylesheet" href="../css/footer.css?v=20260820b">
+    <link rel="stylesheet" href="../css/tokens.css?v=20260820c">
+    <link rel="stylesheet" href="../css/base.css?v=20260820c">
+    <link rel="stylesheet" href="../css/header.css?v=20260820c">
+    <link rel="stylesheet" href="../css/page-inner.css?v=20260820c">
+    <link rel="stylesheet" href="../css/buttons.css?v=20260820c">
+    <link rel="stylesheet" href="../css/faq.css?v=20260820c">
+    <link rel="stylesheet" href="../css/clients.css?v=20260820c">
+    <link rel="stylesheet" href="../css/footer.css?v=20260820c">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -49,7 +49,7 @@
     })();
     </script>
 </head>
-<body class="page-inner" data-portal-gate data-portal-role="staff">
+<body class="page-inner clients-picker" data-portal-gate data-portal-role="staff">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
@@ -94,14 +94,41 @@
             </nav>
         </div>
     </header>
-    <main id="main">
-        <section class="clients-hero section--navy">
-            <div class="container">
-                <h1 class="clients-hero__title">Moved to admin</h1>
-                <p class="clients-hero__lead">Client records, hosting, and retainers are in the admin dashboard.</p>
-                <p><a class="ld-btn" href="/admin/">Open admin</a></p>
+    <main id="main" class="clients-picker-main">
+        <div class="container">
+            <div class="clients-picker-panel">
+                <h1>Clients</h1>
+                <p>Select a client to open their services, reports, and credentials.</p>
+                <label>Client
+                    <select data-client-picker>
+                        <option value="">Choose a client</option>
+                        <option value="azimut-yachts-charter">Azimut Yachts Charter</option>
+                        <option value="cerebral-findomme">Cerebral Findomme</option>
+                        <option value="ckf">CKF</option>
+                        <option value="davis-window-and-door">Davis Window and Door</option>
+                        <option value="durango-holiday-home">Durango Holiday Home</option>
+                        <option value="emily-hart-coaching">Emily Hart Coaching</option>
+                        <option value="floco-decking-systems">Floco Decking Systems</option>
+                        <option value="gbt-logistics">GBT Logistics</option>
+                        <option value="krane-mechanical-and-electrical">Krane Mechanical &amp; Electrical</option>
+                        <option value="mr-pool-guy">Mr. Pool Guy</option>
+                        <option value="mth-landscaping">MTH Landscaping</option>
+                        <option value="oatley-vigmond">Oatley Vigmond</option>
+                        <option value="osekowa">Osekowa</option>
+                        <option value="rational-wealth">Rational Wealth</option>
+                        <option value="routein">Routein</option>
+                        <option value="sd-accounting">SD Accounting</option>
+                        <option value="shift-physiotherapy">Shift Physiotherapy</option>
+                        <option value="sierra-electrical">Sierra Electrical</option>
+                        <option value="sisters-of-the-holy-rock">Sisters of the Holy Rock</option>
+                        <option value="straightforward-bookkeeping">Straightforward Bookkeeping</option>
+                        <option value="thank-you-for-dating-with-us">Thank You For Dating With Us</option>
+                        <option value="ti-yende-movers-and-transportation">Ti-Yende Movers &amp; Transportation</option>
+                        <option value="we-film-events">We Film Events</option>
+                    </select>
+                </label>
             </div>
-        </section>
+        </div>
     </main>
     <footer class="site-footer">
         <div class="site-footer__main">
@@ -148,7 +175,8 @@
         </div>
     </footer>
     <script src="../js/site-nav.js" defer></script>
-    <script src="../js/portal-auth.js?v=20260820b" defer></script>
+    <script src="../js/portal-auth.js?v=20260820c" defer></script>
+    <script src="../js/client-workspace.js?v=20260820c" defer></script>
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');
@@ -163,6 +191,5 @@
         location.href = row.getAttribute('data-href');
     });
     </script>
-    <script>location.replace('/admin/');</script>
 </body>
 </html>

@@ -18,6 +18,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'data', 'client-reports');
 const ROBOTS = 'noindex, nofollow';
+const SCRIPT_V = '20260820c';
+
+const SERVICE_SLOTS = [
+    { type: 'seo', title: 'Ongoing Monthly SEO' },
+    { type: 'maintenance', title: 'Site Maintenance' },
+    { type: 'management', title: 'Monthly Site Management' },
+    { type: 'hosting', title: 'Website Hosting' },
+    { type: 'aeo', title: 'AEO' },
+];
 
 const SERVICE_LABELS = {
     seo: 'SEO',
@@ -68,7 +77,8 @@ function portalScripts(depth, admin = false) {
         ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819o" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260820b" defer></script>${adminScript}
+    <script src="${prefix}js/portal-auth.js?v=${SCRIPT_V}" defer></script>
+    <script src="${prefix}js/client-workspace.js?v=${SCRIPT_V}" defer></script>${adminScript}
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');
@@ -300,33 +310,74 @@ ${totals}
             </section>`;
 }
 
-function renderHubRedirect() {
+function renderClientsHub(clients) {
+    const options = clients
+        .filter((client) => !client.archivedAt)
+        .map((client) => `                        <option value="${escapeHtml(client.slug)}">${escapeHtml(client.name)}</option>`)
+        .join('\n');
     return `${renderHead({
         title: 'Clients | Leanne Digital',
-        description: 'Client records live in the admin dashboard.',
+        description: 'Choose a client to open their account.',
         depth: 1,
         extraCss: ['clients.css'],
         robots: ROBOTS,
-        canonical: `${SITE_URL}/admin/`,
+        canonical: `${SITE_URL}/clients/`,
         path: '/clients/',
     })}
-<body class="page-inner" data-portal-gate data-portal-role="staff">
-${renderNav(1, '/admin/')}
-    <main id="main">
-        <section class="clients-hero section--navy">
-            <div class="container">
-                <h1 class="clients-hero__title">Moved to admin</h1>
-                <p class="clients-hero__lead">Client records, hosting, and retainers are in the admin dashboard.</p>
-                <p><a class="ld-btn" href="/admin/">Open admin</a></p>
+<body class="page-inner clients-picker" data-portal-gate data-portal-role="staff">
+${renderNav(1, '/clients/')}
+    <main id="main" class="clients-picker-main">
+        <div class="container">
+            <div class="clients-picker-panel">
+                <h1>Clients</h1>
+                <p>Select a client to open their services, reports, and credentials.</p>
+                <label>Client
+                    <select data-client-picker>
+                        <option value="">Choose a client</option>
+${options}
+                    </select>
+                </label>
             </div>
-        </section>
+        </div>
     </main>
 ${renderFullFooter(1)}
 ${portalScripts(1)}
-    <script>location.replace('/admin/');</script>
 </body>
 </html>
 `;
+}
+
+function slotStatus(client, slot) {
+    const service = (client.services || []).find((row) => row.type === slot.type);
+    if (service?.amount) return cycleLabel(service) || service.label || 'Signed up';
+    if (service) return service.label || 'Signed up';
+    if (slot.type === 'seo' && (client.reports || []).length) return 'Ongoing Monthly SEO';
+    if (slot.type === 'hosting' && client.hosting?.provider) {
+        return [client.hosting.provider, client.hosting.lddHosted ? 'Hosted by us' : 'External hosting']
+            .filter(Boolean)
+            .join(' · ');
+    }
+    return 'None';
+}
+
+function renderServiceList(client) {
+    const items = SERVICE_SLOTS.map(
+        (slot) => `                    <li>
+                        <details class="client-service" data-service-slot="${escapeHtml(slot.type)}">
+                            <summary>
+                                <span>${escapeHtml(slot.title)}</span>
+                                <strong data-service-status>${escapeHtml(slotStatus(client, slot))}</strong>
+                            </summary>
+                            <div class="client-service__body" data-service-body></div>
+                        </details>
+                    </li>`
+    ).join('\n');
+    return `            <section class="client-reports">
+                <h2 class="client-reports__heading">Services</h2>
+                <ul class="client-service-list">
+${items}
+                </ul>
+            </section>`;
 }
 
 function startedIso(client) {
@@ -389,29 +440,10 @@ function accountRows(client) {
 }
 
 function renderAccountTable(client) {
-    const rows = accountRows(client);
+    const rows = accountRows(client).filter((row) => row.href);
     if (!rows.length) {
         return `            <section class="client-reports">
-                <h2 class="client-reports__heading">Account</h2>
-                <p class="client-empty">Reports, hosting, and plan details will show up here once they are on the account.</p>
-            </section>`;
-    }
-    const body = rows
-        .map((row) => {
-            const item = row.href
-                ? `<a class="client-account-row__hit" href="${escapeHtml(row.href)}">${escapeHtml(row.item)}</a>`
-                : escapeHtml(row.item);
-            const hrefAttr = row.href ? ` data-href="${escapeHtml(row.href)}" tabindex="0"` : '';
-            return `                    <tr class="client-account-row"${hrefAttr}>
-                        <td>${item}</td>
-                        <td>${escapeHtml(row.type)}</td>
-                        <td>${escapeHtml(row.details)}</td>
-                    </tr>`;
-        })
-        .join('\n');
-    return `            <section class="client-reports">
-                <h2 class="client-reports__heading">Account</h2>
-                <p class="client-empty client-empty--lead">SEO and maintenance reports, hosting, and the plan you are on — including pricing, signup, and the next renewal.</p>
+                <h2 class="client-reports__heading">Reports</h2>
                 <div class="dash-table-wrap">
                     <table class="dash-table admin-table client-account-table">
                         <thead>
@@ -421,7 +453,36 @@ function renderAccountTable(client) {
                                 <th>Details</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-report-body>
+                    <tr><td colspan="3">No reports yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>`;
+    }
+    const body = rows
+        .map((row) => {
+            const item = `<a class="client-account-row__hit" href="${escapeHtml(row.href)}">${escapeHtml(row.item)}</a>`;
+            return `                    <tr class="client-account-row" data-href="${escapeHtml(row.href)}" tabindex="0">
+                        <td>${item}</td>
+                        <td>${escapeHtml(row.type)}</td>
+                        <td>${escapeHtml(row.details)}</td>
+                    </tr>`;
+        })
+        .join('\n');
+    return `            <section class="client-reports">
+                <h2 class="client-reports__heading">Reports</h2>
+                <p class="client-empty client-empty--lead">SEO reports and site maintenance reports. Click a row to open it.</p>
+                <div class="dash-table-wrap">
+                    <table class="dash-table admin-table client-account-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Type</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody data-report-body>
 ${body}
                         </tbody>
                     </table>
@@ -502,13 +563,14 @@ function renderClientPage(client) {
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
     })}
-<body class="page-inner" data-portal-gate data-client-slug="${escapeHtml(client.slug)}">
+<body class="page-inner" data-portal-gate data-client-slug="${escapeHtml(client.slug)}" data-client-workspace>
 ${renderNav(2, '/clients/')}
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="${headerClass}">
                 <div class="client-profile__copy">
-                    <a class="client-reports__back" href="/client-portal/">Your portal</a>
+                    <a class="client-reports__back" href="/clients/" data-admin-only>All clients</a>
+                    <a class="client-reports__back" href="/client-portal/" data-client-only>Your portal</a>
                     <a class="client-reports__back" href="/admin/" data-admin-only>Admin</a>
                     <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
                     ${contact ? `<p class="client-profile__lead">${contact}</p>` : ''}
@@ -520,7 +582,21 @@ ${renderNav(2, '/clients/')}
         </section>
         <section class="client-page section--navy">
             <div class="container">
+                <p class="login-form__error client-workspace-msg" data-workspace-error hidden></p>
+                <p class="login-form__ok client-workspace-msg" data-workspace-ok hidden></p>
+${renderServiceList(client)}
 ${renderAccountTable(client)}
+                <section class="client-reports">
+                    <h2 class="client-reports__heading">Credentials</h2>
+                    <p class="client-empty client-empty--lead">Logins for tools this business uses. Passwords stay hidden until you tap the eye.</p>
+                    <form class="dash-form" data-apps-form>
+                        <div class="dash-creds" data-app-list></div>
+                        <p><button class="dash-form__add" type="button" data-add-app>Add a login</button></p>
+                        <div class="dash-form__actions">
+                            <button class="ld-btn" type="submit">Save credentials</button>
+                        </div>
+                    </form>
+                </section>
 ${renderIncludes(client)}
             </div>
         </section>
@@ -595,7 +671,7 @@ function main() {
     generateLoginPages();
     generateAdminDashboard();
     const clients = loadClients();
-    writePage('clients', renderHubRedirect());
+    writePage('clients', renderClientsHub(clients));
     for (const client of clients) {
         writePage(path.join('clients', client.slug), renderClientPage(client));
         for (const report of client.reports || []) {
@@ -603,7 +679,7 @@ function main() {
         }
     }
     writePage(path.join('clients', 'shift'), renderShiftRedirect());
-    console.log(`Generated login pages, client portal, admin dashboard, ${clients.length} client report pages, and redirected /clients/ to /admin/.`);
+    console.log(`Generated login pages, client portal, admin dashboard, ${clients.length} client report pages, and the /clients/ picker.`);
 }
 
 main();

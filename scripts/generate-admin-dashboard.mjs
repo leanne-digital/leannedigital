@@ -14,7 +14,7 @@ import { loadProjects } from './portfolio-store.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820b';
+const SCRIPT_V = '20260820c';
 
 const CLIENT_FILTERS = [
     { id: 'overview', label: 'Overview' },

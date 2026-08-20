@@ -169,7 +169,8 @@ function portalAccess(pathname, user) {
     const own = user.clientSlug;
     if (!own) return 'forbid';
     if (isClientPortal) return 'allow';
-    if (isAdminDash || isClientHub) return 'own';
+    if (isAdminDash) return 'own';
+    if (isClientHub) return 'own';
     if (isClientAsset) {
         const assetSlug = pathname.split('/')[3] || '';
         return assetSlug === own ? 'allow' : 'forbid';
@@ -552,7 +553,8 @@ function handleStatic(req, res, pathname, user) {
         return;
     }
     if (access === 'own') {
-        redirect(res, `/client-portal/`);
+        const own = user?.clientSlug;
+        redirect(res, own ? `/clients/${own}/` : `/client-portal/`);
         return;
     }
     if (access === 'forbid') {

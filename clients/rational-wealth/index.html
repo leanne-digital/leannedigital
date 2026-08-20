@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/tokens.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/base.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/header.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/page-inner.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/buttons.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/faq.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/clients.css?v=20260820b">
-    <link rel="stylesheet" href="../../css/footer.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/tokens.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/base.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/header.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/page-inner.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/buttons.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/faq.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/clients.css?v=20260820c">
+    <link rel="stylesheet" href="../../css/footer.css?v=20260820c">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -49,7 +49,7 @@
     })();
     </script>
 </head>
-<body class="page-inner" data-portal-gate data-client-slug="rational-wealth">
+<body class="page-inner" data-portal-gate data-client-slug="rational-wealth" data-client-workspace>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
@@ -98,7 +98,8 @@
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
                 <div class="client-profile__copy">
-                    <a class="client-reports__back" href="/client-portal/">Your portal</a>
+                    <a class="client-reports__back" href="/clients/" data-admin-only>All clients</a>
+                    <a class="client-reports__back" href="/client-portal/" data-client-only>Your portal</a>
                     <a class="client-reports__back" href="/admin/" data-admin-only>Admin</a>
                     <h1 class="client-reports__title">Rational Wealth</h1>
                     <p class="client-profile__lead">Bradon Levalds</p>
@@ -110,9 +111,60 @@
         </section>
         <section class="client-page section--navy">
             <div class="container">
+                <p class="login-form__error client-workspace-msg" data-workspace-error hidden></p>
+                <p class="login-form__ok client-workspace-msg" data-workspace-ok hidden></p>
             <section class="client-reports">
-                <h2 class="client-reports__heading">Account</h2>
-                <p class="client-empty client-empty--lead">SEO and maintenance reports, hosting, and the plan you are on — including pricing, signup, and the next renewal.</p>
+                <h2 class="client-reports__heading">Services</h2>
+                <ul class="client-service-list">
+                    <li>
+                        <details class="client-service" data-service-slot="seo">
+                            <summary>
+                                <span>Ongoing Monthly SEO</span>
+                                <strong data-service-status>None</strong>
+                            </summary>
+                            <div class="client-service__body" data-service-body></div>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="client-service" data-service-slot="maintenance">
+                            <summary>
+                                <span>Site Maintenance</span>
+                                <strong data-service-status>None</strong>
+                            </summary>
+                            <div class="client-service__body" data-service-body></div>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="client-service" data-service-slot="management">
+                            <summary>
+                                <span>Monthly Site Management</span>
+                                <strong data-service-status>None</strong>
+                            </summary>
+                            <div class="client-service__body" data-service-body></div>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="client-service" data-service-slot="hosting">
+                            <summary>
+                                <span>Website Hosting</span>
+                                <strong data-service-status>$300 CAD / year</strong>
+                            </summary>
+                            <div class="client-service__body" data-service-body></div>
+                        </details>
+                    </li>
+                    <li>
+                        <details class="client-service" data-service-slot="aeo">
+                            <summary>
+                                <span>AEO</span>
+                                <strong data-service-status>None</strong>
+                            </summary>
+                            <div class="client-service__body" data-service-body></div>
+                        </details>
+                    </li>
+                </ul>
+            </section>
+            <section class="client-reports">
+                <h2 class="client-reports__heading">Reports</h2>
                 <div class="dash-table-wrap">
                     <table class="dash-table admin-table client-account-table">
                         <thead>
@@ -122,16 +174,23 @@
                                 <th>Details</th>
                             </tr>
                         </thead>
-                        <tbody>
-                    <tr class="client-account-row">
-                        <td>LDD Hosting</td>
-                        <td>Hosting</td>
-                        <td>$300 CAD / year · Signed up Jul 25, 2026 · Started Jul 10, 2026 · Next renewal Jul 10, 2027</td>
-                    </tr>
+                        <tbody data-report-body>
+                    <tr><td colspan="3">No reports yet.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
+                <section class="client-reports">
+                    <h2 class="client-reports__heading">Credentials</h2>
+                    <p class="client-empty client-empty--lead">Logins for tools this business uses. Passwords stay hidden until you tap the eye.</p>
+                    <form class="dash-form" data-apps-form>
+                        <div class="dash-creds" data-app-list></div>
+                        <p><button class="dash-form__add" type="button" data-add-app>Add a login</button></p>
+                        <div class="dash-form__actions">
+                            <button class="ld-btn" type="submit">Save credentials</button>
+                        </div>
+                    </form>
+                </section>
 
             </div>
         </section>
@@ -181,7 +240,8 @@
         </div>
     </footer>
     <script src="../../js/site-nav.js" defer></script>
-    <script src="../../js/portal-auth.js?v=20260820b" defer></script>
+    <script src="../../js/portal-auth.js?v=20260820c" defer></script>
+    <script src="../../js/client-workspace.js?v=20260820c" defer></script>
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');

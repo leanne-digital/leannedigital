@@ -191,36 +191,49 @@ function servicesFromInput(input = {}, current = []) {
     add('aeo', input.aeoAmount, input.aeoCycle);
     add('maintenance', input.maintenanceAmount, input.maintenanceCycle);
     add('management', input.managementAmount, input.managementCycle || 'monthly');
-    const hosting = services.find((service) => service.type === 'hosting');
-    if (hosting && 'hostingNextBillDate' in input) {
-        if (input.hostingNextBillDate) hosting.nextBillDate = input.hostingNextBillDate;
-        else delete hosting.nextBillDate;
+    if (Array.isArray(input.serviceTypes)) {
+        const wanted = new Set(
+            input.serviceTypes
+                .map((type) => String(type || '').trim().toLowerCase())
+                .filter(Boolean)
+                .map((type) => {
+                    if (type === 'web-development') return 'website';
+                    if (type === 'graphic-design') return 'design';
+                    if (type === 'site-updates') return 'updates';
+                    if (type === 'google-ads' || type === 'paid-ads') return 'ads';
+                    return type;
+                })
+        );
+        for (const type of wanted) {
+            if (!services.some((service) => service.type === type)) services.push(makeService(type));
+        }
+        const dated = services.filter((service) => {
+            if (!ADMIN_SERVICE_TYPES.includes(service.type) && !['seo', 'aeo'].includes(service.type)) return true;
+            if (wanted.has(service.type)) return true;
+            return Number(service.amount) > 0;
+        });
+        applyServiceDates(dated, 'hosting', input, 'hostingLastBilled', 'hostingNextBillDate');
+        applyServiceDates(dated, 'seo', input, 'seoLastBilled', 'seoNextBillDate');
+        applyServiceDates(dated, 'aeo', input, 'aeoLastBilled', 'aeoNextBillDate');
+        applyServiceDates(dated, 'maintenance', input, 'maintenanceLastBilled', 'maintenanceNextBillDate');
+        applyServiceDates(dated, 'management', input, 'managementLastBilled', 'managementNextBillDate');
+        return dated;
     }
-    if (hosting && 'hostingLastBilled' in input) {
-        if (input.hostingLastBilled) hosting.lastBilled = input.hostingLastBilled;
-        else delete hosting.lastBilled;
+    applyServiceDates(services, 'hosting', input, 'hostingLastBilled', 'hostingNextBillDate');
+    return services;
+}
+
+function applyServiceDates(services, type, input, lastKey, nextKey) {
+    const row = services.find((service) => service.type === type);
+    if (!row) return;
+    if (lastKey in input) {
+        if (input[lastKey]) row.lastBilled = input[lastKey];
+        else delete row.lastBilled;
     }
-    if (!Array.isArray(input.serviceTypes)) return services;
-    const wanted = new Set(
-        input.serviceTypes
-            .map((type) => String(type || '').trim().toLowerCase())
-            .filter(Boolean)
-            .map((type) => {
-                if (type === 'web-development') return 'website';
-                if (type === 'graphic-design') return 'design';
-                if (type === 'site-updates') return 'updates';
-                if (type === 'google-ads' || type === 'paid-ads') return 'ads';
-                return type;
-            })
-    );
-    for (const type of wanted) {
-        if (!services.some((service) => service.type === type)) services.push(makeService(type));
+    if (nextKey in input) {
+        if (input[nextKey]) row.nextBillDate = input[nextKey];
+        else delete row.nextBillDate;
     }
-    return services.filter((service) => {
-        if (!ADMIN_SERVICE_TYPES.includes(service.type)) return true;
-        if (wanted.has(service.type)) return true;
-        return Number(service.amount) > 0;
-    });
 }
 
 function mergeServices(current = [], incoming = []) {
