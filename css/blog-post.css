@@ -1,14 +1,23 @@
 .blog-post {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+body.page-inner .site-header + main:not(.coming-soon) > article.blog-post:first-child {
+    padding-top: 0;
     padding-bottom: 0;
 }
 
 .blog-post__header {
     padding-top: var(--ld-header-offset);
     padding-bottom: var(--ld-section-gap);
-    background:
-        linear-gradient(180deg, rgba(12, 13, 27, 0) 8%, var(--ld-bg-solid) 52%),
-        url("../assets/images/about/about-hero-bg.webp") top center / cover no-repeat;
     background-color: var(--ld-bg-solid);
+    background-image:
+        linear-gradient(180deg, var(--ld-bg-solid) 0%, rgba(12, 13, 27, 0.55) 20%, rgba(12, 13, 27, 0.12) 42%, var(--ld-bg-solid) 68%),
+        url("../assets/images/about/about-hero-bg.webp");
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: auto, 100% auto;
 }
 
 .blog-post__header-inner {

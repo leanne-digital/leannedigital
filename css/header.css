@@ -337,10 +337,10 @@ body .site-header + main:not(.coming-soon) > :first-child:not(.hero) {
     padding-top: var(--ld-header-offset);
 }
 
-body .site-header + main > article:first-child {
+body .site-header + main:not(.coming-soon) > article:first-child:not(.hero) {
     padding-top: 0;
 }
 
-body .site-header + main > article:first-child > :first-child {
+body .site-header + main:not(.coming-soon) > article:first-child:not(.hero) > :first-child {
     padding-top: var(--ld-header-offset);
 }
