@@ -14,7 +14,7 @@ import { loadProjects } from './portfolio-store.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260819o';
+const SCRIPT_V = '20260820a';
 
 const CLIENT_FILTERS = [
     { id: 'overview', label: 'Overview' },
@@ -255,7 +255,7 @@ ${panel(
                             </label>
                         </div>
                         <div data-client-only>
-                            <h3 class="dash-form__heading">Services with us</h3>
+                            <h3 class="dash-form__heading">Work with us</h3>
                             <div class="portal-checks admin-service-checks">
                                 <label class="portal-check"><input type="checkbox" name="serviceTypes" value="website"><span>Web development</span></label>
                                 <label class="portal-check"><input type="checkbox" name="serviceTypes" value="maintenance"><span>Site maintenance</span></label>
@@ -269,51 +269,80 @@ ${panel(
                             </div>
                         </div>
                         <div data-client-only>
+                            <h3 class="dash-form__heading">Services</h3>
+                            <p class="dash-copy dash-copy--left">Turn on a service to bill it. Amounts stay empty until you type them.</p>
+                            <article class="admin-package is-off" data-package-block="hosting">
+                                <label class="portal-check"><input type="checkbox" data-package-on="hosting"><span>Hosting</span></label>
+                                <div class="dash-form__grid" data-package-fields>
+                                    <label>Amount
+                                        <input name="hostingAmount" type="number" min="0" step="1" disabled>
+                                    </label>
+                                    <label>Cycle
+                                        <select name="hostingCycle" disabled>
+                                            <option value="yearly">Yearly</option>
+                                            <option value="monthly">Monthly</option>
+                                        </select>
+                                    </label>
+                                    <label>Start date
+                                        <input name="hostingLastBilled" type="date" disabled>
+                                    </label>
+                                    <label>Next due
+                                        <input name="hostingNextBillDate" type="date" disabled>
+                                    </label>
+                                </div>
+                            </article>
+                            <article class="admin-package is-off" data-package-block="management">
+                                <label class="portal-check"><input type="checkbox" data-package-on="management"><span>Site management</span></label>
+                                <div class="dash-form__grid" data-package-fields>
+                                    <label>Amount / month
+                                        <input name="managementAmount" type="number" min="0" step="1" disabled>
+                                    </label>
+                                </div>
+                            </article>
+                            <article class="admin-package is-off" data-package-block="seo">
+                                <label class="portal-check"><input type="checkbox" data-package-on="seo"><span>SEO</span></label>
+                                <div class="dash-form__grid" data-package-fields>
+                                    <label>Amount / month
+                                        <input name="seoAmount" type="number" min="0" step="1" disabled>
+                                    </label>
+                                </div>
+                            </article>
+                            <article class="admin-package is-off" data-package-block="aeo">
+                                <label class="portal-check"><input type="checkbox" data-package-on="aeo"><span>AEO</span></label>
+                                <div class="dash-form__grid" data-package-fields>
+                                    <label>Amount / month
+                                        <input name="aeoAmount" type="number" min="0" step="1" disabled>
+                                    </label>
+                                </div>
+                            </article>
+                            <article class="admin-package is-off" data-package-block="maintenance">
+                                <label class="portal-check"><input type="checkbox" data-package-on="maintenance"><span>Site maintenance</span></label>
+                                <div class="dash-form__grid" data-package-fields>
+                                    <label>Amount / month
+                                        <input name="maintenanceAmount" type="number" min="0" step="1" disabled>
+                                    </label>
+                                </div>
+                            </article>
+                        </div>
+                        <div data-client-only>
+                            <h3 class="dash-form__heading">Total revenue</h3>
+                            <p class="dash-copy dash-copy--left">Yearly hosting stays yearly. Monthly retainers stay monthly.</p>
+                            <div class="dash-form__grid">
+                                <label>Discount / month
+                                    <input name="discount" type="number" min="0" step="1">
+                                </label>
+                                <label>Tax
+                                    <input name="taxAmount" type="number" min="0" step="0.01">
+                                </label>
+                            </div>
+                            <ul class="admin-revenue" data-revenue-lines></ul>
+                            <p class="dash-form__total"><strong data-package-total>$0</strong></p>
+                        </div>
+                        <div data-client-only>
                             <h3 class="dash-form__heading">Credentials</h3>
                             <p class="dash-copy dash-copy--left">Hosting, domain, email, and any other logins we keep for this client. Passwords stay hidden until you tap the eye. Clients never see this list.</p>
                             <div class="dash-creds" data-credential-list></div>
                             <p><button class="dash-form__add" type="button" data-add-credential>Add a login</button></p>
-                        </div>
-                        <div data-client-only>
-                            <h3 class="dash-form__heading">Packages</h3>
-                            <p class="dash-copy dash-copy--left">Hosting and retainers we bill. Checking a service above without an amount only tags the account. Fill the amount here to put them on a package.</p>
-                            <div class="dash-form__grid">
-                                <label>Hosting amount
-                                    <input name="hostingAmount" type="number" min="0" step="1" placeholder="250">
-                                </label>
-                                <label>Hosting cycle
-                                    <select name="hostingCycle">
-                                        <option value="yearly">Yearly</option>
-                                        <option value="monthly">Monthly</option>
-                                    </select>
-                                </label>
-                                <label>Hosting last paid
-                                    <input name="hostingLastBilled" type="date">
-                                </label>
-                                <label>Hosting next due
-                                    <input name="hostingNextBillDate" type="date">
-                                </label>
-                                <label>Site management / mo
-                                    <input name="managementAmount" type="number" min="0" step="1" placeholder="50">
-                                </label>
-                                <label>SEO / mo
-                                    <input name="seoAmount" type="number" min="0" step="1">
-                                </label>
-                                <label>AEO / mo
-                                    <input name="aeoAmount" type="number" min="0" step="1">
-                                </label>
-                                <label>Maintenance / mo
-                                    <input name="maintenanceAmount" type="number" min="0" step="1">
-                                </label>
-                                <label>Discount
-                                    <input name="discount" type="number" min="0" step="1" placeholder="0">
-                                </label>
-                                <label>Tax amount
-                                    <input name="taxAmount" type="number" min="0" step="0.01" placeholder="0">
-                                </label>
-                            </div>
-                            <p class="dash-form__total">Total <strong data-package-total>$0 / mo</strong></p>
-                            <p class="dash-copy dash-copy--left">Yearly hosting is averaged into the monthly total. Discount comes off before tax.</p>
                         </div>
                         <div class="dash-form__actions">
                             <button class="ld-btn" type="submit">Create account</button>

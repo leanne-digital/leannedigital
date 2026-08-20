@@ -67,20 +67,92 @@
         }).format(Number(amount) || 0);
     }
 
-    function packageTotalFromForm(form) {
-        if (!form) return 0;
+    function packageOn(form, type) {
+        return Boolean(form?.querySelector(`[data-package-on="${type}"]`)?.checked);
+    }
+
+    function setPackageOn(form, type, on) {
+        const input = form?.querySelector(`[data-package-on="${type}"]`);
+        if (input) input.checked = Boolean(on);
+    }
+
+    function addCycleDate(iso, cycle) {
+        const date = new Date(`${iso}T00:00:00`);
+        if (Number.isNaN(date.getTime())) return '';
+        if (cycle === 'monthly') date.setMonth(date.getMonth() + 1);
+        else date.setFullYear(date.getFullYear() + 1);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function fillHostingNextDue(form) {
+        if (!form?.hostingLastBilled?.value || !form.hostingNextBillDate) return;
+        const cycle = form.hostingCycle?.value === 'monthly' ? 'monthly' : 'yearly';
+        form.hostingNextBillDate.value = addCycleDate(form.hostingLastBilled.value, cycle);
+    }
+
+    function syncPackageFields(form) {
+        if (!form) return;
+        $$('[data-package-block]', form).forEach((block) => {
+            const on = Boolean(block.querySelector('[data-package-on]')?.checked);
+            block.classList.toggle('is-off', !on);
+            $$('input:not([data-package-on]), select', block).forEach((el) => {
+                el.disabled = !on;
+            });
+        });
+        updatePackageTotal(form);
+    }
+
+    function revenueLines(form) {
+        if (!form) return [];
         const num = (name) => Number(form.elements[name]?.value) || 0;
-        let monthly = num('managementAmount') + num('seoAmount') + num('aeoAmount') + num('maintenanceAmount');
-        const hosting = num('hostingAmount');
-        if (hosting) monthly += form.hostingCycle?.value === 'yearly' ? hosting / 12 : hosting;
-        const discount = num('discount');
-        const tax = num('taxAmount');
-        return Math.round((Math.max(0, monthly - discount) + tax) * 100) / 100;
+        const lines = [];
+        if (packageOn(form, 'hosting') && num('hostingAmount')) {
+            lines.push({
+                label: 'Hosting',
+                amount: num('hostingAmount'),
+                period: form.hostingCycle?.value === 'monthly' ? 'month' : 'year',
+            });
+        }
+        if (packageOn(form, 'management') && num('managementAmount')) {
+            lines.push({ label: 'Site management', amount: num('managementAmount'), period: 'month' });
+        }
+        if (packageOn(form, 'seo') && num('seoAmount')) {
+            lines.push({ label: 'SEO', amount: num('seoAmount'), period: 'month' });
+        }
+        if (packageOn(form, 'aeo') && num('aeoAmount')) {
+            lines.push({ label: 'AEO', amount: num('aeoAmount'), period: 'month' });
+        }
+        if (packageOn(form, 'maintenance') && num('maintenanceAmount')) {
+            lines.push({ label: 'Site maintenance', amount: num('maintenanceAmount'), period: 'month' });
+        }
+        if (num('discount')) lines.push({ label: 'Discount', amount: -num('discount'), period: 'month' });
+        if (num('taxAmount')) lines.push({ label: 'Tax', amount: num('taxAmount'), period: 'once' });
+        return lines;
     }
 
     function updatePackageTotal(form) {
+        const lines = revenueLines(form);
+        const list = $('[data-revenue-lines]', form);
+        if (list) {
+            list.innerHTML = lines
+                .map((row) => {
+                    const period = row.period === 'year' ? '/ year' : row.period === 'month' ? '/ mo' : '';
+                    return `<li><span>${escapeHtml(row.label)}</span><strong>${row.amount < 0 ? '−' : ''}${money(Math.abs(row.amount))} ${period}</strong></li>`;
+                })
+                .join('');
+        }
+        const monthly = lines.filter((row) => row.period === 'month').reduce((sum, row) => sum + row.amount, 0);
+        const yearly = lines.filter((row) => row.period === 'year').reduce((sum, row) => sum + row.amount, 0);
+        const tax = lines.filter((row) => row.period === 'once').reduce((sum, row) => sum + row.amount, 0);
+        const parts = [];
+        if (monthly) parts.push(`${money(Math.max(0, monthly))} / mo`);
+        if (yearly) parts.push(`${money(yearly)} / year`);
+        if (tax) parts.push(`${money(tax)} tax`);
         const el = $('[data-package-total]', form);
-        if (el) el.textContent = `${money(packageTotalFromForm(form))} / mo`;
+        if (el) el.textContent = parts.join(' · ') || '$0';
     }
 
     function setServiceChecked(form, type, on) {
@@ -93,22 +165,26 @@
             .filter((input) => input.checked)
             .map((input) => input.value);
         const amount = (name) => form.elements[name]?.value ?? '';
-        const hostingOn = types.includes('hosting') || Number(amount('hostingAmount')) > 0;
+        const hostingOn = packageOn(form, 'hosting');
+        const managementOn = packageOn(form, 'management');
+        const seoOn = packageOn(form, 'seo');
+        const aeoOn = packageOn(form, 'aeo');
+        const maintenanceOn = packageOn(form, 'maintenance');
         if (hostingOn && !types.includes('hosting')) types.push('hosting');
-        if (Number(amount('managementAmount')) > 0 && !types.includes('management')) types.push('management');
-        if (Number(amount('seoAmount')) > 0 && !types.includes('seo')) types.push('seo');
-        if (Number(amount('aeoAmount')) > 0 && !types.includes('aeo')) types.push('aeo');
-        if (Number(amount('maintenanceAmount')) > 0 && !types.includes('maintenance')) types.push('maintenance');
+        if (managementOn && !types.includes('management')) types.push('management');
+        if (seoOn && !types.includes('seo')) types.push('seo');
+        if (aeoOn && !types.includes('aeo')) types.push('aeo');
+        if (maintenanceOn && !types.includes('maintenance')) types.push('maintenance');
         return {
             serviceTypes: types,
             hostingAmount: hostingOn ? amount('hostingAmount') : '',
             hostingCycle: form.hostingCycle?.value || 'yearly',
             hostingLastBilled: hostingOn ? amount('hostingLastBilled') : '',
             hostingNextBillDate: hostingOn ? amount('hostingNextBillDate') : '',
-            managementAmount: amount('managementAmount'),
-            seoAmount: amount('seoAmount'),
-            aeoAmount: amount('aeoAmount'),
-            maintenanceAmount: amount('maintenanceAmount'),
+            managementAmount: managementOn ? amount('managementAmount') : '',
+            seoAmount: seoOn ? amount('seoAmount') : '',
+            aeoAmount: aeoOn ? amount('aeoAmount') : '',
+            maintenanceAmount: maintenanceOn ? amount('maintenanceAmount') : '',
             discount: amount('discount'),
             taxAmount: amount('taxAmount'),
         };
@@ -505,18 +581,31 @@
                 $('[data-credential-list]', clientForm),
                 loaded ? credentialRowsFrom(client) : defaultCredentialRows()
             );
+            const billedAmount = (service) => (Number(service?.amount) > 0 ? String(service.amount) : '');
             const hosting = serviceOf(client || {}, 'hosting');
-            if (clientForm.hostingAmount) clientForm.hostingAmount.value = hosting?.amount || '';
+            const management = serviceOf(client || {}, 'management');
+            const seo = serviceOf(client || {}, 'seo');
+            const aeo = serviceOf(client || {}, 'aeo');
+            const maintenance = serviceOf(client || {}, 'maintenance');
+            setPackageOn(clientForm, 'hosting', Boolean(billedAmount(hosting) || hosting?.lastBilled || hosting?.nextBillDate));
+            setPackageOn(clientForm, 'management', Boolean(billedAmount(management)));
+            setPackageOn(clientForm, 'seo', Boolean(billedAmount(seo)));
+            setPackageOn(clientForm, 'aeo', Boolean(billedAmount(aeo)));
+            setPackageOn(clientForm, 'maintenance', Boolean(billedAmount(maintenance)));
+            if (clientForm.hostingAmount) clientForm.hostingAmount.value = billedAmount(hosting);
             if (clientForm.hostingCycle) clientForm.hostingCycle.value = hosting?.cycle === 'monthly' ? 'monthly' : 'yearly';
             if (clientForm.hostingLastBilled) clientForm.hostingLastBilled.value = (hosting?.lastBilled || '').slice(0, 10);
             if (clientForm.hostingNextBillDate) clientForm.hostingNextBillDate.value = (hosting?.nextBillDate || '').slice(0, 10);
-            if (clientForm.managementAmount) clientForm.managementAmount.value = serviceOf(client || {}, 'management')?.amount || '';
-            if (clientForm.seoAmount) clientForm.seoAmount.value = serviceOf(client || {}, 'seo')?.amount || '';
-            if (clientForm.aeoAmount) clientForm.aeoAmount.value = serviceOf(client || {}, 'aeo')?.amount || '';
-            if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = serviceOf(client || {}, 'maintenance')?.amount || '';
-            if (clientForm.discount) clientForm.discount.value = client?.discount || '';
-            if (clientForm.taxAmount) clientForm.taxAmount.value = client?.taxAmount || '';
-            updatePackageTotal(clientForm);
+            if (clientForm.managementAmount) clientForm.managementAmount.value = billedAmount(management);
+            if (clientForm.seoAmount) clientForm.seoAmount.value = billedAmount(seo);
+            if (clientForm.aeoAmount) clientForm.aeoAmount.value = billedAmount(aeo);
+            if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = billedAmount(maintenance);
+            if (clientForm.discount) clientForm.discount.value = Number(client?.discount) > 0 ? String(client.discount) : '';
+            if (clientForm.taxAmount) clientForm.taxAmount.value = Number(client?.taxAmount) > 0 ? String(client.taxAmount) : '';
+            if (packageOn(clientForm, 'hosting') && clientForm.hostingLastBilled?.value && !clientForm.hostingNextBillDate?.value) {
+                fillHostingNextDue(clientForm);
+            }
+            syncPackageFields(clientForm);
             syncAccountType();
         }
 
@@ -585,16 +674,22 @@
             row.click();
         });
 
-        clientForm?.addEventListener('input', (event) => {
-            const name = event.target?.name;
-            if (name === 'hostingAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'hosting', true);
-            if (name === 'managementAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'management', true);
-            if (name === 'seoAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'seo', true);
-            if (name === 'aeoAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'aeo', true);
-            if (name === 'maintenanceAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'maintenance', true);
+        clientForm?.addEventListener('input', () => updatePackageTotal(clientForm));
+        clientForm?.addEventListener('change', (event) => {
+            const target = event.target;
+            if (target?.matches('[data-package-on]')) {
+                const type = target.getAttribute('data-package-on');
+                if (target.checked && type) setServiceChecked(clientForm, type, true);
+                syncPackageFields(clientForm);
+                if (type === 'hosting' && target.checked) fillHostingNextDue(clientForm);
+                updatePackageTotal(clientForm);
+                return;
+            }
+            if (target?.name === 'hostingLastBilled' || target?.name === 'hostingCycle') {
+                fillHostingNextDue(clientForm);
+            }
             updatePackageTotal(clientForm);
         });
-        clientForm?.hostingCycle?.addEventListener('change', () => updatePackageTotal(clientForm));
         clientForm?.accountType?.addEventListener('change', syncAccountType);
         if (!canCreateStaff && clientForm?.accountType) {
             $$('option', clientForm.accountType).forEach((opt) => {

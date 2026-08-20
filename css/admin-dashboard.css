@@ -303,6 +303,45 @@
     margin: 0 0 1.25rem;
 }
 
+.admin-package {
+    margin: 0 0 0.85rem;
+    padding: 0.9rem 1rem 1rem;
+    border: 1px solid var(--ld-card-border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-package .portal-check {
+    margin: 0 0 0.75rem;
+}
+
+.admin-package.is-off [data-package-fields] {
+    opacity: 0.4;
+}
+
+.admin-package input:disabled,
+.admin-package select:disabled {
+    cursor: not-allowed;
+}
+
+.admin-revenue {
+    list-style: none;
+    margin: 1rem 0 0.35rem;
+    padding: 0;
+}
+
+.admin-revenue li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-revenue li:last-child {
+    border-bottom: 0;
+}
+
 .admin-service-checks .portal-check {
     display: grid;
     grid-template-columns: auto 1fr;
