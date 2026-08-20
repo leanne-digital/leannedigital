@@ -11,23 +11,22 @@ import { PORTFOLIO_FILTERS } from './portfolio-filters.mjs';
 import { loadClients } from './client-store.mjs';
 import { loadClientProjects } from './client-project-store.mjs';
 import { loadProjects } from './portfolio-store.mjs';
-import { loadCalendlyBookings, loadSubmissions } from './admin-inbox.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260819n';
+const SCRIPT_V = '20260819o';
 
-const SECTIONS = [
+const CLIENT_FILTERS = [
     { id: 'overview', label: 'Overview' },
     { id: 'seo-clients', label: 'SEO clients' },
     { id: 'maintenance-clients', label: 'Maintenance clients' },
     { id: 'hosting-clients', label: 'Hosting clients' },
     { id: 'management-clients', label: 'Site management' },
+];
+
+const SECTIONS = [
     { id: 'portfolio', label: 'Portfolio' },
-    { id: 'leads', label: 'Leads' },
-    { id: 'submissions', label: 'Form submissions' },
-    { id: 'calendly', label: 'Calendly bookings' },
-    { id: 'new-client', label: 'Add or edit client' },
+    { id: 'new-client', label: 'Add client' },
 ];
 
 function writePage(relativeDir, html) {
@@ -74,8 +73,6 @@ function adminBootstrap() {
             overview: project.overview || '',
             featuredImage: project.featuredImage || '',
         })),
-        inbox: loadSubmissions(),
-        calendly: loadCalendlyBookings(),
     };
 }
 
@@ -97,10 +94,15 @@ ${options}
 }
 
 function nav() {
-    return SECTIONS.map(
+    const filters = CLIENT_FILTERS.map(
         (section, index) =>
-            `                    <button type="button" class="admin-nav__btn" data-admin-section="${section.id}"${index === 0 ? ' aria-current="page"' : ''}>${escapeHtml(section.label)}</button>`
+            `                    <button type="button" class="admin-nav__btn" data-client-filter="${section.id}"${index === 0 ? ' aria-current="page"' : ''}>${escapeHtml(section.label)}</button>`
     ).join('\n');
+    const extras = SECTIONS.map(
+        (section) =>
+            `                    <button type="button" class="admin-nav__btn" data-admin-section="${section.id}">${escapeHtml(section.label)}</button>`
+    ).join('\n');
+    return `${filters}\n${extras}`;
 }
 
 function panel(id, title, lead, body) {
@@ -114,7 +116,7 @@ ${body}
 export function generateAdminDashboard() {
     const html = `${renderHead({
         title: 'Admin Dashboard | Leanne Digital',
-        description: 'Staff admin for clients, portfolio, leads, form submissions, and bookings.',
+        description: 'Staff admin for clients, hosting, retainers, and portfolio.',
         depth: 1,
         extraCss: ['login.css', 'clients.css', 'admin-dashboard.css'],
         robots: ROBOTS,
@@ -127,7 +129,7 @@ ${renderNav(1, '/admin/')}
         <section class="admin-hero section--navy">
             <div class="container">
                 <h1 class="admin-hero__title">Admin dashboard</h1>
-                <p class="admin-hero__lead">Clients, portfolio, leads, form submissions, and Calendly bookings in one place.</p>
+                <p class="admin-hero__lead">Search a client, filter by service, and open a row to edit their details, credentials, and packages.</p>
             </div>
         </section>
         <section class="admin-body section--navy">
@@ -135,19 +137,24 @@ ${renderNav(1, '/admin/')}
                 <nav class="admin-nav" aria-label="Admin sections">
 ${nav()}
                     <a class="admin-nav__link" href="/profile/">Profile</a>
-                    <a class="admin-nav__link" href="/clients/">All clients</a>
                 </nav>
                 <div class="admin-content">
                     <p class="login-form__error" data-admin-error hidden></p>
                     <p class="login-form__ok" data-admin-ok hidden></p>
 ${panel(
     'overview',
-    'Overview',
-    'A snapshot of retainers, portfolio pieces, and incoming work.',
+    'Clients',
+    'Filter the list from the left, or search. Click a row to edit that client.',
     `                    <div class="dash-grid" data-overview-stats></div>
                     <div class="admin-clients">
-                        <h3 class="dash-form__heading">All clients</h3>
-                        <p class="admin-panel__lead">Open a client space, edit their details, or archive an account you no longer need.</p>
+                        <div class="admin-clients-toolbar">
+                            <label class="admin-search">
+                                <span class="sr-only">Search clients</span>
+                                <input type="search" data-client-search placeholder="Search by name, email, or website" autocomplete="off">
+                            </label>
+                            <button type="button" class="ld-btn" data-admin-section="new-client">Add client</button>
+                        </div>
+                        <h3 class="dash-form__heading" data-clients-heading>All clients</h3>
                         <div class="dash-table-wrap">
                             <table class="dash-table admin-table admin-clients-table">
                                 <thead>
@@ -155,42 +162,13 @@ ${panel(
                                         <th>Client</th>
                                         <th>Contact</th>
                                         <th>Services</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody data-clients-body></tbody>
                             </table>
                         </div>
-                        <p class="admin-empty" data-clients-empty hidden>No clients yet. Use Create new client to add one.</p>
+                        <p class="admin-empty" data-clients-empty hidden>No clients yet. Add a client to get started.</p>
                     </div>`
-)}
-${panel(
-    'seo-clients',
-    'SEO clients',
-    'Clients on monthly SEO or AEO retainers. Open a name to see reports and billing.',
-    `                    <div class="clients-grid" data-seo-grid></div>
-                    <p class="admin-empty" data-seo-empty hidden>No SEO or AEO retainers yet.</p>`
-)}
-${panel(
-    'maintenance-clients',
-    'Maintenance clients',
-    'Website maintenance and protection retainers.',
-    `                    <div class="clients-grid" data-maintenance-grid></div>
-                    <p class="admin-empty" data-maintenance-empty hidden>No site maintenance accounts yet.</p>`
-)}
-${panel(
-    'hosting-clients',
-    'Hosting clients',
-    'Clients on Leanne Digital hosting.',
-    `                    <div class="clients-grid" data-hosting-grid></div>
-                    <p class="admin-empty" data-hosting-empty hidden>No hosting accounts yet.</p>`
-)}
-${panel(
-    'management-clients',
-    'Site management',
-    'Static site management retainers.',
-    `                    <div class="clients-grid" data-management-grid></div>
-                    <p class="admin-empty" data-management-empty hidden>No site management accounts yet. Add the service on a client to see them here.</p>`
 )}
 ${panel(
     'portfolio',
@@ -244,53 +222,6 @@ ${tagCheckboxes()}
                         </table>
                     </div>
                     <p class="admin-empty" data-portfolio-empty hidden>No portfolio projects yet.</p>`
-)}
-${panel(
-    'leads',
-    'Leads',
-    'People who submitted the contact form. Update status as you follow up.',
-    `                    <div class="dash-table-wrap">
-                        <table class="dash-table admin-table">
-                            <thead>
-                                <tr>
-                                    <th>When</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Service</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody data-leads-body></tbody>
-                        </table>
-                    </div>
-                    <p class="admin-empty" data-leads-empty hidden>No leads yet. New contact form messages will show up here.</p>`
-)}
-${panel(
-    'submissions',
-    'Form submissions',
-    'Full contact form messages, including the page they came from.',
-    `                    <div class="admin-submissions" data-submissions-list></div>
-                    <p class="admin-empty" data-submissions-empty hidden>No form submissions yet.</p>`
-)}
-${panel(
-    'calendly',
-    'Calendly bookings',
-    'Discovery calls and other Calendly events. Point a Calendly webhook at /api/webhooks/calendly to keep this list current.',
-    `                    <div class="dash-table-wrap">
-                        <table class="dash-table admin-table">
-                            <thead>
-                                <tr>
-                                    <th>When</th>
-                                    <th>Event</th>
-                                    <th>Invitee</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody data-calendly-body></tbody>
-                        </table>
-                    </div>
-                    <p class="admin-empty" data-calendly-empty hidden>No Calendly bookings stored yet. After you connect the webhook, new bookings will appear here.</p>`
 )}
 ${panel(
     'new-client',
@@ -388,6 +319,7 @@ ${panel(
                             <button class="ld-btn" type="submit">Create account</button>
                             <button class="dash-form__reset" type="reset">Clear</button>
                             <button class="ld-btn ld-btn--ghost" type="button" data-invite-client hidden>Send login link</button>
+                            <button class="dash-form__reset" type="button" data-archive-client-btn hidden>Archive client</button>
                         </div>
                     </form>
                     <aside class="admin-invite" data-invite-card hidden>

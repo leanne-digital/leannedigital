@@ -437,6 +437,13 @@
             location.replace('/client-portal/');
             return;
         }
+        if (
+            session.user.role === 'staff' &&
+            (location.pathname === '/clients/' || location.pathname === '/clients')
+        ) {
+            location.replace('/admin/');
+            return;
+        }
         injectBar(api, session.user);
         applyRole(session.user);
         window.__LD_PORTAL__ = { api, user: session.user };

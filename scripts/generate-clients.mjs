@@ -69,10 +69,10 @@ function serviceTags(client) {
 function portalScripts(depth, admin = false) {
     const prefix = '../'.repeat(depth);
     const adminScript = admin
-        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819h" defer></script>`
+        ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819o" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260819h" defer></script>${adminScript}`;
+    <script src="${prefix}js/portal-auth.js?v=20260819o" defer></script>${adminScript}`;
 }
 
 function renderLinks(client) {
@@ -290,81 +290,30 @@ ${totals}
             </section>`;
 }
 
-function renderIndex(clients) {
-    const cards = clients
-        .map((client) => {
-            const tags = serviceTags(client)
-                .map((type) => `<span class="client-tag">${escapeHtml(SERVICE_LABELS[type] || type)}</span>`)
-                .join('');
-            const reports = client.reports || [];
-            const billed = (client.services || []).filter((service) => service.amount);
-            const bill = packageTotals(client);
-            const total = bill.total
-                ? `${money(bill.total)} / month`
-                : billed.length
-                    ? cycleLabel(billed[0])
-                    : reports.length
-                        ? `${reports.length} monthly report${reports.length === 1 ? '' : 's'}`
-                        : 'Active client';
-            return `                <article class="client-card" data-client-slug="${escapeHtml(client.slug)}">
-                    <a href="/clients/${escapeHtml(client.slug)}/">
-                    <h2 class="client-card__name">${escapeHtml(client.name)}</h2>
-                    <p class="client-card__tags">${tags}</p>
-                    <p class="client-card__meta">${escapeHtml(total)}</p>
-                    <span class="client-card__cta">Open client</span>
-                    </a>
-                    <p class="client-card__admin" data-admin-only>
-                        <button type="button" data-edit-client="${escapeHtml(client.slug)}">Edit</button>
-                        <button type="button" data-delete-client="${escapeHtml(client.slug)}">Delete</button>
-                    </p>
-                </article>`;
-        })
-        .join('\n');
-
+function renderHubRedirect() {
     return `${renderHead({
-        title: 'Client Dashboard | Leanne Digital',
-        description: 'Staff dashboard for client retainers, hosting renewals, and monthly reports.',
+        title: 'Clients | Leanne Digital',
+        description: 'Client records live in the admin dashboard.',
         depth: 1,
         extraCss: ['clients.css'],
         robots: ROBOTS,
+        canonical: `${SITE_URL}/admin/`,
+        path: '/clients/',
     })}
 <body class="page-inner" data-portal-gate data-portal-role="staff">
-${renderNav(1, '/clients/')}
+${renderNav(1, '/admin/')}
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="container">
-                <h1 class="clients-hero__title">Client dashboard</h1>
-                <p class="clients-hero__lead">Hosting due dates and amounts, retainers, site management fees, and every client you can add or edit. <a href="/admin/">Back to admin</a></p>
-            </div>
-        </section>
-        <section class="clients-list section--navy">
-            <div class="container">
-${renderDashboard(portalStats(clients))}
-                <h2 class="client-reports__heading">All clients</h2>
-                <div class="clients-grid" data-clients-grid>
-${cards}
-                </div>
+                <h1 class="clients-hero__title">Moved to admin</h1>
+                <p class="clients-hero__lead">Client records, hosting, and retainers are in the admin dashboard.</p>
+                <p><a class="ld-btn" href="/admin/">Open admin</a></p>
             </div>
         </section>
     </main>
 ${renderFullFooter(1)}
-    <script type="application/json" id="ld-clients-data">${JSON.stringify(clients.map((client) => ({
-        slug: client.slug,
-        name: client.name,
-        email: client.email || '',
-        phone: client.phone || '',
-        website: client.website || '',
-        platform: client.platform || '',
-        googleDrive: client.googleDrive || '',
-        contactName: client.contactName || '',
-        hosting: client.hosting || null,
-        services: client.services || [],
-        credentials: client.credentials || [],
-        clientApps: client.clientApps || [],
-        discount: Number(client.discount) || 0,
-        taxAmount: Number(client.taxAmount) || 0,
-    }))).replace(/</g, '\\u003c')}</script>
-${portalScripts(1, true)}
+${portalScripts(1)}
+    <script>location.replace('/admin/');</script>
 </body>
 </html>
 `;
@@ -579,7 +528,7 @@ function main() {
     generateLoginPages();
     generateAdminDashboard();
     const clients = loadClients();
-    writePage('clients', renderIndex(clients));
+    writePage('clients', renderHubRedirect());
     for (const client of clients) {
         writePage(path.join('clients', client.slug), renderClientPage(client));
         for (const report of client.reports || []) {
@@ -587,7 +536,7 @@ function main() {
         }
     }
     writePage(path.join('clients', 'shift'), renderShiftRedirect());
-    console.log(`Generated client hub, login pages, client portal, admin dashboard, and ${clients.length} client pages.`);
+    console.log(`Generated login pages, client portal, admin dashboard, ${clients.length} client report pages, and redirected /clients/ to /admin/.`);
 }
 
 main();

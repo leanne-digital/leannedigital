@@ -205,7 +205,7 @@ ${needChecks}
                                 </div>
                             </form>
                             <p class="portal-profile__meta" data-profile-meta></p>
-                            <p><a class="ld-btn ld-btn--ghost" data-reports-link href="/clients/">Open reports</a></p>
+                            <p><a class="ld-btn ld-btn--ghost" data-reports-link href="#">Open reports</a></p>
                         </article>
                         <article class="portal-card">
                             <h2 class="dash-form__heading">Your stack</h2>

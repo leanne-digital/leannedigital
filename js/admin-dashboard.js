@@ -1,10 +1,11 @@
 (function () {
-    const STATUSES = [
-        { value: 'new', label: 'New' },
-        { value: 'contacted', label: 'Contacted' },
-        { value: 'won', label: 'Won' },
-        { value: 'closed', label: 'Closed' },
-    ];
+    const CLIENT_FILTERS = {
+        overview: { types: null, heading: 'All clients' },
+        'seo-clients': { types: ['seo', 'aeo'], heading: 'SEO clients' },
+        'maintenance-clients': { types: ['maintenance'], heading: 'Maintenance clients' },
+        'hosting-clients': { types: ['hosting'], heading: 'Hosting clients' },
+        'management-clients': { types: ['management'], heading: 'Site management' },
+    };
 
     function $(sel, root) {
         return (root || document).querySelector(sel);
@@ -26,19 +27,6 @@
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;');
-    }
-
-    function day(value) {
-        if (!value) return '—';
-        const date = new Date(value);
-        if (Number.isNaN(date.getTime())) return String(value);
-        return date.toLocaleString('en-CA', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-        });
     }
 
     function hasService(client, types) {
@@ -270,16 +258,21 @@
         return data;
     }
 
-    function setSection(id) {
+    function setSection(id, filterId) {
         const next = id || 'overview';
         $$('[data-admin-section]').forEach((btn) => {
             btn.setAttribute('aria-current', btn.getAttribute('data-admin-section') === next ? 'page' : 'false');
         });
+        $$('[data-client-filter]').forEach((btn) => {
+            const active = next === 'overview' && btn.getAttribute('data-client-filter') === (filterId || 'overview');
+            btn.setAttribute('aria-current', active ? 'page' : 'false');
+        });
         $$('[data-admin-panel]').forEach((panel) => {
             panel.hidden = panel.getAttribute('data-admin-panel') !== next;
         });
-        if (location.hash.replace('#', '') !== next) {
-            history.replaceState(null, '', `#${next}`);
+        const hash = next === 'overview' ? filterId || 'overview' : next;
+        if (location.hash.replace('#', '') !== hash) {
+            history.replaceState(null, '', `#${hash}`);
         }
     }
 
@@ -288,16 +281,6 @@
             <h3 class="dash-stat__label">${escapeHtml(label)}</h3>`;
         if (!section) return `<article class="dash-stat">${inner}</article>`;
         return `<button type="button" class="dash-stat dash-stat--link" data-admin-section="${escapeHtml(section)}">${inner}</button>`;
-    }
-
-    function clientCard(client) {
-        return `<article class="client-card">
-            <a href="/clients/${encodeURIComponent(client.slug)}/">
-                <h3 class="client-card__name">${escapeHtml(client.name)}</h3>
-                <p class="client-card__meta">${escapeHtml(client.email || client.website || 'Open client')}</p>
-                <span class="client-card__cta">Open client</span>
-            </a>
-        </article>`;
     }
 
     function renderOverview(data) {
@@ -311,43 +294,47 @@
             statCard('Hosting clients', hosting.length, 'hosting-clients'),
             statCard('Site management', management.length, 'management-clients'),
             statCard('Portfolio projects', data.projects.length, 'portfolio'),
-            statCard('All clients', data.clients.length),
-            statCard('Leads', data.inbox.length, 'leads'),
-            statCard('Calendly bookings', data.calendly.length, 'calendly'),
+            statCard('All clients', data.clients.length, 'overview'),
         ].join('');
     }
 
-    function renderClientsTable(clients) {
+    function matchesQuery(client, query) {
+        if (!query) return true;
+        const hay = [client.name, client.email, client.contactName, client.website, client.slug]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+        return hay.includes(query);
+    }
+
+    function renderClientsTable(clients, filterId, query) {
         const body = $('[data-clients-body]');
         const empty = $('[data-clients-empty]');
+        const heading = $('[data-clients-heading]');
         if (!body) return;
-        body.innerHTML = clients
+        const filter = CLIENT_FILTERS[filterId] || CLIENT_FILTERS.overview;
+        let list = clients;
+        if (filter.types) list = list.filter((client) => hasService(client, filter.types));
+        list = list.filter((client) => matchesQuery(client, query));
+        if (heading) heading.textContent = filter.heading;
+        body.innerHTML = list
             .map(
-                (client) => `<tr>
+                (client) => `<tr data-edit-client="${escapeHtml(client.slug)}" tabindex="0">
                     <td>
                         <strong>${escapeHtml(client.name)}</strong>
                         <div class="admin-muted">${escapeHtml(client.email || 'No email')}</div>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
                     <td class="admin-services">${servicePills(client)}</td>
-                    <td>
-                        <a class="admin-row-btn" href="/clients/${encodeURIComponent(client.slug)}/">View</a>
-                        <button type="button" class="admin-row-btn" data-edit-client="${escapeHtml(client.slug)}">Edit</button>
-                        <button type="button" class="admin-row-btn admin-row-btn--danger" data-archive-client="${escapeHtml(client.slug)}">Delete</button>
-                    </td>
                 </tr>`
             )
             .join('');
-        if (empty) empty.hidden = clients.length > 0;
-    }
-
-    function renderClientGrid(clients, gridSel, emptySel, types) {
-        const grid = $(gridSel);
-        const empty = $(emptySel);
-        if (!grid) return;
-        const list = clients.filter((client) => hasService(client, types));
-        grid.innerHTML = list.map(clientCard).join('');
-        if (empty) empty.hidden = list.length > 0;
+        if (empty) {
+            empty.hidden = list.length > 0;
+            empty.textContent = clients.length
+                ? 'No clients match that search.'
+                : 'No clients yet. Add a client to get started.';
+        }
     }
 
     function renderPortfolio(projects) {
@@ -368,59 +355,6 @@
             )
             .join('');
         empty.hidden = projects.length > 0;
-    }
-
-    function renderLeads(inbox) {
-        const body = $('[data-leads-body]');
-        const empty = $('[data-leads-empty]');
-        body.innerHTML = inbox
-            .map((row) => {
-                const options = STATUSES.map(
-                    (status) =>
-                        `<option value="${status.value}"${row.status === status.value ? ' selected' : ''}>${status.label}</option>`
-                ).join('');
-                return `<tr>
-                    <td>${escapeHtml(day(row.at))}</td>
-                    <td>${escapeHtml(row.name || '—')}</td>
-                    <td><a href="mailto:${escapeHtml(row.email)}">${escapeHtml(row.email)}</a></td>
-                    <td>${escapeHtml(row.service || '—')}</td>
-                    <td><select class="admin-status" data-lead-id="${escapeHtml(row.id)}">${options}</select></td>
-                </tr>`;
-            })
-            .join('');
-        empty.hidden = inbox.length > 0;
-    }
-
-    function renderSubmissions(inbox) {
-        const list = $('[data-submissions-list]');
-        const empty = $('[data-submissions-empty]');
-        list.innerHTML = inbox
-            .map(
-                (row) => `<article class="admin-message">
-                    <h3>${escapeHtml(row.name || row.email)}</h3>
-                    <p>${escapeHtml(day(row.at))} · ${escapeHtml(row.email)}${row.service ? ` · ${escapeHtml(row.service)}` : ''}${row.page ? ` · ${escapeHtml(row.page)}` : ''}</p>
-                    <p class="admin-message__body">${escapeHtml(row.message || '(no message)')}</p>
-                </article>`
-            )
-            .join('');
-        empty.hidden = inbox.length > 0;
-    }
-
-    function renderCalendly(bookings) {
-        const body = $('[data-calendly-body]');
-        const empty = $('[data-calendly-empty]');
-        body.innerHTML = bookings
-            .map(
-                (row) => `<tr>
-                    <td>${escapeHtml(day(row.startTime || row.at))}</td>
-                    <td>${escapeHtml(row.eventType || 'Booking')}</td>
-                    <td>${escapeHtml(row.inviteeName || '—')}</td>
-                    <td>${row.inviteeEmail ? `<a href="mailto:${escapeHtml(row.inviteeEmail)}">${escapeHtml(row.inviteeEmail)}</a>` : '—'}</td>
-                    <td>${escapeHtml(row.status || 'booked')}</td>
-                </tr>`
-            )
-            .join('');
-        empty.hidden = bookings.length > 0;
     }
 
     function fillProjectForm(form, project) {
@@ -455,10 +389,10 @@
         let data = {
             clients: bootData?.clients || [],
             projects: bootData?.projects || [],
-            inbox: bootData?.inbox || [],
-            calendly: bootData?.calendly || [],
             staff: bootData?.staff || [],
         };
+        let clientFilter = 'overview';
+        let clientQuery = '';
 
         const canCreateStaff = user.privilege !== 'admin';
 
@@ -509,16 +443,15 @@
 
         function paint() {
             renderOverview(data);
-            renderClientsTable(data.clients);
-            renderClientGrid(data.clients, '[data-seo-grid]', '[data-seo-empty]', ['seo', 'aeo']);
-            renderClientGrid(data.clients, '[data-maintenance-grid]', '[data-maintenance-empty]', ['maintenance']);
-            renderClientGrid(data.clients, '[data-hosting-grid]', '[data-hosting-empty]', ['hosting']);
-            renderClientGrid(data.clients, '[data-management-grid]', '[data-management-empty]', ['management']);
+            renderClientsTable(data.clients, clientFilter, clientQuery);
             renderPortfolio(data.projects);
-            renderLeads(data.inbox);
-            renderSubmissions(data.inbox);
-            renderCalendly(data.calendly);
             renderStaff(data.staff);
+        }
+
+        function showClients(filterId) {
+            clientFilter = CLIENT_FILTERS[filterId] ? filterId : 'overview';
+            setSection('overview', clientFilter);
+            renderClientsTable(data.clients, clientFilter, clientQuery);
         }
 
         async function tryRequest(url, options) {
@@ -559,6 +492,12 @@
             });
             clientForm.querySelector('[type="submit"]').textContent = client ? 'Save client' : 'Create client';
             if (inviteBtn) inviteBtn.hidden = !client;
+            const archiveBtn = $('[data-archive-client-btn]', clientForm);
+            if (archiveBtn) {
+                archiveBtn.hidden = !client?.slug;
+                if (client?.slug) archiveBtn.setAttribute('data-archive-client', client.slug);
+                else archiveBtn.removeAttribute('data-archive-client');
+            }
             showInvite(null);
             const loaded = !client || 'credentials' in client || 'clientApps' in client;
             clientForm.dataset.credentialsLoaded = loaded ? '1' : '0';
@@ -587,8 +526,6 @@
             if (dash?.clients) {
                 data.clients = dash.clients || [];
                 if (dash.projects) data.projects = dash.projects;
-                if (dash.inbox) data.inbox = dash.inbox;
-                if (dash.calendly) data.calendly = dash.calendly;
                 if (dash.staff) data.staff = dash.staff;
                 paint();
                 return;
@@ -614,14 +551,39 @@
         }
 
         document.addEventListener('click', (event) => {
+            const filterBtn = event.target.closest('[data-client-filter]');
+            if (filterBtn) {
+                showClients(filterBtn.getAttribute('data-client-filter'));
+                return;
+            }
             const btn = event.target.closest('[data-admin-section]');
             if (!btn) return;
             const id = btn.getAttribute('data-admin-section');
+            if (CLIENT_FILTERS[id]) {
+                showClients(id);
+                return;
+            }
             if (id === 'new-client') fillClientForm(null);
-            setSection(id);
+            setSection(id, clientFilter);
         });
-        window.addEventListener('hashchange', () => setSection(location.hash.replace('#', '') || 'overview'));
-        setSection(location.hash.replace('#', '') || 'overview');
+        function applyHash() {
+            const id = location.hash.replace('#', '') || 'overview';
+            if (CLIENT_FILTERS[id]) showClients(id);
+            else setSection(id, clientFilter);
+        }
+        window.addEventListener('hashchange', applyHash);
+        applyHash();
+        $('[data-client-search]')?.addEventListener('input', (event) => {
+            clientQuery = String(event.target.value || '').trim().toLowerCase();
+            renderClientsTable(data.clients, clientFilter, clientQuery);
+        });
+        $('[data-clients-body]')?.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const row = event.target.closest('tr[data-edit-client]');
+            if (!row) return;
+            event.preventDefault();
+            row.click();
+        });
 
         clientForm?.addEventListener('input', (event) => {
             const name = event.target?.name;
@@ -696,7 +658,7 @@
                     await request(`/api/clients/${encodeURIComponent(slug)}`, { method: 'PATCH', body: payload });
                     await refresh();
                     show(okEl, 'Client updated.');
-                    setSection('overview');
+                    showClients(clientFilter);
                     return;
                 }
                 const created = await request('/api/clients', { method: 'POST', body: payload });
@@ -817,11 +779,13 @@
 
         document.addEventListener('click', async (event) => {
             const editClient = event.target.closest('[data-edit-client]');
-            const archiveClient = event.target.closest('[data-archive-client]');
+            const archiveClient = event.target.closest('[data-archive-client-btn], [data-archive-client]');
             if (editClient || archiveClient) {
                 show(errorEl, '');
                 show(okEl, '');
-                const slug = (editClient || archiveClient).getAttribute(editClient ? 'data-edit-client' : 'data-archive-client');
+                const slug = editClient
+                    ? editClient.getAttribute('data-edit-client')
+                    : archiveClient.getAttribute('data-archive-client') || clientForm?.slug.value;
                 const client = data.clients.find((row) => row.slug === slug);
                 if (!client) return;
                 try {
@@ -874,24 +838,6 @@
                 show(okEl, `${project.title} removed.`);
             } catch (error) {
                 show(errorEl, error.message || 'Could not update that project.');
-            }
-        });
-
-        document.addEventListener('change', async (event) => {
-            const select = event.target.closest('[data-lead-id]');
-            if (!select) return;
-            show(errorEl, '');
-            show(okEl, '');
-            try {
-                await request('/api/leads', {
-                    method: 'PATCH',
-                    body: { id: select.getAttribute('data-lead-id'), status: select.value },
-                });
-                const row = data.inbox.find((item) => item.id === select.getAttribute('data-lead-id'));
-                if (row) row.status = select.value;
-                show(okEl, 'Lead status updated.');
-            } catch (error) {
-                show(errorEl, error.message || 'Could not update that lead.');
             }
         });
     }
