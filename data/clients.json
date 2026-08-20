@@ -152,6 +152,11 @@
     ],
     "reports": [
       {
+        "slug": "seo-report-sierra-electrical-august-2026",
+        "title": "August 2026",
+        "monthKey": "2026-08"
+      },
+      {
         "slug": "seo-report-sierra-electrical-july-2026",
         "title": "July 2026",
         "monthKey": "2026-07"

@@ -206,6 +206,82 @@
         return labels.map((label) => `<span class="admin-pill">${escapeHtml(label)}</span>`).join(' ');
     }
 
+    function formatDay(iso) {
+        const day = String(iso || '').slice(0, 10);
+        if (!day) return '';
+        const date = new Date(`${day}T00:00:00Z`);
+        if (Number.isNaN(date.getTime())) return day;
+        return date.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+    }
+
+    function reportTypeLabel(report) {
+        const kind = report.kind || (String(report.slug || '').includes('maintenance') ? 'maintenance' : 'seo');
+        return kind === 'maintenance' ? 'Site maintenance report' : 'SEO report';
+    }
+
+    function planTypeLabel(type) {
+        if (type === 'seo') return 'SEO plan';
+        if (type === 'aeo') return 'AEO plan';
+        if (type === 'hosting') return 'Hosting';
+        if (type === 'maintenance') return 'Maintenance plan';
+        if (type === 'management') return 'Site management';
+        return String(type || '').replace(/-/g, ' ');
+    }
+
+    function cycleLabel(service) {
+        if (!service?.amount) return 'Included';
+        if (service.cycle === 'yearly') return `${money(service.amount)} / year`;
+        return `${money(service.amount)} / month`;
+    }
+
+    function renderClientAccount(client) {
+        const wrap = $('[data-client-account]');
+        const body = $('[data-client-account-body]');
+        if (!wrap || !body) return;
+        if (!client?.slug) {
+            wrap.hidden = true;
+            body.innerHTML = '';
+            return;
+        }
+        const rows = [];
+        const started = String(client.started || client.createdAt || '').slice(0, 10);
+        const reports = [...(client.reports || [])].sort((a, b) =>
+            String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || ''))
+        );
+        for (const report of reports) {
+            const href = `/clients/${client.slug}/${report.slug}/`;
+            rows.push(`<tr class="client-account-row" data-href="${escapeHtml(href)}" tabindex="0">
+                    <td><a class="client-account-row__hit" href="${escapeHtml(href)}">${escapeHtml(report.title)}</a></td>
+                    <td>${escapeHtml(reportTypeLabel(report))}</td>
+                    <td>Open report</td>
+                </tr>`);
+        }
+        const billed = new Set();
+        for (const service of client.services || []) {
+            billed.add(service.type);
+            const bits = [cycleLabel(service)];
+            if (started) bits.push(`Signed up ${formatDay(started)}`);
+            if (service.lastBilled) bits.push(`Started ${formatDay(service.lastBilled)}`);
+            if (service.nextBillDate) bits.push(`Next renewal ${formatDay(service.nextBillDate)}`);
+            rows.push(`<tr class="client-account-row">
+                    <td>${escapeHtml(service.label || planTypeLabel(service.type))}</td>
+                    <td>${escapeHtml(planTypeLabel(service.type))}</td>
+                    <td>${escapeHtml(bits.join(' · '))}</td>
+                </tr>`);
+        }
+        if (client.hosting?.provider && !billed.has('hosting')) {
+            const bits = [client.hosting.provider, client.hosting.lddHosted ? 'Hosted by us' : 'External hosting'];
+            if (started) bits.push(`Signed up ${formatDay(started)}`);
+            rows.push(`<tr class="client-account-row">
+                    <td>Hosting</td>
+                    <td>Hosting</td>
+                    <td>${escapeHtml(bits.join(' · '))}</td>
+                </tr>`);
+        }
+        wrap.hidden = rows.length === 0;
+        body.innerHTML = rows.join('');
+    }
+
     function fileToImage(file) {
         if (!file || !file.size) return Promise.resolve(null);
         return new Promise((resolve, reject) => {
@@ -606,6 +682,7 @@
                 fillHostingNextDue(clientForm);
             }
             syncPackageFields(clientForm);
+            renderClientAccount(client);
             syncAccountType();
         }
 
@@ -672,6 +749,18 @@
             if (!row) return;
             event.preventDefault();
             row.click();
+        });
+        $('[data-client-account-body]')?.addEventListener('click', (event) => {
+            const row = event.target.closest('tr[data-href]');
+            if (!row || event.target.closest('a')) return;
+            location.href = row.getAttribute('data-href');
+        });
+        $('[data-client-account-body]')?.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const row = event.target.closest('tr[data-href]');
+            if (!row) return;
+            event.preventDefault();
+            location.href = row.getAttribute('data-href');
         });
 
         clientForm?.addEventListener('input', () => updatePackageTotal(clientForm));

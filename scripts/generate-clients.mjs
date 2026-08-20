@@ -9,7 +9,7 @@ import {
 } from './layout.mjs';
 import { SITE_URL } from './site-config.mjs';
 import { loadClients } from './client-store.mjs';
-import { portalStats, packageTotals } from './portal-stats.mjs';
+import { portalStats } from './portal-stats.mjs';
 import { generateLoginPages } from './generate-login.mjs';
 import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
@@ -26,10 +26,6 @@ const SERVICE_LABELS = {
     maintenance: 'Maintenance',
     management: 'Site management',
 };
-
-const CHART_ICON = `<span class="client-month-card__icon" aria-hidden="true">
-                    <svg viewBox="0 0 512 512"><path fill="currentColor" d="M332.8 320h38.4c6.4 0 12.8-6.4 12.8-12.8V172.8c0-6.4-6.4-12.8-12.8-12.8h-38.4c-6.4 0-12.8 6.4-12.8 12.8v134.4c0 6.4 6.4 12.8 12.8 12.8zm96 0h38.4c6.4 0 12.8-6.4 12.8-12.8V76.8c0-6.4-6.4-12.8-12.8-12.8h-38.4c-6.4 0-12.8 6.4-12.8 12.8v230.4c0 6.4 6.4 12.8 12.8 12.8zm-288 0h38.4c6.4 0 12.8-6.4 12.8-12.8v-70.4c0-6.4-6.4-12.8-12.8-12.8h-38.4c-6.4 0-12.8 6.4-12.8 12.8v70.4c0 6.4 6.4 12.8 12.8 12.8zm96 0h38.4c6.4 0 12.8-6.4 12.8-12.8V108.8c0-6.4-6.4-12.8-12.8-12.8h-38.4c-6.4 0-12.8 6.4-12.8 12.8v198.4c0 6.4 6.4 12.8 12.8 12.8zM496 384H64V80c0-8.84-7.16-16-16-16H16C7.16 64 0 71.16 0 80v336c0 17.67 14.33 32 32 32h464c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"/></svg>
-                </span>`;
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -72,7 +68,21 @@ function portalScripts(depth, admin = false) {
         ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819o" defer></script>`
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
-    <script src="${prefix}js/portal-auth.js?v=20260819o" defer></script>${adminScript}`;
+    <script src="${prefix}js/portal-auth.js?v=20260820b" defer></script>${adminScript}
+    <script>
+    document.addEventListener('click', function (event) {
+        var row = event.target.closest('tr[data-href]');
+        if (!row || event.target.closest('a')) return;
+        location.href = row.getAttribute('data-href');
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        var row = event.target.closest('tr[data-href]');
+        if (!row) return;
+        event.preventDefault();
+        location.href = row.getAttribute('data-href');
+    });
+    </script>`;
 }
 
 function renderLinks(client) {
@@ -319,46 +329,102 @@ ${portalScripts(1)}
 `;
 }
 
-function renderRetainer(client) {
-    const services = client.services || [];
-    if (!services.length && !client.discount && !client.taxAmount) return '';
-    const rows = services
-        .map((service) => {
-            const amount = service.amount ? cycleLabel(service) : 'Included';
-            return `                    <div class="client-retainer__row">
-                        <span>${escapeHtml(service.label || SERVICE_LABELS[service.type] || service.type)}</span>
-                        <strong>${escapeHtml(amount)}</strong>
-                    </div>`;
+function startedIso(client) {
+    return String(client.started || client.createdAt || '').slice(0, 10);
+}
+
+function reportTypeLabel(report) {
+    const kind = report.kind || (String(report.slug || '').includes('maintenance') ? 'maintenance' : 'seo');
+    return kind === 'maintenance' ? 'Site maintenance report' : 'SEO report';
+}
+
+function planTypeLabel(service) {
+    if (service.type === 'seo') return 'SEO plan';
+    if (service.type === 'aeo') return 'AEO plan';
+    if (service.type === 'hosting') return 'Hosting';
+    if (service.type === 'maintenance') return 'Maintenance plan';
+    if (service.type === 'management') return 'Site management';
+    return SERVICE_LABELS[service.type] || service.label || service.type;
+}
+
+function accountRows(client) {
+    const rows = [];
+    const started = startedIso(client);
+    const billed = new Set();
+    const reports = [...(client.reports || [])].sort((a, b) =>
+        String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || ''))
+    );
+    for (const report of reports) {
+        rows.push({
+            href: `/clients/${client.slug}/${report.slug}/`,
+            item: report.title,
+            type: reportTypeLabel(report),
+            details: 'Open report',
+        });
+    }
+    for (const service of client.services || []) {
+        billed.add(service.type);
+        const bits = [service.amount ? cycleLabel(service) : 'Included'];
+        if (started) bits.push(`Signed up ${formatDay(started)}`);
+        if (service.lastBilled) bits.push(`Started ${formatDay(service.lastBilled)}`);
+        if (service.nextBillDate) bits.push(`Next renewal ${formatDay(service.nextBillDate)}`);
+        rows.push({
+            href: '',
+            item: service.label || SERVICE_LABELS[service.type] || service.type,
+            type: planTypeLabel(service),
+            details: bits.join(' · '),
+        });
+    }
+    if (client.hosting?.provider && !billed.has('hosting')) {
+        const bits = [client.hosting.provider, client.hosting.lddHosted ? 'Hosted by us' : 'External hosting'];
+        if (started) bits.push(`Signed up ${formatDay(started)}`);
+        rows.push({
+            href: '',
+            item: 'Hosting',
+            type: 'Hosting',
+            details: bits.join(' · '),
+        });
+    }
+    return rows;
+}
+
+function renderAccountTable(client) {
+    const rows = accountRows(client);
+    if (!rows.length) {
+        return `            <section class="client-reports">
+                <h2 class="client-reports__heading">Account</h2>
+                <p class="client-empty">Reports, hosting, and plan details will show up here once they are on the account.</p>
+            </section>`;
+    }
+    const body = rows
+        .map((row) => {
+            const item = row.href
+                ? `<a class="client-account-row__hit" href="${escapeHtml(row.href)}">${escapeHtml(row.item)}</a>`
+                : escapeHtml(row.item);
+            const hrefAttr = row.href ? ` data-href="${escapeHtml(row.href)}" tabindex="0"` : '';
+            return `                    <tr class="client-account-row"${hrefAttr}>
+                        <td>${item}</td>
+                        <td>${escapeHtml(row.type)}</td>
+                        <td>${escapeHtml(row.details)}</td>
+                    </tr>`;
         })
         .join('\n');
-    const bill = packageTotals(client);
-    const extras = [];
-    if (bill.discount) {
-        extras.push(`                    <div class="client-retainer__row">
-                        <span>Discount</span>
-                        <strong>−${escapeHtml(money(bill.discount))} / month</strong>
-                    </div>`);
-    }
-    if (bill.tax) {
-        extras.push(`                    <div class="client-retainer__row">
-                        <span>Tax</span>
-                        <strong>${escapeHtml(money(bill.tax))} / month</strong>
-                    </div>`);
-    }
-    const nextBill = services.find((service) => service.nextBillDate)?.nextBillDate;
-    const footer = [
-        bill.total ? `<p class="client-retainer__total">Total ${escapeHtml(money(bill.total))} / month</p>` : '',
-        nextBill ? `<p class="client-retainer__next">Next hosting bill ${escapeHtml(nextBill)}</p>` : '',
-    ]
-        .filter(Boolean)
-        .join('\n');
-
-    return `            <section class="client-retainer">
-                <h2 class="client-reports__heading">Packages</h2>
-                <div class="client-retainer__card">
-${rows}
-${extras.join('\n')}
-                    ${footer}
+    return `            <section class="client-reports">
+                <h2 class="client-reports__heading">Account</h2>
+                <p class="client-empty client-empty--lead">SEO and maintenance reports, hosting, and the plan you are on — including pricing, signup, and the next renewal.</p>
+                <div class="dash-table-wrap">
+                    <table class="dash-table admin-table client-account-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Type</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+${body}
+                        </tbody>
+                    </table>
                 </div>
             </section>`;
 }
@@ -387,29 +453,30 @@ ${columns}
             </section>`;
 }
 
-function renderReports(client) {
-    const reports = client.reports || [];
-    if (!reports.length) {
-        return `            <section class="client-reports">
-                <h2 class="client-reports__heading">Reports</h2>
-                <p class="client-empty">Monthly reports will show up here once the first one is ready.</p>
-            </section>`;
-    }
-    const cards = reports
-        .map(
-            (report) => `                <a class="client-month-card" href="/clients/${escapeHtml(client.slug)}/${escapeHtml(report.slug)}/">
-                    ${CHART_ICON}
-                    <h2 class="client-month-card__title">${escapeHtml(report.title)}</h2>
-                    <span class="client-month-card__cta">Open report</span>
-                </a>`
-        )
-        .join('\n');
-    return `            <section class="client-reports">
-                <h2 class="client-reports__heading">Reports</h2>
-                <div class="client-month-grid">
-${cards}
-                </div>
-            </section>`;
+function reportNeighbors(client, report) {
+    const reports = [...(client.reports || [])].sort((a, b) =>
+        String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || ''))
+    );
+    const index = reports.findIndex((row) => row.slug === report.slug);
+    return {
+        newer: index > 0 ? reports[index - 1] : null,
+        older: index >= 0 && index < reports.length - 1 ? reports[index + 1] : null,
+    };
+}
+
+function renderReportNav(client, report) {
+    const { newer, older } = reportNeighbors(client, report);
+    const newerLink = newer
+        ? `<a href="/clients/${escapeHtml(client.slug)}/${escapeHtml(newer.slug)}/">${escapeHtml(newer.title)}</a>`
+        : '<span></span>';
+    const olderLink = older
+        ? `<a href="/clients/${escapeHtml(client.slug)}/${escapeHtml(older.slug)}/">${escapeHtml(older.title)}</a>`
+        : '<span></span>';
+    return `                <nav class="client-report-nav" aria-label="Other monthly reports">
+                    ${newerLink}
+                    <a href="/clients/${escapeHtml(client.slug)}/">All reports</a>
+                    ${olderLink}
+                </nav>`;
 }
 
 function renderClientPage(client) {
@@ -453,9 +520,8 @@ ${renderNav(2, '/clients/')}
         </section>
         <section class="client-page section--navy">
             <div class="container">
-${renderRetainer(client)}
+${renderAccountTable(client)}
 ${renderIncludes(client)}
-${renderReports(client)}
             </div>
         </section>
     </main>
@@ -484,6 +550,7 @@ ${renderNav(3, '/clients/')}
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
                 <h1 class="client-reports__title">${escapeHtml(report.title)}</h1>
+${renderReportNav(client, report)}
             </div>
         </section>
         <section class="client-report-page section--navy">

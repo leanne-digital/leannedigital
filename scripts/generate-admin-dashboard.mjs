@@ -14,7 +14,7 @@ import { loadProjects } from './portfolio-store.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820a';
+const SCRIPT_V = '20260820b';
 
 const CLIENT_FILTERS = [
     { id: 'overview', label: 'Overview' },
@@ -53,9 +53,24 @@ function adminBootstrap() {
                 email: client.email || '',
                 contactName: client.contactName || '',
                 website: client.website || '',
-                services: (client.services || []).map((row) => ({ type: row.type, label: row.label })),
+                started: client.started || '',
+                createdAt: client.createdAt || '',
+                hosting: client.hosting || null,
+                services: (client.services || []).map((row) => ({
+                    type: row.type,
+                    label: row.label,
+                    amount: row.amount,
+                    cycle: row.cycle,
+                    lastBilled: row.lastBilled,
+                    nextBillDate: row.nextBillDate,
+                })),
                 serviceTypes: [...types],
-                reports: (client.reports || []).map((row) => ({ slug: row.slug, title: row.title })),
+                reports: (client.reports || []).map((row) => ({
+                    slug: row.slug,
+                    title: row.title,
+                    monthKey: row.monthKey,
+                    kind: row.kind,
+                })),
             };
         });
     return {
@@ -227,7 +242,23 @@ ${panel(
     'new-client',
     'Add or edit client',
     'Create a workspace, add hosting and retainers, or invite an admin. Copy the login link after you save.',
-    `                    <form class="dash-form" data-client-form>
+    `                    <div data-client-account hidden>
+                        <h3 class="dash-form__heading">Reports and plans</h3>
+                        <p class="dash-copy dash-copy--left">Open a report to page through past months. Plans show pricing, signup, and the next renewal.</p>
+                        <div class="dash-table-wrap">
+                            <table class="dash-table admin-table admin-clients-table client-account-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Type</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-client-account-body></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <form class="dash-form" data-client-form>
                         <input type="hidden" name="slug" value="">
                         <label>Account type
                             <select name="accountType" data-account-type>

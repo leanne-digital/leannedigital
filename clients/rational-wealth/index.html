@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/tokens.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/base.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/header.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/page-inner.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/buttons.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/faq.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/clients.css?v=20260819o">
-    <link rel="stylesheet" href="../../css/footer.css?v=20260819o">
+    <link rel="stylesheet" href="../../css/tokens.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/base.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/header.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/page-inner.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/buttons.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/faq.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/clients.css?v=20260820b">
+    <link rel="stylesheet" href="../../css/footer.css?v=20260820b">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -110,23 +110,29 @@
         </section>
         <section class="client-page section--navy">
             <div class="container">
-            <section class="client-retainer">
-                <h2 class="client-reports__heading">Packages</h2>
-                <div class="client-retainer__card">
-                    <div class="client-retainer__row">
-                        <span>LDD Hosting</span>
-                        <strong>$300 CAD / year</strong>
-                    </div>
-
-                    <p class="client-retainer__total">Total $25 CAD / month</p>
-<p class="client-retainer__next">Next hosting bill 2027-07-10</p>
+            <section class="client-reports">
+                <h2 class="client-reports__heading">Account</h2>
+                <p class="client-empty client-empty--lead">SEO and maintenance reports, hosting, and the plan you are on — including pricing, signup, and the next renewal.</p>
+                <div class="dash-table-wrap">
+                    <table class="dash-table admin-table client-account-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Type</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    <tr class="client-account-row">
+                        <td>LDD Hosting</td>
+                        <td>Hosting</td>
+                        <td>$300 CAD / year · Signed up Jul 25, 2026 · Started Jul 10, 2026 · Next renewal Jul 10, 2027</td>
+                    </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
-            <section class="client-reports">
-                <h2 class="client-reports__heading">Reports</h2>
-                <p class="client-empty">Monthly reports will show up here once the first one is ready.</p>
-            </section>
             </div>
         </section>
     </main>
@@ -175,6 +181,20 @@
         </div>
     </footer>
     <script src="../../js/site-nav.js" defer></script>
-    <script src="../../js/portal-auth.js?v=20260819o" defer></script>
+    <script src="../../js/portal-auth.js?v=20260820b" defer></script>
+    <script>
+    document.addEventListener('click', function (event) {
+        var row = event.target.closest('tr[data-href]');
+        if (!row || event.target.closest('a')) return;
+        location.href = row.getAttribute('data-href');
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        var row = event.target.closest('tr[data-href]');
+        if (!row) return;
+        event.preventDefault();
+        location.href = row.getAttribute('data-href');
+    });
+    </script>
 </body>
 </html>
