@@ -67,6 +67,65 @@
         return new Set([...(client.serviceTypes || []), ...(client.services || []).map((row) => row.type)].filter(Boolean));
     }
 
+    function serviceOf(client, type) {
+        return (client.services || []).find((row) => row.type === type) || null;
+    }
+
+    function money(amount) {
+        return new Intl.NumberFormat('en-CA', {
+            style: 'currency',
+            currency: 'CAD',
+            maximumFractionDigits: 0,
+        }).format(Number(amount) || 0);
+    }
+
+    function packageTotalFromForm(form) {
+        if (!form) return 0;
+        const num = (name) => Number(form.elements[name]?.value) || 0;
+        let monthly = num('managementAmount') + num('seoAmount') + num('aeoAmount') + num('maintenanceAmount');
+        const hosting = num('hostingAmount');
+        if (hosting) monthly += form.hostingCycle?.value === 'yearly' ? hosting / 12 : hosting;
+        const discount = num('discount');
+        const tax = num('taxAmount');
+        return Math.round((Math.max(0, monthly - discount) + tax) * 100) / 100;
+    }
+
+    function updatePackageTotal(form) {
+        const el = $('[data-package-total]', form);
+        if (el) el.textContent = `${money(packageTotalFromForm(form))} / mo`;
+    }
+
+    function setServiceChecked(form, type, on) {
+        const input = form?.querySelector(`input[name="serviceTypes"][value="${type}"]`);
+        if (input) input.checked = Boolean(on);
+    }
+
+    function packagePayload(form) {
+        const types = $$('input[name="serviceTypes"]', form)
+            .filter((input) => input.checked)
+            .map((input) => input.value);
+        const amount = (name) => form.elements[name]?.value ?? '';
+        const hostingOn = types.includes('hosting') || Number(amount('hostingAmount')) > 0;
+        if (hostingOn && !types.includes('hosting')) types.push('hosting');
+        if (Number(amount('managementAmount')) > 0 && !types.includes('management')) types.push('management');
+        if (Number(amount('seoAmount')) > 0 && !types.includes('seo')) types.push('seo');
+        if (Number(amount('aeoAmount')) > 0 && !types.includes('aeo')) types.push('aeo');
+        if (Number(amount('maintenanceAmount')) > 0 && !types.includes('maintenance')) types.push('maintenance');
+        return {
+            serviceTypes: types,
+            hostingAmount: hostingOn ? amount('hostingAmount') : '',
+            hostingCycle: form.hostingCycle?.value || 'yearly',
+            hostingLastBilled: hostingOn ? amount('hostingLastBilled') : '',
+            hostingNextBillDate: hostingOn ? amount('hostingNextBillDate') : '',
+            managementAmount: amount('managementAmount'),
+            seoAmount: amount('seoAmount'),
+            aeoAmount: amount('aeoAmount'),
+            maintenanceAmount: amount('maintenanceAmount'),
+            discount: amount('discount'),
+            taxAmount: amount('taxAmount'),
+        };
+    }
+
     function serviceLabels(client) {
         const have = serviceTypesOf(client);
         const labels = SERVICE_LABELS.filter((row) => row.types.some((type) => have.has(type))).map((row) => row.label);
@@ -507,6 +566,18 @@
                 $('[data-credential-list]', clientForm),
                 loaded ? credentialRowsFrom(client) : defaultCredentialRows()
             );
+            const hosting = serviceOf(client || {}, 'hosting');
+            if (clientForm.hostingAmount) clientForm.hostingAmount.value = hosting?.amount || '';
+            if (clientForm.hostingCycle) clientForm.hostingCycle.value = hosting?.cycle === 'monthly' ? 'monthly' : 'yearly';
+            if (clientForm.hostingLastBilled) clientForm.hostingLastBilled.value = (hosting?.lastBilled || '').slice(0, 10);
+            if (clientForm.hostingNextBillDate) clientForm.hostingNextBillDate.value = (hosting?.nextBillDate || '').slice(0, 10);
+            if (clientForm.managementAmount) clientForm.managementAmount.value = serviceOf(client || {}, 'management')?.amount || '';
+            if (clientForm.seoAmount) clientForm.seoAmount.value = serviceOf(client || {}, 'seo')?.amount || '';
+            if (clientForm.aeoAmount) clientForm.aeoAmount.value = serviceOf(client || {}, 'aeo')?.amount || '';
+            if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = serviceOf(client || {}, 'maintenance')?.amount || '';
+            if (clientForm.discount) clientForm.discount.value = client?.discount || '';
+            if (clientForm.taxAmount) clientForm.taxAmount.value = client?.taxAmount || '';
+            updatePackageTotal(clientForm);
             syncAccountType();
         }
 
@@ -552,6 +623,16 @@
         window.addEventListener('hashchange', () => setSection(location.hash.replace('#', '') || 'overview'));
         setSection(location.hash.replace('#', '') || 'overview');
 
+        clientForm?.addEventListener('input', (event) => {
+            const name = event.target?.name;
+            if (name === 'hostingAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'hosting', true);
+            if (name === 'managementAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'management', true);
+            if (name === 'seoAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'seo', true);
+            if (name === 'aeoAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'aeo', true);
+            if (name === 'maintenanceAmount' && Number(event.target.value) > 0) setServiceChecked(clientForm, 'maintenance', true);
+            updatePackageTotal(clientForm);
+        });
+        clientForm?.hostingCycle?.addEventListener('change', () => updatePackageTotal(clientForm));
         clientForm?.accountType?.addEventListener('change', syncAccountType);
         if (!canCreateStaff && clientForm?.accountType) {
             $$('option', clientForm.accountType).forEach((opt) => {
@@ -605,9 +686,7 @@
                           website: /^https?:\/\/$/i.test(String(clientForm.website.value || '').trim())
                               ? ''
                               : clientForm.website.value,
-                          serviceTypes: $$('input[name="serviceTypes"]', clientForm)
-                              .filter((input) => input.checked)
-                              .map((input) => input.value),
+                          ...packagePayload(clientForm),
                       };
                 if (!isStaffAccount && (!clientForm.slug.value || clientForm.dataset.credentialsLoaded === '1')) {
                     Object.assign(payload, readCredentialState($('[data-credential-list]', clientForm)));

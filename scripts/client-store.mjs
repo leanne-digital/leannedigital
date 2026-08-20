@@ -218,7 +218,8 @@ function servicesFromInput(input = {}, current = []) {
     }
     return services.filter((service) => {
         if (!ADMIN_SERVICE_TYPES.includes(service.type)) return true;
-        return wanted.has(service.type);
+        if (wanted.has(service.type)) return true;
+        return Number(service.amount) > 0;
     });
 }
 

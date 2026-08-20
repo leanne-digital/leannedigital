@@ -15,7 +15,7 @@ import { loadCalendlyBookings, loadSubmissions } from './admin-inbox.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260819i';
+const SCRIPT_V = '20260819n';
 
 const SECTIONS = [
     { id: 'overview', label: 'Overview' },
@@ -27,7 +27,7 @@ const SECTIONS = [
     { id: 'leads', label: 'Leads' },
     { id: 'submissions', label: 'Form submissions' },
     { id: 'calendly', label: 'Calendly bookings' },
-    { id: 'new-client', label: 'Create account' },
+    { id: 'new-client', label: 'Add or edit client' },
 ];
 
 function writePage(relativeDir, html) {
@@ -294,8 +294,8 @@ ${panel(
 )}
 ${panel(
     'new-client',
-    'Create account',
-    'Add a client workspace, or invite an admin. Copy the login link after you save.',
+    'Add or edit client',
+    'Create a workspace, add hosting and retainers, or invite an admin. Copy the login link after you save.',
     `                    <form class="dash-form" data-client-form>
                         <input type="hidden" name="slug" value="">
                         <label>Account type
@@ -342,6 +342,47 @@ ${panel(
                             <p class="dash-copy dash-copy--left">Hosting, domain, email, and any other logins we keep for this client. Passwords stay hidden until you tap the eye. Clients never see this list.</p>
                             <div class="dash-creds" data-credential-list></div>
                             <p><button class="dash-form__add" type="button" data-add-credential>Add a login</button></p>
+                        </div>
+                        <div data-client-only>
+                            <h3 class="dash-form__heading">Packages</h3>
+                            <p class="dash-copy dash-copy--left">Hosting and retainers we bill. Checking a service above without an amount only tags the account. Fill the amount here to put them on a package.</p>
+                            <div class="dash-form__grid">
+                                <label>Hosting amount
+                                    <input name="hostingAmount" type="number" min="0" step="1" placeholder="250">
+                                </label>
+                                <label>Hosting cycle
+                                    <select name="hostingCycle">
+                                        <option value="yearly">Yearly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </label>
+                                <label>Hosting last paid
+                                    <input name="hostingLastBilled" type="date">
+                                </label>
+                                <label>Hosting next due
+                                    <input name="hostingNextBillDate" type="date">
+                                </label>
+                                <label>Site management / mo
+                                    <input name="managementAmount" type="number" min="0" step="1" placeholder="50">
+                                </label>
+                                <label>SEO / mo
+                                    <input name="seoAmount" type="number" min="0" step="1">
+                                </label>
+                                <label>AEO / mo
+                                    <input name="aeoAmount" type="number" min="0" step="1">
+                                </label>
+                                <label>Maintenance / mo
+                                    <input name="maintenanceAmount" type="number" min="0" step="1">
+                                </label>
+                                <label>Discount
+                                    <input name="discount" type="number" min="0" step="1" placeholder="0">
+                                </label>
+                                <label>Tax amount
+                                    <input name="taxAmount" type="number" min="0" step="0.01" placeholder="0">
+                                </label>
+                            </div>
+                            <p class="dash-form__total">Total <strong data-package-total>$0 / mo</strong></p>
+                            <p class="dash-copy dash-copy--left">Yearly hosting is averaged into the monthly total. Discount comes off before tax.</p>
                         </div>
                         <div class="dash-form__actions">
                             <button class="ld-btn" type="submit">Create account</button>
