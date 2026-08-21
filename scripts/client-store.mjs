@@ -293,6 +293,33 @@ export function loadClients() {
     return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+export function upsertClientReport(slug, report) {
+    const current = getClient(slug);
+    if (!current) {
+        const error = new Error('Client not found');
+        error.status = 404;
+        throw error;
+    }
+    const reports = [...(current.reports || [])];
+    const meta = {
+        slug: String(report.slug || '').trim(),
+        title: String(report.title || '').trim(),
+        monthKey: String(report.monthKey || '').slice(0, 7),
+        kind: report.kind || 'seo',
+    };
+    if (!meta.slug || !meta.title) {
+        const error = new Error('Report slug and title are required');
+        error.status = 400;
+        throw error;
+    }
+    const index = reports.findIndex((row) => row.slug === meta.slug);
+    if (index >= 0) reports[index] = { ...reports[index], ...meta };
+    else reports.unshift(meta);
+    reports.sort((a, b) => String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || '')));
+    upsertOverlay({ ...current, reports });
+    return getClient(slug);
+}
+
 export function getClient(slugOrId) {
     const needle = String(slugOrId);
     return (

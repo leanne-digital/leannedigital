@@ -250,6 +250,45 @@
     outline-offset: 2px;
 }
 
+.admin-picker {
+    display: grid;
+    gap: 0.45rem;
+    max-width: 36rem;
+    margin: 0 0 1rem;
+    font-weight: 700;
+}
+
+.admin-picker select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--ld-card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--ld-text);
+    font: inherit;
+    font-size: 1.05rem;
+}
+
+.admin-picker select:focus-visible {
+    outline: 2px solid var(--ld-accent);
+    outline-offset: 2px;
+}
+
+.admin-empty--picker {
+    max-width: 36rem;
+    color: var(--ld-text-muted);
+}
+
+.admin-clients-table__hit {
+    color: inherit;
+    text-decoration: none;
+}
+
+.admin-clients-table__hit:hover strong,
+.admin-clients-table__hit:focus-visible strong {
+    color: var(--ld-accent);
+}
+
 .admin-clients-table tbody tr {
     cursor: pointer;
 }

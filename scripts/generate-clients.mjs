@@ -13,12 +13,13 @@ import { portalStats } from './portal-stats.mjs';
 import { generateLoginPages } from './generate-login.mjs';
 import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
+import { loadReportRecord, renderSeoReportBody } from './seo-report-store.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'data', 'client-reports');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820c';
+const SCRIPT_V = '20260820e';
 
 const SERVICE_SLOTS = [
     { type: 'seo', title: 'Ongoing Monthly SEO' },
@@ -43,6 +44,8 @@ function writePage(relativeDir, html) {
 }
 
 function reportBody(slug, reportSlug) {
+    const record = loadReportRecord(slug, reportSlug);
+    if (record) return renderSeoReportBody(record);
     const file = path.join(REPORTS_DIR, slug, `${reportSlug}.html`);
     if (!fs.existsSync(file)) return '';
     return rewriteLegacyLinks(fs.readFileSync(file, 'utf8'));
@@ -439,11 +442,103 @@ function accountRows(client) {
     return rows;
 }
 
+function logRowMarkup() {
+    return `<div class="seo-log-row" data-log-row>
+                    <label>Date<input data-log="date" type="date"></label>
+                    <label>Keyword<input data-log="keyword" type="text"></label>
+                    <label>Source post<input data-log="source" type="text"></label>
+                    <label>Target<input data-log="target" type="text" value="Page"></label>
+                    <label>Links added / notes<input data-log="linksAdded" type="text"></label>
+                    <button class="dash-form__remove" type="button" data-remove-log>Remove</button>
+                </div>`;
+}
+
+function renderSeoReportComposer() {
+    const months = [
+        ['01', 'January'],
+        ['02', 'February'],
+        ['03', 'March'],
+        ['04', 'April'],
+        ['05', 'May'],
+        ['06', 'June'],
+        ['07', 'July'],
+        ['08', 'August'],
+        ['09', 'September'],
+        ['10', 'October'],
+        ['11', 'November'],
+        ['12', 'December'],
+    ]
+        .map(([value, label]) => `                            <option value="${value}">${label}</option>`)
+        .join('\n');
+    return `                <form class="dash-form seo-composer" data-admin-only data-seo-report-form id="seo-report">
+                    <h3 class="dash-form__heading">Create SEO report</h3>
+                    <p class="dash-copy dash-copy--left">Upload this month’s screenshots and the Ubersuggest PDF, then edit each recap. Last month’s shots carry forward automatically. If the client has no Google Ads, leave that box off and we’ll put N/A.</p>
+                    <input type="hidden" name="slug" value="">
+                    <div class="dash-form__grid">
+                        <label>Month
+                            <select name="month" required>
+${months}
+                            </select>
+                        </label>
+                        <label>Year
+                            <input name="year" type="number" min="2020" max="2100" required>
+                        </label>
+                    </div>
+                    <label class="portal-check"><input name="hasGoogleAds" type="checkbox" checked><span>This client has Google Ads this month</span></label>
+                    <div class="dash-form__grid">
+                        <label>Technical SEO screenshot
+                            <input name="techThisMonth" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+                        </label>
+                        <label>Keywords SEO screenshot
+                            <input name="keywordsThisMonth" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+                        </label>
+                        <label>Ubersuggest keyword PDF
+                            <input name="keywordPdf" type="file" accept="application/pdf">
+                        </label>
+                        <label data-ads-upload>Google Ads screenshot
+                            <input name="adsImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+                        </label>
+                    </div>
+                    <p class="dash-copy dash-copy--left" data-asset-status></p>
+                    <label>Campaign intro
+                        <textarea name="campaignIntro" rows="6" placeholder="Who this campaign is for, the market, and the goal."></textarea>
+                    </label>
+                    <label>Monthly recap
+                        <textarea name="monthlyRecap" rows="6" placeholder="What moved this month."></textarea>
+                    </label>
+                    <label>Technical SEO recap
+                        <textarea name="technicalRecap" rows="5"></textarea>
+                    </label>
+                    <h4 class="dash-form__heading">Internal links added</h4>
+                    <div data-link-log>${logRowMarkup()}</div>
+                    <p><button class="dash-form__add" type="button" data-add-log="link">Add a link row</button></p>
+                    <label>Keyword rankings recap
+                        <textarea name="keywordsRecap" rows="5"></textarea>
+                    </label>
+                    <h4 class="dash-form__heading">New content and updates</h4>
+                    <div data-content-log>${logRowMarkup()}</div>
+                    <p><button class="dash-form__add" type="button" data-add-log="content">Add a content row</button></p>
+                    <label>New content recap
+                        <textarea name="contentRecap" rows="4"></textarea>
+                    </label>
+                    <label data-ads-recap>Google Ads recap
+                        <textarea name="adsRecap" rows="4"></textarea>
+                    </label>
+                    <label>Next steps and strategy
+                        <textarea name="nextSteps" rows="5"></textarea>
+                    </label>
+                    <div class="dash-form__actions">
+                        <button class="ld-btn" type="submit">Save SEO report</button>
+                    </div>
+                </form>`;
+}
+
 function renderAccountTable(client) {
     const rows = accountRows(client).filter((row) => row.href);
     if (!rows.length) {
         return `            <section class="client-reports">
                 <h2 class="client-reports__heading">Reports</h2>
+                <p class="client-empty client-empty--lead">SEO reports and site maintenance reports. Click a row to open it.</p>
                 <div class="dash-table-wrap">
                     <table class="dash-table admin-table client-account-table">
                         <thead>
@@ -458,6 +553,7 @@ function renderAccountTable(client) {
                         </tbody>
                     </table>
                 </div>
+${renderSeoReportComposer()}
             </section>`;
     }
     const body = rows
@@ -487,6 +583,7 @@ ${body}
                         </tbody>
                     </table>
                 </div>
+${renderSeoReportComposer()}
             </section>`;
 }
 
@@ -571,7 +668,7 @@ ${renderNav(2, '/clients/')}
                 <div class="client-profile__copy">
                     <a class="client-reports__back" href="/clients/" data-admin-only>All clients</a>
                     <a class="client-reports__back" href="/client-portal/" data-client-only>Your portal</a>
-                    <a class="client-reports__back" href="/admin/" data-admin-only>Admin</a>
+                    <a class="client-reports__back" href="/admin/?client=${escapeHtml(client.slug)}#new-client" data-admin-only>Edit in admin</a>
                     <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
                     ${contact ? `<p class="client-profile__lead">${contact}</p>` : ''}
                     ${links}
@@ -619,13 +716,17 @@ function renderReportPage(client, report) {
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/${report.slug}/`,
     })}
-<body class="page-inner" data-portal-gate data-client-slug="${escapeHtml(client.slug)}">
+<body class="page-inner seo-report-page" data-portal-gate data-client-slug="${escapeHtml(client.slug)}">
 ${renderNav(3, '/clients/')}
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
                 <h1 class="client-reports__title">${escapeHtml(report.title)}</h1>
+                <div class="seo-report__toolbar">
+                    <button class="ld-btn" type="button" data-export-pdf>Export PDF</button>
+                    <a class="ld-btn ld-btn--ghost" data-admin-only href="/clients/${escapeHtml(client.slug)}/?edit=${escapeHtml(report.slug)}#seo-report">Edit report</a>
+                </div>
 ${renderReportNav(client, report)}
             </div>
         </section>

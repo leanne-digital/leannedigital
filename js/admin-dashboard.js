@@ -440,14 +440,36 @@
         const maintenance = data.clients.filter((client) => hasService(client, ['maintenance']));
         const hosting = data.clients.filter((client) => hasService(client, ['hosting']));
         const management = data.clients.filter((client) => hasService(client, ['management']));
-        $('[data-overview-stats]').innerHTML = [
-            statCard('SEO clients', seo.length, 'seo-clients'),
-            statCard('Maintenance clients', maintenance.length, 'maintenance-clients'),
-            statCard('Hosting clients', hosting.length, 'hosting-clients'),
-            statCard('Site management', management.length, 'management-clients'),
-            statCard('Portfolio projects', data.projects.length, 'portfolio'),
-            statCard('All clients', data.clients.length, 'overview'),
-        ].join('');
+        const stats = $('[data-overview-stats]');
+        if (stats) {
+            stats.innerHTML = [
+                statCard('SEO clients', seo.length, 'seo-clients'),
+                statCard('Maintenance clients', maintenance.length, 'maintenance-clients'),
+                statCard('Hosting clients', hosting.length, 'hosting-clients'),
+                statCard('Site management', management.length, 'management-clients'),
+                statCard('Portfolio projects', data.projects.length, 'portfolio'),
+                statCard('All clients', data.clients.length, 'overview'),
+            ].join('');
+        }
+    }
+
+    function fillClientPicker(clients, query) {
+        const select = $('[data-admin-client-picker]');
+        if (!select) return;
+        const current = select.value;
+        const rows = (clients || []).filter((row) => !row.archivedAt && matchesQuery(row, query));
+        select.innerHTML = `<option value="">Choose a client</option>${rows
+            .map((row) => `<option value="${escapeHtml(row.slug)}">${escapeHtml(row.name)}</option>`)
+            .join('')}`;
+        if (current && rows.some((row) => row.slug === current)) select.value = current;
+    }
+
+    function syncOverviewMode(filterId) {
+        const isOverview = filterId === 'overview';
+        const picker = $('[data-client-picker-wrap]');
+        const table = $('[data-clients-table-wrap]');
+        if (picker) picker.hidden = !isOverview;
+        if (table) table.hidden = isOverview;
     }
 
     function matchesQuery(client, query) {
@@ -470,21 +492,24 @@
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = filter.heading;
         body.innerHTML = list
-            .map(
-                (client) => `<tr data-edit-client="${escapeHtml(client.slug)}" tabindex="0">
+            .map((client) => {
+                const href = `/clients/${escapeHtml(client.slug)}/`;
+                return `<tr class="admin-clients-table__row" data-open-client="${escapeHtml(client.slug)}" data-href="${href}" tabindex="0">
                     <td>
-                        <strong>${escapeHtml(client.name)}</strong>
-                        <div class="admin-muted">${escapeHtml(client.email || 'No email')}</div>
+                        <a class="admin-clients-table__hit" href="${href}">
+                            <strong>${escapeHtml(client.name)}</strong>
+                            <div class="admin-muted">${escapeHtml(client.email || 'No email')}</div>
+                        </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
                     <td class="admin-services">${servicePills(client)}</td>
-                </tr>`
-            )
+                </tr>`;
+            })
             .join('');
         if (empty) {
             empty.hidden = list.length > 0;
             empty.textContent = clients.length
-                ? 'No clients match that search.'
+                ? `No ${String(filter.heading || 'clients').toLowerCase()} match that search.`
                 : 'No clients yet. Add a client to get started.';
         }
     }
@@ -595,7 +620,11 @@
 
         function paint() {
             renderOverview(data);
-            renderClientsTable(data.clients, clientFilter, clientQuery);
+            fillClientPicker(data.clients, clientQuery);
+            syncOverviewMode(clientFilter);
+            if (clientFilter !== 'overview') {
+                renderClientsTable(data.clients, clientFilter, clientQuery);
+            }
             renderPortfolio(data.projects);
             renderStaff(data.staff);
         }
@@ -603,7 +632,11 @@
         function showClients(filterId) {
             clientFilter = CLIENT_FILTERS[filterId] ? filterId : 'overview';
             setSection('overview', clientFilter);
-            renderClientsTable(data.clients, clientFilter, clientQuery);
+            syncOverviewMode(clientFilter);
+            fillClientPicker(data.clients, clientQuery);
+            if (clientFilter !== 'overview') {
+                renderClientsTable(data.clients, clientFilter, clientQuery);
+            }
         }
 
         async function tryRequest(url, options) {
@@ -739,16 +772,39 @@
         }
         window.addEventListener('hashchange', applyHash);
         applyHash();
+        const editSlug = new URLSearchParams(location.search).get('client');
+        if (editSlug) {
+            (async () => {
+                const live = await tryRequest(`/api/clients/${encodeURIComponent(editSlug)}`);
+                const client = live?.client || data.clients.find((row) => row.slug === editSlug);
+                if (client) {
+                    fillClientForm(client);
+                    setSection('new-client');
+                }
+            })();
+        }
         $('[data-client-search]')?.addEventListener('input', (event) => {
             clientQuery = String(event.target.value || '').trim().toLowerCase();
-            renderClientsTable(data.clients, clientFilter, clientQuery);
+            fillClientPicker(data.clients, clientQuery);
+            if (clientFilter !== 'overview') {
+                renderClientsTable(data.clients, clientFilter, clientQuery);
+            }
+        });
+        $('[data-admin-client-picker]')?.addEventListener('change', (event) => {
+            const slug = event.target.value;
+            if (slug) location.href = `/clients/${slug}/`;
+        });
+        $('[data-clients-body]')?.addEventListener('click', (event) => {
+            const row = event.target.closest('tr[data-open-client]');
+            if (!row || event.target.closest('a')) return;
+            location.href = row.getAttribute('data-href');
         });
         $('[data-clients-body]')?.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
-            const row = event.target.closest('tr[data-edit-client]');
+            const row = event.target.closest('tr[data-open-client]');
             if (!row) return;
             event.preventDefault();
-            row.click();
+            location.href = row.getAttribute('data-href');
         });
         $('[data-client-account-body]')?.addEventListener('click', (event) => {
             const row = event.target.closest('tr[data-href]');
@@ -962,7 +1018,7 @@
         });
 
         document.addEventListener('click', async (event) => {
-            const editClient = event.target.closest('[data-edit-client]');
+            const editClient = event.target.closest('[data-edit-client]:not([data-open-client])');
             const archiveClient = event.target.closest('[data-archive-client-btn], [data-archive-client]');
             if (editClient || archiveClient) {
                 show(errorEl, '');

@@ -271,6 +271,22 @@
             getClient(slug) {
                 return request(`/api/clients/${encodeURIComponent(slug)}`, { action: 'clients' });
             },
+            getSeoReport(slug, reportSlug) {
+                return request(
+                    `/api/clients/${encodeURIComponent(slug)}/reports/${encodeURIComponent(reportSlug)}`,
+                    { action: 'clients' }
+                );
+            },
+            saveSeoReport(slug, body) {
+                return request(`/api/clients/${encodeURIComponent(slug)}/reports`, {
+                    method: 'POST',
+                    body,
+                    action: 'clients',
+                });
+            },
+            listSeoReports(slug) {
+                return request(`/api/clients/${encodeURIComponent(slug)}/reports`, { action: 'clients' });
+            },
             saveProfile(body) {
                 return request('/api/portal/profile', {
                     method: 'PATCH',

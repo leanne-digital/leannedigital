@@ -1,0 +1,85 @@
+{
+  "slug": "seo-report-sierra-electrical-april-2026",
+  "kind": "seo",
+  "monthKey": "2026-04",
+  "title": "April 2026",
+  "monthLabel": "APRIL 2026",
+  "companyName": "SIERRA ELECTRICAL LTD.",
+  "clientName": "Sierra Electrical",
+  "campaignIntro": [
+    "This SEO campaign is focused on increasing Sierra Electrical Ltd.’s visibility across Edmonton and surrounding areas to attract more commercial electrical projects.",
+    "Each month, we strengthen the website’s technical performance, optimize service pages for high-value commercial keywords, and expand targeted content aimed at property managers, builders, and business owners searching for reliable electrical contractors.",
+    "Ongoing work includes improving site structure, enhancing metadata, building strategic internal links, and publishing industry-focused content designed to generate qualified commercial leads. The goal is to improve search rankings, increase inbound inquiries, and position Sierra Electrical as a trusted commercial electrical contractor in the Edmonton market."
+  ],
+  "keywordPdf": {
+    "href": "/assets/clients/sierra-electrical/rank-tracking-04_28_2026-sierra-electrical.pdf",
+    "label": "Download APRIL 2026 keyword report"
+  },
+  "monthlyRecap": [
+    "In April, we made strong progress across both SEO and content strategy. We launched three new location pages to expand local visibility, and overall rankings improved by nearly three full positions, showing steady upward momentum.",
+    "Notably, “commercial and residential electrician edmonton” has climbed to the #3 position, while “licensed commercial electrician edmonton” is now approaching the top 10, signaling early success from the commercial push we began last month. As we continue building out commercial-focused content, we expect more of these keywords to gain traction over the next 60 days. We also introduced the Electrical Load Calculator, which positions the site as a valuable resource and is likely to attract backlinks as other sites reference and share it.",
+    "Alongside this, we strengthened internal linking and implemented meta FAQs to better align with AI-driven platforms like ChatGPT, Gemini, and Claude, helping improve both search visibility and answer engine presence."
+  ],
+  "technicalSeo": {
+    "lastMonthImage": "/assets/clients/sierra-electrical/sierra-march-2026-tech-audit.webp",
+    "thisMonthImage": "/assets/clients/sierra-electrical/sierra-tech-audit-april-2026-1.webp",
+    "recap": [
+      "We’ve continued to maintain a perfect technical SEO score, with proper page redirection and ongoing site maintenance ensuring everything runs smoothly for both users and search engines. Broken links and indexing issues remain resolved, helping preserve strong crawl efficiency across the site.",
+      "SEO titles and meta descriptions on key pages have been refined to improve relevance and visibility, and the sitemap remains submitted and up to date to support consistent indexing by Google.",
+      "We also optimized SEO titles and meta descriptions across key pages to improve relevance and search visibility, and submitted the website sitemap to Google Search Console to help Google discover and index content more effectively."
+    ],
+    "internalLinks": [
+      { "date": "2026-04-28", "keyword": "commercial", "source": "How to Choose the Right Commercial Electrical Contractor in Edmonton?", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "Homepage", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "Keeping Your Business Running Smoothly: The Role of a Commercial Electrical Contractor", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "About", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "Commercial", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "What’s the Difference Between Commercial and Residential Electricians in Edmonton", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "What Causes Electrical Circuit Overload in Commercial Buildings?", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "What Does a Commercial Electrician Do in Edmonton?", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "Commercial Electrical Load Calculations in Edmonton", "target": "Page", "linksAdded": "1" },
+      { "date": "2026-04-28", "keyword": "commercial", "source": "Electrician Acheson", "target": "Page", "linksAdded": "1" }
+    ]
+  },
+  "keywords": {
+    "thisMonthImage": "/assets/clients/sierra-electrical/shift-keywords-april-2026.webp",
+    "lastMonthImage": "/assets/clients/sierra-electrical/sierra-march-2026-keyword-audit.webp",
+    "twoMonthsAgoImage": "/assets/clients/sierra-electrical/sierra-keywords-feb-2026.webp",
+    "recap": [
+      "We’re continuing to see steady month-over-month improvement in keyword rankings, with clear upward momentum over the past three months. We’ve moved from an average position in the high 20s/low 30s range to now sitting in the low 20s, showing consistent gains in visibility and search performance.",
+      "Residential keywords are beginning to rank well and gain traction, which is expected given that campaign was launched first, and we anticipate commercial keywords to follow as that push was initiated more recently.",
+      "In addition, the recent rollout of AEO-focused content targeting LLMs, expanded internal linking, and new location pages is helping strengthen overall site authority and structure, which should continue to support ranking improvements across both residential and commercial search terms in the coming months."
+    ],
+    "pdf": {
+      "href": "/assets/clients/sierra-electrical/rank-tracking-04_28_2026-sierra-electrical.pdf",
+      "label": "Download APRIL 2026 keyword report"
+    }
+  },
+  "newContent": {
+    "log": [
+      { "date": "2026-04-08", "keyword": "Tool Added", "source": "Electrical Load Calculator Edmonton", "target": "Page", "linksAdded": "Added a new electrical load calculator to strengthen topical authority, support backlink opportunities, and improve engagement around service upgrade searches." },
+      { "date": "2026-04-12", "keyword": "Location Page", "source": "Sierra Electrical Locations", "target": "Page", "linksAdded": "Created a main locations hub to support local SEO visibility and connect users to individual service-area pages." },
+      { "date": "2026-04-16", "keyword": "Location Page", "source": "Electrical Services in Nisku, Alberta", "target": "Page", "linksAdded": "Added a new Nisku location page targeting local electrical service searches and expanding geographic coverage around Edmonton." },
+      { "date": "2026-04-22", "keyword": "Location Page", "source": "Electrical Services in Acheson, Edmonton", "target": "Page", "linksAdded": "Created a new Acheson location page to target commercial, residential, and industrial electrical searches in the surrounding service area." },
+      { "date": "2026-04-28", "keyword": "Location Page", "source": "Electrician Services in Leduc, Alberta", "target": "Page", "linksAdded": "Added a new Leduc location page to improve local relevance, strengthen service-area coverage, and support future ranking growth." }
+    ],
+    "recap": [
+      "We added the Electrical Load Calculator to position the site as a valuable resource, increase user engagement, and create opportunities for backlinks as other sites reference and share it.",
+      "At the same time, the new location pages were built to expand local search visibility, target high-intent keywords in surrounding areas, and strengthen overall geographic relevance. Together, these updates help improve authority, support rankings across both residential and commercial terms, and drive more qualified traffic to the site."
+    ]
+  },
+  "googleAds": {
+    "enabled": true,
+    "na": false,
+    "image": "/assets/clients/sierra-electrical/sierra-google-ads-april-2026.webp",
+    "recap": [
+      "Over the past 30 days, campaign performance has continued to trend upward with 200 clicks (up from 144 last month) and increased impressions, showing stronger visibility and improved reach across our target audience.",
+      "This growth indicates that our optimizations and targeting adjustments are gaining traction. From the website landing pages alone, we generated 22 conversions this month, not including any phone call conversions, which means total lead volume is actually higher than what’s being reported here.",
+      "Overall, the campaigns are moving in the right direction, with more traffic, better exposure, and consistent lead generation as we continue refining performance."
+    ]
+  },
+  "nextSteps": [
+    "As we move into next month, our focus will be on expanding location pages to grow local visibility, continuing our push on commercial keywords to build on recent momentum, and strengthening internal linking to improve site structure and rankings. We’ll also be optimizing existing content to maximize performance and closely analyzing competitor ranking pages and posts to identify new opportunities and stay ahead in search.",
+    "Our Google Ads strategy will remain consistent, maintaining the current 60/40 split between residential and commercial campaigns. This approach allows us to continue generating steady residential leads while building momentum in the commercial space, which typically has a longer ramp-up period but higher long-term value. We’ll continue monitoring performance closely and make adjustments as needed, but the overall structure is working well and will remain in place moving forward."
+  ]
+}

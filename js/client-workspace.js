@@ -420,6 +420,262 @@
                 if (submit) submit.disabled = false;
             }
         });
+
+        bootReportComposer(api, user, slug, errorEl, okEl, refresh);
+    }
+
+    const MONTH_NAMES = [
+        'january',
+        'february',
+        'march',
+        'april',
+        'may',
+        'june',
+        'july',
+        'august',
+        'september',
+        'october',
+        'november',
+        'december',
+    ];
+
+    function fileToUpload(file) {
+        if (!file || !file.size) return Promise.resolve(null);
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve({ filename: file.name, dataUrl: reader.result });
+            reader.onerror = () => reject(new Error('Could not read that file.'));
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function parasToText(value) {
+        if (Array.isArray(value)) return value.join('\n\n');
+        return String(value || '');
+    }
+
+    function logRowEl(data = {}) {
+        const wrap = document.createElement('div');
+        wrap.className = 'seo-log-row';
+        wrap.setAttribute('data-log-row', '');
+        wrap.innerHTML = `<label>Date<input data-log="date" type="date" value="${escapeHtml(data.date || '')}"></label>
+            <label>Keyword<input data-log="keyword" type="text" value="${escapeHtml(data.keyword || '')}"></label>
+            <label>Source post<input data-log="source" type="text" value="${escapeHtml(data.source || '')}"></label>
+            <label>Target<input data-log="target" type="text" value="${escapeHtml(data.target || 'Page')}"></label>
+            <label>Links added / notes<input data-log="linksAdded" type="text" value="${escapeHtml(data.linksAdded || '')}"></label>
+            <button class="dash-form__remove" type="button" data-remove-log>Remove</button>`;
+        return wrap;
+    }
+
+    function readLog(list) {
+        return $$('[data-log-row]', list)
+            .map((row) => ({
+                date: $('[data-log="date"]', row)?.value || '',
+                keyword: $('[data-log="keyword"]', row)?.value || '',
+                source: $('[data-log="source"]', row)?.value || '',
+                target: $('[data-log="target"]', row)?.value || 'Page',
+                linksAdded: $('[data-log="linksAdded"]', row)?.value || '',
+            }))
+            .filter((row) => row.date || row.keyword || row.source || row.linksAdded);
+    }
+
+    function fillLog(list, rows) {
+        if (!list) return;
+        list.innerHTML = '';
+        const items = rows?.length ? rows : [{}];
+        items.forEach((row) => list.appendChild(logRowEl(row)));
+    }
+
+    function reportSlugFor(clientSlug, month, year) {
+        const name = MONTH_NAMES[Number(month) - 1];
+        if (!name || !year) return '';
+        return `seo-report-${clientSlug}-${name}-${year}`;
+    }
+
+    function syncAdsFields(form) {
+        const on = Boolean(form?.hasGoogleAds?.checked);
+        const upload = form?.querySelector('[data-ads-upload]');
+        const recap = form?.querySelector('[data-ads-recap]');
+        if (upload) upload.hidden = !on;
+        if (recap) recap.hidden = !on;
+        if (form?.adsImage) form.adsImage.disabled = !on;
+        if (form?.adsRecap) form.adsRecap.disabled = !on;
+    }
+
+    function fillReportForm(form, report) {
+        if (!form) return;
+        form.slug.value = report?.slug || '';
+        if (report?.monthKey) {
+            const [year, month] = String(report.monthKey).split('-');
+            if (form.month) form.month.value = month || form.month.value;
+            if (form.year) form.year.value = year || form.year.value;
+        }
+        if (form.hasGoogleAds) form.hasGoogleAds.checked = report?.googleAds?.enabled !== false && report?.googleAds?.na !== true;
+        if (form.campaignIntro) form.campaignIntro.value = parasToText(report?.campaignIntro);
+        if (form.monthlyRecap) form.monthlyRecap.value = parasToText(report?.monthlyRecap);
+        if (form.technicalRecap) form.technicalRecap.value = parasToText(report?.technicalSeo?.recap);
+        if (form.keywordsRecap) form.keywordsRecap.value = parasToText(report?.keywords?.recap);
+        if (form.contentRecap) form.contentRecap.value = parasToText(report?.newContent?.recap);
+        if (form.adsRecap) form.adsRecap.value = parasToText(report?.googleAds?.recap);
+        if (form.nextSteps) form.nextSteps.value = parasToText(report?.nextSteps);
+        fillLog($('[data-link-log]', form), report?.technicalSeo?.internalLinks);
+        fillLog($('[data-content-log]', form), report?.newContent?.log);
+        const status = $('[data-asset-status]', form);
+        if (status) {
+            const bits = [];
+            if (report?.technicalSeo?.thisMonthImage) bits.push('Technical screenshot on file');
+            if (report?.keywords?.thisMonthImage) bits.push('Keywords screenshot on file');
+            if (report?.keywordPdf?.href) bits.push('Keyword PDF on file');
+            if (report?.googleAds?.image) bits.push('Google Ads screenshot on file');
+            status.textContent = bits.length
+                ? `${bits.join('. ')}. Upload a new file only if you want to replace it.`
+                : '';
+        }
+        const heading = $('.dash-form__heading', form);
+        if (heading) heading.textContent = report?.slug ? 'Edit SEO report' : 'Create SEO report';
+        syncAdsFields(form);
+    }
+
+    function bootReportComposer(api, user, slug, errorEl, okEl, refresh) {
+        const form = $('[data-seo-report-form]');
+        if (!form || user?.role !== 'staff') return;
+
+        function show(el, message) {
+            if (!el) return;
+            el.hidden = !message;
+            el.textContent = message || '';
+        }
+
+        const now = new Date();
+        const editSlug = new URLSearchParams(location.search).get('edit');
+        if (!editSlug) {
+            if (form.month) form.month.value = String(now.getMonth() + 1).padStart(2, '0');
+            if (form.year) form.year.value = String(now.getFullYear());
+        }
+        syncAdsFields(form);
+
+        form.hasGoogleAds?.addEventListener('change', () => syncAdsFields(form));
+        form.addEventListener('click', (event) => {
+            if (event.target.closest('[data-add-log]')) {
+                event.preventDefault();
+                const kind = event.target.closest('[data-add-log]').getAttribute('data-add-log');
+                const list = $(kind === 'content' ? '[data-content-log]' : '[data-link-log]', form);
+                list?.appendChild(logRowEl({}));
+                return;
+            }
+            if (event.target.closest('[data-remove-log]')) {
+                event.target.closest('[data-log-row]')?.remove();
+                const list = event.target.closest('[data-link-log], [data-content-log]');
+                if (list && !list.querySelector('[data-log-row]')) list.appendChild(logRowEl({}));
+            }
+        });
+
+        async function loadBySlug(reportSlug) {
+            if (!reportSlug) return false;
+            try {
+                const data = await api.getSeoReport(slug, reportSlug);
+                if (data?.report) {
+                    fillReportForm(form, data.report);
+                    return true;
+                }
+                form.slug.value = reportSlug;
+                const match = String(reportSlug).match(/-([a-z]+)-(\d{4})$/);
+                if (match && form.month && form.year) {
+                    const month = String(MONTH_NAMES.indexOf(match[1]) + 1).padStart(2, '0');
+                    if (month !== '00') form.month.value = month;
+                    form.year.value = match[2];
+                }
+            } catch {
+                /* new month */
+            }
+            return false;
+        }
+
+        async function loadMonth() {
+            const currentSlug = reportSlugFor(slug, form.month?.value, form.year?.value);
+            const found = await loadBySlug(currentSlug);
+            if (found) return;
+            try {
+                const data = await api.listSeoReports(slug);
+                if (!data?.latest) return;
+                fillReportForm(form, {
+                    slug: '',
+                    monthKey: `${form.year.value}-${form.month.value}`,
+                    companyName: data.latest.companyName,
+                    campaignIntro: data.latest.campaignIntro,
+                    monthlyRecap: [],
+                    technicalSeo: {
+                        recap: [],
+                        internalLinks: [],
+                        lastMonthImage: data.latest.technicalSeo?.thisMonthImage || '',
+                        thisMonthImage: '',
+                    },
+                    keywords: {
+                        recap: [],
+                        thisMonthImage: '',
+                        lastMonthImage: data.latest.keywords?.thisMonthImage || '',
+                        twoMonthsAgoImage: data.latest.keywords?.lastMonthImage || '',
+                    },
+                    newContent: { recap: [], log: [] },
+                    googleAds: {
+                        enabled: data.latest.googleAds?.enabled !== false,
+                        recap: [],
+                        image: '',
+                    },
+                    nextSteps: [],
+                });
+            } catch {
+                /* first report */
+            }
+        }
+
+        if (editSlug) loadBySlug(editSlug);
+        else loadMonth();
+
+        form.month?.addEventListener('change', () => {
+            loadMonth();
+        });
+        form.year?.addEventListener('change', () => {
+            loadMonth();
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            show(errorEl, '');
+            show(okEl, '');
+            const submit = form.querySelector('[type="submit"]');
+            if (submit) submit.disabled = true;
+            try {
+                const monthKey = `${form.year.value}-${form.month.value}`;
+                const payload = {
+                    slug: form.slug.value || reportSlugFor(slug, form.month.value, form.year.value),
+                    monthKey,
+                    hasGoogleAds: Boolean(form.hasGoogleAds?.checked),
+                    campaignIntro: form.campaignIntro?.value || '',
+                    monthlyRecap: form.monthlyRecap?.value || '',
+                    technicalRecap: form.technicalRecap?.value || '',
+                    keywordsRecap: form.keywordsRecap?.value || '',
+                    contentRecap: form.contentRecap?.value || '',
+                    adsRecap: form.adsRecap?.value || '',
+                    nextSteps: form.nextSteps?.value || '',
+                    internalLinks: readLog($('[data-link-log]', form)),
+                    contentLog: readLog($('[data-content-log]', form)),
+                    techThisMonth: await fileToUpload(form.techThisMonth?.files?.[0]),
+                    keywordsThisMonth: await fileToUpload(form.keywordsThisMonth?.files?.[0]),
+                    keywordPdf: await fileToUpload(form.keywordPdf?.files?.[0]),
+                    adsImage: form.hasGoogleAds?.checked ? await fileToUpload(form.adsImage?.files?.[0]) : null,
+                };
+                const saved = await api.saveSeoReport(slug, payload);
+                await refresh();
+                fillReportForm(form, saved.report);
+                show(okEl, 'SEO report saved.');
+                if (saved.report?.slug) location.href = `/clients/${slug}/${saved.report.slug}/`;
+            } catch (error) {
+                show(errorEl, error.message || 'Could not save that report.');
+            } finally {
+                if (submit) submit.disabled = false;
+            }
+        });
     }
 
     function boot(detail) {
@@ -428,6 +684,7 @@
         if (!api) return;
         bootPicker(api);
         bootWorkspace(api, user);
+        $('[data-export-pdf]')?.addEventListener('click', () => window.print());
     }
 
     if (window.__LD_PORTAL__) boot(window.__LD_PORTAL__);

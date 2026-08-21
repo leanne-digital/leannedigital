@@ -59,6 +59,7 @@ import {
     updatePortfolioProject,
     updatesForProject,
 } from './services/agency.mjs';
+import { loadReportRecord, listStructuredReports, saveSeoReport } from '../scripts/seo-report-store.mjs';
 import { handleRemoteMcp, isMcpPath } from './mcp-http.mjs';
 import { startOAuth } from './oauth/auth.mjs';
 import { handleOAuth, isOAuthPath } from './oauth/routes.mjs';
@@ -110,10 +111,21 @@ function actor(req) {
     return { user: null, session: null };
 }
 
+const MAX_BODY_BYTES = 40 * 1024 * 1024;
+
 function readRawBody(req) {
     return new Promise((resolve, reject) => {
         const chunks = [];
-        req.on('data', (chunk) => chunks.push(chunk));
+        let size = 0;
+        req.on('data', (chunk) => {
+            size += chunk.length;
+            if (size > MAX_BODY_BYTES) {
+                reject(Object.assign(new Error('Upload is too large'), { status: 413 }));
+                req.destroy();
+                return;
+            }
+            chunks.push(chunk);
+        });
         req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
         req.on('error', reject);
     });
@@ -499,6 +511,36 @@ async function handleApi(req, res, method, pathname, user) {
     if (archiveMatch && method === 'POST') {
         if (!requireStaff(user, req, res)) return true;
         json(req, res, 200, await archiveClientWithAccount(decodeURIComponent(archiveMatch[1])));
+        return true;
+    }
+    const reportOne = pathname.match(/^\/api\/clients\/([^/]+)\/reports\/([^/]+)$/);
+    if (reportOne) {
+        if (!requireStaff(user, req, res)) return true;
+        const client = getAgencyClient(decodeURIComponent(reportOne[1]));
+        if (method === 'GET') {
+            const report = loadReportRecord(client.slug, decodeURIComponent(reportOne[2]));
+            json(req, res, 200, { report, legacy: !report });
+            return true;
+        }
+        json(req, res, 405, { error: 'Method not allowed' });
+        return true;
+    }
+    const reportCreate = pathname.match(/^\/api\/clients\/([^/]+)\/reports$/);
+    if (reportCreate) {
+        if (!requireStaff(user, req, res)) return true;
+        const client = getAgencyClient(decodeURIComponent(reportCreate[1]));
+        if (method === 'GET') {
+            const reports = listStructuredReports(client.slug);
+            json(req, res, 200, { reports, latest: reports[0] || null });
+            return true;
+        }
+        if (method === 'POST') {
+            const body = await readBody(req);
+            const report = await saveSeoReport(client.slug, body);
+            json(req, res, 200, { report, client: presentClient(getAgencyClient(client.slug), user) });
+            return true;
+        }
+        json(req, res, 405, { error: 'Method not allowed' });
         return true;
     }
     const match = pathname.match(/^\/api\/clients\/([^/]+)$/);

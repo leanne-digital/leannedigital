@@ -14,7 +14,7 @@ import { loadProjects } from './portfolio-store.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820c';
+const SCRIPT_V = '20260820d';
 
 const CLIENT_FILTERS = [
     { id: 'overview', label: 'Overview' },
@@ -144,7 +144,7 @@ ${renderNav(1, '/admin/')}
         <section class="admin-hero section--navy">
             <div class="container">
                 <h1 class="admin-hero__title">Admin dashboard</h1>
-                <p class="admin-hero__lead">Search a client, filter by service, and open a row to edit their details, credentials, and packages.</p>
+                <p class="admin-hero__lead">Pick a client to open their account, or use the tabs for SEO, maintenance, hosting, and site management lists.</p>
             </div>
         </section>
         <section class="admin-body section--navy">
@@ -159,7 +159,7 @@ ${nav()}
 ${panel(
     'overview',
     'Clients',
-    'Filter the list from the left, or search. Click a row to edit that client.',
+    'Choose a client from the picker. Side tabs list only that service so you can open the account from the table.',
     `                    <div class="dash-grid" data-overview-stats></div>
                     <div class="admin-clients">
                         <div class="admin-clients-toolbar">
@@ -169,20 +169,31 @@ ${panel(
                             </label>
                             <button type="button" class="ld-btn" data-admin-section="new-client">Add client</button>
                         </div>
-                        <h3 class="dash-form__heading" data-clients-heading>All clients</h3>
-                        <div class="dash-table-wrap">
-                            <table class="dash-table admin-table admin-clients-table">
-                                <thead>
-                                    <tr>
-                                        <th>Client</th>
-                                        <th>Contact</th>
-                                        <th>Services</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-clients-body></tbody>
-                            </table>
+                        <div data-client-picker-wrap>
+                            <label class="admin-picker">
+                                <span>Client</span>
+                                <select data-admin-client-picker>
+                                    <option value="">Choose a client</option>
+                                </select>
+                            </label>
+                            <p class="admin-empty admin-empty--picker">Use the left tabs to see SEO, maintenance, hosting, or site management lists.</p>
                         </div>
-                        <p class="admin-empty" data-clients-empty hidden>No clients yet. Add a client to get started.</p>
+                        <div data-clients-table-wrap hidden>
+                            <h3 class="dash-form__heading" data-clients-heading>SEO clients</h3>
+                            <div class="dash-table-wrap">
+                                <table class="dash-table admin-table admin-clients-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Contact</th>
+                                            <th>Services</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-clients-body></tbody>
+                                </table>
+                            </div>
+                            <p class="admin-empty" data-clients-empty hidden>No clients match that filter.</p>
+                        </div>
                     </div>`
 )}
 ${panel(
