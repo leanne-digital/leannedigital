@@ -100,22 +100,29 @@ ${body}
             </div>`;
 }
 
-function internalLinkingTable(rows = []) {
+function internalLinkingTable(rows = [], targetUrls = {}) {
     if (!rows.length) return '';
     const body = rows
-        .map(
-            (row) => `                    <tr>
+        .map((row) => {
+            const sourceType = row.sourceType || (row.storage === 'Content' ? 'Post' : 'Page');
+            const targetUrl = row.targetUrl || targetUrls[row.keyword] || '';
+            const target = targetUrl
+                ? `<a class="client-report-table__url" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(targetUrl)}</a>`
+                : escapeHtml(row.keyword || '');
+            return `                    <tr>
                         <td>${escapeHtml(row.date || '')}</td>
+                        <td><span class="client-report-badge">${escapeHtml(sourceType)}</span></td>
                         <td>${escapeHtml(row.source || '')}</td>
-                        <td>${escapeHtml(row.keyword || '')}</td>
-                    </tr>`
-        )
+                        <td>${target}</td>
+                    </tr>`;
+        })
         .join('\n');
     return `            <div class="dash-table-wrap">
                 <table class="client-report-table">
                     <thead>
                         <tr>
                             <th>Date</th>
+                            <th>Source type</th>
                             <th>Source page / post</th>
                             <th>Target page / post</th>
                         </tr>
@@ -160,7 +167,7 @@ ${paragraphsHtml(report.technicalSeo?.recap)}
         <h3>Technical work completed</h3>
 ${technicalActivityTable(report.technicalSeo?.internalLinks)}
         <h3>Internal linking</h3>
-${internalLinkingTable(report.technicalSeo?.internalLinking)}
+${internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
     </section>
     <section class="seo-report__section">
         <h2>Keyword rankings</h2>

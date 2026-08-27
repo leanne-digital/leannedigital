@@ -67,7 +67,11 @@
       { "date": "2026-08-23", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "How Long Does a Catastrophic Injury Lawsuit Take in Ontario?", "target": "Page", "linksAdded": "1", "storage": "Content" },
       { "date": "2026-08-24", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "Quality Over Quantity: Why a Boutique Approach is Vital for Catastrophic Injury Claims", "target": "Page", "linksAdded": "1", "storage": "Content" },
       { "date": "2026-08-25", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "Paediatric Injury Lawyers", "target": "Page", "linksAdded": "1", "storage": "Elementor" }
-    ]
+    ],
+    "targetUrls": {
+      "Brain Injury": "https://oatleyvigmond.com/expertise/traumatic-brain-injury-lawyers/",
+      "Catastrophic Injury Lawyers": "https://oatleyvigmond.com/expertise/catastrophic-injury-lawyers/"
+    }
   },
   "keywords": {
     "thisMonthImage": "",

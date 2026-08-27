@@ -638,6 +638,20 @@ body.seo-report-page .client-report-page > :not(.container) {
     font-weight: 700;
 }
 
+.client-report-table__url {
+    color: var(--ld-accent);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+}
+
+.client-report-table__url:hover,
+.client-report-table__url:focus-visible {
+    color: var(--ld-text);
+}
+
 .dash-panel {
     margin-bottom: 3rem;
 }
