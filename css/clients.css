@@ -1035,6 +1035,10 @@ body.seo-report-page .client-report-page > :not(.container) {
     margin-top: 2.5rem;
 }
 
+.seo-report__proof .seo-report__shots {
+    margin-top: 1.25rem;
+}
+
 .seo-report__intro h1,
 .seo-report .seo-report__kicker {
     margin: 0 0 1rem;
@@ -1210,6 +1214,10 @@ body.seo-report-page .client-report-page > :not(.container) {
 
     .seo-report__shots--three {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .seo-report__proof .seo-report__shots {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .seo-log-row {

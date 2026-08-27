@@ -720,7 +720,7 @@ function renderReportPage(client, report) {
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/${report.slug}/`,
     })}
-<body class="page-inner seo-report-page" data-portal-gate data-client-slug="${escapeHtml(client.slug)}">
+<body class="page-inner seo-report-page" data-client-slug="${escapeHtml(client.slug)}">
 ${renderNav(3, '/clients/')}
     <main id="main">
         <section class="clients-hero section--navy">
