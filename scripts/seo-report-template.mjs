@@ -73,6 +73,41 @@ ${body}
             </div>`;
 }
 
+function internalLinkingTable(rows = []) {
+    if (!rows.length) return '';
+    const body = rows
+        .map(
+            (row) => `                    <tr>
+                        <td>${escapeHtml(row.date || '')}</td>
+                        <td>${escapeHtml(row.user || '')}</td>
+                        <td>${escapeHtml(row.keyword || '')}</td>
+                        <td>${escapeHtml(row.source || '')}</td>
+                        <td><span class="client-report-badge">${escapeHtml(row.target || 'Page')}</span></td>
+                        <td>${escapeHtml(row.linksAdded || '')}</td>
+                        <td>${escapeHtml(row.storage || '')}</td>
+                    </tr>`
+        )
+        .join('\n');
+    return `            <div class="dash-table-wrap">
+                <table class="client-report-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>User</th>
+                            <th>Keyword</th>
+                            <th>Source post</th>
+                            <th>Target</th>
+                            <th>Links added</th>
+                            <th>Storage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+${body}
+                    </tbody>
+                </table>
+            </div>`;
+}
+
 export function renderSeoReportBody(report) {
     const company = report.companyName || report.clientName || 'Client';
     const monthLabel = report.monthLabel || report.title || '';
@@ -99,12 +134,14 @@ ${paragraphsHtml(report.monthlyRecap) || '                <p>Recap for this mont
     <section class="seo-report__section">
         <h2>Technical SEO</h2>
         <div class="seo-report__shots">
-${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
 ${figure(report.technicalSeo?.thisMonthImage, 'This month')}
+${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
         <h3>Activity log</h3>
 ${activityTable(report.technicalSeo?.internalLinks)}
+        <h3>Internal linking</h3>
+${internalLinkingTable(report.technicalSeo?.internalLinking)}
     </section>
     <section class="seo-report__section">
         <h2>Keyword rankings</h2>

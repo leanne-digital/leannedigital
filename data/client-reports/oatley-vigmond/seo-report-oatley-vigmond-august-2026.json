@@ -56,6 +56,27 @@
         "target": "Accessibility & AI search",
         "linksAdded": "Improved how Google, screen readers, and AI-based agents interpret primary content, headings, navigation, links, and page relationships."
       }
+    ],
+    "internalLinking": [
+      { "date": "2026-08-15", "user": "gary", "keyword": "Brain Injury", "source": "How to Deal with Children who Suffer Concussions", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-15", "user": "gary", "keyword": "Brain Injury", "source": "BIASD Annual Golf Tournament 2013", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-16", "user": "gary", "keyword": "Brain Injury", "source": "Jury Openings in MedMal Cases", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-16", "user": "gary", "keyword": "Brain Injury", "source": "Oatley Vigmond and McLeish Orlando donate $26,000 to Sunnybrook Hospital", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-17", "user": "gary", "keyword": "Brain Injury", "source": "Are You Aware?", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-18", "user": "gary", "keyword": "Brain Injury", "source": "When is a Brain Injury “Catastrophic”?", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-18", "user": "gary", "keyword": "Brain Injury", "source": "What is “Catastrophic Impairment” and Why is it Important?", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-19", "user": "gary", "keyword": "Brain Injury", "source": "Bicycle Accident Lawyers", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-19", "user": "gary", "keyword": "Brain Injury", "source": "Car Accident Lawyers", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-20", "user": "gary", "keyword": "Brain Injury", "source": "Expertise", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-20", "user": "gary", "keyword": "Brain Injury", "source": "Accident Benefits", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-21", "user": "gary", "keyword": "Brain Injury", "source": "Paediatric Injury Lawyers", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-21", "user": "gary", "keyword": "Brain Injury", "source": "Catastrophic Injury Lawyers", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-22", "user": "gary", "keyword": "Brain Injury", "source": "About Ontario’s Personal Injury Law Firm", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-22", "user": "gary", "keyword": "Brain Injury", "source": "Homepage", "target": "Page", "linksAdded": "1", "storage": "Elementor" },
+      { "date": "2026-08-23", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "Returning to Work After a Catastrophic Injury in Ontario", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-23", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "How Long Does a Catastrophic Injury Lawsuit Take in Ontario?", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-24", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "Quality Over Quantity: Why a Boutique Approach is Vital for Catastrophic Injury Claims", "target": "Page", "linksAdded": "1", "storage": "Content" },
+      { "date": "2026-08-25", "user": "gary", "keyword": "Catastrophic Injury Lawyers", "source": "Paediatric Injury Lawyers", "target": "Page", "linksAdded": "1", "storage": "Elementor" }
     ]
   },
   "keywords": {
