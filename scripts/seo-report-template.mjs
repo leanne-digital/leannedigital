@@ -79,12 +79,8 @@ function internalLinkingTable(rows = []) {
         .map(
             (row) => `                    <tr>
                         <td>${escapeHtml(row.date || '')}</td>
-                        <td>${escapeHtml(row.user || '')}</td>
-                        <td>${escapeHtml(row.keyword || '')}</td>
                         <td>${escapeHtml(row.source || '')}</td>
-                        <td><span class="client-report-badge">${escapeHtml(row.target || 'Page')}</span></td>
-                        <td>${escapeHtml(row.linksAdded || '')}</td>
-                        <td>${escapeHtml(row.storage || '')}</td>
+                        <td>${escapeHtml(row.keyword || '')}</td>
                     </tr>`
         )
         .join('\n');
@@ -93,12 +89,8 @@ function internalLinkingTable(rows = []) {
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>User</th>
-                            <th>Keyword</th>
-                            <th>Source post</th>
-                            <th>Target</th>
-                            <th>Links added</th>
-                            <th>Storage</th>
+                            <th>Source page / post</th>
+                            <th>Target page / post</th>
                         </tr>
                     </thead>
                     <tbody>
