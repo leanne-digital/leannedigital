@@ -137,13 +137,14 @@ ${body}
 function headingStructureProof(proof = {}) {
     const items = Array.isArray(proof.items) ? proof.items.filter((item) => item?.image) : [];
     if (!items.length) return '';
-    return `        <section class="seo-report__proof">
-        <h3>${escapeHtml(proof.title || 'Heading structure improvements')}</h3>
+    return `    <section class="seo-report__section seo-report__proof">
+        <h2>${escapeHtml(proof.title || 'Heading structure improvements')}</h2>
 ${paragraphsHtml(proof.recap)}
+        <h3>${escapeHtml(proof.proofTitle || 'Before and after')}</h3>
         <div class="seo-report__shots">
 ${items.map((item) => figure(item.image, item.caption || 'Heading structure')).join('\n')}
         </div>
-        </section>`;
+    </section>`;
 }
 
 export function renderSeoReportBody(report) {
@@ -176,10 +177,14 @@ ${figure(report.technicalSeo?.thisMonthImage, 'This month')}
 ${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
-        <h3>Technical work completed</h3>
+    </section>
+    <section class="seo-report__section">
+        <h2>Technical work completed</h2>
 ${technicalActivityTable(report.technicalSeo?.internalLinks)}
+    </section>
 ${headingStructureProof(report.technicalSeo?.headingStructureProof)}
-        <h3>Internal linking</h3>
+    <section class="seo-report__section">
+        <h2>Internal linking</h2>
 ${internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
     </section>
     <section class="seo-report__section">

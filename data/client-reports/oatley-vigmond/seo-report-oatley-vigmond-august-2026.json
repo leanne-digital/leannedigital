@@ -74,6 +74,7 @@
     },
     "headingStructureProof": {
       "title": "Heading structure improvements",
+      "proofTitle": "Catastrophic Injury Lawyers — before and after",
       "recap": [
         "We corrected the heading structure across several priority pages. The updates establish one primary H1 per page, use H2 and H3 headings to reflect the true content hierarchy, and remove decorative heading levels that created noise for screen readers, search engines, and AI crawlers.",
         "The examples below show the before-and-after improvement on the Catastrophic Injury Lawyers page."
