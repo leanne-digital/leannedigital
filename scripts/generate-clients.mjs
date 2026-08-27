@@ -48,7 +48,11 @@ function reportBody(slug, reportSlug) {
     if (record) return renderSeoReportBody(record);
     const file = path.join(REPORTS_DIR, slug, `${reportSlug}.html`);
     if (!fs.existsSync(file)) return '';
-    return rewriteLegacyLinks(fs.readFileSync(file, 'utf8'));
+    const legacyHtml = rewriteLegacyLinks(fs.readFileSync(file, 'utf8')).replace(
+        new RegExp(`href=["']/?admin/${slug}/?["']`, 'gi'),
+        `href="/clients/${slug}/"`
+    );
+    return `<article class="seo-report seo-report--legacy">\n${legacyHtml}\n</article>`;
 }
 
 function money(amount, currency = 'CAD') {

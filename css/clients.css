@@ -491,11 +491,12 @@ body.clients-picker .site-footer {
 
 body.seo-report-page .clients-hero .container,
 body.seo-report-page .client-report-page .container.client-report-body {
-    width: min(100%, 52rem);
+    width: min(100%, var(--ld-container));
 }
 
 .client-report-body {
     min-width: 0;
+    overflow: hidden;
 }
 
 .client-report-body .ld-section,
@@ -509,6 +510,15 @@ body.seo-report-page .client-report-page .container.client-report-body {
     width: 100%;
     max-width: 100%;
     min-width: 0;
+}
+
+/* Legacy report markup was authored in several tools and is not always nested
+   consistently. The report shell, rather than a fragment's local markup,
+   owns its maximum reading width and horizontal containment. */
+.client-report-body > .seo-report,
+.client-report-body > .seo-report > * {
+    min-width: 0;
+    max-width: 100%;
 }
 
 .client-report-body .ld-widget-heading span {
@@ -572,6 +582,10 @@ body.seo-report-page .client-report-page .container.client-report-body {
     table-layout: fixed;
     font-size: 0.95rem;
     word-break: break-word;
+}
+
+.client-report-body .client-report-table {
+    min-width: 42rem;
 }
 
 .client-report-table th,
@@ -954,8 +968,15 @@ body.seo-report-page .client-report-page .container.client-report-body {
 
 @media (max-width: 767px) {
     .client-report-table {
-        display: block;
-        overflow-x: auto;
+        min-width: 0;
+    }
+
+    .client-report-body .client-report-table {
+        min-width: 42rem;
+    }
+
+    .client-report-body :is(.ld-widget-text, .ld-widget-heading, .seo-report__section) {
+        overflow-wrap: anywhere;
     }
 }
 
@@ -971,6 +992,15 @@ body.seo-report-page .client-report-page .container.client-report-body {
     width: 100%;
     max-width: none;
     min-width: 0;
+}
+
+.seo-report--legacy > .ld-col {
+    margin: 0 0 2rem;
+}
+
+.seo-report--legacy .ld-section + .ld-col,
+.seo-report--legacy .ld-col + .ld-section {
+    margin-top: 2.5rem;
 }
 
 .seo-report__intro h1,

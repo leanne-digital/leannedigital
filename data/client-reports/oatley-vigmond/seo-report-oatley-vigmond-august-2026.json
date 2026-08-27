@@ -1,0 +1,50 @@
+{
+  "slug": "seo-report-oatley-vigmond-august-2026",
+  "kind": "seo",
+  "monthKey": "2026-08",
+  "title": "August 2026",
+  "monthLabel": "AUGUST 2026",
+  "companyName": "OATLEY VIGMOND",
+  "clientName": "Oatley Vigmond",
+  "campaignIntro": [
+    "This SEO growth initiative is focused on strengthening Oatley Vigmond’s visibility across Google Search, Google AI Overviews, ChatGPT, Gemini, and other emerging AI-powered search platforms.",
+    "Our ongoing work includes technical SEO, AI search optimization (AEO), geographic search optimization (GEO), content architecture, internal linking, conversion tracking, and marketing automation to increase qualified case inquiries across Ontario."
+  ],
+  "keywordPdf": null,
+  "monthlyRecap": [
+    "August reporting is in progress. This report shell is ready for the month’s completed work, audit screenshots, ranking data, and performance recap as they are finalized."
+  ],
+  "technicalSeo": {
+    "lastMonthImage": "/assets/clients/oatley-vigmond/ovl-tech-july-2026.webp",
+    "thisMonthImage": "/assets/clients/oatley-vigmond/ocl-tech-report-august-2026.jpg",
+    "recap": [
+      "August’s audit maintains a 100/100 on-page SEO score, with organic monthly traffic at 6,109, 1,932 organic keywords, and 5,161 backlinks. The audit crawled 9,597 pages and identified 48 issues; the August work log and completed fixes will be added as they are finalized."
+    ],
+    "internalLinks": []
+  },
+  "keywords": {
+    "thisMonthImage": "",
+    "lastMonthImage": "",
+    "twoMonthsAgoImage": "",
+    "recap": [
+      "August keyword-ranking data will be added when the reporting export is available."
+    ],
+    "pdf": null
+  },
+  "newContent": {
+    "log": [],
+    "recap": [
+      "August content and optimization updates will be recorded here as they are completed."
+    ]
+  },
+  "googleAds": {
+    "enabled": false,
+    "na": true,
+    "image": "",
+    "recap": []
+  },
+  "nextSteps": [
+    "Finalize August technical findings, ranking data, content updates, and the next-month action plan before the report is delivered to the client."
+  ],
+  "updatedAt": "2026-08-27T00:00:00.000Z"
+}
