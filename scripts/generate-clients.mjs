@@ -615,30 +615,43 @@ ${columns}
             </section>`;
 }
 
-function reportNeighbors(client, report) {
-    const reports = [...(client.reports || [])].sort((a, b) =>
-        String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || ''))
-    );
-    const index = reports.findIndex((row) => row.slug === report.slug);
-    return {
-        newer: index > 0 ? reports[index - 1] : null,
-        older: index >= 0 && index < reports.length - 1 ? reports[index + 1] : null,
-    };
+function renderReportCover(client) {
+    if (client.slug !== 'oatley-vigmond') return '';
+
+    return `                <figure class="client-report-cover">
+                    <img src="/assets/clients/oatley-vigmond/oatley-vigmond-report-cover.png" alt="Oatley Vigmond website overview">
+                </figure>`;
 }
 
-function renderReportNav(client, report) {
-    const { newer, older } = reportNeighbors(client, report);
-    const newerLink = newer
-        ? `<a href="/clients/${escapeHtml(client.slug)}/${escapeHtml(newer.slug)}/">${escapeHtml(newer.title)}</a>`
-        : '<span></span>';
-    const olderLink = older
-        ? `<a href="/clients/${escapeHtml(client.slug)}/${escapeHtml(older.slug)}/">${escapeHtml(older.title)}</a>`
-        : '<span></span>';
-    return `                <nav class="client-report-nav" aria-label="Other monthly reports">
-                    ${newerLink}
-                    <a href="/clients/${escapeHtml(client.slug)}/">All reports</a>
-                    ${olderLink}
-                </nav>`;
+function renderPreviousReports(client, report) {
+    const reports = [...(client.reports || [])]
+        .sort((a, b) => String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || '')));
+    const currentIndex = reports.findIndex((row) => row.slug === report.slug);
+    const previousReports = currentIndex >= 0 ? reports.slice(currentIndex + 1) : [];
+
+    if (!previousReports.length) return '';
+
+    const rows = previousReports
+        .map((previousReport) => `                        <tr>
+                            <td>${escapeHtml(previousReport.title)}</td>
+                            <td>SEO report</td>
+                            <td><a href="/clients/${escapeHtml(client.slug)}/${escapeHtml(previousReport.slug)}/">View report</a></td>
+                        </tr>`)
+        .join('\n');
+
+    return `                <section class="client-report-history" aria-labelledby="previous-reports-title">
+                    <h2 id="previous-reports-title" class="client-report-history__title">Previous reports</h2>
+                    <div class="dash-table-wrap">
+                        <table class="dash-table client-report-history__table">
+                            <thead>
+                                <tr><th scope="col">Item</th><th scope="col">Type</th><th scope="col">Details</th></tr>
+                            </thead>
+                            <tbody>
+${rows}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>`;
 }
 
 function renderClientPage(client) {
@@ -726,12 +739,13 @@ ${renderNav(3, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
+${renderReportCover(client)}
                 <h1 class="client-reports__title">${escapeHtml(report.title)}</h1>
                 <div class="seo-report__toolbar">
                     <button class="ld-btn" type="button" data-export-pdf>Export PDF</button>
                     <a class="ld-btn ld-btn--ghost" data-admin-only href="/clients/${escapeHtml(client.slug)}/?edit=${escapeHtml(report.slug)}#seo-report">Edit report</a>
                 </div>
-${renderReportNav(client, report)}
+${renderPreviousReports(client, report)}
             </div>
         </section>
         <section class="client-report-page section--navy">
