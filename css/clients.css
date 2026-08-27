@@ -606,6 +606,14 @@ body.seo-report-page .client-report-page > :not(.container) {
     vertical-align: top;
 }
 
+.client-report-table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.client-report-table tbody tr:nth-child(even) {
+    background: rgba(78, 195, 204, 0.07);
+}
+
 .client-report-table thead {
     background: var(--ld-accent);
     color: var(--ld-bg-solid);

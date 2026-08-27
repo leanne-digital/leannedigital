@@ -23,38 +23,28 @@
     "internalLinks": [
       {
         "date": "August 2026",
-        "keyword": "XML Sitemap Cleanup",
-        "source": "XML sitemap",
-        "target": "Technical SEO",
-        "linksAdded": "Audited redirected, outdated, and unnecessary URLs and removed pages that should no longer be submitted to search engines."
+        "task": "XML sitemap cleanup",
+        "details": "Audited redirected, outdated, and unnecessary URLs, then removed pages that should no longer be submitted to search engines."
       },
       {
         "date": "August 2026",
-        "keyword": "Internal Linking Improvements",
-        "source": "Practice areas, expertise pages, lawyer profiles, and supporting content",
-        "target": "Internal linking",
-        "linksAdded": "Strengthened crawl paths, page-authority flow, and topical relationships across key legal content."
+        "task": "Internal linking improvements",
+        "details": "Strengthened links between key practice areas, expertise pages, lawyer profiles, and supporting content to improve crawl paths, authority flow, and topical relationships."
       },
       {
         "date": "August 2026",
-        "keyword": "Legacy Redirect Optimization",
-        "source": "Older and retired URLs",
-        "target": "Redirects",
-        "linksAdded": "Replaced broad or less-relevant redirects with the most appropriate current practice-area or expertise pages."
+        "task": "Legacy redirect optimization",
+        "details": "Reviewed older and retired URLs and replaced broad or less-relevant redirects with the most appropriate current practice-area or expertise pages."
       },
       {
         "date": "August 2026",
-        "keyword": "Homepage Heading Structure",
-        "source": "Homepage",
-        "target": "On-page SEO",
-        "linksAdded": "Improved the H1/H2/H3 hierarchy with descriptive, search-focused headings that better communicate services and expertise."
+        "task": "Homepage heading structure",
+        "details": "Improved the H1/H2/H3 hierarchy with descriptive, search-focused headings that better communicate the firm’s services and expertise."
       },
       {
         "date": "August 2026",
-        "keyword": "Accessibility Tree & AI Crawler Improvements",
-        "source": "Semantic page structure and accessibility markup",
-        "target": "Accessibility & AI search",
-        "linksAdded": "Improved how Google, screen readers, and AI-based agents interpret primary content, headings, navigation, links, and page relationships."
+        "task": "Accessibility tree and AI crawler improvements",
+        "details": "Improved semantic page structure and accessibility markup so Google, screen readers, and AI-based agents can interpret primary content, headings, navigation, links, and page relationships more clearly."
       }
     ],
     "internalLinking": [

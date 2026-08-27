@@ -73,6 +73,33 @@ ${body}
             </div>`;
 }
 
+function technicalActivityTable(rows = [], empty = 'No technical work logged this month.') {
+    if (!rows.length) return `            <p class="seo-report__empty">${escapeHtml(empty)}</p>`;
+    const body = rows
+        .map(
+            (row) => `                    <tr>
+                        <td>${escapeHtml(row.date || '')}</td>
+                        <td>${escapeHtml(row.task || row.keyword || '')}</td>
+                        <td>${escapeHtml(row.details || row.linksAdded || '')}</td>
+                    </tr>`
+        )
+        .join('\n');
+    return `            <div class="dash-table-wrap">
+                <table class="client-report-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Task completed</th>
+                            <th>What changed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+${body}
+                    </tbody>
+                </table>
+            </div>`;
+}
+
 function internalLinkingTable(rows = []) {
     if (!rows.length) return '';
     const body = rows
@@ -130,8 +157,8 @@ ${figure(report.technicalSeo?.thisMonthImage, 'This month')}
 ${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
-        <h3>Activity log</h3>
-${activityTable(report.technicalSeo?.internalLinks)}
+        <h3>Technical work completed</h3>
+${technicalActivityTable(report.technicalSeo?.internalLinks)}
         <h3>Internal linking</h3>
 ${internalLinkingTable(report.technicalSeo?.internalLinking)}
     </section>
