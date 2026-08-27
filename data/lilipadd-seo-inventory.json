@@ -6,7 +6,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/5-easy-seo-fixes-you-can-do-today-on-your-wordpress-site/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Yoast enough for SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It helps you control titles, descriptions, and on-page basics. It does not replace strategy, content, internal linking, or technical work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many H1 tags should a page have?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One. It should describe the page topic. Extra H1s usually come from theme bugs or treating headings as decoration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do image file names and alt text really matter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Descriptive file names and alt text help accessibility and give search engines another clue about the page. Large uncompressed images also slow the site down."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you do these fixes for me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. These are the kinds of on-page fixes we include in SEO retainers and in new website builds so they are not left as a weekend homework list."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/about/",
@@ -55,13 +92,59 @@
     }
   },
   {
+    "path": "/admin/",
+    "title": "Admin Dashboard | Leanne Digital",
+    "description": "Staff admin for clients, hosting, retainers, and portfolio.",
+    "robots": "noindex, nofollow",
+    "canonical": "https://leannedigital.com/admin/",
+    "inSitemap": false,
+    "schema": null
+  },
+  {
     "path": "/anatomy-of-a-high-converting-hero/",
     "title": "Anatomy of a High-Converting Hero | Leanne Digital",
     "description": "Master the art of a high-converting hero section with tips on messaging, layout, visuals, and CTAs to turn visitors into customers.",
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/anatomy-of-a-high-converting-hero/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a hero section?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is the first large block on a page, usually with a headline, supporting line, image, and button. People decide whether to stay in those first seconds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many calls to action should a hero have?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One primary action. A quieter secondary link is fine. Three competing buttons usually means the offer is not clear yet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should the headline be clever or clear?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clear. Specific beats clever. If the audience cannot tell what you do, the clever line is costing you leads."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do stock photos hurt conversions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They can, when they feel generic and disconnected from the business. Real photos and a layout that supports the message convert better."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/answer-engine-optimization-aeo/",
@@ -93,48 +176,11 @@
   {
     "path": "/client-portal/",
     "title": "Client Portal | Leanne Digital",
-    "description": "Client resources and project access. This page is coming soon.",
-    "robots": "noindex, follow",
+    "description": "Your Leanne Digital account, onboarding details, and project files.",
+    "robots": "noindex, nofollow",
     "canonical": "https://leannedigital.com/client-portal/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/clients/azimut-yachts-charter/",
@@ -210,10 +256,10 @@
   },
   {
     "path": "/clients/",
-    "title": "Client Dashboard | Leanne Digital",
-    "description": "Staff dashboard for client retainers, hosting renewals, and monthly reports.",
+    "title": "Clients | Leanne Digital",
+    "description": "Choose a client to open their account.",
     "robots": "noindex, nofollow",
-    "canonical": "https://leannedigital.com",
+    "canonical": "https://leannedigital.com/clients/",
     "inSitemap": false,
     "schema": null
   },
@@ -250,6 +296,15 @@
     "description": "Client portal for Oatley Vigmond.",
     "robots": "noindex, nofollow",
     "canonical": "https://leannedigital.com/clients/oatley-vigmond/",
+    "inSitemap": false,
+    "schema": null
+  },
+  {
+    "path": "/clients/oatley-vigmond/seo-report-oatley-vigmond-august-2026/",
+    "title": "August 2026 SEO Report | Oatley Vigmond | Leanne Digital",
+    "description": "August 2026 SEO report for Oatley Vigmond.",
+    "robots": "noindex, nofollow",
+    "canonical": "https://leannedigital.com/clients/oatley-vigmond/seo-report-oatley-vigmond-august-2026/",
     "inSitemap": false,
     "schema": null
   },
@@ -321,7 +376,7 @@
     "title": "Shift Physiotherapy SEO Reports | Leanne Digital",
     "description": "SEO reports for Shift Physiotherapy.",
     "robots": "noindex, nofollow",
-    "canonical": "https://leannedigital.com",
+    "canonical": "https://leannedigital.com/clients/shift/",
     "inSitemap": false,
     "schema": null
   },
@@ -340,6 +395,15 @@
     "description": "April 2026 SEO report for Shift Physiotherapy.",
     "robots": "noindex, nofollow",
     "canonical": "https://leannedigital.com/clients/shift-physiotherapy/seo-report-shift-physiotherapy-april-2026/",
+    "inSitemap": false,
+    "schema": null
+  },
+  {
+    "path": "/clients/shift-physiotherapy/seo-report-shift-physiotherapy-august-2026/",
+    "title": "August 2026 SEO Report | Shift Physiotherapy | Leanne Digital",
+    "description": "August 2026 SEO report for Shift Physiotherapy.",
+    "robots": "noindex, nofollow",
+    "canonical": "https://leannedigital.com/clients/shift-physiotherapy/seo-report-shift-physiotherapy-august-2026/",
     "inSitemap": false,
     "schema": null
   },
@@ -430,6 +494,15 @@
     "description": "April 2026 SEO report for Sierra Electrical.",
     "robots": "noindex, nofollow",
     "canonical": "https://leannedigital.com/clients/sierra-electrical/seo-report-sierra-electrical-april-2026/",
+    "inSitemap": false,
+    "schema": null
+  },
+  {
+    "path": "/clients/sierra-electrical/seo-report-sierra-electrical-august-2026/",
+    "title": "August 2026 SEO Report | Sierra Electrical | Leanne Digital",
+    "description": "August 2026 SEO report for Sierra Electrical.",
+    "robots": "noindex, nofollow",
+    "canonical": "https://leannedigital.com/clients/sierra-electrical/seo-report-sierra-electrical-august-2026/",
     "inSitemap": false,
     "schema": null
   },
@@ -603,7 +676,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/how-to-design-your-home-page/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What belongs in a hero section?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A clear statement of what you do, who it is for, and a primary call to action. If someone cannot understand the offer in a few seconds, the hero is not working."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need testimonials on the home page?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually yes. Social proof after the offer helps people trust the next step. Logos, reviews, or short quotes all work if they are real."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should the home page list every service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Give people the main paths, not a dump of every page. Link to focused service pages. One home page cannot rank for everything."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you design a home page without rebuilding the whole site?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sometimes. If the rest of the site is solid, a hero and home-page restructure can still lift conversions. We will tell you if a fuller rebuild is the better spend."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/",
@@ -676,7 +786,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/is-website-security-still-important/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is website security?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is the work of keeping hackers out, protecting customer data, and keeping the site online. That includes updates, backups, monitoring, and a host that is actually maintained."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is WordPress less secure than other platforms?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WordPress is widely targeted because it is widely used. A neglected WordPress site is risky. A maintained one with updates, backups, and monitoring is a proven, stable setup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I skip updates?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Outdated plugins, themes, and PHP versions are common ways sites get compromised. Fixes after a hack usually cost more than a monthly maintenance plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer website security and maintenance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Our website management plans include backups, scans, updates, and monitoring. That is the ongoing work this article is arguing for."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/is-your-website-readable/",
@@ -685,7 +832,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/is-your-website-readable/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does readability affect SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. If people bounce because they cannot scan the page, search engines notice. Clear headings and usable layouts help both humans and crawlers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the fastest readability win?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Break walls of text into short paragraphs, add descriptive headings, and increase contrast between text and background."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are large decorative fonts a problem?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They can be, especially in body copy. Save personality for headlines. Body text needs to be simple and large enough to read on a phone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you audit an existing site for readability?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. That is part of how we redesign pages: hierarchy, spacing, type, and calls to action before we talk about decoration."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/ld-hosting/",
@@ -694,44 +878,7 @@
     "robots": "noindex, follow",
     "canonical": "https://leannedigital.com/ld-hosting/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/ldd-chat/",
@@ -740,44 +887,7 @@
     "robots": "noindex, follow",
     "canonical": "https://leannedigital.com/ldd-chat/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/leanne-digital-design-featured-in-the-winnipeg-free-press/",
@@ -786,7 +896,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/leanne-digital-design-featured-in-the-winnipeg-free-press/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where can I read the Free Press article?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The blog post links out to the Winnipeg Free Press story by Eva Wasney on Indigenous entrepreneurs in Pow Wow Pitch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Pow Wow Pitch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pow Wow Pitch is an Indigenous-led non-profit that supports Indigenous entrepreneurs with capital, mentorship, training, and community."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Leanne Digital Indigenous-owned?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Leanne is a member of Peguis First Nation. The studio is CCIB certified and based in Winnipeg on Treaty 1 territory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I hire Leanne Digital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the contact page to send a message or book a call. Tell us whether you need a website, branding, SEO, or ongoing support."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/leanne-jones-leanne-digital-design-advances-to-pow-wow-pitch-semi-finals/",
@@ -795,7 +942,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/leanne-jones-leanne-digital-design-advances-to-pow-wow-pitch-semi-finals/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Pow Wow Pitch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is an Indigenous-led non-profit that helps Indigenous entrepreneurs with access to capital, mentorship, training, and community. Semi-finalists compete for funding to grow their businesses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What was Leanne pitching?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Funding to hire more Indigenous designers and developers, scale the web design studio, and create remote jobs for Indigenous talent across Canada."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Leanne Digital still taking clients?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The pitch is about capacity to grow. We continue to take on website, brand, and SEO work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I support Indigenous-owned businesses?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hire them. If you need design or a website, working with an Indigenous-owned studio is a direct way to keep that work in community."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/login/forgot/",
@@ -831,7 +1015,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/my-favorite-spots-in-winnipeg-to-work-remotely/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is The Forks good for working on a laptop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. It is one of Leanne’s favourite spots for a mix of focus and a chance to reset, with food, seating, and plenty happening around you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I work from IKEA in Winnipeg?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can. This post recommends it especially for parents: coffee, outlets, and a way to get work done without being stuck at home."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you only work with Winnipeg businesses?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. We are based in Winnipeg and love local work, but we also work remotely with clients across Canada."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you build a website for a remote-first business?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Location-independent businesses still need a clear website, SEO, and a brand that holds up on a phone. That is core work for us."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/newsletter/",
@@ -840,44 +1061,7 @@
     "robots": "noindex, follow",
     "canonical": "https://leannedigital.com/newsletter/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/portfolio/",
@@ -895,44 +1079,16 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/privacy-policy/",
     "inSitemap": true,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Do you use Google Analytics?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. We use Google Analytics to collect information about how people use this website, including pages viewed, device type, and general location. You can block analytics cookies in your browser or use Google’s opt-out tools."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What information do you collect from forms?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "If you contact us, we collect the name, email, and message you submit, plus the page you sent it from, so we can reply."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you sell personal information?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. We do not sell your personal information."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I ask a privacy question?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Email leanne@leannedigital.com and we will help."
-          }
-        }
-      ]
-    }
+    "schema": null
+  },
+  {
+    "path": "/profile/",
+    "title": "Your profile | Leanne Digital",
+    "description": "Update your Leanne Digital account, photo, and password.",
+    "robots": "noindex, nofollow",
+    "canonical": "https://leannedigital.com/profile/",
+    "inSitemap": false,
+    "schema": null
   },
   {
     "path": "/project-tracker/",
@@ -941,44 +1097,7 @@
     "robots": "noindex, follow",
     "canonical": "https://leannedigital.com/project-tracker/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/projects/azimut-yachts-charter-ava-yachting/",
@@ -1203,44 +1322,7 @@
     "robots": "noindex, follow",
     "canonical": "https://leannedigital.com/seo-workshop/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/seo-workshop-thank-you/",
@@ -1249,44 +1331,7 @@
     "robots": "noindex, follow",
     "canonical": "https://leannedigital.com/seo-workshop-thank-you/",
     "inSitemap": false,
-    "schema": {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is Leanne Digital based?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Leanne Digital is an Indigenous-owned digital marketing agency based in Winnipeg, Manitoba, on Treaty 1 territory. We work with clients across Canada and beyond."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What services does Leanne Digital offer?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We offer website design, website management and support, SEO, answer engine optimization (AEO), graphic design, logo design, Indigenous web and graphic design, and Google Ads."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How do I get started?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The easiest way is to book a call or send a message on our contact page. Tell us what you are working on and we will help you figure out the best next step."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Winnipeg?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. While we are based in Winnipeg, we regularly work with businesses and Indigenous organizations across Canada and remotely."
-          }
-        }
-      ]
-    }
+    "schema": null
   },
   {
     "path": "/sitemap/",
@@ -1304,7 +1349,52 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/so-you-want-to-sell-on-amazon/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Amazon like Shopify?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Amazon is closer to a rule-based catalog than a customizable store. Edits can be slow, some fields are permanent, and the platform rarely explains what went wrong."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between a GTIN and a SKU?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A GTIN identifies the physical product worldwide and Amazon treats it as permanent. A SKU is your internal tracking code and can be changed. Mixing the two is a common expensive mistake."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do parents have to be created before children?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Amazon’s variation tree is strict. Parent products group the children. Create them in the wrong order and you often have to delete and rebuild, with leftover conflicts in Amazon’s system."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I test products and clean them up later?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not. Amazon remembers GTINs and ASINs even after you delete a listing. Tests can lock identifiers you planned to use on real products."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you help with Amazon product images and copy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We can plan the product tree, create compliant white-background primary images, write Amazon-ready copy, and fill in the backend details that affect fees and eligibility."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/steal-this-web-design-process/",
@@ -1313,15 +1403,60 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/steal-this-web-design-process/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Should I design my website before writing the copy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Copy first. If the page cannot explain who it is for, what it offers, and what to do next, no layout will fix that."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why should each page cover only one topic?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One page, one topic helps visitors understand the offer and helps search engines rank the page for a clear intent. Mixing services on one page usually makes both the message and the SEO weaker."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a complicated font pairing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. One headline font with personality and one simple body font is enough. Hierarchy and readability matter more than collecting typefaces."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I worry about colours and images?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "After the audience, copy, and page structure are clear. Visuals should support the message, not replace it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Leanne Digital use this process on an existing site?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We use the same sequence for new builds and redesigns: audience, copy, structure, then design and development."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/thank-you/",
     "title": "Thank you | Leanne Digital",
     "description": "We got your message and will reply soon.",
-    "robots": "noindex,nofollow",
+    "robots": "index,follow",
     "canonical": "https://leannedigital.com/thank-you/",
-    "inSitemap": false,
+    "inSitemap": true,
     "schema": null
   },
   {
@@ -1331,7 +1466,52 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/the-hidden-costs-of-using-freelancer-websites-like-fiverr-or-upwork/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Fiverr or Upwork bad for business?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not at all. They are useful when the task is simple, repeatable, and easy to brief. The risk goes up when the work is custom, undocumented, or tied directly to how your website makes money."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you build a full WordPress site using a freelancer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can, but it comes with risk. Without planning, documentation, and long-term support, you may run into plugin conflicts, custom-code issues, or a builder who is no longer available."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why are freelancer prices so low?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many freelancers operate on volume and take on several projects at once. Lower pricing can also reflect differences in experience, specialization, or how much ongoing support is included."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I look for when hiring a freelancer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Look for a strong portfolio, consistent reviews, clear communication, and start with a small test task before committing to a larger project."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it more expensive to fix issues later?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In many cases, yes. Troubleshooting and repairing existing work can take more time than building something properly from the start, especially when there is little documentation."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/top-indigenous-creatives-from-peguis-first-nation/",
@@ -1340,7 +1520,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/top-indigenous-creatives-from-peguis-first-nation/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Leanne Jones from Peguis First Nation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Leanne is a member of Peguis First Nation and the founder of Leanne Digital, an Indigenous-owned design and digital marketing studio based in Winnipeg."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you only work with Indigenous clients?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. We work with Indigenous organizations and businesses as well as other companies that want thoughtful brand and website work. Indigenous-led work is a core part of what we do."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you help an Indigenous business with branding and a website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We offer Indigenous graphic design, logo design, and website design with a focus on storytelling, trust, and a professional online presence."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I see more of this kind of work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Visit the portfolio and the Indigenous web design and Indigenous graphic design service pages, or contact us with what you are building."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/top-indigenous-owned-print-shops/",
@@ -1349,7 +1566,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/top-indigenous-owned-print-shops/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why use an Indigenous-owned print shop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It keeps dollars circulating in Indigenous businesses and helps promotional materials get produced with cultural care, not as an afterthought."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you print in-house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We design. For production we point clients toward trusted print partners, including Indigenous-owned shops like the ones in this article."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you prepare files for a print shop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We supply print-ready artwork, including vector logos and outlined text when the printer needs it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you work with shops outside Manitoba?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The shops in this roundup are in B.C., Saskatchewan, and Manitoba. We can design in Winnipeg and send files wherever you print."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/vector-files-what-are-they/",
@@ -1358,7 +1612,76 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/vector-files-what-are-they/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why are vector files important for design?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They stay sharp at any size. That matters for logos, signs, embroidery, and print, where a JPEG will pixelate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are common vector file formats?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SVG for the web, AI for Adobe Illustrator, EPS as a common exchange format, and PDF when the artwork is saved as vectors rather than a flattened image."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How are vector files different from raster files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Raster files (JPG, PNG, GIF) are a grid of pixels. Stretch them and they get blurry. Vectors are math-based paths, so they redraw cleanly at any size."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert a raster image into a vector?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can trace it, but the quality depends on the original. A low-resolution logo screenshot rarely becomes a perfect vector. It is better to redraw it properly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need special software to open vector files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Illustrator, Affinity Designer, or similar tools open AI and EPS files. SVG can open in a browser. Your designer should also send PDF or PNG previews for everyday use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do printers prefer vector files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They print at the actual size of the job without losing quality. Outlined text means they do not need your fonts installed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is outlined text in a vector file?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The letters are converted from a live font into shapes. That locks the look for print, but you will need the original file if you want to edit the words later."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can vector files be used on the web?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. SVG is the usual web format for logos and simple illustrations. Photos still belong as optimized raster images."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/web-designer-vs-web-developer-whats-the-difference/",
@@ -1367,12 +1690,49 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/web-designer-vs-web-developer-whats-the-difference/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can one person be both designer and developer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Some people span both, but most businesses get a better result when a designer owns the experience and a developer owns the technical build."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is Gary at Leanne Digital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Gary Burns is the CTO and developer partner. He handles development, integrations, hosting, DNS, email, performance, and the technical side of SEO."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I hire a designer or a developer first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start with strategy and design so you know what you are building. Then development turns that plan into a working website. We do both in one process."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this apply to WordPress and AI Managed sites?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The split is the same: design for humans, build the platform properly, then keep it fast and maintainable."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/website-design/",
     "title": "Winnipeg Website Design | Leanne Digital",
-    "description": "Winnipeg website design focused on WordPress, SEO, branding, and thoughtful strategy to help your business get seen and grow.",
+    "description": "Winnipeg website design across three paths: static sites, AI-managed websites, and full WordPress.",
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/website-design/",
     "inSitemap": true,
@@ -1385,7 +1745,7 @@
           "name": "How much does a website cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "This is the question everyone wants to know.And honestly, website pricing can feel a little confusing. It is a bit of the wild west out there. You might get one quote for a few hundred dollars and another for several thousand, leaving you wondering what the actual difference is.The reality is that website pricing depends on goals, functionality, number of pages, ecommerce needs, SEO, integrations, and the strategy involved.To give you a general idea, our custom websites typically start at $3,500 CAD, while an average 5-page custom WordPress website generally falls between $5,000–$8,500 CAD depending on scope and complexity.Whether you need a one-page website, landing page, fully custom website, ecommerce functionality, or ongoing SEO support, we’ll help recommend the best fit for your goals and budget."
+            "text": "This is the question everyone wants to know.And honestly, website pricing can feel a little confusing. It is a bit of the wild west out there. You might get one quote for a few hundred dollars and another for several thousand, leaving you wondering what the actual difference is.The reality is that website pricing depends on goals, functionality, number of pages, ecommerce needs, SEO, integrations, and the strategy involved.The right number depends on which path you choose — a static site, an AI-managed website, or a full WordPress build — plus page count, functionality, and the strategy involved. We’ll look at your goals together, recommend the right package, and give you a clear quote before any work begins."
           }
         },
         {
@@ -1393,7 +1753,7 @@
           "name": "Why do you use WordPress?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We love WordPress because it gives businesses flexibility, ownership, customization, and room to grow.It powers a huge portion of the internet for good reason.It is reliable, scalable, SEO-friendly, and allows us to create custom websites without unnecessary limitations.Most importantly, it grows with your business."
+            "text": "WordPress is one of three paths we offer. We still love it when a business wants to log in, edit pages with Elementor, publish blogs, and stay in control of content. It powers a huge portion of the internet for good reason: it is reliable, scalable, and familiar for teams who want a full CMS. If you would rather we handle every update for you, an AI Managed website is the better fit."
           }
         },
         {
@@ -1401,7 +1761,7 @@
           "name": "Will my website be SEO-friendly?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes.SEO is considered from the start, not added later.We build websites with strong technical foundations, thoughtful heading structure, keyword considerations, usability, speed, mobile responsiveness, internal linking opportunities, and search-friendly best practices.Because what is the point of a website if nobody sees it?"
+            "text": "It depends on the package. AI Managed websites are built for SEO and Answer Engine Optimization from day one, with structured data, semantic HTML, internal linking, and the ability to roll out site-wide improvements as search changes. WordPress sites still get strong technical foundations, heading structure, usability, speed, and search-friendly best practices. Static websites are well designed and built cleanly, but they do not include the robust AEO/SEO platform that comes with an AI Managed site."
           }
         },
         {
@@ -1409,7 +1769,7 @@
           "name": "Can I update my website myself?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Absolutely.We want you to feel confident using your website.After launch, we provide training and support so you can make updates, swap images, change text, publish blogs, and manage content when needed.And if you would rather we handle updates for you, we can help with that too."
+            "text": "On a WordPress website, yes. After launch we provide training so you and your team can update pages with Elementor, swap images, change text, and publish blogs. AI Managed websites are managed by Leanne Digital. Every update and change is handled by us, usually within hours of your request, and you receive a monthly report. Static websites are not a CMS. They are a finished set of pages. If you need changes later, we update them for you."
           }
         },
         {
@@ -1438,7 +1798,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/website-domain-and-email-hosting-whats-the-difference/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my domain the same as my website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The domain is the name. The website is the content and files that load when someone visits that name. They are connected through DNS."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can email live somewhere else than the website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. That is common. Google Workspace or Microsoft 365 can run email while the website is hosted on another server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I change web hosts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The domain stays with the registrar unless you move that too. You point DNS at the new host. Email can stay put if the MX records are left alone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you manage domains and email as well as websites?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We help with hosting, DNS, professional email setup, and ongoing website management so those pieces stop feeling like three different vendors."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/website-management-support/",
@@ -1456,7 +1853,138 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/what-even-is-seo/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is SEO in plain language?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is the work of helping search engines understand your site and send the right people to it. Content, technical setup, and links all play a part."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is SEO the same as my domain name?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The domain is the address. SEO is how people discover that address when they search instead of typing it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does SEO take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Longer than a weekend. Like building roads, you see progress over months, not overnight, especially in competitive searches."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I still need SEO if I run ads?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ads stop when you stop paying. SEO is slower to build and keeps working. Most businesses benefit from both, used on purpose."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "path": "/why-every-business-needs-an-ai-powered-website-in-2026/",
+    "title": "Why Businesses Need AI-Powered Websites in 2026 | Leanne Digital",
+    "description": "Leanne Digital is moving from traditional WordPress toward AI Managed websites that are faster, more flexible, and easier to adapt as AI changes search.",
+    "robots": "index,follow",
+    "canonical": "https://leannedigital.com/why-every-business-needs-an-ai-powered-website-in-2026/",
+    "inSitemap": true,
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is an AI Managed website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An AI Managed website is a site Leanne Digital engineers and runs for you. It is built to connect analytics, search data, conversion tracking and AI systems so the website can adapt as search and AI tools change, instead of sitting still after launch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is an AI Managed website different from WordPress?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "WordPress is still a strong choice when your team wants to log in and edit pages yourselves. An AI Managed website is built for deeper control: fewer plugin stacks, faster site-wide technical changes, and closer connections between the website, analytics and AI tools. We manage the updates for you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is WordPress going away?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. WordPress has been the workhorse of the internet for a long time and it is not disappearing overnight. We still build full WordPress sites for businesses that want that control. We are moving more new work toward AI Managed websites when a business needs more flexibility and faster change."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Answer Engine Optimization (AEO)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AEO is about making your website easy for AI systems to understand, including ChatGPT, Gemini and Google AI Overviews. It sits alongside traditional SEO so your business can still show up when people ask AI tools for recommendations instead of only scanning a list of blue links."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do Google AI Overviews change SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Google AI Overviews summarize answers at the top of search. That means the front page is often an AI overview, not just ten website titles. Websites need clear structure, useful content and technical control so they can be understood and cited by those systems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is MCP and why does it matter for a website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Model Context Protocol (MCP) is a way for a large language model to talk to software and data through a common interface. On an AI Managed website, that can mean an AI assistant working with real website data, analytics and services instead of a spreadsheet someone pasted into a chat window."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can AI help with SEO without just writing more blog posts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. AI is useful for understanding how content relates, where internal links are missing, which pages are losing visibility and what to improve next. The goal is less repetitive manual work each month, not more generic content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do AI Managed websites make analytics easier to understand?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instead of jumping between Google Analytics, Search Console, Ads and form tools, an AI Managed website can bring the important numbers together — traffic, leads, phone clicks, form submissions and search performance — and help explain what changed and why."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who handles updates on an AI Managed website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Leanne Digital manages the website. Updates and changes are handled by us, usually within hours of a client request, so you are not maintaining plugins or editing technical pages yourself. You also receive a monthly report."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is an AI Managed website right for my business?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is worth considering if your current site is slow to update, hard to manage or dependent on a pile of plugins just to keep up. If you are planning a new website or replacing an older WordPress site, this is the direction we recommend. Visit our website design page to compare static, AI Managed and WordPress packages."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/why-is-typography-important-in-web-design/",
@@ -1465,7 +1993,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/why-is-typography-important-in-web-design/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many fonts should a website use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two is plenty: one for headlines and one for body copy. More than that usually looks messy and slower to load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is typography part of branding or web design?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both. The brand chooses the voice. The website has to apply it at sizes people can actually read on a phone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the most important part of web typography?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Readability. Contrast, size, spacing, and hierarchy beat a trendy typeface that falls apart at 16 pixels."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you redo fonts without a full redesign?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sometimes. If the layout is already clear, a type and spacing pass can lift the whole site. We will say if the layout itself is the real problem."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/why-strategic-graphic-and-web-design-matters-more-than-ever/",
@@ -1474,7 +2039,44 @@
     "robots": "index,follow",
     "canonical": "https://leannedigital.com/why-strategic-graphic-and-web-design-matters-more-than-ever/",
     "inSitemap": true,
-    "schema": null
+    "schema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is strategic graphic design?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is design that starts with who you help, what they need, and what you want them to do next. Looks still matter. They just serve the goal instead of replacing it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a pretty website enough?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. If visitors cannot tell what you do or why they should trust you, they leave. Strategy is what makes the visuals useful."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you measure design success?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By whether people understand the offer, stay on the page, and take action: inquiries, bookings, sales, or the next step you defined."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you rebrand existing businesses?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We have used this process on our own brand and on client work: audience, goals, visual story, then a website that matches."
+          }
+        }
+      ]
+    }
   },
   {
     "path": "/winnipeg-logo-design/",
