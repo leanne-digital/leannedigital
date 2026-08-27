@@ -3,6 +3,8 @@ import { renderFavicons } from './favicons.mjs';
 import { lpEvent, renderLilipaddSnippet } from './analytics.mjs';
 import { renderSeoBlock } from './seo.mjs';
 
+const DEFAULT_CSS_VERSION = '20260820e';
+
 export function assetPrefix(depth) {
     return depth === 0 ? '' : '../'.repeat(depth);
 }
@@ -114,9 +116,9 @@ export function renderHead({
     robots = 'index,follow',
     ogImage,
     schema,
+    cssVersion = DEFAULT_CSS_VERSION,
 }) {
     const prefix = assetPrefix(depth);
-    const CSS_V = '20260820e';
     const cssLinks = [
         'tokens.css',
         'base.css',
@@ -127,7 +129,7 @@ export function renderHead({
         ...extraCss,
         'footer.css',
     ]
-        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}?v=${CSS_V}">`)
+        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}?v=${cssVersion}">`)
         .join('\n');
     const canonicalUrl = canonical || (path ? `${SITE_URL}${path === '/' ? '/' : path}` : '');
     const seo = title

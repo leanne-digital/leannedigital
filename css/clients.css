@@ -823,7 +823,7 @@ body.seo-report-page .client-report-page > :not(.container) {
 
 .client-report-cover {
     width: min(100%, 37rem);
-    margin: 0 0 1.5rem;
+    margin: 0 0 3em;
 }
 
 .client-report-cover img {
@@ -904,6 +904,10 @@ body.seo-report-page .client-profile__header {
     text-align: left;
 }
 
+body.seo-report-page .client-reports__title {
+    text-align: left;
+}
+
 /* Keep report pages consistently breathable without letting legacy fragments
    escape the 1210px report shell. */
 body.seo-report-page .clients-hero,
@@ -923,7 +927,7 @@ body.seo-report-page .client-report-page > :not(.container) {
 
 @media (min-width: 800px) {
     .client-report-cover {
-        width: 50%;
+        width: 50% !important;
         max-width: none;
     }
 }
