@@ -15,6 +15,10 @@
     "August focused on improving the site’s technical foundation, crawl efficiency, content relationships, and semantic clarity. We cleaned up the XML sitemap, strengthened internal links across key legal content, refined legacy redirects, improved the homepage heading hierarchy, and enhanced the accessibility tree so search engines, screen readers, and AI-based agents can interpret the site more clearly."
   ],
   "technicalSeo": {
+    "pdf": {
+      "href": "/assets/clients/oatley-vigmond/august-2026-ubersuggest-site-audit.pdf",
+      "label": "Download technical SEO audit"
+    },
     "lastMonthImage": "/assets/clients/oatley-vigmond/ovl-tech-july-2026.webp",
     "thisMonthImage": "/assets/clients/oatley-vigmond/ocl-tech-report-august-2026.jpg",
     "recap": [

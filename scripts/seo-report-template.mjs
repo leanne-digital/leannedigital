@@ -191,6 +191,7 @@ ${figure(report.technicalSeo?.thisMonthImage, 'This month')}
 ${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
+${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
     </section>
     <section class="seo-report__section">
         <h2>Technical work completed</h2>

@@ -862,7 +862,7 @@ body.seo-report-page .client-report-page > :not(.container) {
 }
 
 .client-report-history {
-    width: min(100%, 42rem);
+    width: 100%;
     margin: 2rem 0 0;
     text-align: left;
 }

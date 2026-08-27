@@ -739,7 +739,7 @@ function renderReportPage(client, report) {
         description: `${report.title} SEO report for ${client.name}.`,
         depth: 3,
         extraCss: ['service-page.css', 'clients.css'],
-        cssVersion: '20260827b',
+        cssVersion: '20260827c',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/${report.slug}/`,
     })}
@@ -751,10 +751,6 @@ ${renderNav(3, '/clients/')}
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
 ${renderReportCover(client)}
                 <h1 class="client-reports__title">${escapeHtml(report.title)}</h1>
-                <div class="seo-report__toolbar">
-                    <button class="ld-btn" type="button" data-export-pdf>Export PDF</button>
-                    <a class="ld-btn ld-btn--ghost" data-admin-only href="/clients/${escapeHtml(client.slug)}/?edit=${escapeHtml(report.slug)}#seo-report">Edit report</a>
-                </div>
 ${renderPreviousReports(client, report)}
             </div>
         </section>
