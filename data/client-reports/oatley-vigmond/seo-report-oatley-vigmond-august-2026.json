@@ -71,6 +71,27 @@
     "targetUrls": {
       "Brain Injury": "https://oatleyvigmond.com/expertise/traumatic-brain-injury-lawyers/",
       "Catastrophic Injury Lawyers": "https://oatleyvigmond.com/expertise/catastrophic-injury-lawyers/"
+    },
+    "headingStructureProof": {
+      "title": "Heading structure improvements",
+      "recap": [
+        "We corrected the heading hierarchy on several priority pages, including the Catastrophic Injury Lawyers and Traumatic Brain Injury Lawyers pages. The updates establish one primary H1 per page, use H2 and H3 headings to reflect the true content hierarchy, and remove decorative heading levels that created noise for screen readers, search engines, and AI crawlers.",
+        "The examples below document the improved heading structure and provide before-and-after evidence for the Catastrophic Injury Lawyers page."
+      ],
+      "items": [
+        {
+          "caption": "Catastrophic Injury Lawyers — before",
+          "image": "/assets/clients/oatley-vigmond/catastrophic-injury-heading-before.jpg"
+        },
+        {
+          "caption": "Catastrophic Injury Lawyers — after",
+          "image": "/assets/clients/oatley-vigmond/catastrophic-injury-heading-after.jpg"
+        },
+        {
+          "caption": "Traumatic Brain Injury Lawyers — improved hierarchy",
+          "image": "/assets/clients/oatley-vigmond/traumatic-brain-injury-heading-after.jpg"
+        }
+      ]
     }
   },
   "keywords": {

@@ -134,6 +134,18 @@ ${body}
             </div>`;
 }
 
+function headingStructureProof(proof = {}) {
+    const items = Array.isArray(proof.items) ? proof.items.filter((item) => item?.image) : [];
+    if (!items.length) return '';
+    return `        <section class="seo-report__proof">
+        <h3>${escapeHtml(proof.title || 'Heading structure improvements')}</h3>
+${paragraphsHtml(proof.recap)}
+        <div class="seo-report__shots">
+${items.map((item) => figure(item.image, item.caption || 'Heading structure')).join('\n')}
+        </div>
+        </section>`;
+}
+
 export function renderSeoReportBody(report) {
     const company = report.companyName || report.clientName || 'Client';
     const monthLabel = report.monthLabel || report.title || '';
@@ -166,6 +178,7 @@ ${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
 ${paragraphsHtml(report.technicalSeo?.recap)}
         <h3>Technical work completed</h3>
 ${technicalActivityTable(report.technicalSeo?.internalLinks)}
+${headingStructureProof(report.technicalSeo?.headingStructureProof)}
         <h3>Internal linking</h3>
 ${internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
     </section>
