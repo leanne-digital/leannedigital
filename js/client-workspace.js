@@ -687,6 +687,48 @@
         $('[data-export-pdf]')?.addEventListener('click', () => window.print());
     }
 
+    function bootReportImageLightbox() {
+        const selector = '.seo-report__figure img, .client-report-body .ld-widget-image img';
+        const images = $$(selector);
+        if (!images.length || !('HTMLDialogElement' in window)) return;
+
+        const dialog = document.createElement('dialog');
+        dialog.className = 'seo-report__lightbox';
+        dialog.innerHTML = '<button class="seo-report__lightbox-close" type="button" aria-label="Close image">×</button><img class="seo-report__lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="">';
+        document.body.appendChild(dialog);
+        const lightboxImage = $('.seo-report__lightbox-image', dialog);
+        const close = () => dialog.close();
+
+        images.forEach((image) => {
+            image.tabIndex = 0;
+            image.setAttribute('role', 'button');
+            image.setAttribute('aria-label', `${image.alt || 'Report image'}. Open full screen`);
+        });
+
+        function open(image) {
+            lightboxImage.src = image.currentSrc || image.src;
+            lightboxImage.alt = image.alt || 'Report image';
+            dialog.showModal();
+        }
+
+        document.addEventListener('click', (event) => {
+            const image = event.target.closest(selector);
+            if (image) open(image);
+        });
+        document.addEventListener('keydown', (event) => {
+            const image = event.target.closest?.(selector);
+            if (image && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                open(image);
+            }
+        });
+        $('.seo-report__lightbox-close', dialog).addEventListener('click', close);
+        dialog.addEventListener('click', (event) => {
+            if (event.target === dialog) close();
+        });
+    }
+
     if (window.__LD_PORTAL__) boot(window.__LD_PORTAL__);
     document.addEventListener('ld-portal-ready', (event) => boot(event.detail));
+    bootReportImageLightbox();
 })();

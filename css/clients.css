@@ -1068,6 +1068,64 @@ body.seo-report-page .client-report-page .container.client-report-body {
     background: rgba(255, 255, 255, 0.03);
 }
 
+.seo-report__figure img,
+.client-report-body .ld-widget-image img {
+    cursor: zoom-in;
+}
+
+.seo-report__figure img:focus-visible,
+.client-report-body .ld-widget-image img:focus-visible {
+    outline: 3px solid var(--ld-accent);
+    outline-offset: 4px;
+}
+
+.seo-report__lightbox {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    padding: clamp(1rem, 3vw, 3rem);
+    border: 0;
+    background: rgba(7, 9, 20, 0.96);
+}
+
+.seo-report__lightbox::backdrop {
+    background: rgba(7, 9, 20, 0.96);
+}
+
+.seo-report__lightbox-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100dvh - clamp(2rem, 6vw, 6rem));
+    margin: auto;
+    object-fit: contain;
+}
+
+.seo-report__lightbox-close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    background: rgba(12, 13, 27, 0.8);
+    color: var(--ld-text);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.seo-report__lightbox-close:hover,
+.seo-report__lightbox-close:focus-visible {
+    border-color: var(--ld-accent);
+    color: var(--ld-accent);
+}
+
 .seo-report__placeholder {
     display: grid;
     place-items: center;
@@ -1115,7 +1173,7 @@ body.seo-report-page .client-report-page .container.client-report-body {
 
 @media (min-width: 800px) {
     .seo-report__shots {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .seo-report__shots--three {

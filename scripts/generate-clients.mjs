@@ -19,7 +19,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'data', 'client-reports');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820e';
+const SCRIPT_V = '20260827a';
 
 const SERVICE_SLOTS = [
     { type: 'seo', title: 'Ongoing Monthly SEO' },

@@ -103,8 +103,7 @@ ${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
 ${figure(report.technicalSeo?.thisMonthImage, 'This month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
-        <h3>Internal links added</h3>
-        <h4>Activity log</h4>
+        <h3>Activity log</h3>
 ${activityTable(report.technicalSeo?.internalLinks)}
     </section>
     <section class="seo-report__section">

@@ -12,15 +12,51 @@
   ],
   "keywordPdf": null,
   "monthlyRecap": [
-    "August reporting is in progress. This report shell is ready for the month’s completed work, audit screenshots, ranking data, and performance recap as they are finalized."
+    "August focused on improving the site’s technical foundation, crawl efficiency, content relationships, and semantic clarity. We cleaned up the XML sitemap, strengthened internal links across key legal content, refined legacy redirects, improved the homepage heading hierarchy, and enhanced the accessibility tree so search engines, screen readers, and AI-based agents can interpret the site more clearly."
   ],
   "technicalSeo": {
     "lastMonthImage": "/assets/clients/oatley-vigmond/ovl-tech-july-2026.webp",
     "thisMonthImage": "/assets/clients/oatley-vigmond/ocl-tech-report-august-2026.jpg",
     "recap": [
-      "August’s audit maintains a 100/100 on-page SEO score, with organic monthly traffic at 6,109, 1,932 organic keywords, and 5,161 backlinks. The audit crawled 9,597 pages and identified 48 issues; the August work log and completed fixes will be added as they are finalized."
+      "August’s audit maintains a 100/100 on-page SEO score, with organic monthly traffic at 6,109, 1,932 organic keywords, and 5,161 backlinks. The audit crawled 9,597 pages and identified 48 issues."
     ],
-    "internalLinks": []
+    "internalLinks": [
+      {
+        "date": "August 2026",
+        "keyword": "XML Sitemap Cleanup",
+        "source": "XML sitemap",
+        "target": "Technical SEO",
+        "linksAdded": "Audited redirected, outdated, and unnecessary URLs and removed pages that should no longer be submitted to search engines."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Internal Linking Improvements",
+        "source": "Practice areas, expertise pages, lawyer profiles, and supporting content",
+        "target": "Internal linking",
+        "linksAdded": "Strengthened crawl paths, page-authority flow, and topical relationships across key legal content."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Legacy Redirect Optimization",
+        "source": "Older and retired URLs",
+        "target": "Redirects",
+        "linksAdded": "Replaced broad or less-relevant redirects with the most appropriate current practice-area or expertise pages."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Homepage Heading Structure",
+        "source": "Homepage",
+        "target": "On-page SEO",
+        "linksAdded": "Improved the H1/H2/H3 hierarchy with descriptive, search-focused headings that better communicate services and expertise."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Accessibility Tree & AI Crawler Improvements",
+        "source": "Semantic page structure and accessibility markup",
+        "target": "Accessibility & AI search",
+        "linksAdded": "Improved how Google, screen readers, and AI-based agents interpret primary content, headings, navigation, links, and page relationships."
+      }
+    ]
   },
   "keywords": {
     "thisMonthImage": "",
