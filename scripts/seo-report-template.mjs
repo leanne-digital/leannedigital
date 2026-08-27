@@ -152,11 +152,25 @@ export function renderSeoReportBody(report) {
     const monthLabel = report.monthLabel || report.title || '';
     const pdfLabel = `Download ${monthLabel.replace(/\s+/g, ' ').trim() || 'this month'} keyword report`;
     const adsOn = report.googleAds?.enabled !== false && report.googleAds?.na !== true;
+    const keywordsOn = report.keywords?.enabled !== false && report.keywords?.na !== true;
+    const contentOn = report.newContent?.enabled !== false && report.newContent?.na !== true;
     const adsBlock = adsOn
         ? `${figure(report.googleAds?.image, 'Google Ads')}
 ${paragraphsHtml(report.googleAds?.recap) || '                <p>No Google Ads recap yet.</p>'}`
-        : `            <p class="seo-report__na">N/A</p>
-            <p>This client does not have Google Ads this month.</p>`;
+        : '            <p class="seo-report__empty">Client does not have a Google Ads strategy with Leanne Digital.</p>';
+    const keywordsBlock = keywordsOn
+        ? `        <div class="seo-report__shots seo-report__shots--three">
+${figure(report.keywords?.thisMonthImage, 'This month')}
+${figure(report.keywords?.lastMonthImage, 'Last month')}
+${figure(report.keywords?.twoMonthsAgoImage, 'Two months ago')}
+        </div>
+${paragraphsHtml(report.keywords?.recap)}
+${pdfButton(report.keywords?.pdf || report.keywordPdf, pdfLabel)}`
+        : '        <p class="seo-report__empty">Client does not have a keyword rankings strategy with Leanne Digital.</p>';
+    const contentBlock = contentOn
+        ? `${activityTable(report.newContent?.log, 'No new content logged this month.')}
+${paragraphsHtml(report.newContent?.recap)}`
+        : '        <p class="seo-report__empty">Client does not have a new content and updates strategy with Leanne Digital.</p>';
 
     return `<article class="seo-report">
     <header class="seo-report__intro">
@@ -189,19 +203,12 @@ ${internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo
     </section>
     <section class="seo-report__section">
         <h2>Keyword rankings</h2>
-        <div class="seo-report__shots seo-report__shots--three">
-${figure(report.keywords?.thisMonthImage, 'This month')}
-${figure(report.keywords?.lastMonthImage, 'Last month')}
-${figure(report.keywords?.twoMonthsAgoImage, 'Two months ago')}
-        </div>
-${paragraphsHtml(report.keywords?.recap)}
-${pdfButton(report.keywords?.pdf || report.keywordPdf, pdfLabel)}
+${keywordsBlock}
     </section>
     <section class="seo-report__section">
         <h2>New content and updates</h2>
-        <h4>Activity log</h4>
-${activityTable(report.newContent?.log, 'No new content logged this month.')}
-${paragraphsHtml(report.newContent?.recap)}
+${contentOn ? '        <h3>Activity log</h3>' : ''}
+${contentBlock}
     </section>
     <section class="seo-report__section">
         <h2>Google Ads</h2>

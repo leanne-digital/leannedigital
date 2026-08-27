@@ -835,6 +835,32 @@ body.seo-report-page .client-report-page > :not(.container) {
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
 }
 
+.client-report-cover--placeholder {
+    display: grid;
+    min-height: 14rem;
+    padding: 2rem;
+    place-content: center;
+    gap: 0.35rem;
+    border: 1px solid var(--ld-card-border);
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(78, 195, 204, 0.18), rgba(255, 255, 255, 0.03));
+    color: var(--ld-text);
+}
+
+.client-report-cover--placeholder span {
+    font-family: var(--ld-font-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800;
+}
+
+.client-report-cover--placeholder small {
+    color: var(--ld-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
 .client-report-history {
     width: min(100%, 42rem);
     margin: 2rem 0 0;

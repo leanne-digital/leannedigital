@@ -92,6 +92,7 @@
     }
   },
   "keywords": {
+    "enabled": false,
     "thisMonthImage": "",
     "lastMonthImage": "",
     "twoMonthsAgoImage": "",
@@ -101,6 +102,7 @@
     "pdf": null
   },
   "newContent": {
+    "enabled": false,
     "log": [],
     "recap": [
       "August content and optimization updates will be recorded here as they are completed."

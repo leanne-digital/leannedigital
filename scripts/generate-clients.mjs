@@ -616,10 +616,19 @@ ${columns}
 }
 
 function renderReportCover(client) {
-    if (client.slug !== 'oatley-vigmond') return '';
+    const cover = client.slug === 'oatley-vigmond'
+        ? '/assets/clients/oatley-vigmond/oatley-vigmond-report-cover.png'
+        : client.asset;
+
+    if (!cover) {
+        return `                <div class="client-report-cover client-report-cover--placeholder" role="img" aria-label="${escapeHtml(client.name)} report cover">
+                    <span>${escapeHtml(client.name)}</span>
+                    <small>Monthly report</small>
+                </div>`;
+    }
 
     return `                <figure class="client-report-cover">
-                    <img src="/assets/clients/oatley-vigmond/oatley-vigmond-report-cover.png" alt="Oatley Vigmond website overview">
+                    <img src="${escapeHtml(cover)}" alt="${escapeHtml(client.name)} website overview">
                 </figure>`;
 }
 
