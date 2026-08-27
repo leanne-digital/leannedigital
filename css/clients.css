@@ -878,6 +878,30 @@ body.seo-report-page .client-profile__header {
     text-align: left;
 }
 
+/* Keep report pages consistently breathable without letting legacy fragments
+   escape the 1210px report shell. */
+body.seo-report-page .clients-hero,
+body.seo-report-page .client-report-page {
+    padding-inline: 2em;
+}
+
+body.seo-report-page .client-report-page {
+    padding-block: 3em;
+}
+
+body.seo-report-page .client-report-body > .seo-report > .seo-report__section,
+body.seo-report-page .client-report-body .seo-report--legacy > :is(.ld-section, .ld-col),
+body.seo-report-page .client-report-page > :not(.container) {
+    margin-block: 3em;
+}
+
+@media (min-width: 800px) {
+    .client-report-cover {
+        width: 50%;
+        max-width: none;
+    }
+}
+
 .dash-table a {
     color: inherit;
 }
