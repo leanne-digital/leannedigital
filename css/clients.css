@@ -494,6 +494,16 @@ body.seo-report-page .client-report-page .container.client-report-body {
     width: min(100%, var(--ld-container));
 }
 
+/* Some imported legacy fragments contain surplus closing tags. Browsers then
+   repair the DOM by moving the trailing report sections outside the intended
+   .client-report-body container. Constrain every direct report section too,
+   so old reports remain boxed even after that recovery. */
+body.seo-report-page .client-report-page > :not(.container) {
+    width: min(calc(100% - (var(--ld-gutter) * 2)), var(--ld-container));
+    min-width: 0;
+    margin-inline: auto;
+}
+
 .client-report-body {
     min-width: 0;
     overflow: hidden;
