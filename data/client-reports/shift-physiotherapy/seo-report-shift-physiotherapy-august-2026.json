@@ -25,7 +25,27 @@
       "The August audit reports a 99/100 on-page SEO score, 652 estimated organic monthly visits, 271 organic keywords, and 180 backlinks.",
       "The crawl reviewed 195 URLs and identified two pages with duplicate meta descriptions. We will review and resolve those descriptions as part of the next technical optimization cycle."
     ],
-    "internalLinks": []
+    "internalLinks": [],
+    "internalLinking": [
+      {
+        "date": "August 2026",
+        "sourceType": "Page",
+        "source": "Physiotherapy",
+        "keyword": "Shoulder Pain"
+      },
+      {
+        "date": "August 2026",
+        "sourceType": "Page",
+        "source": "Physiotherapy",
+        "keyword": "Whiplash"
+      },
+      {
+        "date": "August 2026",
+        "sourceType": "Page",
+        "source": "Physiotherapy",
+        "keyword": "Patellofemoral Syndrome (Runner’s Knee)"
+      }
+    ]
   },
   "keywords": {
     "thisMonthImage": "/assets/clients/shift-physiotherapy/shift-keywords-august-2026-current.jpg",
@@ -41,9 +61,60 @@
     }
   },
   "newContent": {
-    "log": [],
+    "log": [
+      {
+        "date": "August 2026",
+        "keyword": "New page",
+        "source": "Diastasis Recti Abdominis Physiotherapy in Edmonton",
+        "target": "Page",
+        "linksAdded": "Created a dedicated Edmonton physiotherapy page for diastasis recti abdominis."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "New blog post",
+        "source": "Tennis Elbow Physiotherapy in Edmonton",
+        "target": "Post",
+        "linksAdded": "Published a new educational blog post targeting tennis elbow physiotherapy searches in Edmonton."
+      },
+      {
+        "date": "2026-08-31",
+        "keyword": "Scheduled blog post",
+        "source": "ACL injury blog post",
+        "target": "Scheduled",
+        "linksAdded": "Scheduled to publish on Monday, August 31."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Google Business Profile",
+        "source": "Pelvic Organ Prolapse Physiotherapy",
+        "target": "Service listing",
+        "linksAdded": "Added as a new Google Business Profile service listing."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Google Business Profile",
+        "source": "Urinary Incontinence Physiotherapy",
+        "target": "Service listing",
+        "linksAdded": "Added as a new Google Business Profile service listing."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Google Business Profile",
+        "source": "Dyspareunia / Painful Sex Physiotherapy",
+        "target": "Service listing",
+        "linksAdded": "Added as a new Google Business Profile service listing."
+      },
+      {
+        "date": "August 2026",
+        "keyword": "Google Business Profile",
+        "source": "Diastasis Recti Abdominis Physiotherapy",
+        "target": "Service listing",
+        "linksAdded": "Added as a new Google Business Profile service listing."
+      }
+    ],
     "recap": [
-      "The August activity log will be added as completed work is finalized."
+      "August content work added a dedicated Diastasis Recti Abdominis Physiotherapy page, published a new Tennis Elbow Physiotherapy article, and scheduled the ACL injury article for release.",
+      "We also strengthened navigation from the Physiotherapy page to key supporting injury articles and expanded the Google Business Profile service catalogue for pelvic floor physiotherapy offerings."
     ]
   },
   "googleAds": {
