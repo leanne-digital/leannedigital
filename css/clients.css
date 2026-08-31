@@ -927,8 +927,13 @@ body.seo-report-page .client-report-page > :not(.container) {
 
 @media (min-width: 800px) {
     .client-report-cover {
-        width: 50% !important;
+        width: 60% !important;
         max-width: none;
+    }
+
+    .seo-report--legacy > .ld-section:first-child .ld-widget-image img {
+        width: 60%;
+        margin-inline: 0;
     }
 }
 

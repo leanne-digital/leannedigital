@@ -739,7 +739,7 @@ function renderReportPage(client, report) {
         description: `${report.title} SEO report for ${client.name}.`,
         depth: 3,
         extraCss: ['service-page.css', 'clients.css'],
-        cssVersion: '20260827c',
+        cssVersion: '20260831a',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/${report.slug}/`,
     })}

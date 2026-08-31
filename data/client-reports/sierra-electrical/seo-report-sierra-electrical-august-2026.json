@@ -1,0 +1,54 @@
+{
+  "slug": "seo-report-sierra-electrical-august-2026",
+  "kind": "seo",
+  "monthKey": "2026-08",
+  "title": "August 2026",
+  "monthLabel": "AUGUST 2026",
+  "companyName": "SIERRA ELECTRICAL LTD.",
+  "clientName": "Sierra Electrical",
+  "campaignIntro": [
+    "This SEO campaign is focused on strengthening Sierra Electrical’s visibility for commercial and residential electrical searches across Edmonton and surrounding service areas.",
+    "Monthly reporting tracks technical health and ranking performance while guiding the next on-page, internal-linking, and local-content priorities."
+  ],
+  "monthlyRecap": [
+    "August delivered a clean technical result and meaningful ranking progress. The site maintained a perfect 100/100 on-page SEO score with no issues identified in the latest audit.",
+    "Keyword visibility improved from an average position of 15.46 to 12.11 across the tracked set, strengthening the campaign’s foundation for continued local search growth."
+  ],
+  "technicalSeo": {
+    "lastMonthImage": "/assets/clients/sierra-electrical/sierra-tech-07-2027.webp",
+    "thisMonthImage": "/assets/clients/sierra-electrical/sierra-tech-audit-august-2026.jpg",
+    "recap": [
+      "Sierra Electrical’s August technical audit achieved a 100/100 on-page SEO score, with 162 estimated organic monthly visits, 50 organic keywords, and 286 backlinks.",
+      "The crawl reviewed 72 URLs and found zero SEO issues. With 49 successful pages, 22 redirects, no broken URLs, and one blocked page, the site is in excellent technical shape for crawling and indexing."
+    ],
+    "internalLinks": []
+  },
+  "keywords": {
+    "lastMonthImage": "/assets/clients/sierra-electrical/sierra-keywords-07-2026.webp",
+    "thisMonthImage": "/assets/clients/sierra-electrical/sierra-keywords-august-2026.jpg",
+    "twoMonthsAgoImage": "",
+    "recap": [
+      "Of 38 tracked keywords, 22 moved up, nine moved down, and seven held steady. Average position improved from 15.46 to 12.11, a gain of 3.35 positions.",
+      "The strongest movement was in top-10 visibility, which increased from one keyword to four. The campaign now has 10 keywords in the top 3, 24 in the top 100, and no keywords outside the top 100."
+    ]
+  },
+  "newContent": {
+    "log": [],
+    "recap": [
+      "The August activity log will be added as completed work is finalized."
+    ]
+  },
+  "googleAds": {
+    "enabled": true,
+    "na": false,
+    "image": "",
+    "recap": [
+      "Google Ads reporting will be added when the current campaign export is available."
+    ]
+  },
+  "nextSteps": [
+    "August closes with a perfect technical audit and a 3.35-position improvement in average rankings, creating a strong platform for the next phase of SEO work.",
+    "Next month, we will protect that technical baseline while expanding the on-page, internal-linking, and local-content work that supports further top-10 keyword growth."
+  ],
+  "updatedAt": "2026-08-31T00:00:00.000Z"
+}

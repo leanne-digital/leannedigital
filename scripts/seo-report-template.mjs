@@ -158,11 +158,12 @@ export function renderSeoReportBody(report) {
         ? `${figure(report.googleAds?.image, 'Google Ads')}
 ${paragraphsHtml(report.googleAds?.recap) || '                <p>No Google Ads recap yet.</p>'}`
         : '            <p class="seo-report__empty">Client does not have a Google Ads strategy with Leanne Digital.</p>';
+    const keywordsShotClass = report.keywords?.twoMonthsAgoImage ? ' seo-report__shots--three' : '';
     const keywordsBlock = keywordsOn
-        ? `        <div class="seo-report__shots seo-report__shots--three">
-${figure(report.keywords?.thisMonthImage, 'This month')}
+        ? `        <div class="seo-report__shots${keywordsShotClass}">
 ${figure(report.keywords?.lastMonthImage, 'Last month')}
-${figure(report.keywords?.twoMonthsAgoImage, 'Two months ago')}
+${figure(report.keywords?.thisMonthImage, 'This month')}
+${report.keywords?.twoMonthsAgoImage ? figure(report.keywords.twoMonthsAgoImage, 'Two months ago') : ''}
         </div>
 ${paragraphsHtml(report.keywords?.recap)}
 ${pdfButton(report.keywords?.pdf || report.keywordPdf, pdfLabel)}`
@@ -187,8 +188,8 @@ ${paragraphsHtml(report.monthlyRecap) || '                <p>Recap for this mont
     <section class="seo-report__section">
         <h2>Technical SEO</h2>
         <div class="seo-report__shots">
-${figure(report.technicalSeo?.thisMonthImage, 'This month')}
 ${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
+${figure(report.technicalSeo?.thisMonthImage, 'This month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
 ${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
