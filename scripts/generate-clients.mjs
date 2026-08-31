@@ -704,7 +704,6 @@ ${renderNav(3, '/clients/')}
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
 ${renderReportCover(client)}
-                <h1 class="client-reports__title">${escapeHtml(report.title)}</h1>
 ${renderPreviousReports(client, report)}
             </div>
         </section>
