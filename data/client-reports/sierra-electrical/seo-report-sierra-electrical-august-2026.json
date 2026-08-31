@@ -16,7 +16,8 @@
   ],
   "monthlyRecap": [
     "August delivered a clean technical result and meaningful ranking progress. The site maintained a perfect 100/100 on-page SEO score with no issues identified in the latest audit.",
-    "Keyword visibility improved from an average position of 15.46 to 12.11 across the tracked set, strengthening the campaign’s foundation for continued local search growth."
+    "Keyword visibility improved from an average position of 15.46 to 12.11 across the tracked set, strengthening the campaign’s foundation for continued local search growth.",
+    "We also created a dedicated Careers page and published a Google Business Profile post to support the search for a new apprentice. Next, we will look for additional no-cost ways to increase reach, including relevant Facebook and Kijiji opportunities."
   ],
   "technicalSeo": {
     "lastMonthImage": "/assets/clients/sierra-electrical/sierra-tech-07-2027.webp",
@@ -49,14 +50,17 @@
   "googleAds": {
     "enabled": true,
     "na": false,
-    "image": "",
+    "image": "/assets/clients/sierra-electrical/sierra-google-ads-august-2026.jpg",
     "recap": [
-      "Google Ads reporting will be added when the current campaign export is available."
+      "August Google Ads generated 22 conversions from $2,394.65 in spend. After shifting the campaign toward a commercial-heavy budget allocation, conversion volume declined by four compared with the previous period.",
+      "The current campaign data reinforces why the new strategy needs close monitoring: residential generated 19 conversions from $1,261.34 in spend, while commercial generated three conversions from $1,144.24. That places the current commercial cost per conversion at roughly 5.7 times the residential level.",
+      "We will continue testing the commercial-heavy approach, but if commercial lead volume and quality do not justify the added acquisition cost, we should consider returning more budget to the established residential campaign."
     ]
   },
   "nextSteps": [
     "August closes with a perfect technical audit and a 3.35-position improvement in average rankings, creating a strong platform for the next phase of SEO work.",
-    "Next month, we will protect that technical baseline while expanding the on-page, internal-linking, and local-content work that supports further top-10 keyword growth."
+    "Next month, we will protect that technical baseline while expanding the on-page, internal-linking, and local-content work that supports further top-10 keyword growth.",
+    "We will also monitor the commercial-heavy Google Ads strategy closely and develop additional low-cost recruitment promotion for the Careers page, including suitable Facebook and Kijiji listings if they fit the role and audience."
   ],
   "updatedAt": "2026-08-31T00:00:00.000Z"
 }
