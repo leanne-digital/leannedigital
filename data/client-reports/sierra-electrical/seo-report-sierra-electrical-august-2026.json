@@ -26,7 +26,55 @@
       "Sierra Electrical’s August technical audit achieved a 100/100 on-page SEO score, with 162 estimated organic monthly visits, 50 organic keywords, and 286 backlinks.",
       "The crawl reviewed 72 URLs and found zero SEO issues. With 49 successful pages, 22 redirects, no broken URLs, and one blocked page, the site is in excellent technical shape for crawling and indexing."
     ],
-    "internalLinks": []
+    "internalLinks": [
+      {
+        "date": "August 2026",
+        "task": "Google Search Console performance review",
+        "details": "Compared the latest 30-day period with the previous period. Clicks increased from 26 to 49 (about 88%), while CTR improved from 0.29% to 0.58%."
+      },
+      {
+        "date": "August 2026",
+        "task": "Keyword ranking audit",
+        "details": "Reviewed Ubersuggest keyword movement against Google Search Console data: 11 keywords moved up, 17 moved down, and 10 were unchanged. Important Edmonton electrician terms were identified for further attention."
+      },
+      {
+        "date": "August 2026",
+        "task": "Indexing and site-health check",
+        "details": "Reviewed the 45-URL sitemap and audited page indexability. No significant Google indexing issue was identified."
+      },
+      {
+        "date": "August 2026",
+        "task": "Content strategy audit",
+        "details": "Prioritized improving existing service and content pages over publishing high volumes of generic new content. Ubersuggest identified 27 existing-content opportunities and no meaningful new-content gaps."
+      },
+      {
+        "date": "August 2026",
+        "task": "Air Piping page review",
+        "details": "Strengthened the Air Piping page and reviewed early performance. It is appearing for “compressed air piping” and “air piping” searches, but remains mostly around page three and needs further optimization."
+      },
+      {
+        "date": "August 2026",
+        "task": "Google Business Profile audit",
+        "details": "Reviewed the service and category structure, retaining Electrician as the primary category and aligning Google Business Profile services with the website."
+      },
+      {
+        "date": "August 2026",
+        "task": "Next-stage SEO opportunity plan",
+        "details": "Identified homepage, residential, and commercial targeting improvements; potential keyword-cannibalization reductions; commercial load-calculation expansion; image ALT-text improvements; and a possible transactional EV charger installation page."
+      }
+    ],
+    "internalLinking": [
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Commercial", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Residential", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "What Does a Commercial Electrician Do in Edmonton?", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Electrical Services in Acheson Edmonton", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Sierra Electrical Locations", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Electrician Services in Leduc Alberta", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Electrician Nisku", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Electrician Services in South Edmonton", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Careers", "keyword": "Electrical Repairs Edmonton" },
+      { "date": "2026-08-31", "sourceType": "Page", "source": "Commercial", "keyword": "Compressed Air Piping" }
+    ]
   },
   "keywords": {
     "lastMonthImage": "/assets/clients/sierra-electrical/sierra-keywords-07-2026.webp",
@@ -42,9 +90,17 @@
     }
   },
   "newContent": {
-    "log": [],
+    "log": [
+      {
+        "date": "August 2026",
+        "keyword": "Careers and recruitment content",
+        "source": "Sierra Electrical Careers section",
+        "target": "Page",
+        "linksAdded": "Created the H1 and introductory copy, job-requirements section, “Why Work for Sierra Electrical” content, and the heading and subheading for the application form."
+      }
+    ],
     "recap": [
-      "The August activity log will be added as completed work is finalized."
+      "August work focused on identifying and strengthening the existing pages with the greatest organic-search upside, alongside developing recruitment content for Sierra’s new Careers section."
     ]
   },
   "googleAds": {
