@@ -521,11 +521,11 @@ ${months}
 function renderAccountTable(client) {
     const rows = reportRows(client);
     if (!rows.length) {
-        return `            <section class="client-reports">
+        return `            <section class="client-reports client-report-history">
                 <h2 class="client-reports__heading">Reports</h2>
                 <p class="client-empty client-empty--lead">SEO reports and site maintenance reports. Click a row to open it.</p>
                 <div class="dash-table-wrap">
-                    <table class="dash-table admin-table client-account-table">
+                    <table class="dash-table admin-table client-account-table client-report-history__table">
                         <thead>
                             <tr>
                                 <th>Item</th>
@@ -550,11 +550,11 @@ function renderAccountTable(client) {
                     </tr>`;
         })
         .join('\n');
-    return `            <section class="client-reports">
+    return `            <section class="client-reports client-report-history">
                 <h2 class="client-reports__heading">Reports</h2>
                 <p class="client-empty client-empty--lead">SEO reports and site maintenance reports. Click a row to open it.</p>
                 <div class="dash-table-wrap">
-                    <table class="dash-table admin-table client-account-table">
+                    <table class="dash-table admin-table client-account-table client-report-history__table">
                         <thead>
                             <tr>
                                 <th>Item</th>
@@ -657,7 +657,7 @@ function renderClientPage(client) {
         description: `Client portal for ${client.name}.`,
         depth: 2,
         extraCss: ['clients.css'],
-        cssVersion: '20260831c',
+        cssVersion: '20260831d',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
     })}

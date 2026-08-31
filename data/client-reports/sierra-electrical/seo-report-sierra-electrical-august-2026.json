@@ -6,6 +6,10 @@
   "monthLabel": "AUGUST 2026",
   "companyName": "SIERRA ELECTRICAL LTD.",
   "clientName": "Sierra Electrical",
+  "keywordPdf": {
+    "href": "/assets/clients/sierra-electrical/sierra-keyword-report-august-2026.pdf",
+    "label": "Download August 2026 keyword report"
+  },
   "campaignIntro": [
     "This SEO campaign is focused on strengthening Sierra Electrical’s visibility for commercial and residential electrical searches across Edmonton and surrounding service areas.",
     "Monthly reporting tracks technical health and ranking performance while guiding the next on-page, internal-linking, and local-content priorities."
@@ -30,7 +34,11 @@
     "recap": [
       "Of 38 tracked keywords, 22 moved up, nine moved down, and seven held steady. Average position improved from 15.46 to 12.11, a gain of 3.35 positions.",
       "The strongest movement was in top-10 visibility, which increased from one keyword to four. The campaign now has 10 keywords in the top 3, 24 in the top 100, and no keywords outside the top 100."
-    ]
+    ],
+    "pdf": {
+      "href": "/assets/clients/sierra-electrical/sierra-keyword-report-august-2026.pdf",
+      "label": "Download August 2026 keyword report"
+    }
   },
   "newContent": {
     "log": [],
