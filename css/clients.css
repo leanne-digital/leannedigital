@@ -67,54 +67,45 @@ body.clients-picker .site-footer {
     list-style: none;
 }
 
-.client-service {
+.client-service-summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+    padding: 1rem 1.1rem;
     border: 1px solid var(--ld-card-border);
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.04);
 }
 
-.client-service summary {
+.client-service-summary__icon {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 1rem 1.1rem;
-    cursor: pointer;
-    list-style: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.1rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(83, 211, 144, 0.16);
+    color: #72dd9c;
 }
 
-.client-service summary::-webkit-details-marker {
-    display: none;
+.client-service-summary__icon svg {
+    width: 1rem;
+    height: 1rem;
 }
 
-.client-service summary span {
+.client-service-summary h3 {
+    margin: 0 0 0.3rem;
     font-family: var(--ld-font-display);
     font-weight: 800;
     letter-spacing: 0.03em;
     text-transform: uppercase;
 }
 
-.client-service summary strong {
-    color: var(--ld-accent);
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: none;
-    letter-spacing: 0;
-}
-
-.client-service__body {
-    padding: 0 1.1rem 1.15rem;
+.client-service-summary p {
+    margin: 0;
     color: var(--ld-text-muted);
-}
-
-.client-service__body h3 {
-    margin: 1.1rem 0 0.4rem;
-    color: var(--ld-text);
-    font-size: 1rem;
-}
-
-.client-service__form {
-    margin-top: 1.25rem;
+    line-height: 1.55;
 }
 
 .client-workspace-msg {

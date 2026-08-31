@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/tokens.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/base.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/header.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/page-inner.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/buttons.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/faq.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/clients.css?v=20260820e">
-    <link rel="stylesheet" href="../../css/footer.css?v=20260820e">
+    <link rel="stylesheet" href="../../css/tokens.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/base.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/header.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/page-inner.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/buttons.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/faq.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/clients.css?v=20260831b">
+    <link rel="stylesheet" href="../../css/footer.css?v=20260831b">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -50,6 +50,7 @@
     </script>
 </head>
 <body class="page-inner" data-portal-gate data-client-slug="mr-pool-guy" data-client-workspace>
+    <!-- lp:custom-body-start -->
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
@@ -97,70 +98,16 @@
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
-                <div class="client-profile__copy">
-                    <a class="client-reports__back" href="/clients/" data-admin-only>All clients</a>
-                    <a class="client-reports__back" href="/client-portal/" data-client-only>Your portal</a>
-                    <a class="client-reports__back" href="/admin/?client=mr-pool-guy#new-client" data-admin-only>Edit in admin</a>
-                    <h1 class="client-reports__title">Mr. Pool Guy</h1>
-                    <p class="client-profile__lead">Camden Croucher</p>
-                    
-                    
-                </div>
+                <h1 class="client-reports__title">Mr. Pool Guy</h1>
                 
             </div>
         </section>
         <section class="client-page section--navy">
             <div class="container">
-                <p class="login-form__error client-workspace-msg" data-workspace-error hidden></p>
-                <p class="login-form__ok client-workspace-msg" data-workspace-ok hidden></p>
             <section class="client-reports">
                 <h2 class="client-reports__heading">Services</h2>
                 <ul class="client-service-list">
-                    <li>
-                        <details class="client-service" data-service-slot="seo">
-                            <summary>
-                                <span>Ongoing Monthly SEO</span>
-                                <strong data-service-status>None</strong>
-                            </summary>
-                            <div class="client-service__body" data-service-body></div>
-                        </details>
-                    </li>
-                    <li>
-                        <details class="client-service" data-service-slot="maintenance">
-                            <summary>
-                                <span>Site Maintenance</span>
-                                <strong data-service-status>None</strong>
-                            </summary>
-                            <div class="client-service__body" data-service-body></div>
-                        </details>
-                    </li>
-                    <li>
-                        <details class="client-service" data-service-slot="management">
-                            <summary>
-                                <span>Monthly Site Management</span>
-                                <strong data-service-status>None</strong>
-                            </summary>
-                            <div class="client-service__body" data-service-body></div>
-                        </details>
-                    </li>
-                    <li>
-                        <details class="client-service" data-service-slot="hosting">
-                            <summary>
-                                <span>Website Hosting</span>
-                                <strong data-service-status>None</strong>
-                            </summary>
-                            <div class="client-service__body" data-service-body></div>
-                        </details>
-                    </li>
-                    <li>
-                        <details class="client-service" data-service-slot="aeo">
-                            <summary>
-                                <span>AEO</span>
-                                <strong data-service-status>None</strong>
-                            </summary>
-                            <div class="client-service__body" data-service-body></div>
-                        </details>
-                    </li>
+                    <li class="client-empty">No active services are listed yet.</li>
                 </ul>
             </section>
             <section class="client-reports">
@@ -180,105 +127,7 @@
                         </tbody>
                     </table>
                 </div>
-                <form class="dash-form seo-composer" data-admin-only data-seo-report-form id="seo-report">
-                    <h3 class="dash-form__heading">Create SEO report</h3>
-                    <p class="dash-copy dash-copy--left">Upload this month’s screenshots and the Ubersuggest PDF, then edit each recap. Last month’s shots carry forward automatically. If the client has no Google Ads, leave that box off and we’ll put N/A.</p>
-                    <input type="hidden" name="slug" value="">
-                    <div class="dash-form__grid">
-                        <label>Month
-                            <select name="month" required>
-                            <option value="01">January</option>
-                            <option value="02">February</option>
-                            <option value="03">March</option>
-                            <option value="04">April</option>
-                            <option value="05">May</option>
-                            <option value="06">June</option>
-                            <option value="07">July</option>
-                            <option value="08">August</option>
-                            <option value="09">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                            </select>
-                        </label>
-                        <label>Year
-                            <input name="year" type="number" min="2020" max="2100" required>
-                        </label>
-                    </div>
-                    <label class="portal-check"><input name="hasGoogleAds" type="checkbox" checked><span>This client has Google Ads this month</span></label>
-                    <div class="dash-form__grid">
-                        <label>Technical SEO screenshot
-                            <input name="techThisMonth" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
-                        </label>
-                        <label>Keywords SEO screenshot
-                            <input name="keywordsThisMonth" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
-                        </label>
-                        <label>Ubersuggest keyword PDF
-                            <input name="keywordPdf" type="file" accept="application/pdf">
-                        </label>
-                        <label data-ads-upload>Google Ads screenshot
-                            <input name="adsImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
-                        </label>
-                    </div>
-                    <p class="dash-copy dash-copy--left" data-asset-status></p>
-                    <label>Campaign intro
-                        <textarea name="campaignIntro" rows="6" placeholder="Who this campaign is for, the market, and the goal."></textarea>
-                    </label>
-                    <label>Monthly recap
-                        <textarea name="monthlyRecap" rows="6" placeholder="What moved this month."></textarea>
-                    </label>
-                    <label>Technical SEO recap
-                        <textarea name="technicalRecap" rows="5"></textarea>
-                    </label>
-                    <h4 class="dash-form__heading">Internal links added</h4>
-                    <div data-link-log><div class="seo-log-row" data-log-row>
-                    <label>Date<input data-log="date" type="date"></label>
-                    <label>Keyword<input data-log="keyword" type="text"></label>
-                    <label>Source post<input data-log="source" type="text"></label>
-                    <label>Target<input data-log="target" type="text" value="Page"></label>
-                    <label>Links added / notes<input data-log="linksAdded" type="text"></label>
-                    <button class="dash-form__remove" type="button" data-remove-log>Remove</button>
-                </div></div>
-                    <p><button class="dash-form__add" type="button" data-add-log="link">Add a link row</button></p>
-                    <label>Keyword rankings recap
-                        <textarea name="keywordsRecap" rows="5"></textarea>
-                    </label>
-                    <h4 class="dash-form__heading">New content and updates</h4>
-                    <div data-content-log><div class="seo-log-row" data-log-row>
-                    <label>Date<input data-log="date" type="date"></label>
-                    <label>Keyword<input data-log="keyword" type="text"></label>
-                    <label>Source post<input data-log="source" type="text"></label>
-                    <label>Target<input data-log="target" type="text" value="Page"></label>
-                    <label>Links added / notes<input data-log="linksAdded" type="text"></label>
-                    <button class="dash-form__remove" type="button" data-remove-log>Remove</button>
-                </div></div>
-                    <p><button class="dash-form__add" type="button" data-add-log="content">Add a content row</button></p>
-                    <label>New content recap
-                        <textarea name="contentRecap" rows="4"></textarea>
-                    </label>
-                    <label data-ads-recap>Google Ads recap
-                        <textarea name="adsRecap" rows="4"></textarea>
-                    </label>
-                    <label>Next steps and strategy
-                        <textarea name="nextSteps" rows="5"></textarea>
-                    </label>
-                    <div class="dash-form__actions">
-                        <button class="ld-btn" type="submit">Save SEO report</button>
-                    </div>
-                </form>
             </section>
-                <section class="client-reports">
-                    <h2 class="client-reports__heading">Credentials</h2>
-                    <p class="client-empty client-empty--lead">Logins for tools this business uses. Passwords stay hidden until you tap the eye.</p>
-                    <form class="dash-form" data-apps-form>
-                        <div class="dash-creds" data-app-list></div>
-                        <p><button class="dash-form__add" type="button" data-add-app>Add a login</button></p>
-                        <div class="dash-form__actions">
-                            <button class="ld-btn" type="submit">Save credentials</button>
-                        </div>
-                    </form>
-                </section>
-
             </div>
         </section>
     </main>
@@ -327,8 +176,8 @@
         </div>
     </footer>
     <script src="../../js/site-nav.js" defer></script>
-    <script src="../../js/portal-auth.js?v=20260820e" defer></script>
-    <script src="../../js/client-workspace.js?v=20260820e" defer></script>
+    <script src="../../js/portal-auth.js?v=20260827a" defer></script>
+    <script src="../../js/client-workspace.js?v=20260827a" defer></script>
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');
@@ -343,5 +192,6 @@
         location.href = row.getAttribute('data-href');
     });
     </script>
+    <!-- lp:custom-body-end -->
 </body>
 </html>

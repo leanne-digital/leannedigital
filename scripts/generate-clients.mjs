@@ -35,6 +35,18 @@ const SERVICE_LABELS = {
     hosting: 'Hosting',
     maintenance: 'Maintenance',
     management: 'Site management',
+    website: 'Web development',
+    ads: 'Paid ads management',
+};
+
+const SERVICE_DESCRIPTIONS = {
+    seo: 'Ongoing technical, on-page, content, and visibility work to strengthen organic search performance.',
+    aeo: 'Optimization for AI search, answer engines, structured content, and clear machine-readable information.',
+    hosting: 'Managed hosting, uptime support, and technical infrastructure care for the website.',
+    maintenance: 'Regular updates, monitoring, backups, and fixes to keep the site secure and reliable.',
+    management: 'Ongoing page updates, content support, and day-to-day website care.',
+    website: 'Website planning, design, development, and launch support.',
+    ads: 'Paid campaign planning, management, and performance optimization.',
 };
 
 function writePage(relativeDir, html) {
@@ -354,35 +366,40 @@ ${portalScripts(1)}
 `;
 }
 
-function slotStatus(client, slot) {
-    const service = (client.services || []).find((row) => row.type === slot.type);
-    if (service?.amount) return cycleLabel(service) || service.label || 'Signed up';
-    if (service) return service.label || 'Signed up';
-    if (slot.type === 'seo' && (client.reports || []).length) return 'Ongoing Monthly SEO';
-    if (slot.type === 'hosting' && client.hosting?.provider) {
-        return [client.hosting.provider, client.hosting.lddHosted ? 'Hosted by us' : 'External hosting']
-            .filter(Boolean)
-            .join(' · ');
+function activeServices(client) {
+    const services = [...(client.services || [])];
+    if ((client.reports || []).length && !services.some((service) => service.type === 'seo')) {
+        services.unshift({ type: 'seo', label: 'Ongoing Monthly SEO' });
     }
-    return 'None';
+    if (client.hosting?.provider && !services.some((service) => service.type === 'hosting')) {
+        services.push({ type: 'hosting', label: 'Website Hosting' });
+    }
+    return services.filter((service, index) =>
+        services.findIndex((candidate) => candidate.type === service.type) === index
+    );
+}
+
+function serviceCheckIcon() {
+    return '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10.5 3.6 3.6L16 5.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"/></svg>';
 }
 
 function renderServiceList(client) {
-    const items = SERVICE_SLOTS.map(
-        (slot) => `                    <li>
-                        <details class="client-service" data-service-slot="${escapeHtml(slot.type)}">
-                            <summary>
-                                <span>${escapeHtml(slot.title)}</span>
-                                <strong data-service-status>${escapeHtml(slotStatus(client, slot))}</strong>
-                            </summary>
-                            <div class="client-service__body" data-service-body></div>
-                        </details>
-                    </li>`
-    ).join('\n');
+    const services = activeServices(client);
+    const items = services.map((service) => {
+        const title = service.label || SERVICE_LABELS[service.type] || service.type;
+        const description = SERVICE_DESCRIPTIONS[service.type] || 'Ongoing support tailored to this client’s needs.';
+        return `                    <li class="client-service-summary">
+                        <span class="client-service-summary__icon">${serviceCheckIcon()}</span>
+                        <div>
+                            <h3>${escapeHtml(title)}</h3>
+                            <p>${escapeHtml(description)}</p>
+                        </div>
+                    </li>`;
+    }).join('\n');
     return `            <section class="client-reports">
                 <h2 class="client-reports__heading">Services</h2>
                 <ul class="client-service-list">
-${items}
+${items || '                    <li class="client-empty">No active services are listed yet.</li>'}
                 </ul>
             </section>`;
 }
@@ -405,45 +422,16 @@ function planTypeLabel(service) {
     return SERVICE_LABELS[service.type] || service.label || service.type;
 }
 
-function accountRows(client) {
-    const rows = [];
-    const started = startedIso(client);
-    const billed = new Set();
+function reportRows(client) {
     const reports = [...(client.reports || [])].sort((a, b) =>
         String(b.monthKey || b.slug || '').localeCompare(String(a.monthKey || a.slug || ''))
     );
-    for (const report of reports) {
-        rows.push({
-            href: `/clients/${client.slug}/${report.slug}/`,
-            item: report.title,
-            type: reportTypeLabel(report),
-            details: 'Open report',
-        });
-    }
-    for (const service of client.services || []) {
-        billed.add(service.type);
-        const bits = [service.amount ? cycleLabel(service) : 'Included'];
-        if (started) bits.push(`Signed up ${formatDay(started)}`);
-        if (service.lastBilled) bits.push(`Started ${formatDay(service.lastBilled)}`);
-        if (service.nextBillDate) bits.push(`Next renewal ${formatDay(service.nextBillDate)}`);
-        rows.push({
-            href: '',
-            item: service.label || SERVICE_LABELS[service.type] || service.type,
-            type: planTypeLabel(service),
-            details: bits.join(' · '),
-        });
-    }
-    if (client.hosting?.provider && !billed.has('hosting')) {
-        const bits = [client.hosting.provider, client.hosting.lddHosted ? 'Hosted by us' : 'External hosting'];
-        if (started) bits.push(`Signed up ${formatDay(started)}`);
-        rows.push({
-            href: '',
-            item: 'Hosting',
-            type: 'Hosting',
-            details: bits.join(' · '),
-        });
-    }
-    return rows;
+    return reports.map((report) => ({
+        href: `/clients/${client.slug}/${report.slug}/`,
+        item: report.title,
+        type: reportTypeLabel(report),
+        details: 'Open report',
+    }));
 }
 
 function logRowMarkup() {
@@ -538,7 +526,7 @@ ${months}
 }
 
 function renderAccountTable(client) {
-    const rows = accountRows(client).filter((row) => row.href);
+    const rows = reportRows(client);
     if (!rows.length) {
         return `            <section class="client-reports">
                 <h2 class="client-reports__heading">Reports</h2>
@@ -557,7 +545,6 @@ function renderAccountTable(client) {
                         </tbody>
                     </table>
                 </div>
-${renderSeoReportComposer()}
             </section>`;
     }
     const body = rows
@@ -587,7 +574,6 @@ ${body}
                         </tbody>
                     </table>
                 </div>
-${renderSeoReportComposer()}
             </section>`;
 }
 
@@ -667,22 +653,13 @@ function renderClientPage(client) {
     const bio = client.bio
         ? `<p class="client-profile__bio">${escapeHtml(client.bio)}</p>`
         : '';
-    const contact = client.contactName ? escapeHtml(client.contactName) : '';
-    const links = renderLinks(client);
-    const asset = client.asset
-        ? `<figure class="client-profile__asset">
-                    <img src="${escapeHtml(client.asset)}" alt="${escapeHtml(client.name)} website" width="734" height="1024">
-                </figure>`
-        : '';
-    const headerClass = client.asset
-        ? 'container client-profile__header client-profile__header--asset'
-        : 'container client-profile__header';
 
     return `${renderHead({
         title: `${client.name} | Client Portal | Leanne Digital`,
         description: `Client portal for ${client.name}.`,
         depth: 2,
         extraCss: ['clients.css'],
+        cssVersion: '20260831b',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
     })}
@@ -690,37 +667,15 @@ function renderClientPage(client) {
 ${renderNav(2, '/clients/')}
     <main id="main">
         <section class="clients-hero section--navy">
-            <div class="${headerClass}">
-                <div class="client-profile__copy">
-                    <a class="client-reports__back" href="/clients/" data-admin-only>All clients</a>
-                    <a class="client-reports__back" href="/client-portal/" data-client-only>Your portal</a>
-                    <a class="client-reports__back" href="/admin/?client=${escapeHtml(client.slug)}#new-client" data-admin-only>Edit in admin</a>
-                    <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
-                    ${contact ? `<p class="client-profile__lead">${contact}</p>` : ''}
-                    ${links}
-                    ${bio}
-                </div>
-                ${asset}
+            <div class="container client-profile__header">
+                <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
+                ${bio}
             </div>
         </section>
         <section class="client-page section--navy">
             <div class="container">
-                <p class="login-form__error client-workspace-msg" data-workspace-error hidden></p>
-                <p class="login-form__ok client-workspace-msg" data-workspace-ok hidden></p>
 ${renderServiceList(client)}
 ${renderAccountTable(client)}
-                <section class="client-reports">
-                    <h2 class="client-reports__heading">Credentials</h2>
-                    <p class="client-empty client-empty--lead">Logins for tools this business uses. Passwords stay hidden until you tap the eye.</p>
-                    <form class="dash-form" data-apps-form>
-                        <div class="dash-creds" data-app-list></div>
-                        <p><button class="dash-form__add" type="button" data-add-app>Add a login</button></p>
-                        <div class="dash-form__actions">
-                            <button class="ld-btn" type="submit">Save credentials</button>
-                        </div>
-                    </form>
-                </section>
-${renderIncludes(client)}
             </div>
         </section>
     </main>
