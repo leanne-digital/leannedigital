@@ -21,12 +21,13 @@ const REPORTS_DIR = path.join(ROOT, 'data', 'client-reports');
 const ROBOTS = 'noindex, nofollow';
 const SCRIPT_V = '20260827a';
 
-const SERVICE_SLOTS = [
-    { type: 'seo', title: 'Ongoing Monthly SEO' },
-    { type: 'maintenance', title: 'Site Maintenance' },
-    { type: 'management', title: 'Monthly Site Management' },
-    { type: 'hosting', title: 'Website Hosting' },
-    { type: 'aeo', title: 'AEO' },
+const SERVICE_OFFERINGS = [
+    { types: ['seo'], title: 'Monthly SEO', description: 'Ongoing technical, on-page, content, and visibility work to strengthen organic search performance.' },
+    { types: ['aeo'], title: 'Monthly AEO', description: 'Optimization for AI search, answer engines, structured content, and clear machine-readable information.' },
+    { types: ['technical-seo'], title: 'Monthly Technical SEO Management', description: 'Technical auditing, crawl and indexation monitoring, and ongoing fixes that keep the site search-ready.' },
+    { types: ['management', 'website'], title: 'Managed AI-Assisted Website', description: 'Ongoing website improvements, content support, and AI-assisted development for a current, effective site.' },
+    { types: ['maintenance'], title: 'WordPress Website Backups and Security Management', description: 'Regular backups, software updates, monitoring, and security care for WordPress websites.' },
+    { types: ['hosting'], title: 'Website Hosting', description: 'Managed hosting, uptime support, and technical infrastructure care for the website.' },
 ];
 
 const SERVICE_LABELS = {
@@ -366,40 +367,32 @@ ${portalScripts(1)}
 `;
 }
 
-function activeServices(client) {
-    const services = [...(client.services || [])];
-    if ((client.reports || []).length && !services.some((service) => service.type === 'seo')) {
-        services.unshift({ type: 'seo', label: 'Ongoing Monthly SEO' });
-    }
-    if (client.hosting?.provider && !services.some((service) => service.type === 'hosting')) {
-        services.push({ type: 'hosting', label: 'Website Hosting' });
-    }
-    return services.filter((service, index) =>
-        services.findIndex((candidate) => candidate.type === service.type) === index
-    );
-}
-
 function serviceCheckIcon() {
     return '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10.5 3.6 3.6L16 5.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"/></svg>';
 }
 
+function serviceAvailableIcon() {
+    return '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+}
+
 function renderServiceList(client) {
-    const services = activeServices(client);
-    const items = services.map((service) => {
-        const title = service.label || SERVICE_LABELS[service.type] || service.type;
-        const description = SERVICE_DESCRIPTIONS[service.type] || 'Ongoing support tailored to this client’s needs.';
-        return `                    <li class="client-service-summary">
-                        <span class="client-service-summary__icon">${serviceCheckIcon()}</span>
+    const activeTypes = new Set((client.services || []).map((service) => service.type));
+    if ((client.reports || []).length) activeTypes.add('seo');
+    if (client.hosting?.provider) activeTypes.add('hosting');
+    const items = SERVICE_OFFERINGS.map((service) => {
+        const active = service.types.some((type) => activeTypes.has(type));
+        return `                    <li class="client-service-summary${active ? ' client-service-summary--active' : ''}">
+                        <span class="client-service-summary__icon" aria-label="${active ? 'Included service' : 'Available service'}">${active ? serviceCheckIcon() : serviceAvailableIcon()}</span>
                         <div>
-                            <h3>${escapeHtml(title)}</h3>
-                            <p>${escapeHtml(description)}</p>
+                            <h3>${escapeHtml(service.title)}</h3>
+                            <p>${escapeHtml(service.description)}</p>
                         </div>
                     </li>`;
     }).join('\n');
     return `            <section class="client-reports">
                 <h2 class="client-reports__heading">Services</h2>
-                <ul class="client-service-list">
-${items || '                    <li class="client-empty">No active services are listed yet.</li>'}
+                <ul class="client-service-list" aria-label="Available Leanne Digital services">
+${items}
                 </ul>
             </section>`;
 }
@@ -653,13 +646,18 @@ function renderClientPage(client) {
     const bio = client.bio
         ? `<p class="client-profile__bio">${escapeHtml(client.bio)}</p>`
         : '';
+    const asset = client.asset
+        ? `<figure class="client-profile__asset">
+                    <img src="${escapeHtml(client.asset)}" alt="${escapeHtml(client.name)} website overview">
+                </figure>`
+        : '';
 
     return `${renderHead({
         title: `${client.name} | Client Portal | Leanne Digital`,
         description: `Client portal for ${client.name}.`,
         depth: 2,
         extraCss: ['clients.css'],
-        cssVersion: '20260831b',
+        cssVersion: '20260831c',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
     })}
@@ -670,6 +668,7 @@ ${renderNav(2, '/clients/')}
             <div class="container client-profile__header">
                 <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
                 ${bio}
+${asset}
             </div>
         </section>
         <section class="client-page section--navy">
