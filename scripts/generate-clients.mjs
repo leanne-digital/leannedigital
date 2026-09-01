@@ -174,14 +174,14 @@ function renderHostingDirectory(clients) {
     return `${renderHead({
         title: 'Hosting Clients | Leanne Digital',
         description: 'Leanne Digital hosting accounts and renewal schedule.',
-        depth: 0,
+        depth: 1,
         extraCss: ['clients.css'],
         robots: ROBOTS,
         canonical: `${SITE_URL}/hosting/`,
         path: '/hosting/',
     })}
 <body class="page-inner hosting-directory" data-portal-gate data-portal-role="staff">
-${renderNav(0, '/hosting/')}
+${renderNav(1, '/hosting/')}
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="container">
@@ -209,8 +209,8 @@ ${rows || '                            <tr><td colspan="6">No hosting clients ar
             </div>
         </section>
     </main>
-${renderFullFooter(0)}
-${portalScripts(0)}
+${renderFullFooter(1)}
+${portalScripts(1)}
 </body>
 </html>`;
 }
@@ -235,14 +235,14 @@ function renderServiceDirectory({ route, title, lead, types }, clients) {
     return `${renderHead({
         title: `${title} | Leanne Digital`,
         description: lead,
-        depth: 0,
+        depth: 1,
         extraCss: ['clients.css'],
         robots: ROBOTS,
         canonical: `${SITE_URL}${route}`,
         path: route,
     })}
 <body class="page-inner service-directory" data-portal-gate data-portal-role="staff">
-${renderNav(0, route)}
+${renderNav(1, route)}
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="container">
@@ -264,8 +264,8 @@ ${rows || '                            <tr><td colspan="6">No active clients are
             </div>
         </section>
     </main>
-${renderFullFooter(0)}
-${portalScripts(0)}
+${renderFullFooter(1)}
+${portalScripts(1)}
 </body>
 </html>`;
 }
