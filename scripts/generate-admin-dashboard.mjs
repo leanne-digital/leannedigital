@@ -15,7 +15,7 @@ import { renderAdminSidebar } from './admin-navigation.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260901d';
+const SCRIPT_V = '20260901e';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);

@@ -652,8 +652,8 @@
             clientForm.name.value = client?.name || '';
             clientForm.contactName.value = client?.contactName || '';
             clientForm.email.value = client?.email || '';
-            clientForm.phone.value = client?.phone || '';
-            clientForm.website.value = client?.website || '';
+            clientForm.elements.phone.value = client?.phone || '';
+            clientForm.elements.website.value = client?.website || '';
             const have = serviceTypesOf(client || {});
             $$('input[name="serviceTypes"]', clientForm).forEach((input) => {
                 const aliases =
@@ -872,10 +872,10 @@
                           name: clientForm.name.value,
                           contactName: clientForm.contactName.value,
                           email: clientForm.email.value,
-                          phone: clientForm.phone.value,
-                          website: /^https?:\/\/$/i.test(String(clientForm.website.value || '').trim())
+                          phone: clientForm.elements.phone.value,
+                          website: /^https?:\/\/$/i.test(String(clientForm.elements.website.value || '').trim())
                               ? ''
-                              : clientForm.website.value,
+                              : clientForm.elements.website.value,
                           ...packagePayload(clientForm),
                       };
                 if (!isStaffAccount && (!clientForm.slug.value || clientForm.dataset.credentialsLoaded === '1')) {
