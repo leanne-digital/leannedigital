@@ -15,7 +15,7 @@ import { renderAdminSidebar } from './admin-navigation.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260901e';
+const SCRIPT_V = '20260901f';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -247,7 +247,7 @@ ${panel(
                         </label>
                         <p class="dash-copy dash-copy--left" data-account-lead>Clients get their own portal. Admins and super admins can sign in to this dashboard.</p>
                         <div class="dash-form__grid">
-                            <label data-client-only>Business name
+                            <label data-admin-client-only>Business name
                                 <input name="name" type="text" autocomplete="organization">
                             </label>
                             <label><span data-name-label>Contact name</span>
@@ -256,14 +256,14 @@ ${panel(
                             <label>Email
                                 <input name="email" type="email" required autocomplete="email">
                             </label>
-                            <label data-client-only>Phone
+                            <label data-admin-client-only>Phone
                                 <input name="phone" type="tel" autocomplete="tel">
                             </label>
-                            <label data-client-only>Website
+                            <label data-admin-client-only>Website
                                 <input name="website" type="url" placeholder="https://">
                             </label>
                         </div>
-                        <div data-client-only>
+                        <div data-admin-client-only>
                             <h3 class="dash-form__heading">Work with us</h3>
                             <div class="portal-checks admin-service-checks">
                                 <label class="portal-check"><input type="checkbox" name="serviceTypes" value="website"><span>Web development</span></label>
@@ -277,7 +277,7 @@ ${panel(
                                 <label class="portal-check"><input type="checkbox" name="serviceTypes" value="automations"><span>Automations</span></label>
                             </div>
                         </div>
-                        <div data-client-only>
+                        <div data-admin-client-only>
                             <h3 class="dash-form__heading">Services</h3>
                             <p class="dash-copy dash-copy--left">Turn on a service to bill it. Amounts stay empty until you type them.</p>
                             <article class="admin-package is-off" data-package-block="hosting">
@@ -333,7 +333,7 @@ ${panel(
                                 </div>
                             </article>
                         </div>
-                        <div data-client-only>
+                        <div data-admin-client-only>
                             <h3 class="dash-form__heading">Total revenue</h3>
                             <p class="dash-copy dash-copy--left">Yearly hosting stays yearly. Monthly retainers stay monthly.</p>
                             <div class="dash-form__grid">
@@ -347,7 +347,7 @@ ${panel(
                             <ul class="admin-revenue" data-revenue-lines></ul>
                             <p class="dash-form__total"><strong data-package-total>$0</strong></p>
                         </div>
-                        <div data-client-only>
+                        <div data-admin-client-only>
                             <h3 class="dash-form__heading">Credentials</h3>
                             <p class="dash-copy dash-copy--left">Hosting, domain, email, and any other logins we keep for this client. Passwords stay hidden until you tap the eye. Clients never see this list.</p>
                             <div class="dash-creds" data-credential-list></div>

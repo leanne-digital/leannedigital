@@ -570,7 +570,7 @@
             if (!clientForm) return;
             const type = accountType();
             const isClient = type === 'client' || Boolean(clientForm.slug.value);
-            $$('[data-client-only]', clientForm).forEach((el) => {
+            $$('[data-admin-client-only]', clientForm).forEach((el) => {
                 el.hidden = !isClient;
             });
             const nameLabel = $('[data-name-label]', clientForm);
