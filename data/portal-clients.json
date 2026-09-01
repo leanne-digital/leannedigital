@@ -2,7 +2,7 @@
   {
     "id": 22,
     "slug": "oatley-vigmond",
-    "name": "Oatley Vigmond Personal Injury Firm",
+    "name": "Oatley Vigmond",
     "contactName": "Claudia Talaugon",
     "email": "ctalaugon@oatleyvigmond.com",
     "location": null,
@@ -14,8 +14,31 @@
       "lddHosted": false
     },
     "currency": "CAD",
-    "services": [],
-    "createdAt": "2025-11-13 04:03:17"
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 125,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      },
+      {
+        "type": "aeo",
+        "amount": 425,
+        "cycle": "monthly",
+        "label": "Technical SEO"
+      }
+    ],
+    "createdAt": "2025-11-13 04:03:17",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 23,
@@ -38,7 +61,7 @@
   {
     "id": 24,
     "slug": "ti-yende-movers-and-transportation",
-    "name": "Ti-Yende Movers & Transportation",
+    "name": "Ti-Yende Movers",
     "contactName": "William Chishimba",
     "email": "ti-yendemovers@live.com",
     "location": null,
@@ -50,13 +73,29 @@
       "lddHosted": false
     },
     "currency": "CAD",
-    "services": [],
-    "createdAt": "2025-11-13 05:10:34"
+    "services": [
+      {
+        "type": "maintenance",
+        "cycle": "yearly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "createdAt": "2025-11-13 05:10:34",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 25,
     "slug": "floco-decking-systems",
-    "name": "Floco Decking Systems",
+    "name": "FLOCO / Floco Decking Systems",
     "contactName": "Lexi Aarnes",
     "email": "lexi@flocodeckingsystems.com",
     "location": null,
@@ -68,8 +107,25 @@
       "lddHosted": false
     },
     "currency": "CAD",
-    "services": [],
-    "createdAt": "2025-11-16 00:09:00"
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "createdAt": "2025-11-16 00:09:00",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 28,
@@ -140,8 +196,25 @@
       "lddHosted": false
     },
     "currency": "CAD",
-    "services": [],
-    "createdAt": "2025-12-02 15:50:46"
+    "services": [
+      {
+        "type": "seo",
+        "amount": 1000,
+        "cycle": "monthly",
+        "label": "Standard SEO"
+      }
+    ],
+    "createdAt": "2025-12-02 15:50:46",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 33,
@@ -246,11 +319,11 @@
   {
     "id": 40,
     "slug": "davis-window-and-door",
-    "name": "Davis Window and Door",
+    "name": "Davis Window & Door",
     "contactName": "Mauricio James",
     "email": "mauricio.jaimes@daviswin.com",
     "location": null,
-    "website": "https://my.hosting.com/",
+    "website": "https://daviswin.com/",
     "platform": "WordPress",
     "hosting": {
       "type": "External",
@@ -258,64 +331,116 @@
       "lddHosted": false
     },
     "currency": "CAD",
-    "services": [],
-    "createdAt": "2026-04-09 17:08:47"
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      },
+      {
+        "type": "aeo",
+        "amount": 350,
+        "cycle": "monthly",
+        "label": "Technical SEO & AEO"
+      }
+    ],
+    "createdAt": "2026-04-09 17:08:47",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 41,
     "slug": "sd-accounting",
-    "name": "SD Accounting",
+    "name": "S+D Accounting",
     "contactName": "Bradon Levalds",
     "email": "bradon@sdaccounting.ca",
     "location": null,
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": null,
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
       "lddHosted": true
     },
     "currency": "CAD",
     "services": [
       {
         "type": "hosting",
-        "label": "LDD Hosting",
         "amount": 250,
         "cycle": "yearly",
-        "taxRate": 5,
+        "label": "Website Hosting",
         "lastBilled": "2026-04-17",
         "nextBillDate": "2027-04-17"
+      },
+      {
+        "type": "maintenance",
+        "amount": 40,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
       }
     ],
-    "createdAt": "2026-04-19 20:43:32"
+    "createdAt": "2026-04-19 20:43:32",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 42,
     "slug": "ckf",
-    "name": "CKF",
+    "name": "CKF Inc.",
     "contactName": "Benny Gendelman",
     "email": "BGendelman@ckfinc.com",
     "location": null,
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": null,
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
       "lddHosted": true
     },
     "currency": "CAD",
     "services": [
       {
         "type": "hosting",
-        "label": "LDD Hosting",
-        "amount": 1000,
+        "amount": 600,
         "cycle": "yearly",
-        "taxRate": 5,
+        "label": "Hosting + Maintenance Bundle",
         "lastBilled": "2026-04-25",
         "nextBillDate": "2027-04-25"
+      },
+      {
+        "type": "maintenance",
+        "cycle": "yearly",
+        "label": "Hosting + Maintenance Bundle"
       }
     ],
-    "createdAt": "2026-05-13 18:44:53"
+    "createdAt": "2026-05-13 18:44:53",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 43,
@@ -327,23 +452,31 @@
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": null,
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
       "lddHosted": true
     },
     "currency": "CAD",
     "services": [
       {
         "type": "hosting",
-        "label": "LDD Hosting",
-        "amount": 250,
         "cycle": "yearly",
-        "taxRate": 5,
+        "label": "Website Hosting",
         "lastBilled": "2026-05-13",
         "nextBillDate": "2027-05-13"
       }
     ],
-    "createdAt": "2026-05-13 18:51:07"
+    "createdAt": "2026-05-13 18:51:07",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 44,
@@ -355,23 +488,37 @@
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": null,
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
       "lddHosted": true
     },
     "currency": "CAD",
     "services": [
       {
         "type": "hosting",
-        "label": "LDD Hosting",
-        "amount": 250,
+        "amount": 400,
         "cycle": "yearly",
-        "taxRate": 5,
+        "label": "Hosting + Maintenance Bundle",
         "lastBilled": "2026-06-05",
         "nextBillDate": "2027-06-05"
+      },
+      {
+        "type": "maintenance",
+        "cycle": "yearly",
+        "label": "Hosting + Maintenance Bundle"
       }
     ],
-    "createdAt": "2026-06-02 20:38:32"
+    "createdAt": "2026-06-02 20:38:32",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 45,
@@ -404,58 +551,76 @@
   {
     "id": 46,
     "slug": "rational-wealth",
-    "name": "Rational Wealth",
+    "name": "Simplicity Financial",
     "contactName": "Bradon Levalds",
     "email": "bradon@sdaccounting.ca",
     "location": null,
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": null,
-      "lddHosted": false
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
+      "lddHosted": true
     },
     "currency": "CAD",
     "services": [
       {
         "type": "hosting",
-        "label": "LDD Hosting",
-        "amount": 300,
+        "amount": 250,
         "cycle": "yearly",
-        "taxRate": 5,
+        "label": "Website Hosting",
         "lastBilled": "2026-07-10",
         "nextBillDate": "2027-07-10"
       }
     ],
-    "createdAt": "2026-07-25 07:38:56"
+    "createdAt": "2026-07-25 07:38:56",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 47,
     "slug": "thank-you-for-dating-with-us",
-    "name": "Thank You For Dating With Us",
+    "name": "Thank You For Dating Us",
     "contactName": "Jaida Pervis",
     "email": null,
     "location": null,
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": null,
-      "lddHosted": false
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
+      "lddHosted": true
     },
     "currency": "CAD",
     "services": [
       {
         "type": "hosting",
-        "label": "LDD Hosting",
-        "amount": 250,
+        "amount": 300,
         "cycle": "yearly",
-        "taxRate": 5,
+        "label": "Website Hosting",
         "lastBilled": "2026-08-05",
         "nextBillDate": "2027-08-05"
       }
     ],
-    "createdAt": "2026-08-05 05:39:13"
+    "createdAt": "2026-08-05 05:39:13",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
   },
   {
     "id": 48,
@@ -467,6 +632,47 @@
     "website": null,
     "platform": "WordPress",
     "hosting": {
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
+      "lddHosted": true
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "hosting",
+        "amount": 300,
+        "cycle": "yearly",
+        "label": "Website Hosting",
+        "lastBilled": "2026-07-17",
+        "nextBillDate": "2027-07-17"
+      }
+    ],
+    "createdAt": "2026-08-05 13:37:13",
+    "phone": null,
+    "googleDrive": null,
+    "domainProvider": null,
+    "emailProvider": null,
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null
+  },
+  {
+    "id": 100,
+    "slug": "cuttermasters",
+    "name": "Cuttermasters",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null,
+    "googleDrive": null,
+    "platform": "WordPress",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
       "type": "External",
       "provider": null,
       "lddHosted": false
@@ -474,15 +680,262 @@
     "currency": "CAD",
     "services": [
       {
-        "type": "hosting",
-        "label": "LDD Hosting",
-        "amount": 300,
-        "cycle": "yearly",
-        "taxRate": 5,
-        "lastBilled": "2026-07-17",
-        "nextBillDate": "2027-07-17"
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
       }
     ],
-    "createdAt": "2026-08-05 13:37:13"
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": {
+      "completedAt": null,
+      "goals": "",
+      "notes": "",
+      "preferredContact": "email",
+      "googleAnalytics": "",
+      "searchConsole": "",
+      "servicesNeeded": [],
+      "socials": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "googleBusiness": ""
+      }
+    },
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-01 15:29:27"
+  },
+  {
+    "id": 101,
+    "slug": "effy-blue",
+    "name": "Effy Blue",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null,
+    "googleDrive": null,
+    "platform": "WordPress",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 30,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": {
+      "completedAt": null,
+      "goals": "",
+      "notes": "",
+      "preferredContact": "email",
+      "googleAnalytics": "",
+      "searchConsole": "",
+      "servicesNeeded": [],
+      "socials": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "googleBusiness": ""
+      }
+    },
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-01 15:29:27"
+  },
+  {
+    "id": 102,
+    "slug": "mulchr",
+    "name": "Mulchr",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null,
+    "googleDrive": null,
+    "platform": "WordPress",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": {
+      "completedAt": null,
+      "goals": "",
+      "notes": "",
+      "preferredContact": "email",
+      "googleAnalytics": "",
+      "searchConsole": "",
+      "servicesNeeded": [],
+      "socials": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "googleBusiness": ""
+      }
+    },
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-01 15:29:27"
+  },
+  {
+    "id": 103,
+    "slug": "stratapath",
+    "name": "Stratapath",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null,
+    "googleDrive": null,
+    "platform": "WordPress",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 50,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": {
+      "completedAt": null,
+      "goals": "",
+      "notes": "",
+      "preferredContact": "email",
+      "googleAnalytics": "",
+      "searchConsole": "",
+      "servicesNeeded": [],
+      "socials": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "googleBusiness": ""
+      }
+    },
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-01 15:29:28"
+  },
+  {
+    "slug": "shift-physiotherapy",
+    "name": "Shift Physiotherapy & Wellness",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null,
+    "googleDrive": null,
+    "platform": "WordPress",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "seo",
+        "amount": 1000,
+        "cycle": "monthly",
+        "label": "Standard SEO"
+      }
+    ],
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-01 15:29:28"
+  },
+  {
+    "id": 104,
+    "slug": "peguis-historical-society",
+    "name": "Peguis Historical Society",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": null,
+    "website": null,
+    "googleDrive": null,
+    "platform": "WordPress",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "project-management",
+        "amount": 4800,
+        "cycle": "monthly",
+        "label": "The Chief Peguis Story Website - Project Management Services"
+      }
+    ],
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": {
+      "completedAt": null,
+      "goals": "",
+      "notes": "",
+      "preferredContact": "email",
+      "googleAnalytics": "",
+      "searchConsole": "",
+      "servicesNeeded": [],
+      "socials": {
+        "facebook": "",
+        "instagram": "",
+        "linkedin": "",
+        "googleBusiness": ""
+      }
+    },
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-01 15:29:28"
   }
 ]

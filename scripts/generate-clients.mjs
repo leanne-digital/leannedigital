@@ -9,6 +9,7 @@ import {
 } from './layout.mjs';
 import { SITE_URL } from './site-config.mjs';
 import { loadClients } from './client-store.mjs';
+import { loadClientProjects } from './client-project-store.mjs';
 import { portalStats } from './portal-stats.mjs';
 import { generateLoginPages } from './generate-login.mjs';
 import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
@@ -38,6 +39,7 @@ const SERVICE_LABELS = {
     management: 'Site management',
     website: 'Web development',
     ads: 'Paid ads management',
+    'project-management': 'Project management',
 };
 
 const SERVICE_DESCRIPTIONS = {
@@ -48,6 +50,7 @@ const SERVICE_DESCRIPTIONS = {
     management: 'Ongoing page updates, content support, and day-to-day website care.',
     website: 'Website planning, design, development, and launch support.',
     ads: 'Paid campaign planning, management, and performance optimization.',
+    'project-management': 'Ongoing project management, coordination, and technical liaison support.',
 };
 
 function writePage(relativeDir, html) {
@@ -142,6 +145,129 @@ function statusLabel(status) {
     if (status === 'due-soon') return 'Due soon';
     if (status === 'unbilled') return 'No due date';
     return 'Upcoming';
+}
+
+function hostingCycleLabel(cycle) {
+    return cycle === 'monthly' ? 'Monthly' : cycle === 'yearly' ? 'Yearly' : '—';
+}
+
+function hostingProviderLabel(client) {
+    if (client.hosting?.provider) return client.hosting.provider;
+    if (client.hosting?.lddHosted) return 'Leanne Digital';
+    return client.hosting?.type || '—';
+}
+
+function renderHostingDirectory(clients) {
+    const stats = portalStats(clients);
+    const rows = stats.hostingAccounts.map((account) => {
+        const client = clients.find((entry) => entry.slug === account.slug);
+        return `                            <tr class="hosting-directory__row hosting-directory__row--${escapeHtml(account.status)}" data-href="/clients/${escapeHtml(account.slug)}/" tabindex="0">
+                                <td><a href="/clients/${escapeHtml(account.slug)}/">${escapeHtml(account.name)}</a></td>
+                                <td>${escapeHtml(hostingProviderLabel(client || {}))}</td>
+                                <td>${escapeHtml(account.amount ? money(account.amount) : '—')}</td>
+                                <td>${escapeHtml(hostingCycleLabel(account.cycle))}</td>
+                                <td>${escapeHtml(formatDay(account.nextBillDate) || 'No due date')}</td>
+                                <td><span class="hosting-directory__status">${escapeHtml(statusLabel(account.status))}</span></td>
+                            </tr>`;
+    }).join('\n');
+
+    return `${renderHead({
+        title: 'Hosting Clients | Leanne Digital',
+        description: 'Leanne Digital hosting accounts and renewal schedule.',
+        depth: 0,
+        extraCss: ['clients.css'],
+        robots: ROBOTS,
+        canonical: `${SITE_URL}/hosting/`,
+        path: '/hosting/',
+    })}
+<body class="page-inner hosting-directory" data-portal-gate data-portal-role="staff">
+${renderNav(0, '/hosting/')}
+    <main id="main">
+        <section class="clients-hero section--navy">
+            <div class="container">
+                <h1 class="clients-hero__title">Hosting clients</h1>
+                <p class="clients-hero__lead">Active website-hosting accounts, their current billing amount, and the next renewal date.</p>
+            </div>
+        </section>
+        <section class="section--navy hosting-directory__body">
+            <div class="container">
+                <div class="dash-grid hosting-directory__stats" aria-label="Hosting summary">
+                    <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(String(stats.hosting))}</p><h2 class="dash-stat__label">Hosting clients</h2></article>
+                    <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(String(stats.renewals.length))}</p><h2 class="dash-stat__label">Due within 60 days</h2></article>
+                    <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(money(stats.totals.hostingMonthly))}</p><h2 class="dash-stat__label">Average monthly value</h2></article>
+                </div>
+                <div class="dash-table-wrap hosting-directory__table-wrap">
+                    <table class="dash-table hosting-directory__table">
+                        <thead>
+                            <tr><th>Client</th><th>Provider</th><th>Amount paid</th><th>Cycle</th><th>Next due</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+${rows || '                            <tr><td colspan="6">No hosting clients are currently recorded.</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+${renderFullFooter(0)}
+${portalScripts(0)}
+</body>
+</html>`;
+}
+
+function renderServiceDirectory({ route, title, lead, types }, clients) {
+    const rows = loadClientProjects()
+        .filter((project) => types.includes(project.serviceType) && project.status !== 'cancelled')
+        .sort((a, b) => a.clientName.localeCompare(b.clientName))
+        .map((project) => {
+            const client = clients.find((entry) => entry.slug === project.clientSlug);
+            const status = String(project.status || 'active').replace(/-/g, ' ');
+            return `                            <tr class="service-directory__row service-directory__row--${escapeHtml(project.status || 'active')}" data-href="/clients/${escapeHtml(project.clientSlug)}/" tabindex="0">
+                                <td><a href="/clients/${escapeHtml(project.clientSlug)}/">${escapeHtml(client?.name || project.clientName)}</a></td>
+                                <td>${escapeHtml(project.name || '—')}</td>
+                                <td>${escapeHtml(Number(project.fee) ? money(project.fee) : 'Rate to confirm')}</td>
+                                <td>${escapeHtml(project.billingFrequency === 'yearly' ? 'Annual' : 'Monthly')}</td>
+                                <td><span class="service-directory__status">${escapeHtml(status)}</span></td>
+                                <td>${escapeHtml(project.notes || '—')}</td>
+                            </tr>`;
+        }).join('\n');
+
+    return `${renderHead({
+        title: `${title} | Leanne Digital`,
+        description: lead,
+        depth: 0,
+        extraCss: ['clients.css'],
+        robots: ROBOTS,
+        canonical: `${SITE_URL}${route}`,
+        path: route,
+    })}
+<body class="page-inner service-directory" data-portal-gate data-portal-role="staff">
+${renderNav(0, route)}
+    <main id="main">
+        <section class="clients-hero section--navy">
+            <div class="container">
+                <p class="client-reports__back"><a href="/admin/">Admin dashboard</a></p>
+                <h1 class="clients-hero__title">${escapeHtml(title)}</h1>
+                <p class="clients-hero__lead">${escapeHtml(lead)}</p>
+            </div>
+        </section>
+        <section class="section--navy service-directory__body">
+            <div class="container">
+                <div class="dash-table-wrap service-directory__table-wrap">
+                    <table class="dash-table service-directory__table">
+                        <thead><tr><th>Client</th><th>Project</th><th>2026 rate</th><th>Billing</th><th>Status</th><th>Notes</th></tr></thead>
+                        <tbody>
+${rows || '                            <tr><td colspan="6">No active clients are recorded for this service.</td></tr>'}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+${renderFullFooter(0)}
+${portalScripts(0)}
+</body>
+</html>`;
 }
 
 function renderDashboard(stats) {
@@ -667,8 +793,7 @@ ${renderNav(2, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
                 <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
-                ${bio}
-${asset}
+${bio}${asset ? `\n${asset}` : ''}
             </div>
         </section>
         <section class="client-page section--navy">
@@ -750,6 +875,37 @@ function main() {
     generateAdminDashboard();
     const clients = loadClients();
     writePage('clients', renderClientsHub(clients));
+    writePage('hosting', renderHostingDirectory(clients));
+    writePage('seo-clients', renderServiceDirectory({
+        route: '/seo-clients/',
+        title: 'SEO clients',
+        lead: 'Clients with active monthly SEO work, current billing information, and available reports.',
+        types: ['seo'],
+    }, clients));
+    writePage('technical-seo', renderServiceDirectory({
+        route: '/technical-seo/',
+        title: 'Technical SEO clients',
+        lead: 'Clients receiving ongoing technical SEO and AEO work, with current billing information and service details.',
+        types: ['aeo'],
+    }, clients));
+    writePage('maintenance', renderServiceDirectory({
+        route: '/maintenance/',
+        title: 'Maintenance clients',
+        lead: 'Clients receiving WordPress maintenance, backups, security, and ongoing website care.',
+        types: ['maintenance'],
+    }, clients));
+    writePage('site-management', renderServiceDirectory({
+        route: '/site-management/',
+        title: 'Site management clients',
+        lead: 'Clients receiving ongoing managed website updates and day-to-day technical support.',
+        types: ['management'],
+    }, clients));
+    writePage('project-management', renderServiceDirectory({
+        route: '/project-management/',
+        title: 'Project management clients',
+        lead: 'Clients receiving ongoing project management, coordination, and technical liaison support.',
+        types: ['project-management'],
+    }, clients));
     for (const client of clients) {
         writePage(path.join('clients', client.slug), renderClientPage(client));
         for (const report of client.reports || []) {

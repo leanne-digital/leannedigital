@@ -7,7 +7,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PROJECTS_FILE = path.join(ROOT, 'data', 'client-projects.json');
 const UPDATES_FILE = path.join(ROOT, 'data', 'client-project-updates.json');
 
-export const PROJECT_STATUSES = ['active', 'paused', 'completed', 'cancelled'];
+export const PROJECT_STATUSES = ['active', 'paused', 'completed', 'cancelled', 'delinquent', 'prepaid', 'complimentary'];
 export const SERVICE_TYPES = [
     'seo',
     'aeo',
@@ -22,6 +22,7 @@ export const SERVICE_TYPES = [
     'ads',
     'integrations',
     'automations',
+    'project-management',
     'custom',
 ];
 
@@ -63,6 +64,7 @@ function normalizeServiceType(value) {
     if (raw === 'site-updates' || raw === 'update') return 'updates';
     if (raw === 'integration') return 'integrations';
     if (raw === 'automation') return 'automations';
+    if (raw === 'project-management' || raw === 'project-management-services') return 'project-management';
     return raw || 'custom';
 }
 
@@ -93,6 +95,7 @@ function defaultName(client, serviceType) {
         'google-ads': 'Paid ads',
         integrations: 'Integrations',
         automations: 'Automations',
+        'project-management': 'Project management',
         custom: 'Project',
     };
     return `${client.name} — ${labels[serviceType] || serviceType}`;

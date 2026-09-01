@@ -26,6 +26,7 @@ const SERVICE_DEFAULTS = {
     ads: { label: 'Paid ads management', cycle: 'monthly' },
     integrations: { label: 'Integrations', cycle: 'monthly' },
     automations: { label: 'Automations', cycle: 'monthly' },
+    'project-management': { label: 'Project management', cycle: 'monthly' },
 };
 
 export const ADMIN_SERVICE_TYPES = [
@@ -39,6 +40,7 @@ export const ADMIN_SERVICE_TYPES = [
     'ads',
     'integrations',
     'automations',
+    'project-management',
 ];
 
 export function slugify(name) {

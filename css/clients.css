@@ -967,6 +967,94 @@ body.seo-report-page .client-report-page > :not(.container) {
     color: inherit;
 }
 
+.hosting-directory__body {
+    padding-block: 3rem;
+}
+
+.service-directory__body {
+    padding-block: 3rem;
+}
+
+.hosting-directory__stats {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.hosting-directory__table-wrap {
+    margin-bottom: 0;
+    border: 1px solid var(--ld-card-border);
+    border-radius: 14px;
+}
+
+.service-directory__table-wrap {
+    margin-bottom: 0;
+    border: 1px solid var(--ld-card-border);
+    border-radius: 14px;
+}
+
+.service-directory__table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.hosting-directory__table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.hosting-directory__row[data-href] {
+    cursor: pointer;
+    transition: background-color 160ms ease;
+}
+
+.service-directory__row[data-href] {
+    cursor: pointer;
+    transition: background-color 160ms ease;
+}
+
+.hosting-directory__row[data-href]:hover td,
+.hosting-directory__row[data-href]:focus-visible td,
+.hosting-directory__row[data-href]:focus-within td {
+    background: rgba(78, 195, 204, 0.14);
+}
+
+.service-directory__row[data-href]:hover td,
+.service-directory__row[data-href]:focus-visible td,
+.service-directory__row[data-href]:focus-within td {
+    background: rgba(78, 195, 204, 0.14);
+}
+
+.hosting-directory__row a {
+    font-weight: 700;
+}
+
+.service-directory__row a {
+    font-weight: 700;
+}
+
+.hosting-directory__status {
+    font-weight: 700;
+}
+
+.hosting-directory__row--overdue .hosting-directory__status {
+    color: #ffb4b4;
+}
+
+.hosting-directory__row--due-soon .hosting-directory__status {
+    color: var(--ld-accent);
+}
+
+.service-directory__status {
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.service-directory__row--delinquent .service-directory__status {
+    color: #ffb4b4;
+}
+
+.service-directory__row--prepaid .service-directory__status,
+.service-directory__row--complimentary .service-directory__status {
+    color: var(--ld-accent);
+}
+
 .dash-hosting__row--overdue td:last-child {
     color: #ffb4b4;
 }

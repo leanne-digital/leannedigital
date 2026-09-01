@@ -170,14 +170,17 @@ function clientSlugFromPath(pathname) {
 function portalAccess(pathname, user) {
     const isAdminDash = pathname === '/admin' || pathname.startsWith('/admin/');
     const isClientHub = pathname === '/clients' || pathname === '/clients/';
+    const isHostingDirectory = pathname === '/hosting' || pathname.startsWith('/hosting/');
+    const isServiceDirectory = ['/seo-clients', '/technical-seo', '/maintenance', '/site-management', '/project-management'].some((route) => pathname === route || pathname.startsWith(`${route}/`));
     const isClientPage = pathname.startsWith('/clients/');
     const isClientAsset = pathname.startsWith('/assets/clients/');
     const isClientPortal = pathname === '/client-portal' || pathname.startsWith('/client-portal/');
     const isProfile = pathname === '/profile' || pathname.startsWith('/profile/');
-    if (!isAdminDash && !isClientHub && !isClientPage && !isClientAsset && !isClientPortal && !isProfile) return 'allow';
+    if (!isAdminDash && !isClientHub && !isHostingDirectory && !isServiceDirectory && !isClientPage && !isClientAsset && !isClientPortal && !isProfile) return 'allow';
     if (!user) return 'login';
     if (isProfile) return 'allow';
     if (user.role === 'staff') return isClientPortal ? 'admin' : 'allow';
+    if (isHostingDirectory || isServiceDirectory) return 'forbid';
     const own = user.clientSlug;
     if (!own) return 'forbid';
     if (isClientPortal) return 'allow';

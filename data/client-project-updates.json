@@ -1,1 +1,138 @@
-[]
+[
+  {
+    "id": 1,
+    "projectId": 1,
+    "message": "remote mcp smoke 2026-08-15T18:48:47.348Z",
+    "status": null,
+    "createdAt": "2026-08-15T18:48:47.361Z",
+    "createdBy": "remote-mcp"
+  },
+  {
+    "id": 2,
+    "projectId": 1,
+    "message": "remote mcp smoke 2026-08-17T23:26:22.052Z",
+    "status": null,
+    "createdAt": "2026-08-17T23:26:22.070Z",
+    "createdBy": "remote-mcp"
+  },
+  {
+    "id": 3,
+    "projectId": 1,
+    "message": "remote mcp smoke 2026-08-19T15:15:41.817Z",
+    "status": null,
+    "createdAt": "2026-08-19T15:15:41.835Z",
+    "createdBy": "remote-mcp"
+  },
+  {
+    "id": 4,
+    "projectId": 15,
+    "message": "Bundle includes hosting and maintenance",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.131Z",
+    "createdBy": null
+  },
+  {
+    "id": 5,
+    "projectId": 16,
+    "message": "Not found in current invoice export",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.156Z",
+    "createdBy": null
+  },
+  {
+    "id": 6,
+    "projectId": 17,
+    "message": "Created Effy Blue — Website Maintenance",
+    "status": "delinquent",
+    "createdAt": "2026-09-01T15:29:29.190Z",
+    "createdBy": null
+  },
+  {
+    "id": 7,
+    "projectId": 18,
+    "message": "Created FLOCO / Floco Decking Systems — Website Maintenance",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.204Z",
+    "createdBy": null
+  },
+  {
+    "id": 8,
+    "projectId": 19,
+    "message": "Bundle includes hosting and maintenance",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.218Z",
+    "createdBy": null
+  },
+  {
+    "id": 9,
+    "projectId": 20,
+    "message": "Created Mulchr — Website Maintenance",
+    "status": "delinquent",
+    "createdAt": "2026-09-01T15:29:29.243Z",
+    "createdBy": null
+  },
+  {
+    "id": 10,
+    "projectId": 21,
+    "message": "Created Oatley Vigmond — Website Maintenance",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.257Z",
+    "createdBy": null
+  },
+  {
+    "id": 11,
+    "projectId": 22,
+    "message": "Created Oatley Vigmond — Technical SEO",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.273Z",
+    "createdBy": null
+  },
+  {
+    "id": 12,
+    "projectId": 23,
+    "message": "Paid in full for 2026",
+    "status": "prepaid",
+    "createdAt": "2026-09-01T15:29:29.287Z",
+    "createdBy": null
+  },
+  {
+    "id": 13,
+    "projectId": 10,
+    "message": "Updated S+D Accounting — Website Hosting",
+    "status": "prepaid",
+    "createdAt": "2026-09-01T15:29:29.301Z",
+    "createdBy": null
+  },
+  {
+    "id": 14,
+    "projectId": 24,
+    "message": "Created Stratapath — Website Maintenance",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.316Z",
+    "createdBy": null
+  },
+  {
+    "id": 15,
+    "projectId": 25,
+    "message": "Paid in full for 2026; rate not yet entered",
+    "status": "prepaid",
+    "createdAt": "2026-09-01T15:29:29.332Z",
+    "createdBy": null
+  },
+  {
+    "id": 16,
+    "projectId": 14,
+    "message": "Updated Thank You For Dating Us — Website Hosting",
+    "status": "complimentary",
+    "createdAt": "2026-09-01T15:29:29.378Z",
+    "createdBy": null
+  },
+  {
+    "id": 17,
+    "projectId": 26,
+    "message": "Ongoing project management and technical liaison services",
+    "status": "active",
+    "createdAt": "2026-09-01T15:29:29.416Z",
+    "createdBy": null
+  }
+]

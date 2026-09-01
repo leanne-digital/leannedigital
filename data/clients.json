@@ -1,7 +1,7 @@
 [
   {
     "slug": "davis-window-and-door",
-    "name": "Davis Window and Door",
+    "name": "Davis Window & Door",
     "bio": "Davis Window and Door has served homeowners in Atlanta and Charlotte for more than 50 years, specializing in premium replacement windows and doors, expert product guidance, and professional installation. The company works with leading manufacturers and serves both homeowners and industry professionals with a strong focus on quality, precision, and long-term performance.",
     "started": "2026-08-12",
     "website": "https://daviswin.com/",
@@ -10,13 +10,15 @@
     "services": [
       {
         "type": "maintenance",
-        "label": "Website Maintenance & Protection",
-        "amount": 75
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
       },
       {
         "type": "aeo",
-        "label": "Technical SEO & AEO",
-        "amount": 300
+        "amount": 350,
+        "cycle": "monthly",
+        "label": "Technical SEO & AEO"
       }
     ],
     "includes": [
@@ -49,7 +51,10 @@
         ]
       }
     ],
-    "reports": []
+    "reports": [],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0
   },
   {
     "slug": "oatley-vigmond",
@@ -58,8 +63,16 @@
     "currency": "CAD",
     "services": [
       {
-        "type": "seo",
-        "label": "Monthly SEO"
+        "type": "maintenance",
+        "amount": 125,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      },
+      {
+        "type": "aeo",
+        "amount": 425,
+        "cycle": "monthly",
+        "label": "Technical SEO"
       }
     ],
     "reports": [
@@ -83,18 +96,23 @@
         "title": "May 2026",
         "monthKey": "2026-05"
       }
-    ]
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0
   },
   {
     "slug": "shift-physiotherapy",
-    "name": "Shift Physiotherapy",
+    "name": "Shift Physiotherapy & Wellness",
     "asset": "/assets/clients/shift-physiotherapy/Shift.webp",
     "bio": "Our monthly SEO package is all about getting you seen by the right people. We cover everything from keyword research and on-page fixes to technical site health, local search, and AI-driven optimization. The goal is simple: more visibility, more traffic, and steady long-term growth.",
     "currency": "CAD",
     "services": [
       {
         "type": "seo",
-        "label": "Monthly SEO"
+        "amount": 1000,
+        "cycle": "monthly",
+        "label": "Standard SEO"
       }
     ],
     "reports": [
@@ -148,7 +166,10 @@
         "title": "November 2025",
         "monthKey": "2025-11"
       }
-    ]
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0
   },
   {
     "slug": "sierra-electrical",
@@ -158,7 +179,9 @@
     "services": [
       {
         "type": "seo",
-        "label": "Monthly SEO"
+        "amount": 1000,
+        "cycle": "monthly",
+        "label": "Standard SEO"
       }
     ],
     "reports": [
@@ -197,6 +220,223 @@
         "title": "February 2026",
         "monthKey": "2026-02"
       }
-    ]
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "website": "https://sierraelectrical.com"
+  },
+  {
+    "slug": "ckf",
+    "name": "CKF Inc.",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "cycle": "yearly",
+        "label": "Hosting + Maintenance Bundle"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "cuttermasters",
+    "name": "Cuttermasters",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": [],
+    "started": "2026-09-01"
+  },
+  {
+    "slug": "effy-blue",
+    "name": "Effy Blue",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 30,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": [],
+    "started": "2026-09-01"
+  },
+  {
+    "slug": "floco-decking-systems",
+    "name": "FLOCO / Floco Decking Systems",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "mth-landscaping",
+    "name": "MTH Landscaping",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "cycle": "yearly",
+        "label": "Hosting + Maintenance Bundle"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "mulchr",
+    "name": "Mulchr",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 75,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": [],
+    "started": "2026-09-01"
+  },
+  {
+    "slug": "sd-accounting",
+    "name": "S+D Accounting",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 40,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "stratapath",
+    "name": "Stratapath",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "amount": 50,
+        "cycle": "monthly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": [],
+    "started": "2026-09-01"
+  },
+  {
+    "slug": "ti-yende-movers-and-transportation",
+    "name": "Ti-Yende Movers",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "maintenance",
+        "cycle": "yearly",
+        "label": "Website Maintenance"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": [],
+    "website": "https://manage.wix.com/"
+  },
+  {
+    "slug": "durango-holiday-home",
+    "name": "Durango Holiday Home",
+    "currency": "CAD",
+    "services": [],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "rational-wealth",
+    "name": "Simplicity Financial",
+    "currency": "CAD",
+    "services": [],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "straightforward-bookkeeping",
+    "name": "Straightforward Bookkeeping",
+    "currency": "CAD",
+    "services": [],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "thank-you-for-dating-with-us",
+    "name": "Thank You For Dating Us",
+    "currency": "CAD",
+    "services": [],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": []
+  },
+  {
+    "slug": "peguis-historical-society",
+    "name": "Peguis Historical Society",
+    "currency": "CAD",
+    "services": [
+      {
+        "type": "project-management",
+        "amount": 4800,
+        "cycle": "monthly",
+        "label": "The Chief Peguis Story Website - Project Management Services"
+      }
+    ],
+    "credentials": [],
+    "discount": 0,
+    "taxAmount": 0,
+    "reports": [],
+    "started": "2026-09-01"
   }
 ]

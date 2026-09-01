@@ -16,12 +16,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
 const SCRIPT_V = '20260820d';
 
-const CLIENT_FILTERS = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'seo-clients', label: 'SEO clients' },
-    { id: 'maintenance-clients', label: 'Maintenance clients' },
-    { id: 'hosting-clients', label: 'Hosting clients' },
-    { id: 'management-clients', label: 'Site management' },
+const CLIENT_VIEWS = [
+    { href: '/admin/', label: 'Overview' },
+    { href: '/seo-clients/', label: 'SEO clients' },
+    { href: '/technical-seo/', label: 'Technical SEO clients' },
+    { href: '/maintenance/', label: 'Maintenance clients' },
+    { href: '/hosting/', label: 'Hosting clients' },
+    { href: '/site-management/', label: 'Site management' },
+    { href: '/project-management/', label: 'Project management' },
 ];
 
 const SECTIONS = [
@@ -109,15 +111,15 @@ ${options}
 }
 
 function nav() {
-    const filters = CLIENT_FILTERS.map(
-        (section, index) =>
-            `                    <button type="button" class="admin-nav__btn" data-client-filter="${section.id}"${index === 0 ? ' aria-current="page"' : ''}>${escapeHtml(section.label)}</button>`
+    const views = CLIENT_VIEWS.map(
+        (section) =>
+            `                    <a class="admin-nav__link" href="${escapeHtml(section.href)}"${section.href === '/admin/' ? ' aria-current="page"' : ''}>${escapeHtml(section.label)}</a>`
     ).join('\n');
     const extras = SECTIONS.map(
         (section) =>
             `                    <button type="button" class="admin-nav__btn" data-admin-section="${section.id}">${escapeHtml(section.label)}</button>`
     ).join('\n');
-    return `${filters}\n${extras}`;
+    return `${views}\n${extras}`;
 }
 
 function panel(id, title, lead, body) {

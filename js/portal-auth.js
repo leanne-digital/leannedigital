@@ -458,6 +458,18 @@
             session.user.role !== 'staff' &&
             (location.pathname === '/clients/' ||
                 location.pathname === '/clients' ||
+                location.pathname === '/hosting/' ||
+                location.pathname === '/hosting' ||
+                location.pathname === '/seo-clients/' ||
+                location.pathname === '/seo-clients' ||
+                location.pathname === '/technical-seo/' ||
+                location.pathname === '/technical-seo' ||
+                location.pathname === '/maintenance/' ||
+                location.pathname === '/maintenance' ||
+                location.pathname === '/site-management/' ||
+                location.pathname === '/site-management' ||
+                location.pathname === '/project-management/' ||
+                location.pathname === '/project-management' ||
                 location.pathname === '/admin/' ||
                 location.pathname === '/admin')
         ) {
