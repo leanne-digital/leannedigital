@@ -453,23 +453,9 @@
         }
     }
 
-    function fillClientPicker(clients, query) {
-        const select = $('[data-admin-client-picker]');
-        if (!select) return;
-        const current = select.value;
-        const rows = (clients || []).filter((row) => !row.archivedAt && matchesQuery(row, query));
-        select.innerHTML = `<option value="">Choose a client</option>${rows
-            .map((row) => `<option value="${escapeHtml(row.slug)}">${escapeHtml(row.name)}</option>`)
-            .join('')}`;
-        if (current && rows.some((row) => row.slug === current)) select.value = current;
-    }
-
     function syncOverviewMode(filterId) {
-        const isOverview = filterId === 'overview';
-        const picker = $('[data-client-picker-wrap]');
         const table = $('[data-clients-table-wrap]');
-        if (picker) picker.hidden = !isOverview;
-        if (table) table.hidden = isOverview;
+        if (table) table.hidden = false;
     }
 
     function matchesQuery(client, query) {
@@ -620,11 +606,8 @@
 
         function paint() {
             renderOverview(data);
-            fillClientPicker(data.clients, clientQuery);
             syncOverviewMode(clientFilter);
-            if (clientFilter !== 'overview') {
-                renderClientsTable(data.clients, clientFilter, clientQuery);
-            }
+            renderClientsTable(data.clients, clientFilter, clientQuery);
             renderPortfolio(data.projects);
             renderStaff(data.staff);
         }
@@ -633,10 +616,7 @@
             clientFilter = CLIENT_FILTERS[filterId] ? filterId : 'overview';
             setSection('overview', clientFilter);
             syncOverviewMode(clientFilter);
-            fillClientPicker(data.clients, clientQuery);
-            if (clientFilter !== 'overview') {
-                renderClientsTable(data.clients, clientFilter, clientQuery);
-            }
+            renderClientsTable(data.clients, clientFilter, clientQuery);
         }
 
         async function tryRequest(url, options) {
@@ -785,14 +765,7 @@
         }
         $('[data-client-search]')?.addEventListener('input', (event) => {
             clientQuery = String(event.target.value || '').trim().toLowerCase();
-            fillClientPicker(data.clients, clientQuery);
-            if (clientFilter !== 'overview') {
-                renderClientsTable(data.clients, clientFilter, clientQuery);
-            }
-        });
-        $('[data-admin-client-picker]')?.addEventListener('change', (event) => {
-            const slug = event.target.value;
-            if (slug) location.href = `/clients/${slug}/`;
+            renderClientsTable(data.clients, clientFilter, clientQuery);
         });
         $('[data-clients-body]')?.addEventListener('click', (event) => {
             const row = event.target.closest('tr[data-open-client]');

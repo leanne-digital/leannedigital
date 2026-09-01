@@ -11,25 +11,11 @@ import { PORTFOLIO_FILTERS } from './portfolio-filters.mjs';
 import { loadClients } from './client-store.mjs';
 import { loadClientProjects } from './client-project-store.mjs';
 import { loadProjects } from './portfolio-store.mjs';
+import { renderAdminSidebar } from './admin-navigation.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820d';
-
-const CLIENT_VIEWS = [
-    { href: '/admin/', label: 'Overview' },
-    { href: '/seo-clients/', label: 'SEO clients' },
-    { href: '/technical-seo/', label: 'Technical SEO clients' },
-    { href: '/maintenance/', label: 'Maintenance clients' },
-    { href: '/hosting/', label: 'Hosting clients' },
-    { href: '/site-management/', label: 'Site management' },
-    { href: '/project-management/', label: 'Project management' },
-];
-
-const SECTIONS = [
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'new-client', label: 'Add client' },
-];
+const SCRIPT_V = '20260901a';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -110,18 +96,6 @@ ${options}
     }).join('\n');
 }
 
-function nav() {
-    const views = CLIENT_VIEWS.map(
-        (section) =>
-            `                    <a class="admin-nav__link" href="${escapeHtml(section.href)}"${section.href === '/admin/' ? ' aria-current="page"' : ''}>${escapeHtml(section.label)}</a>`
-    ).join('\n');
-    const extras = SECTIONS.map(
-        (section) =>
-            `                    <button type="button" class="admin-nav__btn" data-admin-section="${section.id}">${escapeHtml(section.label)}</button>`
-    ).join('\n');
-    return `${views}\n${extras}`;
-}
-
 function panel(id, title, lead, body) {
     return `                <section class="admin-panel" data-admin-panel="${id}"${id === 'overview' ? '' : ' hidden'}>
                     <h2 class="admin-panel__title">${escapeHtml(title)}</h2>
@@ -136,6 +110,7 @@ export function generateAdminDashboard() {
         description: 'Staff admin for clients, hosting, retainers, and portfolio.',
         depth: 1,
         extraCss: ['login.css', 'clients.css', 'admin-dashboard.css'],
+        cssVersion: '20260901a',
         robots: ROBOTS,
         canonical: 'https://leannedigital.com/admin/',
         path: '/admin/',
@@ -152,8 +127,7 @@ ${renderNav(1, '/admin/')}
         <section class="admin-body section--navy">
             <div class="container admin-shell">
                 <nav class="admin-nav" aria-label="Admin sections">
-${nav()}
-                    <a class="admin-nav__link" href="/profile/">Profile</a>
+${renderAdminSidebar('/admin/', { interactive: true })}
                 </nav>
                 <div class="admin-content">
                     <p class="login-form__error" data-admin-error hidden></p>
@@ -161,7 +135,7 @@ ${nav()}
 ${panel(
     'overview',
     'Clients',
-    'Choose a client from the picker. Side tabs list only that service so you can open the account from the table.',
+    'Search the complete client list, or use the service views to work with a focused account list.',
     `                    <div class="dash-grid" data-overview-stats></div>
                     <div class="admin-clients">
                         <div class="admin-clients-toolbar">
@@ -171,17 +145,8 @@ ${panel(
                             </label>
                             <button type="button" class="ld-btn" data-admin-section="new-client">Add client</button>
                         </div>
-                        <div data-client-picker-wrap>
-                            <label class="admin-picker">
-                                <span>Client</span>
-                                <select data-admin-client-picker>
-                                    <option value="">Choose a client</option>
-                                </select>
-                            </label>
-                            <p class="admin-empty admin-empty--picker">Use the left tabs to see SEO, maintenance, hosting, or site management lists.</p>
-                        </div>
-                        <div data-clients-table-wrap hidden>
-                            <h3 class="dash-form__heading" data-clients-heading>SEO clients</h3>
+                        <div data-clients-table-wrap>
+                            <h3 class="dash-form__heading" data-clients-heading>All clients</h3>
                             <div class="dash-table-wrap">
                                 <table class="dash-table admin-table admin-clients-table">
                                     <thead>

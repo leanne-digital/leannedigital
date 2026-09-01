@@ -26,14 +26,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/tokens.css?v=20260820e">
-    <link rel="stylesheet" href="../css/base.css?v=20260820e">
-    <link rel="stylesheet" href="../css/header.css?v=20260820e">
-    <link rel="stylesheet" href="../css/page-inner.css?v=20260820e">
-    <link rel="stylesheet" href="../css/buttons.css?v=20260820e">
-    <link rel="stylesheet" href="../css/faq.css?v=20260820e">
-    <link rel="stylesheet" href="../css/clients.css?v=20260820e">
-    <link rel="stylesheet" href="../css/footer.css?v=20260820e">
+    <link rel="stylesheet" href="../css/tokens.css?v=20260901a">
+    <link rel="stylesheet" href="../css/base.css?v=20260901a">
+    <link rel="stylesheet" href="../css/header.css?v=20260901a">
+    <link rel="stylesheet" href="../css/page-inner.css?v=20260901a">
+    <link rel="stylesheet" href="../css/buttons.css?v=20260901a">
+    <link rel="stylesheet" href="../css/faq.css?v=20260901a">
+    <link rel="stylesheet" href="../css/clients.css?v=20260901a">
+    <link rel="stylesheet" href="../css/admin-dashboard.css?v=20260901a">
+    <link rel="stylesheet" href="../css/footer.css?v=20260901a">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -102,92 +103,107 @@
             </div>
         </section>
         <section class="section--navy hosting-directory__body">
-            <div class="container">
-                <div class="dash-grid hosting-directory__stats" aria-label="Hosting summary">
+            <div class="container admin-shell">
+                <nav class="admin-nav" aria-label="Admin sections">
+                    <a class="admin-nav__link" href="/admin/">Overview</a>
+                    <a class="admin-nav__link" href="/seo-clients/">SEO clients</a>
+                    <a class="admin-nav__link" href="/technical-seo/">Technical SEO clients</a>
+                    <a class="admin-nav__link" href="/maintenance/">Maintenance clients</a>
+                    <a class="admin-nav__link" href="/hosting/" aria-current="page">Hosting clients</a>
+                    <a class="admin-nav__link" href="/site-management/">Site management</a>
+                    <a class="admin-nav__link" href="/project-management/">Project management</a>
+                    <a class="admin-nav__link" href="/admin/#portfolio">Portfolio</a>
+                    <a class="admin-nav__link" href="/admin/#new-client">Add client</a>
+                    <a class="admin-nav__link" href="/profile/">Profile</a>
+                </nav>
+                <div class="admin-content">
+                    <div class="dash-grid hosting-directory__stats" aria-label="Hosting summary">
                     <article class="dash-stat"><p class="dash-stat__value">9</p><h2 class="dash-stat__label">Hosting clients</h2></article>
                     <article class="dash-stat"><p class="dash-stat__value">0</p><h2 class="dash-stat__label">Due within 60 days</h2></article>
                     <article class="dash-stat"><p class="dash-stat__value">$220.83 CAD</p><h2 class="dash-stat__label">Average monthly value</h2></article>
-                </div>
-                <div class="dash-table-wrap hosting-directory__table-wrap">
+                    <article class="dash-stat"><p class="dash-stat__value">$2650 CAD</p><h2 class="dash-stat__label">Annual hosting value</h2></article>
+                    </div>
+                    <div class="dash-table-wrap hosting-directory__table-wrap">
                     <table class="dash-table hosting-directory__table">
                         <thead>
                             <tr><th>Client</th><th>Provider</th><th>Amount paid</th><th>Cycle</th><th>Next due</th><th>Status</th></tr>
                         </thead>
                         <tbody>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/krane-mechanical-and-electrical/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/krane-mechanical-and-electrical/" tabindex="0">
                                 <td><a href="/clients/krane-mechanical-and-electrical/">Krane Mechanical &amp; Electrical</a></td>
-                                <td>SiteGround</td>
+                                <td>LDD Self Hosting</td>
                                 <td>$250 CAD</td>
                                 <td>Yearly</td>
                                 <td>Dec 18, 2026</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/sd-accounting/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/sd-accounting/" tabindex="0">
                                 <td><a href="/clients/sd-accounting/">S+D Accounting</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>$250 CAD</td>
                                 <td>Yearly</td>
                                 <td>Apr 17, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/ckf/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/ckf/" tabindex="0">
                                 <td><a href="/clients/ckf/">CKF Inc.</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>$600 CAD</td>
                                 <td>Yearly</td>
                                 <td>Apr 25, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/durango-holiday-home/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/durango-holiday-home/" tabindex="0">
                                 <td><a href="/clients/durango-holiday-home/">Durango Holiday Home</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>—</td>
                                 <td>—</td>
                                 <td>May 13, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/mth-landscaping/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/mth-landscaping/" tabindex="0">
                                 <td><a href="/clients/mth-landscaping/">MTH Landscaping</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>$400 CAD</td>
                                 <td>Yearly</td>
                                 <td>Jun 5, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/emily-hart-coaching/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/emily-hart-coaching/" tabindex="0">
                                 <td><a href="/clients/emily-hart-coaching/">Emily Hart Coaching</a></td>
-                                <td>Leanne Digital</td>
+                                <td>LDD Self Hosting</td>
                                 <td>$300 CAD</td>
                                 <td>Yearly</td>
                                 <td>Jun 12, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/rational-wealth/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/rational-wealth/" tabindex="0">
                                 <td><a href="/clients/rational-wealth/">Simplicity Financial</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>$250 CAD</td>
                                 <td>Yearly</td>
                                 <td>Jul 10, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/straightforward-bookkeeping/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/straightforward-bookkeeping/" tabindex="0">
                                 <td><a href="/clients/straightforward-bookkeeping/">Straightforward Bookkeeping</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>$300 CAD</td>
                                 <td>Yearly</td>
                                 <td>Jul 17, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
-                            <tr class="hosting-directory__row hosting-directory__row--upcoming" data-href="/clients/thank-you-for-dating-with-us/" tabindex="0">
+                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/thank-you-for-dating-with-us/" tabindex="0">
                                 <td><a href="/clients/thank-you-for-dating-with-us/">Thank You For Dating Us</a></td>
                                 <td>LDD Self Hosting</td>
                                 <td>$300 CAD</td>
                                 <td>Yearly</td>
                                 <td>Aug 5, 2027</td>
-                                <td><span class="hosting-directory__status">Upcoming</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </section>

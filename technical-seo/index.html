@@ -26,14 +26,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/tokens.css?v=20260820e">
-    <link rel="stylesheet" href="../css/base.css?v=20260820e">
-    <link rel="stylesheet" href="../css/header.css?v=20260820e">
-    <link rel="stylesheet" href="../css/page-inner.css?v=20260820e">
-    <link rel="stylesheet" href="../css/buttons.css?v=20260820e">
-    <link rel="stylesheet" href="../css/faq.css?v=20260820e">
-    <link rel="stylesheet" href="../css/clients.css?v=20260820e">
-    <link rel="stylesheet" href="../css/footer.css?v=20260820e">
+    <link rel="stylesheet" href="../css/tokens.css?v=20260901a">
+    <link rel="stylesheet" href="../css/base.css?v=20260901a">
+    <link rel="stylesheet" href="../css/header.css?v=20260901a">
+    <link rel="stylesheet" href="../css/page-inner.css?v=20260901a">
+    <link rel="stylesheet" href="../css/buttons.css?v=20260901a">
+    <link rel="stylesheet" href="../css/faq.css?v=20260901a">
+    <link rel="stylesheet" href="../css/clients.css?v=20260901a">
+    <link rel="stylesheet" href="../css/admin-dashboard.css?v=20260901a">
+    <link rel="stylesheet" href="../css/footer.css?v=20260901a">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -103,8 +104,21 @@
             </div>
         </section>
         <section class="section--navy service-directory__body">
-            <div class="container">
-                <div class="dash-table-wrap service-directory__table-wrap">
+            <div class="container admin-shell">
+                <nav class="admin-nav" aria-label="Admin sections">
+                    <a class="admin-nav__link" href="/admin/">Overview</a>
+                    <a class="admin-nav__link" href="/seo-clients/">SEO clients</a>
+                    <a class="admin-nav__link" href="/technical-seo/" aria-current="page">Technical SEO clients</a>
+                    <a class="admin-nav__link" href="/maintenance/">Maintenance clients</a>
+                    <a class="admin-nav__link" href="/hosting/">Hosting clients</a>
+                    <a class="admin-nav__link" href="/site-management/">Site management</a>
+                    <a class="admin-nav__link" href="/project-management/">Project management</a>
+                    <a class="admin-nav__link" href="/admin/#portfolio">Portfolio</a>
+                    <a class="admin-nav__link" href="/admin/#new-client">Add client</a>
+                    <a class="admin-nav__link" href="/profile/">Profile</a>
+                </nav>
+                <div class="admin-content">
+                    <div class="dash-table-wrap service-directory__table-wrap">
                     <table class="dash-table service-directory__table">
                         <thead><tr><th>Client</th><th>Project</th><th>2026 rate</th><th>Billing</th><th>Status</th><th>Notes</th></tr></thead>
                         <tbody>
@@ -126,6 +140,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </section>

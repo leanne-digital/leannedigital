@@ -226,8 +226,8 @@
     "website": null,
     "platform": "WordPress",
     "hosting": {
-      "type": "External",
-      "provider": "SiteGround",
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
       "lddHosted": true
     },
     "currency": "CAD",
@@ -530,8 +530,8 @@
     "website": "https://emilyhart.kartra.com/",
     "platform": "Other",
     "hosting": {
-      "type": "External",
-      "provider": null,
+      "type": "LDD",
+      "provider": "LDD Self Hosting",
       "lddHosted": true
     },
     "currency": "CAD",

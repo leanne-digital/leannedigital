@@ -15,6 +15,7 @@ import { generateLoginPages } from './generate-login.mjs';
 import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
 import { loadReportRecord, renderSeoReportBody } from './seo-report-store.mjs';
+import { renderAdminSidebar } from './admin-navigation.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -159,15 +160,19 @@ function hostingProviderLabel(client) {
 
 function renderHostingDirectory(clients) {
     const stats = portalStats(clients);
+    const annualHostingValue = stats.hostingAccounts.reduce(
+        (total, account) => total + (account.cycle === 'monthly' ? account.amount * 12 : account.amount),
+        0
+    );
     const rows = stats.hostingAccounts.map((account) => {
         const client = clients.find((entry) => entry.slug === account.slug);
-        return `                            <tr class="hosting-directory__row hosting-directory__row--${escapeHtml(account.status)}" data-href="/clients/${escapeHtml(account.slug)}/" tabindex="0">
+        return `                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/${escapeHtml(account.slug)}/" tabindex="0">
                                 <td><a href="/clients/${escapeHtml(account.slug)}/">${escapeHtml(account.name)}</a></td>
                                 <td>${escapeHtml(hostingProviderLabel(client || {}))}</td>
                                 <td>${escapeHtml(account.amount ? money(account.amount) : '—')}</td>
                                 <td>${escapeHtml(hostingCycleLabel(account.cycle))}</td>
                                 <td>${escapeHtml(formatDay(account.nextBillDate) || 'No due date')}</td>
-                                <td><span class="hosting-directory__status">${escapeHtml(statusLabel(account.status))}</span></td>
+                                <td><span class="hosting-directory__status">Active</span></td>
                             </tr>`;
     }).join('\n');
 
@@ -175,7 +180,8 @@ function renderHostingDirectory(clients) {
         title: 'Hosting Clients | Leanne Digital',
         description: 'Leanne Digital hosting accounts and renewal schedule.',
         depth: 1,
-        extraCss: ['clients.css'],
+        extraCss: ['clients.css', 'admin-dashboard.css'],
+        cssVersion: '20260901a',
         robots: ROBOTS,
         canonical: `${SITE_URL}/hosting/`,
         path: '/hosting/',
@@ -190,13 +196,18 @@ ${renderNav(1, '/hosting/')}
             </div>
         </section>
         <section class="section--navy hosting-directory__body">
-            <div class="container">
-                <div class="dash-grid hosting-directory__stats" aria-label="Hosting summary">
+            <div class="container admin-shell">
+                <nav class="admin-nav" aria-label="Admin sections">
+${renderAdminSidebar('/hosting/')}
+                </nav>
+                <div class="admin-content">
+                    <div class="dash-grid hosting-directory__stats" aria-label="Hosting summary">
                     <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(String(stats.hosting))}</p><h2 class="dash-stat__label">Hosting clients</h2></article>
                     <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(String(stats.renewals.length))}</p><h2 class="dash-stat__label">Due within 60 days</h2></article>
                     <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(money(stats.totals.hostingMonthly))}</p><h2 class="dash-stat__label">Average monthly value</h2></article>
-                </div>
-                <div class="dash-table-wrap hosting-directory__table-wrap">
+                    <article class="dash-stat"><p class="dash-stat__value">${escapeHtml(money(annualHostingValue))}</p><h2 class="dash-stat__label">Annual hosting value</h2></article>
+                    </div>
+                    <div class="dash-table-wrap hosting-directory__table-wrap">
                     <table class="dash-table hosting-directory__table">
                         <thead>
                             <tr><th>Client</th><th>Provider</th><th>Amount paid</th><th>Cycle</th><th>Next due</th><th>Status</th></tr>
@@ -205,6 +216,7 @@ ${renderNav(1, '/hosting/')}
 ${rows || '                            <tr><td colspan="6">No hosting clients are currently recorded.</td></tr>'}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -236,7 +248,8 @@ function renderServiceDirectory({ route, title, lead, types }, clients) {
         title: `${title} | Leanne Digital`,
         description: lead,
         depth: 1,
-        extraCss: ['clients.css'],
+        extraCss: ['clients.css', 'admin-dashboard.css'],
+        cssVersion: '20260901a',
         robots: ROBOTS,
         canonical: `${SITE_URL}${route}`,
         path: route,
@@ -252,14 +265,19 @@ ${renderNav(1, route)}
             </div>
         </section>
         <section class="section--navy service-directory__body">
-            <div class="container">
-                <div class="dash-table-wrap service-directory__table-wrap">
+            <div class="container admin-shell">
+                <nav class="admin-nav" aria-label="Admin sections">
+${renderAdminSidebar(route)}
+                </nav>
+                <div class="admin-content">
+                    <div class="dash-table-wrap service-directory__table-wrap">
                     <table class="dash-table service-directory__table">
                         <thead><tr><th>Client</th><th>Project</th><th>2026 rate</th><th>Billing</th><th>Status</th><th>Notes</th></tr></thead>
                         <tbody>
 ${rows || '                            <tr><td colspan="6">No active clients are recorded for this service.</td></tr>'}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </section>

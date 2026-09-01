@@ -59,6 +59,7 @@
 }
 
 .admin-nav__btn[aria-current="page"],
+.admin-nav__link[aria-current="page"],
 .admin-nav__link:hover,
 .admin-nav__btn:hover,
 .admin-nav__btn:focus-visible {
