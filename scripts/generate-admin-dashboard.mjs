@@ -15,7 +15,7 @@ import { renderAdminSidebar } from './admin-navigation.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260901a';
+const SCRIPT_V = '20260901d';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -110,7 +110,7 @@ export function generateAdminDashboard() {
         description: 'Staff admin for clients, hosting, retainers, and portfolio.',
         depth: 1,
         extraCss: ['login.css', 'clients.css', 'admin-dashboard.css'],
-        cssVersion: '20260901a',
+        cssVersion: SCRIPT_V,
         robots: ROBOTS,
         canonical: 'https://leannedigital.com/admin/',
         path: '/admin/',
@@ -143,7 +143,7 @@ ${panel(
                                 <span class="sr-only">Search clients</span>
                                 <input type="search" data-client-search placeholder="Search by name, email, or website" autocomplete="off">
                             </label>
-                            <button type="button" class="ld-btn" data-admin-section="new-client">Add client</button>
+                            <a class="ld-btn" href="#new-client" data-admin-section="new-client">Add client</a>
                         </div>
                         <div data-clients-table-wrap>
                             <h3 class="dash-form__heading" data-clients-heading>All clients</h3>
@@ -218,8 +218,8 @@ ${tagCheckboxes()}
 )}
 ${panel(
     'new-client',
-    'Add or edit client',
-    'Create a workspace, add hosting and retainers, or invite an admin. Copy the login link after you save.',
+    'Add a client or team member',
+    'Choose the account type, enter their details, and create the account. A temporary password appears after you save.',
     `                    <div data-client-account hidden>
                         <h3 class="dash-form__heading">Reports and plans</h3>
                         <p class="dash-copy dash-copy--left">Open a report to page through past months. Plans show pricing, signup, and the next renewal.</p>
@@ -354,12 +354,28 @@ ${panel(
                             <p><button class="dash-form__add" type="button" data-add-credential>Add a login</button></p>
                         </div>
                         <div class="dash-form__actions">
-                            <button class="ld-btn" type="submit">Create account</button>
+                            <button class="ld-btn" type="submit">Add client</button>
                             <button class="dash-form__reset" type="reset">Clear</button>
                             <button class="ld-btn ld-btn--ghost" type="button" data-invite-client hidden>Send login link</button>
                             <button class="dash-form__reset" type="button" data-archive-client-btn hidden>Archive client</button>
                         </div>
                     </form>
+                    <aside class="admin-access" data-temporary-access hidden aria-live="polite">
+                        <h3 class="dash-form__heading">Temporary login</h3>
+                        <p class="dash-copy dash-copy--left">Send these details securely. The user must choose a permanent password immediately after signing in.</p>
+                        <div class="dash-form__grid admin-access__fields">
+                            <label>Email
+                                <input data-temporary-email type="text" readonly>
+                            </label>
+                            <label>Temporary password
+                                <input data-temporary-password type="text" readonly>
+                            </label>
+                        </div>
+                        <div class="dash-form__actions">
+                            <button class="ld-btn" type="button" data-copy-temporary-access>Copy login details</button>
+                            <a class="ld-btn ld-btn--ghost" href="/login/" target="_blank" rel="noopener">Open login page</a>
+                        </div>
+                    </aside>
                     <aside class="admin-invite" data-invite-card hidden>
                         <h3 class="dash-form__heading">Send this login link</h3>
                         <p class="dash-copy dash-copy--left" data-invite-copy>Copy this and send it. They will choose a password, then land in the right portal.</p>

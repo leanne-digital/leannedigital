@@ -72,6 +72,10 @@
     min-width: 0;
 }
 
+.admin-body [hidden] {
+    display: none !important;
+}
+
 .admin-panel__title {
     margin: 0 0 0.5rem;
     font-family: var(--ld-font-display);
@@ -408,6 +412,35 @@
     border: 1px solid rgba(78, 195, 204, 0.35);
     border-radius: 16px;
     background: rgba(78, 195, 204, 0.08);
+}
+
+.admin-access {
+    margin-top: 1.5rem;
+    padding: 1.2rem 1.15rem;
+    border: 1px solid rgba(78, 195, 204, 0.42);
+    border-radius: 16px;
+    background: rgba(78, 195, 204, 0.1);
+}
+
+.admin-access__fields {
+    margin-top: 1rem;
+}
+
+.admin-access label {
+    display: grid;
+    gap: 0.4rem;
+    font-weight: 700;
+}
+
+.admin-access input[readonly] {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--ld-text);
+    color: var(--ld-bg-solid);
+    font: inherit;
+    font-variant-numeric: tabular-nums;
 }
 
 .admin-invite__url {

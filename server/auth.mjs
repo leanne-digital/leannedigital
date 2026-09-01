@@ -250,8 +250,9 @@ export async function provisionStaffAccount(input = {}, origin) {
         error.status = 409;
         throw error;
     }
+    let temporaryPassword = null;
     if (!user) {
-        const temporaryPassword = randomPassword();
+        temporaryPassword = randomPassword();
         user = await createUser({
             email,
             password: temporaryPassword,
@@ -260,8 +261,21 @@ export async function provisionStaffAccount(input = {}, origin) {
             privilege,
             mustChangePassword: true,
         });
-    } else if (name) {
-        updateUserProfile(user.id, { name });
+    } else {
+        const users = loadUsers();
+        const stored = users.find((row) => String(row.id) === String(user.id));
+        if (stored && input.issueTemporaryPassword) {
+            temporaryPassword = randomPassword();
+            stored.passwordHash = await hashPassword(temporaryPassword);
+            stored.mustChangePassword = true;
+            writeJson(
+                SESSIONS_FILE,
+                loadSessions().filter((session) => String(session.userId) !== String(stored.id))
+            );
+        }
+        if (stored && name) stored.name = name;
+        if (stored) stored.privilege = privilege;
+        saveUsers(users);
         user = getUserById(user.id);
     }
     const invite = await inviteUser(user, origin);
@@ -271,6 +285,7 @@ export async function provisionStaffAccount(input = {}, origin) {
             name: user.name,
             privilege: staffPrivilege(user),
             created: true,
+            temporaryPassword: temporaryPassword || undefined,
         },
         invite,
         client: null,

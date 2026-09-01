@@ -548,6 +548,9 @@
         const inviteCard = $('[data-invite-card]');
         const inviteUrlEl = $('[data-invite-url]');
         const inviteBtn = $('[data-invite-client]');
+        const temporaryAccess = $('[data-temporary-access]');
+        const temporaryEmail = $('[data-temporary-email]');
+        const temporaryPassword = $('[data-temporary-password]');
         const bootData = window.__LD_ADMIN_BOOTSTRAP__;
         let data = {
             clients: bootData?.clients || [],
@@ -584,7 +587,7 @@
             if (clientForm.contactName) clientForm.contactName.required = !isClient;
             const submit = clientForm.querySelector('[type="submit"]');
             if (submit && !clientForm.slug.value) {
-                submit.textContent = isClient ? 'Create client' : 'Create account';
+                submit.textContent = isClient ? 'Add client' : type === 'super-admin' ? 'Add super admin' : 'Add admin';
             }
             if (clientForm.accountType) clientForm.accountType.disabled = Boolean(clientForm.slug.value);
         }
@@ -634,6 +637,14 @@
             inviteUrlEl.value = url;
         }
 
+        function showTemporaryAccess(account) {
+            const password = account?.temporaryPassword || '';
+            if (!temporaryAccess || !temporaryEmail || !temporaryPassword) return;
+            temporaryAccess.hidden = !password;
+            temporaryEmail.value = password ? account?.email || '' : '';
+            temporaryPassword.value = password;
+        }
+
         function fillClientForm(client) {
             if (!clientForm) return;
             clientForm.slug.value = client?.slug || '';
@@ -664,6 +675,7 @@
                 else archiveBtn.removeAttribute('data-archive-client');
             }
             showInvite(null);
+            showTemporaryAccess(null);
             const loaded = !client || 'credentials' in client || 'clientApps' in client;
             clientForm.dataset.credentialsLoaded = loaded ? '1' : '0';
             setCredentials(
@@ -737,6 +749,7 @@
             }
             const btn = event.target.closest('[data-admin-section]');
             if (!btn) return;
+            event.preventDefault();
             const id = btn.getAttribute('data-admin-section');
             if (CLIENT_FILTERS[id]) {
                 showClients(id);
@@ -748,7 +761,8 @@
         function applyHash() {
             const id = location.hash.replace('#', '') || 'overview';
             if (CLIENT_FILTERS[id]) showClients(id);
-            else setSection(id, clientFilter);
+            else if ($(`[data-admin-panel="${id}"]`)) setSection(id, clientFilter);
+            else showClients('overview');
         }
         window.addEventListener('hashchange', applyHash);
         applyHash();
@@ -852,6 +866,7 @@
                           accountType: type,
                           contactName: clientForm.contactName.value,
                           email: clientForm.email.value,
+                          issueTemporaryPassword: true,
                       }
                     : {
                           name: clientForm.name.value,
@@ -885,15 +900,16 @@
                     syncAccountType();
                     if (inviteBtn) inviteBtn.hidden = false;
                 }
-                showInvite(created.invite);
+                showTemporaryAccess(created.account);
+                showInvite(created.account?.temporaryPassword ? null : created.invite);
                 const emailed = created.invite?.emailed;
                 const who = created.account?.email || created.invite?.email || payload.email;
                 const kind = isStaffAccount ? (type === 'super-admin' ? 'Super admin' : 'Admin') : 'Client';
                 show(
                     okEl,
                     emailed
-                        ? `${kind} created. A login email was sent to ${who}. Copy the link below if you also want to send it yourself.`
-                        : `${kind} created. Copy the login link below and send it to ${who} — email was not sent from the server.`
+                        ? `${kind} ready. A login email was sent to ${who}, and the temporary login is shown below.`
+                        : `${kind} ready. Copy the temporary login below and send it securely to ${who}.`
                 );
             } catch (error) {
                 show(errorEl, error.message || 'Could not save that client.');
@@ -949,6 +965,26 @@
             } catch {
                 inviteUrlEl.select();
                 show(errorEl, 'Copy failed — select the link and copy it manually.');
+            }
+        });
+
+        $('[data-copy-temporary-access]')?.addEventListener('click', async () => {
+            const email = temporaryEmail?.value || '';
+            const password = temporaryPassword?.value || '';
+            if (!email || !password) return;
+            const details = [
+                'Leanne Digital login',
+                `Email: ${email}`,
+                `Temporary password: ${password}`,
+                'Login: https://leannedigital.com/login/',
+                'You will be asked to choose a permanent password after signing in.',
+            ].join('\n');
+            try {
+                await navigator.clipboard.writeText(details);
+                show(okEl, 'Temporary login details copied.');
+            } catch {
+                temporaryPassword.select();
+                show(errorEl, 'Copy failed — select the temporary password and copy it manually.');
             }
         });
 

@@ -15,8 +15,8 @@ export function renderAdminSidebar(currentRoute = '/admin/', { interactive = fal
         `                    <a class="admin-nav__link" href="${escapeHtml(view.href)}"${view.href === currentRoute ? ' aria-current="page"' : ''}>${escapeHtml(view.label)}</a>`
     ).join('\n');
     const tools = interactive
-        ? `                    <button type="button" class="admin-nav__btn" data-admin-section="portfolio">Portfolio</button>
-                    <button type="button" class="admin-nav__btn" data-admin-section="new-client">Add client</button>`
+        ? `                    <a class="admin-nav__link" href="#portfolio" data-admin-section="portfolio">Portfolio</a>
+                    <a class="admin-nav__link" href="#new-client" data-admin-section="new-client">Add client</a>`
         : `                    <a class="admin-nav__link" href="/admin/#portfolio">Portfolio</a>
                     <a class="admin-nav__link" href="/admin/#new-client">Add client</a>`;
     return `${views}
