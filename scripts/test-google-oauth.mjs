@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { verifiedGoogleStaff, googleProvider } from '../server/oauth/google.mjs';
+process.env.OAUTH_ADMIN_EMAIL = 'google-admin@example.com';
+assert.deepEqual(verifiedGoogleStaff({ email: 'Google-Admin@example.com', email_verified: true }), { email: 'google-admin@example.com', emailVerified: true });
+assert.throws(() => verifiedGoogleStaff({ email: 'google-admin@example.com', email_verified: false }));
+assert.throws(() => verifiedGoogleStaff({ email: 'outsider@example.com', email_verified: true }));
+delete process.env.OAUTH_GOOGLE_CLIENT_ID;
+delete process.env.OAUTH_GOOGLE_CLIENT_SECRET;
+assert.equal(googleProvider(), null);
+process.env.OAUTH_GOOGLE_CLIENT_ID = 'test.apps.googleusercontent.com';
+process.env.OAUTH_GOOGLE_CLIENT_SECRET = 'test-only-secret';
+process.env.OAUTH_SECRET = 'test-google-oauth-secret-at-least-32-characters';
+process.env.OAUTH_ADMIN_PASSWORD = 'test-admin-password-123';
+process.env.OAUTH_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'ld-google-test-'));
+const { startPortal } = await import('../server/api.mjs');
+const { server, port } = await startPortal({ port: 0, bind: '127.0.0.1' });
+try {
+    const base = `http://127.0.0.1:${port}`;
+    const query = 'client_id=test&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback';
+    const page = await fetch(`${base}/oauth/login?${query}`);
+    const html = await page.text();
+    assert.match(html, /Sign in with Google/);
+    assert.ok(!html.includes(process.env.OAUTH_GOOGLE_CLIENT_SECRET));
+    const csrf = html.match(/name="csrf" value="([^"]+)"/)[1];
+    const cookie = page.headers.getSetCookie().map(value => value.split(';')[0]).join('; ');
+    const body = new URLSearchParams({ provider: 'google', csrf, return_query: query });
+    const rejected = await fetch(`${base}/oauth/login`, { method: 'POST', body, redirect: 'manual' });
+    assert.equal(rejected.status, 403);
+    const result = await fetch(`${base}/oauth/login`, { method: 'POST', body, headers: { cookie, origin: base }, redirect: 'manual' });
+    assert.equal(result.status, 303, await result.text());
+    const google = new URL(result.headers.get('location'));
+    assert.equal(google.origin, 'https://accounts.google.com');
+    assert.equal(google.searchParams.get('redirect_uri'), `${base}/oauth/callback/google`);
+    assert.ok(google.searchParams.get('state'));
+    assert.ok(google.searchParams.get('code_challenge'));
+    console.log('PASS Google staff verification, configuration, CSRF, callback, state and PKCE');
+} finally {
+    await new Promise(resolve => server.close(resolve));
+}

@@ -36,13 +36,18 @@ function layout({ title, body }) {
 </html>`;
 }
 
-export function loginPageHtml({ error = '', csrfToken, returnQuery = '' }) {
+export function loginPageHtml({ error = '', csrfToken, returnQuery = '', googleEnabled = false }) {
     return layout({
         title: 'Sign in to authorize Leanne Digital MCP',
         body: `
     <h1>Leanne Digital MCP</h1>
     <p class="muted">Sign in with a Leanne Digital staff account to continue. Client portal logins cannot authorize this connection.</p>
     ${error ? `<p class="error">${escapeHtml(error)}</p>` : ''}
+    ${googleEnabled ? `<form method="post" action="/oauth/login">
+      <input type="hidden" name="csrf" value="${escapeHtml(csrfToken)}">
+      <input type="hidden" name="return_query" value="${escapeHtml(returnQuery)}">
+      <button type="submit" name="provider" value="google">Sign in with Google</button>
+    </form><p class="muted">Or use your MCP staff password below.</p>` : ''}
     <form method="post" action="/oauth/login">
       <input type="hidden" name="csrf" value="${escapeHtml(csrfToken)}">
       <input type="hidden" name="return_query" value="${escapeHtml(returnQuery)}">

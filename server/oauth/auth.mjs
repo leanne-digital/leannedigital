@@ -10,6 +10,7 @@ import { oauthProvider, oauthProviderAuthServerMetadata } from '@better-auth/oau
 import { toNodeHandler, fromNodeHeaders } from 'better-auth/node';
 import { randomPassword } from '../auth.mjs';
 import { isOAuthStaffEmail, oauthStaffDeniedMessage } from './staff.mjs';
+import { googleProvider } from './google.mjs';
 import {
     MCP_SCOPE_READ,
     OAUTH_BASE_PATH,
@@ -80,6 +81,7 @@ async function createOAuthRuntime({ port } = {}) {
     fs.mkdirSync(dataDir, { recursive: true });
     const dbPath = path.join(dataDir, 'better-auth.sqlite');
     const database = new DatabaseSync(dbPath);
+    const google = googleProvider();
 
     const auth = betterAuth({
         secret: oauthSecret(),
@@ -87,6 +89,9 @@ async function createOAuthRuntime({ port } = {}) {
         basePath: OAUTH_BASE_PATH,
         database,
         trustedOrigins: [issuer],
+        socialProviders: google ? { google } : {},
+        // Google must verify an allowlisted staff email before linking the seeded account.
+        account: { accountLinking: { enabled: true, trustedProviders: ['google'], requireLocalEmailVerified: false } },
         rateLimit: {
             enabled: true,
             window: 60,
@@ -193,6 +198,7 @@ async function createOAuthRuntime({ port } = {}) {
         publicOrigin: issuer,
         resource,
         adminEmail: oauthAdminEmail(),
+        googleEnabled: Boolean(google),
         database,
     };
 }

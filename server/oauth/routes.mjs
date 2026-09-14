@@ -288,6 +288,7 @@ async function handleLogin(req, res, oauth) {
     if (req.method === 'GET') {
         const token = newCsrfToken();
         sendHtml(res, 200, loginPageHtml({
+            googleEnabled: oauth.googleEnabled,
             csrfToken: token,
             returnQuery: url.searchParams.toString(),
         }), { 'Set-Cookie': csrfCookieHeader(token, issuer) });
@@ -314,6 +315,26 @@ async function handleLogin(req, res, oauth) {
     const returnQuery = authorizeReturnQuery(body.return_query);
     if (!returnQuery) {
         sendHtml(res, 400, oauthErrorPageHtml('This sign-in page must be opened from an authorization request. Start the connection again from ChatGPT.'));
+        return;
+    }
+    if (body.provider === 'google') {
+        if (!oauth.googleEnabled) {
+            sendHtml(res, 503, oauthErrorPageHtml('Google sign-in is not configured.'));
+            return;
+        }
+        const signIn = await oauth.auth.api.signInSocial({
+            body: { provider: 'google', disableRedirect: true,
+                callbackURL: `${issuer}${OAUTH_BASE_PATH}/oauth2/authorize?${returnQuery}` },
+            headers: oauth.fromNodeHeaders(req.headers),
+            asResponse: true,
+        });
+        const payload = await signIn.json();
+        if (!signIn.ok || !payload.url || new URL(payload.url).origin !== 'https://accounts.google.com') {
+            sendHtml(res, 502, oauthErrorPageHtml('Google sign-in could not start. Please try again.'));
+            return;
+        }
+        res.writeHead(303, { Location: payload.url, 'Set-Cookie': copyAuthCookies(signIn, []), 'Cache-Control': 'no-store' });
+        res.end();
         return;
     }
     const email = String(body.email || '').trim().toLowerCase();
