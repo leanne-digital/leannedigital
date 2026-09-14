@@ -10,7 +10,7 @@ import {
 import { SITE_URL } from './site-config.mjs';
 import { loadClients } from './client-store.mjs';
 import { loadClientProjects } from './client-project-store.mjs';
-import { portalStats } from './portal-stats.mjs';
+import { portalStats, isHostingClient } from './portal-stats.mjs';
 import { generateLoginPages } from './generate-login.mjs';
 import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
@@ -22,7 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'data', 'client-reports');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260914hub';
+const SCRIPT_V = '20260914hub2';
 
 const SERVICE_OFFERINGS = [
     { types: ['seo'], title: 'Monthly SEO', description: 'Ongoing technical, on-page, content, and visibility work to strengthen organic search performance.' },
@@ -169,13 +169,13 @@ function renderHostingDirectory(clients) {
     );
     const rows = stats.hostingAccounts.map((account) => {
         const client = clients.find((entry) => entry.slug === account.slug);
-        return `                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/${escapeHtml(account.slug)}/" tabindex="0">
-                                <td><a href="/clients/${escapeHtml(account.slug)}/">${escapeHtml(account.name)}</a></td>
+        return `                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/${escapeHtml(account.slug)}/#hosting" tabindex="0">
+                                <td><a href="/clients/${escapeHtml(account.slug)}/#hosting">${escapeHtml(account.name)}</a></td>
                                 <td>${escapeHtml(hostingProviderLabel(client || {}))}</td>
                                 <td>${escapeHtml(account.amount ? money(account.amount) : 'â€”')}</td>
                                 <td>${escapeHtml(hostingCycleLabel(account.cycle))}</td>
                                 <td>${escapeHtml(formatDay(account.nextBillDate) || 'No due date')}</td>
-                                <td><span class="hosting-directory__status">Active</span></td>
+                                <td><span class="hosting-directory__status">${escapeHtml(statusLabel(account.status))}</span></td>
                             </tr>`;
     }).join('\n');
 
@@ -487,7 +487,7 @@ function renderClientsHub(clients) {
         description: 'Choose a client to open their account.',
         depth: 1,
         extraCss: ['clients.css'],
-        cssVersion: '20260914hub',
+        cssVersion: '20260914hub2',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/`,
         path: '/clients/',
@@ -526,7 +526,7 @@ function serviceAvailableIcon() {
 function renderServiceList(client) {
     const activeTypes = new Set((client.services || []).map((service) => service.type));
     if ((client.reports || []).some((report) => report.kind !== 'aeo')) activeTypes.add('seo');
-    if (client.hosting?.lddHosted) activeTypes.add('hosting');
+    if (isHostingClient(client)) activeTypes.add('hosting');
     else activeTypes.delete('hosting');
     const items = SERVICE_OFFERINGS.filter(service => service.types.some(type => activeTypes.has(type))).map((service) => {
         const active = service.types.some((type) => activeTypes.has(type));
@@ -807,7 +807,7 @@ function renderClientPage(client) {
         description: `Client portal for ${client.name}.`,
         depth: 2,
         extraCss: ['clients.css'],
-        cssVersion: '20260914hub',
+        cssVersion: '20260914hub2',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
     })}
@@ -822,17 +822,17 @@ ${bio}
         </section>
         <section class="client-page section--navy">
             <div class="container">
-                <div data-admin-switch hidden><label>Switch client<select data-client-picker><option value="">Choose a client</option></select></label></div>
+                <div class="client-hub-controls" data-admin-switch hidden><label>Select Client:<select data-client-picker><option value="">Choose a client</option></select></label><a href="/hosting/">Hosting &amp; renewals</a></div>
+                <section id="packages" class="client-hub-packages">${renderClientPackages(client)}${renderServiceList(client)}</section>
                 <nav class="client-hub-nav" aria-label="Client sections">
-                    <a href="#overview">Overview</a><a href="#reports">Reports</a><a href="#packages">Packages</a><a href="#proposals">Proposals</a>
-                    ${client.hosting?.lddHosted ? '<a href="#hosting">Hosting</a>' : ''}
-                    <a href="#credentials" data-admin-tab hidden>Credentials</a>
+                    <a href="#overview">Overview</a><a href="#reports">Reports <span class="client-hub-count" data-report-count>${(client.reports || []).length}</span></a><a href="#proposals">Active proposals <span class="client-hub-count">${client.slug === 'gbt-logistics' ? 1 : 0}</span></a>
+                    ${isHostingClient(client) ? '<a href="#hosting">Hosting <span class="client-hub-count">1</span></a>' : ''}
+                    <a href="#credentials" data-admin-tab hidden>Credentials <span class="client-hub-count" data-credential-count aria-live="polite">—</span></a>
                 </nav>
                 <section id="overview" data-hub-panel><h2>Overview</h2><p>Services, project documents and reports for ${escapeHtml(client.name)}.</p><div data-private-overview></div></section>
                 <section id="reports" data-hub-panel hidden>${renderAccountTable(client)}</section>
-                <section id="packages" data-hub-panel hidden>${renderClientPackages(client)}${renderServiceList(client)}</section>
                 <section id="proposals" data-hub-panel hidden><h2>Proposals</h2>${client.slug === 'gbt-logistics' ? '<p><a href="/proposals/gbt-logistics-and-packaging-inc/">View project proposal</a></p>' : '<p>No proposals linked yet.</p>'}</section>
-                ${client.hosting?.lddHosted ? '<section id="hosting" data-hub-panel hidden><h2>Hosting</h2><p>Website hosting with Leanne Digital.</p><div data-private-hosting></div></section>' : ''}
+                ${isHostingClient(client) ? '<section id="hosting" data-hub-panel hidden><h2>Hosting</h2><p>Website hosting with Leanne Digital.</p><div data-private-hosting></div></section>' : ''}
                 <section id="credentials" data-hub-panel hidden><h2>Credentials</h2><p>Private accounts and software logins. Only administrators can access this section.</p><div data-private-credentials></div></section>
             </div>
         </section>

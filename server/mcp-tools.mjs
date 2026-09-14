@@ -1,3 +1,5 @@
+import { credentialInventory, saveCredential } from './credential-tools.mjs';
+import { portalStats } from '../scripts/portal-stats.mjs';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import {
@@ -151,6 +153,7 @@ function destructiveTool(server, name, description, schema, handler) {
 export function createMcpServer({
     actor = { email: 'mcp', createdBy: 'mcp' },
     readOnly = false,
+    credentialWrite = false,
 } = {}) {
     const server = new McpServer({
         name: 'leanne-digital',
@@ -227,6 +230,18 @@ export function createMcpServer({
         ({ bookings: loadCalendlyBookings() })
     );
 
+    readTool(server, 'get_hosting_accounts', 'Use this to list LD-hosted accounts, renewal dates, overdue plans and hosting totals. External hosting logins are excluded. Does not change data.', {}, async () => {
+        const stats=portalStats(listAgencyClients({role:'staff'}));
+        return {count:stats.hosting,accounts:stats.hostingAccounts,renewalsDue:stats.renewals.length,monthlyValue:stats.totals.hostingMonthly,currency:'CAD'};
+    });
+    readTool(server, 'list_client_credentials', 'List account names and slots for a client. Returns account counts and whether logins are saved, never passwords or usernames.', {
+        id:z.string().describe('Client slug or id'),
+    }, async ({id})=>credentialInventory(getAgencyClient(id).slug));
+    if (!readOnly || credentialWrite) writeTool(server, 'save_client_credential', 'Use only when the user asks to add or update a login for a specific client. Saves in the private admin record. Omitted fields stay unchanged. Never returns saved secrets. Software finds a matching name or uses an empty slot.', {
+        id:z.string().describe('Confirmed client slug or id'),
+        slot:z.enum(['software','domain','hosting','email_hosting','platform','ldd_portal',...Array.from({length:10},(_,i)=>`other${i+1}`)]).default('software'),
+        name:z.string().max(1000).optional(),url:z.string().max(20000).optional(),username:z.string().max(20000).optional(),password:z.string().max(20000).optional(),
+    }, async ({id,...input})=>saveCredential(getAgencyClient(id).slug,input));
     if (readOnly) return server;
 
     writeTool(server, 'create_client', 'Creates a client and portal login. Changes CRM data. Passwords are never returned over MCP.', clientFields, async (input) =>
@@ -299,6 +314,8 @@ export function createMcpServer({
 }
 
 export const MCP_READ_TOOLS = [
+    'get_hosting_accounts',
+    'list_client_credentials',
     'list_clients',
     'get_client',
     'list_seo_clients',
@@ -317,6 +334,7 @@ export const MCP_READ_TOOLS = [
 ];
 
 export const MCP_WRITE_TOOLS = [
+    'save_client_credential',
     'create_client',
     'update_client',
     'delete_client',

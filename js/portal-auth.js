@@ -372,7 +372,7 @@
             : '/client-portal/';
         const dashboardLabel = user.role === 'staff' || !user.clientSlug ? 'Dashboard' : 'Your portal';
         const extra = user.role === 'staff'
-            ? `<a href="/clients/">Clients</a>`
+            ? `<a href="/clients/">Clients</a><a href="/hosting/">Hosting &amp; renewals</a>`
             : user.clientSlug
               ? `<a href="/clients/${user.clientSlug}/">Your account</a>`
               : '';

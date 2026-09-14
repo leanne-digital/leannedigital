@@ -91,6 +91,7 @@ export async function authenticateRemoteMcp(req) {
                 readOnly: envReadOnly() || !tokenHasWriteScope(verified.scopes),
                 actorEmail: verified.email || verified.subject || 'oauth',
                 scopes: verified.scopes,
+                credentialWrite: !envReadOnly() && verified.scopes.includes('mcp:credentials:write'),
             };
         }
         if (verified.error === 'insufficient_scope') {
@@ -230,6 +231,7 @@ export async function handleRemoteMcp(req, res) {
     const mcp = createMcpServer({
         actor: { email: auth.actorEmail || 'remote-mcp', createdBy: auth.actorEmail || 'remote-mcp' },
         readOnly: auth.readOnly,
+        credentialWrite: auth.credentialWrite || false,
     });
     res.on('close', () => {
         void transport.close();

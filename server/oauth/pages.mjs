@@ -62,6 +62,7 @@ export function consentPageHtml({ error = '', csrfToken, clientName, scopes, oau
         .map((scope) => {
             if (scope === 'mcp:read') return 'Read Leanne Digital agency data (clients, projects, revenue, leads, and related records)';
             if (scope === 'offline_access') return 'Stay connected until access is revoked (refresh token)';
+            if (scope === 'mcp:credentials:write') return 'Add or update client login credentials in the private admin record. Saved passwords are never returned.';
             if (scope === 'mcp:write') return 'Write access is not available yet and will not be granted';
             return escapeHtml(scope);
         })

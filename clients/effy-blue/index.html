@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/tokens.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/base.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/header.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/page-inner.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/buttons.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/faq.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/clients.css?v=20260914hub">
-    <link rel="stylesheet" href="../../css/footer.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/tokens.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/base.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/header.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/page-inner.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/buttons.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/faq.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/clients.css?v=20260914hub2">
+    <link rel="stylesheet" href="../../css/footer.css?v=20260914hub2">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -103,11 +103,24 @@
         </section>
         <section class="client-page section--navy">
             <div class="container">
-                <div data-admin-switch hidden><label>Switch client<select data-client-picker><option value="">Choose a client</option></select></label></div>
-                <nav class="client-hub-nav" aria-label="Client sections">
-                    <a href="#overview">Overview</a><a href="#reports">Reports</a><a href="#packages">Packages</a><a href="#proposals">Proposals</a>
+                <div class="client-hub-controls" data-admin-switch hidden><label>Select Client:<select data-client-picker><option value="">Choose a client</option></select></label><a href="/hosting/">Hosting &amp; renewals</a></div>
+                <section id="packages" class="client-hub-packages">            <section class="client-reports">
+                <h2 class="client-reports__heading">Packages and services</h2>
 
-                    <a href="#credentials" data-admin-tab hidden>Credentials</a>
+                <ul class="client-service-list" aria-label="Included Leanne Digital services">
+                    <li class="client-service-summary client-service-summary--active">
+                        <span class="client-service-summary__icon" aria-label="Included service"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10.5 3.6 3.6L16 5.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"/></svg></span>
+                        <div>
+                            <h3>WordPress Website Backups and Security Management</h3>
+                            <p>Regular backups, software updates, monitoring, and security care for WordPress websites.</p>
+                        </div>
+                    </li>
+                </ul>
+            </section></section>
+                <nav class="client-hub-nav" aria-label="Client sections">
+                    <a href="#overview">Overview</a><a href="#reports">Reports <span class="client-hub-count" data-report-count>0</span></a><a href="#proposals">Active proposals <span class="client-hub-count">0</span></a>
+
+                    <a href="#credentials" data-admin-tab hidden>Credentials <span class="client-hub-count" data-credential-count aria-live="polite">�</span></a>
                 </nav>
                 <section id="overview" data-hub-panel><h2>Overview</h2><p>Services, project documents and reports for Effy Blue.</p><div data-private-overview></div></section>
                 <section id="reports" data-hub-panel hidden>            <section class="client-reports client-report-history">
@@ -127,19 +140,6 @@
                         </tbody>
                     </table>
                 </div>
-            </section></section>
-                <section id="packages" data-hub-panel hidden>            <section class="client-reports">
-                <h2 class="client-reports__heading">Packages and services</h2>
-
-                <ul class="client-service-list" aria-label="Included Leanne Digital services">
-                    <li class="client-service-summary client-service-summary--active">
-                        <span class="client-service-summary__icon" aria-label="Included service"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10.5 3.6 3.6L16 5.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"/></svg></span>
-                        <div>
-                            <h3>WordPress Website Backups and Security Management</h3>
-                            <p>Regular backups, software updates, monitoring, and security care for WordPress websites.</p>
-                        </div>
-                    </li>
-                </ul>
             </section></section>
                 <section id="proposals" data-hub-panel hidden><h2>Proposals</h2><p>No proposals linked yet.</p></section>
 
@@ -192,9 +192,9 @@
         </div>
     </footer>
     <script src="../../js/site-nav.js" defer></script>
-    <script src="../../js/portal-auth.js?v=20260914hub" defer></script>
-    <script src="../../js/client-workspace.js?v=20260914hub" defer></script>
-    <script src="../../js/client-hub.js?v=20260914hub" defer></script>
+    <script src="../../js/portal-auth.js?v=20260914hub2" defer></script>
+    <script src="../../js/client-workspace.js?v=20260914hub2" defer></script>
+    <script src="../../js/client-hub.js?v=20260914hub2" defer></script>
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');

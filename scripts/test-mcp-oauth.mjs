@@ -180,7 +180,7 @@ const dcr = await fetchRaw(metadata.registration_endpoint, {
         grant_types: ['authorization_code', 'refresh_token'],
         response_types: ['code'],
         token_endpoint_auth_method: 'none',
-        scope: 'mcp:read offline_access',
+        scope: 'mcp:read mcp:credentials:write offline_access',
     }),
 });
 const clientId = dcr.json?.client_id;
@@ -374,6 +374,18 @@ check('9. access token can call tools/list',
 check('9b. OAuth/read-only does not expose write tools',
     MCP_WRITE_TOOLS.every((name) => !names.includes(name)),
     `writes=${MCP_WRITE_TOOLS.filter((name) => names.includes(name)).join(',') || 'none'}`);
+
+const credentialPkce = pkce();
+const credentialAuth = await completeAuthorization({...credentialPkce, scope:'mcp:read mcp:credentials:write offline_access'});
+const credentialTokens = await exchangeCode({code:credentialAuth.code,verifier:credentialPkce.verifier});
+process.env.REMOTE_MCP_READ_ONLY = '';
+const credentialTools = await mcpPost(credentialTokens.json?.access_token, rpcPayload(20,'tools/list',{}));
+const credentialNames = (credentialTools.json?.result?.tools || []).map(tool=>tool.name);
+check('9c. Credential-write consent grants only credential saves', credentialNames.includes('save_client_credential') && MCP_WRITE_TOOLS.filter(name=>name!=='save_client_credential').every(name=>!credentialNames.includes(name)), JSON.stringify({authStatus:credentialAuth.status,code:Boolean(credentialAuth.code),tokenStatus:credentialTokens.status,scope:credentialTokens.json?.scope,error:credentialTokens.json?.error,toolStatus:credentialTools.status,names:credentialNames}));
+
+process.env.REMOTE_MCP_READ_ONLY = '1';
+const credentialReadOnly = await mcpPost(credentialTokens.json?.access_token,rpcPayload(21,'tools/list',{}));
+check('9d. Global read-only setting blocks scoped credential saves', !(credentialReadOnly.json?.result?.tools || []).some(tool=>tool.name==='save_client_credential'));
 
 const seo = await mcpPost(accessToken, rpcPayload(3, 'tools/call', { name: 'list_seo_clients', arguments: {} }));
 const seoBody = toolText(seo);

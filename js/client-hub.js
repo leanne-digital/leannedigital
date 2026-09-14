@@ -37,6 +37,10 @@
             const data=await api.getSystemRecord(slug);
             status.textContent=data.available ? '' : 'The original client record has not been imported on this server yet.';
             const fields=data.fields || {};
+            const updateCount=()=>{
+                $('[data-credential-count]').textContent=String(groups.filter(([,names,target])=>target==='credentials' && names.some(([key])=>String(fields[key] || '').trim())).length);
+            };
+            if(data.available) updateCount();
             const emptySoftware=[];
             for (const [title, names, target] of groups) {
                 if (!containers[target]) continue;
@@ -58,7 +62,7 @@
                 }
                 const save=document.createElement('button');save.type='submit';save.className='ld-btn';save.textContent='Save '+title.toLowerCase();
                 const message=document.createElement('p');message.setAttribute('role','status');form.append(save,message);
-                form.addEventListener('submit',async e=>{e.preventDefault();save.disabled=true;try{await api.saveSystemRecord(slug,Object.fromEntries(new FormData(form)));message.textContent='Saved.';}catch(error){message.textContent=error.message || 'Could not save. Your changes are still in the form.';}finally{save.disabled=false;}});
+                form.addEventListener('submit',async e=>{e.preventDefault();save.disabled=true;try{const saved=await api.saveSystemRecord(slug,Object.fromEntries(new FormData(form)));Object.assign(fields,saved.fields);updateCount();message.textContent='Saved.';}catch(error){message.textContent=error.message || 'Could not save. Your changes are still in the form.';}finally{save.disabled=false;}});
                 if (target === 'credentials') {
                     const details=document.createElement('details');details.className='client-record-account';
                     const summary=document.createElement('summary');
@@ -75,7 +79,7 @@
                 add.addEventListener('click',()=>{const details=emptySoftware.shift();details.hidden=false;details.open=true;details.querySelector('input').focus();if(!emptySoftware.length)add.hidden=true;});
                 containers.credentials.append(add);
             }
-        } catch(error) { status.textContent='Could not load the private client record. '+(error.message || ''); }
+        } catch(error) { status.textContent=error.message === 'Not found' ? 'The credentials service is not available on this deployment yet. Update and restart the portal API to enable it.' : 'Could not load the private client record. '+(error.message || ''); }
     }
     if(window.__LD_PORTAL__)boot(window.__LD_PORTAL__);
     document.addEventListener('ld-portal-ready',e=>boot(e.detail));

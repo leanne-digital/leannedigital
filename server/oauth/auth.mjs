@@ -154,8 +154,8 @@ async function createOAuthRuntime({ port } = {}) {
                 allowDynamicClientRegistration: true,
                 allowUnauthenticatedClientRegistration: true,
                 allowPublicClientPrelogin: true,
-                clientRegistrationDefaultScopes: [MCP_SCOPE_READ, OFFLINE_SCOPE],
-                clientRegistrationAllowedScopes: [MCP_SCOPE_READ, OFFLINE_SCOPE],
+                clientRegistrationDefaultScopes: OAUTH_SCOPES,
+                clientRegistrationAllowedScopes: OAUTH_SCOPES,
                 advertisedMetadata: {
                     scopes_supported: OAUTH_SCOPES,
                 },

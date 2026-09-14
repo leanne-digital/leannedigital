@@ -1514,7 +1514,13 @@ body.clients-picker .site-header + main.clients-picker-main > :first-child { pad
 .client-hub-nav a { padding:0.65rem 0.9rem; color:var(--ld-text); text-decoration:none; border-radius:8px; }
 .client-hub-nav a[aria-current="page"] { background:var(--ld-accent); color:var(--ld-bg-solid); }
 .client-hub [hidden] { display:none !important; }
-.client-hub [data-admin-switch] { max-width:34rem; }
+.client-hub [data-admin-switch] { max-width:40rem; margin-bottom:2.5rem; }
+.client-hub [data-admin-switch] label { display:grid; gap:0.75rem; font-weight:600; }
+.client-hub [data-admin-switch] select { min-height:3.25rem; font-weight:400; }
+.client-hub-packages { padding:0; margin-bottom:2rem; scroll-margin-top:8rem; }
+.client-hub-packages .client-reports { padding:0; margin-bottom:1.5rem; }
+.client-hub-nav a { display:inline-flex; align-items:center; gap:0.5rem; min-height:2.75rem; }
+.client-hub-count { min-width:1.5rem; padding:0.1rem 0.4rem; border-radius:4px; background:var(--ld-card-border); text-align:center; font-size:0.85em; font-variant-numeric:tabular-nums; }
 .client-hub select, .client-record-form input, .client-record-form textarea { width:100%; padding:0.75rem; border:1px solid var(--ld-card-border); border-radius:8px; font:inherit; background:var(--ld-bg-solid); color:var(--ld-text); }
 .client-record-form { padding:1.5rem 0; border-bottom:1px solid var(--ld-card-border); }
 .client-record-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1rem 0; }
@@ -1524,3 +1530,5 @@ body.clients-picker .site-header + main.clients-picker-main > :first-child { pad
 .client-record-account summary { cursor:pointer; padding:1rem 0; font-weight:600; }
 .client-record-account .client-record-form { border:0; padding-top:0; }
 @media(max-width:640px) { .client-record-grid { grid-template-columns:1fr; } .client-hub-nav a { padding:0.65rem; } }
+
+.client-hub-controls > a { display:inline-block; margin-top:1rem; text-underline-offset:0.2em; }
