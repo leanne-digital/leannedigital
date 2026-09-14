@@ -25,7 +25,7 @@ const MIME = {
     '.map': 'application/json',
 };
 
-const BLOCKED = ['/data', '/server', '/scripts', '/node_modules', '/_import'];
+const BLOCKED = ['/data', '/runtime', '/server', '/scripts', '/node_modules', '/_import'];
 
 export function requestPath(url) {
     const { pathname } = new URL(url, 'http://localhost');

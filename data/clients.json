@@ -451,5 +451,13 @@
     "taxAmount": 0,
     "reports": [],
     "started": "2026-09-01"
+  },
+  {
+    "slug": "leanne-digital",
+    "name": "Leanne Digital",
+    "website": "https://leannedigital.com/",
+    "services": [],
+    "reports": [],
+    "internal": true
   }
 ]

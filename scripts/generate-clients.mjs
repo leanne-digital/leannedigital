@@ -22,7 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'data', 'client-reports');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260827a';
+const SCRIPT_V = '20260914hub';
 
 const SERVICE_OFFERINGS = [
     { types: ['seo'], title: 'Monthly SEO', description: 'Ongoing technical, on-page, content, and visibility work to strengthen organic search performance.' },
@@ -58,7 +58,7 @@ const SERVICE_DESCRIPTIONS = {
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf8');
+    fs.writeFileSync(path.join(dir, 'index.html'), html.replace(/[\t ]+$/gm, ''), 'utf8');
 }
 
 function reportBody(slug, reportSlug) {
@@ -103,7 +103,8 @@ function portalScripts(depth, admin = false) {
         : '';
     return `    <script src="${prefix}js/site-nav.js" defer></script>
     <script src="${prefix}js/portal-auth.js?v=${SCRIPT_V}" defer></script>
-    <script src="${prefix}js/client-workspace.js?v=${SCRIPT_V}" defer></script>${adminScript}
+    <script src="${prefix}js/client-workspace.js?v=${SCRIPT_V}" defer></script>
+    <script src="${prefix}js/client-hub.js?v=${SCRIPT_V}" defer></script>${adminScript}
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');
@@ -117,7 +118,8 @@ function portalScripts(depth, admin = false) {
         event.preventDefault();
         location.href = row.getAttribute('data-href');
     });
-    </script>`;
+    </script>
+    <!-- lp:custom-body-end -->`;
 }
 
 function renderLinks(client) {
@@ -485,6 +487,7 @@ function renderClientsHub(clients) {
         description: 'Choose a client to open their account.',
         depth: 1,
         extraCss: ['clients.css'],
+        cssVersion: '20260914hub',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/`,
         path: '/clients/',
@@ -523,8 +526,9 @@ function serviceAvailableIcon() {
 function renderServiceList(client) {
     const activeTypes = new Set((client.services || []).map((service) => service.type));
     if ((client.reports || []).some((report) => report.kind !== 'aeo')) activeTypes.add('seo');
-    if (client.hosting?.provider) activeTypes.add('hosting');
-    const items = SERVICE_OFFERINGS.map((service) => {
+    if (client.hosting?.lddHosted) activeTypes.add('hosting');
+    else activeTypes.delete('hosting');
+    const items = SERVICE_OFFERINGS.filter(service => service.types.some(type => activeTypes.has(type))).map((service) => {
         const active = service.types.some((type) => activeTypes.has(type));
         return `                    <li class="client-service-summary${active ? ' client-service-summary--active' : ''}">
                         <span class="client-service-summary__icon" aria-label="${active ? 'Included service' : 'Available service'}">${active ? serviceCheckIcon() : serviceAvailableIcon()}</span>
@@ -535,8 +539,9 @@ function renderServiceList(client) {
                     </li>`;
     }).join('\n');
     return `            <section class="client-reports">
-                <h2 class="client-reports__heading">Services</h2>
-                <ul class="client-service-list" aria-label="Available Leanne Digital services">
+                <h2 class="client-reports__heading">Packages and services</h2>
+                ${items ? '' : '<p>No active packages recorded yet.</p>'}
+                <ul class="client-service-list" aria-label="Included Leanne Digital services">
 ${items}
                 </ul>
             </section>`;
@@ -788,21 +793,6 @@ ${rows}
 }
 
 function renderClientPage(client) {
-    if (client.slug === 'gbt-logistics') {
-        return `${renderHead({ title: 'GBT Logistics Packages | Leanne Digital', description: 'SEO package options prepared for GBT Logistics.', depth: 2, extraCss: ['clients.css'], robots: ROBOTS, canonical: `${SITE_URL}/clients/gbt-logistics/` })}
-<body class="page-inner">
-${renderNav(2, '')}
-<main id="main">
-    <section class="clients-hero section--navy"><div class="container"><h1 class="client-reports__title">GBT Logistics</h1></div></section>
-    <section class="client-page section--navy"><div class="container">
-${renderClientPackages(client)}
-    </div></section>
-</main>
-${renderFullFooter(2)}
-<script src="../../js/site-nav.js" defer></script>
-<!-- lp:custom-body-end -->
-</body></html>`;
-    }
     const bio = client.bio
         ? `<p class="client-profile__bio">${escapeHtml(client.bio)}</p>`
         : '';
@@ -817,24 +807,33 @@ ${renderFullFooter(2)}
         description: `Client portal for ${client.name}.`,
         depth: 2,
         extraCss: ['clients.css'],
-        cssVersion: '20260831d',
+        cssVersion: '20260914hub',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
     })}
-<body class="page-inner" data-portal-gate data-client-slug="${escapeHtml(client.slug)}" data-client-workspace>
+<body class="page-inner client-hub" data-client-hub data-client-slug="${escapeHtml(client.slug)}" data-client-workspace>
 ${renderNav(2, '/clients/')}
     <main id="main">
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
                 <h1 class="client-reports__title">${escapeHtml(client.name)}</h1>
-${bio}${asset ? `\n${asset}` : ''}
+${bio}
             </div>
         </section>
         <section class="client-page section--navy">
             <div class="container">
-${renderServiceList(client)}
-${renderClientPackages(client)}
-${renderAccountTable(client)}
+                <div data-admin-switch hidden><label>Switch client<select data-client-picker><option value="">Choose a client</option></select></label></div>
+                <nav class="client-hub-nav" aria-label="Client sections">
+                    <a href="#overview">Overview</a><a href="#reports">Reports</a><a href="#packages">Packages</a><a href="#proposals">Proposals</a>
+                    ${client.hosting?.lddHosted ? '<a href="#hosting">Hosting</a>' : ''}
+                    <a href="#credentials" data-admin-tab hidden>Credentials</a>
+                </nav>
+                <section id="overview" data-hub-panel><h2>Overview</h2><p>Services, project documents and reports for ${escapeHtml(client.name)}.</p><div data-private-overview></div></section>
+                <section id="reports" data-hub-panel hidden>${renderAccountTable(client)}</section>
+                <section id="packages" data-hub-panel hidden>${renderClientPackages(client)}${renderServiceList(client)}</section>
+                <section id="proposals" data-hub-panel hidden><h2>Proposals</h2>${client.slug === 'gbt-logistics' ? '<p><a href="/proposals/gbt-logistics-and-packaging-inc/">View project proposal</a></p>' : '<p>No proposals linked yet.</p>'}</section>
+                ${client.hosting?.lddHosted ? '<section id="hosting" data-hub-panel hidden><h2>Hosting</h2><p>Website hosting with Leanne Digital.</p><div data-private-hosting></div></section>' : ''}
+                <section id="credentials" data-hub-panel hidden><h2>Credentials</h2><p>Private accounts and software logins. Only administrators can access this section.</p><div data-private-credentials></div></section>
             </div>
         </section>
     </main>

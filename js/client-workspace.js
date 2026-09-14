@@ -96,7 +96,7 @@
     function fillPicker(clients) {
         const select = $('[data-client-picker]');
         if (!select) return;
-        const current = select.value;
+        const current = select.value || document.body.dataset.clientSlug;
         const rows = (clients || []).filter((row) => !row.archivedAt);
         select.innerHTML = `<option value="">Choose a client</option>${rows
             .map((row) => `<option value="${escapeHtml(row.slug)}">${escapeHtml(row.name)}</option>`)

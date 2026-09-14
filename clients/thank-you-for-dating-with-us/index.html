@@ -26,14 +26,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/tokens.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/base.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/header.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/page-inner.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/buttons.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/faq.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/clients.css?v=20260831d">
-    <link rel="stylesheet" href="../../css/footer.css?v=20260831d">
+    <link rel="stylesheet" href="../../css/tokens.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/base.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/header.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/page-inner.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/buttons.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/faq.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/clients.css?v=20260914hub">
+    <link rel="stylesheet" href="../../css/footer.css?v=20260914hub">
     <script data-key="__SITE_KEY__">
     (function () {
         var url = "__PLATFORM_URL__";
@@ -49,7 +49,7 @@
     })();
     </script>
 </head>
-<body class="page-inner" data-portal-gate data-client-slug="thank-you-for-dating-with-us" data-client-workspace>
+<body class="page-inner client-hub" data-client-hub data-client-slug="thank-you-for-dating-with-us" data-client-workspace>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <div class="container site-header__inner">
@@ -103,54 +103,14 @@
         </section>
         <section class="client-page section--navy">
             <div class="container">
-            <section class="client-reports">
-                <h2 class="client-reports__heading">Services</h2>
-                <ul class="client-service-list" aria-label="Available Leanne Digital services">
-                    <li class="client-service-summary">
-                        <span class="client-service-summary__icon" aria-label="Available service"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
-                        <div>
-                            <h3>Monthly SEO</h3>
-                            <p>Ongoing technical, on-page, content, and visibility work to strengthen organic search performance.</p>
-                        </div>
-                    </li>
-                    <li class="client-service-summary">
-                        <span class="client-service-summary__icon" aria-label="Available service"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
-                        <div>
-                            <h3>Monthly AEO</h3>
-                            <p>Optimization for AI search, answer engines, structured content, and clear machine-readable information.</p>
-                        </div>
-                    </li>
-                    <li class="client-service-summary">
-                        <span class="client-service-summary__icon" aria-label="Available service"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
-                        <div>
-                            <h3>Monthly Technical SEO Management</h3>
-                            <p>Technical auditing, crawl and indexation monitoring, and ongoing fixes that keep the site search-ready.</p>
-                        </div>
-                    </li>
-                    <li class="client-service-summary">
-                        <span class="client-service-summary__icon" aria-label="Available service"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
-                        <div>
-                            <h3>Managed AI-Assisted Website</h3>
-                            <p>Ongoing website improvements, content support, and AI-assisted development for a current, effective site.</p>
-                        </div>
-                    </li>
-                    <li class="client-service-summary">
-                        <span class="client-service-summary__icon" aria-label="Available service"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
-                        <div>
-                            <h3>WordPress Website Backups and Security Management</h3>
-                            <p>Regular backups, software updates, monitoring, and security care for WordPress websites.</p>
-                        </div>
-                    </li>
-                    <li class="client-service-summary client-service-summary--active">
-                        <span class="client-service-summary__icon" aria-label="Included service"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10.5 3.6 3.6L16 5.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"/></svg></span>
-                        <div>
-                            <h3>Website Hosting</h3>
-                            <p>Managed hosting, uptime support, and technical infrastructure care for the website.</p>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-            <section class="client-reports client-report-history">
+                <div data-admin-switch hidden><label>Switch client<select data-client-picker><option value="">Choose a client</option></select></label></div>
+                <nav class="client-hub-nav" aria-label="Client sections">
+                    <a href="#overview">Overview</a><a href="#reports">Reports</a><a href="#packages">Packages</a><a href="#proposals">Proposals</a>
+                    <a href="#hosting">Hosting</a>
+                    <a href="#credentials" data-admin-tab hidden>Credentials</a>
+                </nav>
+                <section id="overview" data-hub-panel><h2>Overview</h2><p>Services, project documents and reports for Thank You For Dating Us.</p><div data-private-overview></div></section>
+                <section id="reports" data-hub-panel hidden>            <section class="client-reports client-report-history">
                 <h2 class="client-reports__heading">Reports</h2>
                 <p class="client-empty client-empty--lead">SEO reports and site maintenance reports. Click a row to open it.</p>
                 <div class="dash-table-wrap">
@@ -167,7 +127,23 @@
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </section></section>
+                <section id="packages" data-hub-panel hidden>            <section class="client-reports">
+                <h2 class="client-reports__heading">Packages and services</h2>
+
+                <ul class="client-service-list" aria-label="Included Leanne Digital services">
+                    <li class="client-service-summary client-service-summary--active">
+                        <span class="client-service-summary__icon" aria-label="Included service"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10.5 3.6 3.6L16 5.8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.25"/></svg></span>
+                        <div>
+                            <h3>Website Hosting</h3>
+                            <p>Managed hosting, uptime support, and technical infrastructure care for the website.</p>
+                        </div>
+                    </li>
+                </ul>
+            </section></section>
+                <section id="proposals" data-hub-panel hidden><h2>Proposals</h2><p>No proposals linked yet.</p></section>
+                <section id="hosting" data-hub-panel hidden><h2>Hosting</h2><p>Website hosting with Leanne Digital.</p><div data-private-hosting></div></section>
+                <section id="credentials" data-hub-panel hidden><h2>Credentials</h2><p>Private accounts and software logins. Only administrators can access this section.</p><div data-private-credentials></div></section>
             </div>
         </section>
     </main>
@@ -216,8 +192,9 @@
         </div>
     </footer>
     <script src="../../js/site-nav.js" defer></script>
-    <script src="../../js/portal-auth.js?v=20260827a" defer></script>
-    <script src="../../js/client-workspace.js?v=20260827a" defer></script>
+    <script src="../../js/portal-auth.js?v=20260914hub" defer></script>
+    <script src="../../js/client-workspace.js?v=20260914hub" defer></script>
+    <script src="../../js/client-hub.js?v=20260914hub" defer></script>
     <script>
     document.addEventListener('click', function (event) {
         var row = event.target.closest('tr[data-href]');
@@ -232,5 +209,6 @@
         location.href = row.getAttribute('data-href');
     });
     </script>
+    <!-- lp:custom-body-end -->
 </body>
 </html>

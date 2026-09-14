@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { readClientRecord, saveClientRecord } from './client-credentials.mjs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { loadEnv } from '../scripts/load-env.mjs';
@@ -168,9 +169,10 @@ function clientSlugFromPath(pathname) {
 }
 
 function portalAccess(pathname, user) {
-    if (/^\/clients\/gbt-logistics(?:\/|\/index\.html)?$/.test(pathname)) return 'allow';
+    // Client hubs and reports contain public content; private records use the staff API.
+    if (/^\/clients\/[^/.]+(?:\/|$)/.test(pathname) || pathname.startsWith('/assets/clients/')) return 'allow';
     const isAdminDash = pathname === '/admin' || pathname.startsWith('/admin/');
-    const isClientHub = pathname === '/clients' || pathname === '/clients/';
+    const isClientHub = pathname === '/clients' || pathname === '/clients/' || pathname === '/clients/index.html';
     const isHostingDirectory = pathname === '/hosting' || pathname.startsWith('/hosting/');
     const isServiceDirectory = ['/seo-clients', '/technical-seo', '/maintenance', '/site-management', '/project-management'].some((route) => pathname === route || pathname.startsWith(`${route}/`));
     const isClientPage = pathname.startsWith('/clients/');
@@ -547,6 +549,16 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 405, { error: 'Method not allowed' });
         return true;
     }
+    const recordMatch = pathname.match(/^\/api\/clients\/([^/]+)\/system-record$/);
+    if (recordMatch) {
+        if (!requireStaff(user, req, res)) return true;
+        const client = getAgencyClient(decodeURIComponent(recordMatch[1]));
+        const headers = {'Cache-Control':'private, no-store','Vary':'Cookie, Authorization'};
+        if (method === 'GET') json(req,res,200,readClientRecord(client.slug,user),headers);
+        else if (method === 'PATCH') json(req,res,200,saveClientRecord(client.slug,(await readBody(req)).fields,user),headers);
+        else json(req,res,405,{error:'Method not allowed'},headers);
+        return true;
+    }
     const match = pathname.match(/^\/api\/clients\/([^/]+)$/);
     if (!match) {
         json(req, res, 404, { error: 'Not found' });
@@ -561,7 +573,7 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 200, {
             client: presentClient(client, user),
             projects: listClientProjects({ client: client.slug }).map((row) => presentProject(row, user)),
-        });
+        }, { 'Cache-Control': 'private, no-store', 'Vary': 'Cookie, Authorization' });
         return true;
     }
     if (!requireStaff(user, req, res)) return true;

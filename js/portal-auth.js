@@ -271,6 +271,12 @@
             getClient(slug) {
                 return request(`/api/clients/${encodeURIComponent(slug)}`, { action: 'clients' });
             },
+            getSystemRecord(slug) {
+                return request(`/api/clients/${encodeURIComponent(slug)}/system-record`, {action:'clients'});
+            },
+            saveSystemRecord(slug, fields) {
+                return request(`/api/clients/${encodeURIComponent(slug)}/system-record`, {method:'PATCH',body:{fields},action:'clients'});
+            },
             getSeoReport(slug, reportSlug) {
                 return request(
                     `/api/clients/${encodeURIComponent(slug)}/reports/${encodeURIComponent(reportSlug)}`,
@@ -535,6 +541,12 @@
         const api = createApi(useLilipadd ? 'lilipadd' : 'local');
         if (form) bindForm(api);
         if (gated) gate(api);
+        else if (document.body.hasAttribute('data-client-hub')) api.me().then(session => {
+            if (!session?.user) return;
+            injectBar(api,session.user);
+            window.__LD_PORTAL__={api,user:session.user};
+            document.dispatchEvent(new CustomEvent('ld-portal-ready',{detail:window.__LD_PORTAL__}));
+        });
     }
 
     boot();

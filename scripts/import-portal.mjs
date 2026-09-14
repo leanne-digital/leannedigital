@@ -1,13 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_SQL = 'C:\\Users\\gburn\\Downloads\\jiw_clients.sql';
 const OUT_FILE = path.join(ROOT, 'data', 'portal-clients.json');
 
-const SKIP_COMPANIES = new Set(['leanne digital', 'lucentseo hosting']);
+const SKIP_COMPANIES = new Set(['lucentseo hosting']);
 
 const SLUG_ALIASES = {
     'oatley-vigmond-personal-injury-firm': 'oatley-vigmond',
@@ -44,7 +44,7 @@ function emptyToNull(value) {
     return text === '' ? null : text;
 }
 
-function slugify(name) {
+export function slugify(name) {
     const slug = String(name || '')
         .toLowerCase()
         .replace(/&/g, 'and')
@@ -58,12 +58,13 @@ function parseTuple(sql, start) {
     let i = start + 1;
     let current = '';
     let inString = false;
+    let quoted = false;
 
     while (i < sql.length) {
         const char = sql[i];
         if (inString) {
             if (char === '\\' && sql[i + 1]) {
-                current += sql[i + 1];
+                current += ({n:'\n',r:'\r',t:'\t','0':'\0',b:'\b',Z:'\x1a'}[sql[i + 1]] ?? sql[i + 1]);
                 i += 2;
                 continue;
             }
@@ -82,21 +83,24 @@ function parseTuple(sql, start) {
             continue;
         }
         if (char === "'") {
+            if (!quoted) current = '';
+            quoted = true;
             inString = true;
             i += 1;
             continue;
         }
         if (char === ',') {
-            fields.push(normalizeField(current.trim()));
+            fields.push(quoted ? current : normalizeField(current.trim()));
             current = '';
+            quoted = false;
             i += 1;
             continue;
         }
         if (char === ')') {
-            fields.push(normalizeField(current.trim()));
+            fields.push(quoted ? current : normalizeField(current.trim()));
             return { fields, next: i + 1 };
         }
-        current += char;
+        if (!quoted || !/\s/.test(char)) current += char;
         i += 1;
     }
     throw new Error('Unclosed SQL tuple');
@@ -109,7 +113,7 @@ function normalizeField(value) {
     return value;
 }
 
-function parseInsert(sql) {
+export function parseInsert(sql) {
     const header = sql.match(/INSERT INTO `jiw_clients` \(([^)]+)\) VALUES/i);
     if (!header) throw new Error('Could not find jiw_clients INSERT');
     const columns = header[1].split(',').map((col) => col.replace(/`/g, '').trim());
@@ -205,4 +209,4 @@ function main() {
     }
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main();

@@ -1501,3 +1501,26 @@ body.seo-report-page .client-report-page > :not(.container) {
         break-inside: avoid;
     }
 }
+/* Unified client workspace */
+body.clients-picker.page-inner { background: var(--ld-bg-solid); color: var(--ld-text); }
+body.clients-picker .clients-picker-main { min-height: 55vh; padding: calc(var(--ld-header-offset) + 2rem) 0 4rem; background: var(--ld-bg-solid); color: var(--ld-text); }
+body.clients-picker .site-header + main.clients-picker-main > :first-child { padding-top:0; }
+.client-hub .clients-hero { padding-bottom:1.5rem; }
+.clients-picker-panel { width: min(100%, 46rem); margin: 0; }
+.clients-picker-panel h1, .clients-picker-panel label { color: var(--ld-text); }
+.clients-picker-panel p { color: var(--ld-text-muted); }
+.client-hub .client-profile__header { padding-bottom: 0; }
+.client-hub-nav { display:flex; flex-wrap:wrap; gap:0.5rem; border-bottom:1px solid var(--ld-card-border); margin:1.5rem 0 2rem; padding-bottom:0.75rem; }
+.client-hub-nav a { padding:0.65rem 0.9rem; color:var(--ld-text); text-decoration:none; border-radius:8px; }
+.client-hub-nav a[aria-current="page"] { background:var(--ld-accent); color:var(--ld-bg-solid); }
+.client-hub [hidden] { display:none !important; }
+.client-hub [data-admin-switch] { max-width:34rem; }
+.client-hub select, .client-record-form input, .client-record-form textarea { width:100%; padding:0.75rem; border:1px solid var(--ld-card-border); border-radius:8px; font:inherit; background:var(--ld-bg-solid); color:var(--ld-text); }
+.client-record-form { padding:1.5rem 0; border-bottom:1px solid var(--ld-card-border); }
+.client-record-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1rem 0; }
+.client-record-grid label { display:grid; gap:0.4rem; min-width:0; }
+.client-record-grid textarea { min-height:8rem; }
+.client-record-account { border-bottom:1px solid var(--ld-card-border); }
+.client-record-account summary { cursor:pointer; padding:1rem 0; font-weight:600; }
+.client-record-account .client-record-form { border:0; padding-top:0; }
+@media(max-width:640px) { .client-record-grid { grid-template-columns:1fr; } .client-hub-nav a { padding:0.65rem; } }
