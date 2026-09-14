@@ -168,6 +168,7 @@ function clientSlugFromPath(pathname) {
 }
 
 function portalAccess(pathname, user) {
+    if (/^\/clients\/gbt-logistics(?:\/|\/index\.html)?$/.test(pathname)) return 'allow';
     const isAdminDash = pathname === '/admin' || pathname.startsWith('/admin/');
     const isClientHub = pathname === '/clients' || pathname === '/clients/';
     const isHostingDirectory = pathname === '/hosting' || pathname.startsWith('/hosting/');

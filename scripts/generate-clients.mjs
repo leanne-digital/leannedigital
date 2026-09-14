@@ -788,6 +788,21 @@ ${rows}
 }
 
 function renderClientPage(client) {
+    if (client.slug === 'gbt-logistics') {
+        return `${renderHead({ title: 'GBT Logistics Packages | Leanne Digital', description: 'SEO package options prepared for GBT Logistics.', depth: 2, extraCss: ['clients.css'], robots: ROBOTS, canonical: `${SITE_URL}/clients/gbt-logistics/` })}
+<body class="page-inner">
+${renderNav(2, '')}
+<main id="main">
+    <section class="clients-hero section--navy"><div class="container"><h1 class="client-reports__title">GBT Logistics</h1></div></section>
+    <section class="client-page section--navy"><div class="container">
+${renderClientPackages(client)}
+    </div></section>
+</main>
+${renderFullFooter(2)}
+<script src="../../js/site-nav.js" defer></script>
+<!-- lp:custom-body-end -->
+</body></html>`;
+    }
     const bio = client.bio
         ? `<p class="client-profile__bio">${escapeHtml(client.bio)}</p>`
         : '';
