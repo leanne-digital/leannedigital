@@ -22,6 +22,7 @@ try {
     const query = 'client_id=test&redirect_uri=https%3A%2F%2Fexample.com%2Fcallback';
     const page = await fetch(`${base}/oauth/login?${query}`);
     const html = await page.text();
+    assert.equal(page.headers.get('referrer-policy'), 'same-origin');
     assert.match(html, /Sign in with Google/);
     assert.ok(!html.includes(process.env.OAUTH_GOOGLE_CLIENT_SECRET));
     const csrf = html.match(/name="csrf" value="([^"]+)"/)[1];

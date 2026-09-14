@@ -49,7 +49,8 @@ function sendHtml(res, status, html, extraHeaders = {}) {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'no-store',
         'X-Frame-Options': 'DENY',
-        'Referrer-Policy': 'no-referrer',
+        // Preserve the origin on same-origin form POSTs; disclose no referrer externally.
+        'Referrer-Policy': 'same-origin',
         ...extraHeaders,
     });
     res.end(html);
