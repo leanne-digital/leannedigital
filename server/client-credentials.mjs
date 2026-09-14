@@ -17,7 +17,7 @@ export function readClientRecord(slug, user) {
     const file = credentialFile();
     if (!fs.existsSync(file)) return {available:false, fields:{}};
     const data = JSON.parse(fs.readFileSync(file,'utf8'));
-    return {available:true, fields:data.profiles?.[slug] || {}};
+    return {available:Boolean(data.profiles?.[slug]), fields:data.profiles?.[slug] || {}};
 }
 export function saveClientRecord(slug, fields, user) {
     if (user?.role !== 'staff') throw Object.assign(new Error('Forbidden'), {status:403});

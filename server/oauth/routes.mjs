@@ -338,42 +338,9 @@ async function handleLogin(req, res, oauth) {
         res.end();
         return;
     }
-    const email = String(body.email || '').trim().toLowerCase();
-    const password = String(body.password || '');
-    if (!isOAuthStaffEmail(email)) {
-        const token = newCsrfToken();
-        sendHtml(res, 403, loginPageHtml({
-            error: oauthStaffDeniedMessage(),
-            csrfToken: token,
-            returnQuery,
-        }), { 'Set-Cookie': csrfCookieHeader(token, issuer) });
-        return;
-    }
+    sendHtml(res, 403, oauthErrorPageHtml('Use Sign in with Google. Password sign-in is disabled for MCP.'));
+    return;
 
-    const signIn = await oauth.auth.api.signInEmail({
-        body: { email, password },
-        headers: oauth.fromNodeHeaders(req.headers),
-        asResponse: true,
-    });
-
-    if (!signIn.ok) {
-        const token = newCsrfToken();
-        sendHtml(res, 401, loginPageHtml({
-            error: 'Invalid email or password',
-            csrfToken: token,
-            returnQuery,
-        }), { 'Set-Cookie': csrfCookieHeader(token, issuer) });
-        return;
-    }
-
-    const location = `${OAUTH_BASE_PATH}/oauth2/authorize?${returnQuery}`;
-    const cookies = copyAuthCookies(signIn, [csrfCookieHeader(newCsrfToken(), issuer)]);
-    res.writeHead(303, {
-        Location: location,
-        'Set-Cookie': cookies,
-        'Cache-Control': 'no-store',
-    });
-    res.end();
 }
 
 async function handleConsent(req, res, oauth) {

@@ -10,7 +10,7 @@ export const MCP_SCOPE_READ = 'mcp:read';
 export const MCP_SCOPE_WRITE = 'mcp:write';
 export const OFFLINE_SCOPE = 'offline_access';
 export const MCP_SCOPE_CREDENTIAL_WRITE = 'mcp:credentials:write';
-export const OAUTH_SCOPES = [MCP_SCOPE_READ, MCP_SCOPE_CREDENTIAL_WRITE, OFFLINE_SCOPE];
+export const OAUTH_SCOPES = [MCP_SCOPE_READ, MCP_SCOPE_WRITE, MCP_SCOPE_CREDENTIAL_WRITE, OFFLINE_SCOPE];
 export const CSRF_COOKIE = 'ld_oauth_csrf';
 export const MAX_OAUTH_BODY_BYTES = 64 * 1024;
 

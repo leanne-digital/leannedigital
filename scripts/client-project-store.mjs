@@ -6,6 +6,7 @@ import { getClient, loadClients } from './client-store.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PROJECTS_FILE = path.join(ROOT, 'data', 'client-projects.json');
 const UPDATES_FILE = path.join(ROOT, 'data', 'client-project-updates.json');
+const DELETED_FILE = path.join(ROOT, 'data', 'deleted-client-projects.json');
 
 export const PROJECT_STATUSES = ['active', 'paused', 'completed', 'cancelled', 'delinquent', 'prepaid', 'complimentary'];
 export const SERVICE_TYPES = [
@@ -235,6 +236,15 @@ export function setProjectStatus(id, status, actor = {}) {
     );
 }
 
+export function deleteClientProject(id) {
+    const project = getClientProject(id);
+    if (!project) fail('Project not found',404);
+    writeJson(DELETED_FILE,[...new Set([...readJson(DELETED_FILE,[]),`${project.clientSlug}:${project.serviceType}`])]);
+    saveProjects(loadClientProjects().filter(row => String(row.id) !== String(id)));
+    saveUpdates(loadProjectUpdates().filter(row => String(row.projectId) !== String(id)));
+    return {deleted:true,id:project.id};
+}
+
 export function projectProgress(project) {
     const status = String(project?.status || '').toLowerCase();
     if (status === 'completed') return 100;
@@ -279,7 +289,7 @@ export function listClientProjects(filters = {}) {
 export function seedProjectsFromClientServices() {
     const clients = loadClients();
     const projects = loadClientProjects();
-    const have = new Set(projects.map((row) => `${row.clientSlug}:${row.serviceType}`));
+    const have = new Set([...projects.map((row) => `${row.clientSlug}:${row.serviceType}`),...readJson(DELETED_FILE,[])]);
     let added = 0;
     for (const client of clients) {
         const services = client.services || [];

@@ -98,6 +98,7 @@ async function createOAuthRuntime({ port } = {}) {
             max: 80,
         },
         disabledPaths: [
+            '/sign-in/email',
             '/token',
             '/sign-up/email',
             '/forget-password',
@@ -134,7 +135,7 @@ async function createOAuthRuntime({ port } = {}) {
         },
         hooks: {
             after: createAuthMiddleware(async (ctx) => {
-                if (ctx.path !== '/sign-in/email' && ctx.path !== '/oauth2/consent') return;
+                if (!['/sign-in/email','/oauth2/consent','/oauth2/authorize','/callback/google'].includes(ctx.path)) return;
                 const email = ctx.context.newSession?.user?.email || ctx.context.session?.user?.email;
                 if (email && !isOAuthStaffEmail(email)) {
                     throw new APIError('FORBIDDEN', { message: oauthStaffDeniedMessage() });

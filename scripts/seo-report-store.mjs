@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getClient, regeneratePages, slugify, upsertClientReport } from './client-store.mjs';
+import { getClient, regeneratePages, slugify, upsertClientReport, removeClientReport } from './client-store.mjs';
 import { asParagraphs, renderSeoReportBody } from './seo-report-template.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -36,7 +36,18 @@ function writeJson(file, value) {
 }
 
 function jsonPath(clientSlug, reportSlug) {
+    if (![clientSlug,reportSlug].every(value => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value))) fail('Invalid client or report slug');
     return path.join(REPORTS_DIR, clientSlug, `${reportSlug}.json`);
+}
+
+export async function deleteSeoReport(clientSlug, reportSlug) {
+    const file = jsonPath(clientSlug,reportSlug);
+    removeClientReport(clientSlug,reportSlug);
+    fs.rmSync(file,{force:true});
+    const page = path.join(ROOT,'clients',clientSlug,reportSlug);
+    fs.rmSync(page,{recursive:true,force:true});
+    await regeneratePages();
+    return {deleted:true,client:clientSlug,slug:reportSlug};
 }
 
 export function monthParts(monthKey) {

@@ -180,7 +180,7 @@ const dcr = await fetchRaw(metadata.registration_endpoint, {
         grant_types: ['authorization_code', 'refresh_token'],
         response_types: ['code'],
         token_endpoint_auth_method: 'none',
-        scope: 'mcp:read mcp:credentials:write offline_access',
+        scope: 'mcp:read mcp:write mcp:credentials:write offline_access',
     }),
 });
 const clientId = dcr.json?.client_id;
@@ -203,10 +203,7 @@ const dcrWrite = await fetchRaw(metadata.registration_endpoint, {
     }),
 });
 const registeredScope = String(dcrWrite.json?.scope || '');
-check('5b. DCR cannot register mcp:write',
-    (dcrWrite.status >= 400 && !dcrWrite.json?.client_id)
-        || (Boolean(dcrWrite.json?.client_id) && !registeredScope.split(/\s+/).includes('mcp:write')),
-    `status=${dcrWrite.status} scope=${registeredScope || dcrWrite.json?.error || 'none'}`);
+check('5b. DCR registers write scope', Boolean(dcrWrite.json?.client_id) && registeredScope.split(/\s+/).includes('mcp:write'));
 
 async function completeAuthorization({ scope = 'mcp:read offline_access', verifier, challenge, email = ADMIN_EMAIL, password = ADMIN_PASSWORD }) {
     const cookies = new CookieJar();
@@ -242,26 +239,13 @@ async function completeAuthorization({ scope = 'mcp:read offline_access', verifi
         cookies.absorb(loginPage.res);
         const csrf = hiddenValue(loginPage.text, 'csrf');
         const returnQuery = hiddenValue(loginPage.text, 'return_query') || new URL(loginUrl).searchParams.toString();
-        const posted = await fetchRaw(`${BASE}/oauth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                Origin: BASE,
-                Cookie: cookies.header(),
-                Referer: loginUrl,
-            },
-            body: new URLSearchParams({
-                email,
-                password,
-                csrf,
-                return_query: returnQuery,
-            }).toString(),
-        });
-        cookies.absorb(posted.res);
-        if (posted.status === 403) {
-            return { denied: true, status: posted.status, body: posted.text, cookies };
-        }
-        current = posted.location ? new URL(posted.location, BASE).toString() : current;
+        // Establish a test session via the internal API; remote password sign-in is disabled.
+        const {getOAuth}=await import('../server/oauth/auth.mjs');
+        const {isOAuthStaffEmail}=await import('../server/oauth/staff.mjs');
+        if(!isOAuthStaffEmail(email))return {denied:true,status:403,cookies};
+        const signed=await getOAuth().auth.api.signInEmail({body:{email,password},asResponse:true});
+        cookies.absorb(signed);
+        current=authorize.toString();
         for (let i = 0; i < 8; i += 1) {
             last = await fetchRaw(current, { headers: { Cookie: cookies.header(), Origin: BASE } });
             cookies.absorb(last.res);
@@ -381,11 +365,27 @@ const credentialTokens = await exchangeCode({code:credentialAuth.code,verifier:c
 process.env.REMOTE_MCP_READ_ONLY = '';
 const credentialTools = await mcpPost(credentialTokens.json?.access_token, rpcPayload(20,'tools/list',{}));
 const credentialNames = (credentialTools.json?.result?.tools || []).map(tool=>tool.name);
-check('9c. Credential-write consent grants only credential saves', credentialNames.includes('save_client_credential') && MCP_WRITE_TOOLS.filter(name=>name!=='save_client_credential').every(name=>!credentialNames.includes(name)), JSON.stringify({authStatus:credentialAuth.status,code:Boolean(credentialAuth.code),tokenStatus:credentialTokens.status,scope:credentialTokens.json?.scope,error:credentialTokens.json?.error,toolStatus:credentialTools.status,names:credentialNames}));
+check('9c. Credential-write consent grants only credential saves', credentialNames.includes('save_client_credential') && MCP_WRITE_TOOLS.filter(name=>!['save_client_credential','delete_client_credential'].includes(name)).every(name=>!credentialNames.includes(name)), JSON.stringify({authStatus:credentialAuth.status,code:Boolean(credentialAuth.code),tokenStatus:credentialTokens.status,scope:credentialTokens.json?.scope,error:credentialTokens.json?.error,toolStatus:credentialTools.status,names:credentialNames}));
 
 process.env.REMOTE_MCP_READ_ONLY = '1';
 const credentialReadOnly = await mcpPost(credentialTokens.json?.access_token,rpcPayload(21,'tools/list',{}));
 check('9d. Global read-only setting blocks scoped credential saves', !(credentialReadOnly.json?.result?.tools || []).some(tool=>tool.name==='save_client_credential'));
+const fullPkce=pkce();
+const fullAuth=await completeAuthorization({...fullPkce,scope:'mcp:read mcp:write mcp:credentials:write offline_access'});
+const fullTokens=await exchangeCode({code:fullAuth.code,verifier:fullPkce.verifier});
+process.env.REMOTE_MCP_READ_ONLY='0';
+const fullTools=await mcpPost(fullTokens.json?.access_token,rpcPayload(22,'tools/list',{}));
+const fullNames=(fullTools.json?.result?.tools||[]).map(tool=>tool.name);
+check('9e. Full explicit consent exposes all CRUD tools',MCP_WRITE_TOOLS.every(name=>fullNames.includes(name)));
+const {getOAuth}=await import('../server/oauth/auth.mjs');
+const oauthRuntime=getOAuth();
+const account=oauthRuntime.database.prepare('SELECT id FROM user WHERE email = ?').get(ADMIN_EMAIL);
+try {
+    oauthRuntime.database.prepare('UPDATE user SET email = ? WHERE id = ?').run('blocked@example.com',account.id);
+    const blocked=await mcpPost(fullTokens.json?.access_token,rpcPayload(23,'tools/list',{}));
+    check('9f. Existing token denied even read access after email leaves allowlist',blocked.status===401);
+} finally {oauthRuntime.database.prepare('UPDATE user SET email = ? WHERE id = ?').run(ADMIN_EMAIL,account.id);}
+process.env.REMOTE_MCP_READ_ONLY='1';
 
 const seo = await mcpPost(accessToken, rpcPayload(3, 'tools/call', { name: 'list_seo_clients', arguments: {} }));
 const seoBody = toolText(seo);
@@ -438,8 +438,8 @@ const staticInit = await mcpPost(STATIC_KEY, rpcPayload(1, 'initialize', {
     capabilities: {},
     clientInfo: { name: 'oauth-test', version: '0.0.1' },
 }));
-check('15. static REMOTE_MCP_API_KEY still works',
-    staticInit.status === 200 && Boolean(staticInit.json?.result),
+check('15. API key cannot bypass email allowlist',
+    staticInit.status === 401,
     `status=${staticInit.status}`);
 
 const portalOnMcp = await mcpPost(PORTAL_KEY, rpcPayload(1, 'initialize', {

@@ -1,6 +1,7 @@
 import { createLocalJWKSet, decodeJwt, jwtVerify } from 'jose';
 import { MCP_SCOPE_READ, MCP_SCOPE_WRITE, oauthEnabled } from './config.mjs';
 import { getOAuth } from './auth.mjs';
+import {isOAuthStaffEmail} from './staff.mjs';
 
 function tokenScopes(payload) {
     const raw = payload?.scope || payload?.scp || '';
@@ -63,6 +64,8 @@ export async function verifyMcpAccessToken(token, { audience, requiredScopes = [
             }
         }
 
+        const account = payload.sub ? oauth.database.prepare('SELECT email FROM user WHERE id = ?').get(String(payload.sub)) : null;
+        if (!account || !isOAuthStaffEmail(account.email)) return {ok:false,error:'invalid_token',description:'Account is not authorized for MCP access'};
         const scopes = tokenScopes(payload);
         const missing = requiredScopes.filter((scope) => !scopes.includes(scope));
         if (missing.length) {

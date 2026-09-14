@@ -41,24 +41,14 @@ export function loginPageHtml({ error = '', csrfToken, returnQuery = '', googleE
         title: 'Sign in to authorize Leanne Digital MCP',
         body: `
     <h1>Leanne Digital MCP</h1>
-    <p class="muted">Sign in with a Leanne Digital staff account to continue. Client portal logins cannot authorize this connection.</p>
+    <p class="muted">Verify with Google to connect. Access is restricted to Gary and Leanne's Leanne Digital accounts.</p>
     ${error ? `<p class="error">${escapeHtml(error)}</p>` : ''}
     ${googleEnabled ? `<form method="post" action="/oauth/login">
       <input type="hidden" name="csrf" value="${escapeHtml(csrfToken)}">
       <input type="hidden" name="return_query" value="${escapeHtml(returnQuery)}">
       <button type="submit" name="provider" value="google">Sign in with Google</button>
-    </form><p class="muted">Or use your MCP staff password below.</p>` : ''}
-    <form method="post" action="/oauth/login">
-      <input type="hidden" name="csrf" value="${escapeHtml(csrfToken)}">
-      <input type="hidden" name="return_query" value="${escapeHtml(returnQuery)}">
-      <label for="email">Staff email</label>
-      <input id="email" name="email" type="email" autocomplete="username" required>
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" autocomplete="current-password" required>
-      <div class="actions">
-        <button class="allow" type="submit">Sign in</button>
-      </div>
-    </form>`,
+    </form>
+    <script>const form=document.querySelector('form');form.requestSubmit(form.querySelector('button'));</script>` : '<p class="error">Google sign-in is not configured. Contact the site administrator.</p>'}`,
     });
 }
 
@@ -67,8 +57,8 @@ export function consentPageHtml({ error = '', csrfToken, clientName, scopes, oau
         .map((scope) => {
             if (scope === 'mcp:read') return 'Read Leanne Digital agency data (clients, projects, revenue, leads, and related records)';
             if (scope === 'offline_access') return 'Stay connected until access is revoked (refresh token)';
-            if (scope === 'mcp:credentials:write') return 'Add or update client login credentials in the private admin record. Saved passwords are never returned.';
-            if (scope === 'mcp:write') return 'Write access is not available yet and will not be granted';
+            if (scope === 'mcp:credentials:write') return 'Add, update or delete client login credentials in the private admin record. Saved passwords are never returned.';
+            if (scope === 'mcp:write') return 'Create, update and delete agency client records, services, projects, proposals and reports';
             return escapeHtml(scope);
         })
         .map((text) => `<li>${text}</li>`)
@@ -78,7 +68,7 @@ export function consentPageHtml({ error = '', csrfToken, clientName, scopes, oau
         title: 'Authorize Leanne Digital MCP',
         body: `
     <h1>Authorize Leanne Digital MCP</h1>
-    <p><strong>${escapeHtml(clientName || 'Leanne Digital MCP')}</strong> is requesting read access to Leanne Digital agency data.</p>
+    <p><strong>${escapeHtml(clientName || 'Leanne Digital MCP')}</strong> is requesting the following access to Leanne Digital agency data.</p>
     ${error ? `<p class="error">${escapeHtml(error)}</p>` : ''}
     <ul>${scopeList}</ul>
     <p class="muted">This is agency-wide staff data. Client portal users cannot approve this request.</p>

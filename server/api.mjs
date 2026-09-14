@@ -1,4 +1,8 @@
 import http from 'node:http';
+import {clientCrud} from './client-crud.mjs';
+import {credentialInventory,saveCredential,deleteCredential} from './credential-tools.mjs';
+import {deleteSeoReport} from '../scripts/seo-report-store.mjs';
+import {deleteClientProject} from '../scripts/client-project-store.mjs';
 import { readClientRecord, saveClientRecord } from './client-credentials.mjs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -385,6 +389,10 @@ async function handleApi(req, res, method, pathname, user) {
         if (!requireStaff(user, req, res)) return true;
         const id = decodeURIComponent(projectMatch[1]);
         const action = projectMatch[2] || '';
+        if(!action && method==='DELETE') {
+            if((await readBody(req)).confirm!==true){json(req,res,400,{error:'confirm=true required'});return true;}
+            json(req,res,200,deleteClientProject(id));return true;
+        }
         if (action === 'pause' && method === 'POST') {
             json(req, res, 200, { project: setProjectStatus(id, 'paused', { ...user, message: 'Paused' }) });
             return true;
@@ -519,10 +527,30 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 200, await archiveClientWithAccount(decodeURIComponent(archiveMatch[1])));
         return true;
     }
+    const crudMatch=pathname.match(/^\/api\/clients\/([^/]+)\/(services|hosting|proposals|credentials)(?:\/([^/]+))?$/);
+    if(crudMatch) {
+        if(!requireStaff(user,req,res))return true;
+        const client=getAgencyClient(decodeURIComponent(crudMatch[1]));
+        const area=crudMatch[2],key=crudMatch[3]?decodeURIComponent(crudMatch[3]):null;
+        const operation={GET:'read',POST:'create',PATCH:'update',DELETE:'delete'}[method];
+        if(!operation){json(req,res,405,{error:'Method not allowed'});return true;}
+        const input=method==='GET'?{}:await readBody(req);
+        if(method==='DELETE' && input.confirm!==true){json(req,res,400,{error:'confirm=true required'});return true;}
+        delete input.confirm;
+        let result;
+        if(area==='credentials')result=method==='GET'?credentialInventory(client.slug):method==='DELETE'?deleteCredential(client.slug,key):saveCredential(client.slug,{...input,...(key?{slot:key}:{})});
+        else result=await clientCrud(client.slug,area,operation,{...input,...(key?{[area==='proposals'?'id':'type']:key}:{})});
+        json(req,res,200,result,{'Cache-Control':'private, no-store'});return true;
+    }
     const reportOne = pathname.match(/^\/api\/clients\/([^/]+)\/reports\/([^/]+)$/);
     if (reportOne) {
         if (!requireStaff(user, req, res)) return true;
         const client = getAgencyClient(decodeURIComponent(reportOne[1]));
+        if(method==='PATCH') {json(req,res,200,{report:await saveSeoReport(client.slug,{...(await readBody(req)),slug:decodeURIComponent(reportOne[2])})});return true;}
+        if(method==='DELETE') {
+            if((await readBody(req)).confirm!==true){json(req,res,400,{error:'confirm=true required'});return true;}
+            json(req,res,200,await deleteSeoReport(client.slug,decodeURIComponent(reportOne[2])));return true;
+        }
         if (method === 'GET') {
             const report = loadReportRecord(client.slug, decodeURIComponent(reportOne[2]));
             json(req, res, 200, { report, legacy: !report });

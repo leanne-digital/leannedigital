@@ -14,7 +14,17 @@ export function credentialInventory(slug) {
     const {available,fields}=readClientRecord(slug,admin);
     const items=accounts.filter(([key,label,url])=>[fields[label],fields[url],fields[`${key}_username`],fields[`${key}_password`]].some(Boolean))
         .map(([slot,label,url])=>({slot,name:fields[label] || slot,url:fields[url] || '',hasUsername:Boolean(fields[`${slot}_username`]),hasPassword:Boolean(fields[`${slot}_password`])}));
-    return {available,client:slug,count:items.length,accounts:items};
+    return {available,client:slug,count:items.length,accounts:items,
+        ...(available ? {} : {message:'No private record exists for this client on this server. Import existing credentials or create a credential; this does not mean all slots are occupied.'})};
+}
+
+export function deleteCredential(slug, slot) {
+    const definition = accounts.find(([key]) => key === slot);
+    if (!definition) throw Object.assign(new Error('Unknown account slot'), {status:400});
+    if (!credentialInventory(slug).accounts.some(account => account.slot === slot)) throw Object.assign(new Error('Credential not found'), {status:404});
+    const [,label,url] = definition;
+    saveClientRecord(slug, Object.fromEntries([label,url,`${slot}_username`,`${slot}_password`].filter(Boolean).map(key => [key,''])), admin);
+    return {deleted:true,client:slug,slot};
 }
 
 export function saveCredential(slug,{slot='software',name,url,username,password}) {

@@ -17,6 +17,7 @@ import { rewriteLegacyLinks } from './seo.mjs';
 import { loadReportRecord, renderSeoReportBody } from './seo-report-store.mjs';
 import { renderAdminSidebar } from './admin-navigation.mjs';
 import { renderClientPackages } from './client-packages.mjs';
+import {listClientProposals} from './client-proposal-store.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -825,13 +826,13 @@ ${bio}
                 <div class="client-hub-controls" data-admin-switch hidden><label>Select Client:<select data-client-picker><option value="">Choose a client</option></select></label><a href="/hosting/">Hosting &amp; renewals</a></div>
                 <section id="packages" class="client-hub-packages">${renderClientPackages(client)}${renderServiceList(client)}</section>
                 <nav class="client-hub-nav" aria-label="Client sections">
-                    <a href="#overview">Overview</a><a href="#reports">Reports <span class="client-hub-count" data-report-count>${(client.reports || []).length}</span></a><a href="#proposals">Active proposals <span class="client-hub-count">${client.slug === 'gbt-logistics' ? 1 : 0}</span></a>
+                    <a href="#overview">Overview</a><a href="#reports">Reports <span class="client-hub-count" data-report-count>${(client.reports || []).length}</span></a><a href="#proposals">Active proposals <span class="client-hub-count">${listClientProposals(client.slug).filter(row=>row.status==='active').length}</span></a>
                     ${isHostingClient(client) ? '<a href="#hosting">Hosting <span class="client-hub-count">1</span></a>' : ''}
                     <a href="#credentials" data-admin-tab hidden>Credentials <span class="client-hub-count" data-credential-count aria-live="polite">—</span></a>
                 </nav>
                 <section id="overview" data-hub-panel><h2>Overview</h2><p>Services, project documents and reports for ${escapeHtml(client.name)}.</p><div data-private-overview></div></section>
                 <section id="reports" data-hub-panel hidden>${renderAccountTable(client)}</section>
-                <section id="proposals" data-hub-panel hidden><h2>Proposals</h2>${client.slug === 'gbt-logistics' ? '<p><a href="/proposals/gbt-logistics-and-packaging-inc/">View project proposal</a></p>' : '<p>No proposals linked yet.</p>'}</section>
+                <section id="proposals" data-hub-panel hidden><h2>Proposals</h2>${listClientProposals(client.slug).filter(row=>row.status!=='draft').map(row=>`<p><a href="${escapeHtml(row.url)}">${escapeHtml(row.title)}</a>  ${escapeHtml(row.status)}</p>`).join('') || '<p>No proposals linked yet.</p>'}</section>
                 ${isHostingClient(client) ? '<section id="hosting" data-hub-panel hidden><h2>Hosting</h2><p>Website hosting with Leanne Digital.</p><div data-private-hosting></div></section>' : ''}
                 <section id="credentials" data-hub-panel hidden><h2>Credentials</h2><p>Private accounts and software logins. Only administrators can access this section.</p><div data-private-credentials></div></section>
             </div>

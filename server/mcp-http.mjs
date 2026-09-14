@@ -1,4 +1,3 @@
-import { timingSafeEqual } from 'node:crypto';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { getOAuthProtectedResourceMetadataUrl } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { createMcpServer } from './mcp-tools.mjs';
@@ -23,17 +22,6 @@ function allowRequest(id) {
     recent.push(now);
     hits.set(id, recent);
     return true;
-}
-
-function safeEqual(provided, expected) {
-    const a = Buffer.from(String(provided || ''));
-    const b = Buffer.from(String(expected || ''));
-    if (a.length !== b.length || !a.length) return false;
-    return timingSafeEqual(a, b);
-}
-
-function configuredKey() {
-    return String(process.env.REMOTE_MCP_API_KEY || '').trim();
 }
 
 function envReadOnly() {
@@ -63,21 +51,12 @@ function challengeHeaders({ error = 'invalid_token', description = 'Authenticati
  * PORTAL_API_KEY is intentionally not accepted here.
  */
 export async function authenticateRemoteMcp(req) {
-    const expected = configuredKey();
     const oauthOn = oauthEnabled() && Boolean(getOAuth());
-    if (!expected && !oauthOn) {
-        return { ok: false, status: 503, error: 'Remote MCP is not configured (set REMOTE_MCP_API_KEY or OAuth)' };
+    if (!oauthOn) {
+        return { ok: false, status: 503, error: 'Remote MCP requires Google OAuth configuration' };
     }
 
     const provided = bearerToken(req);
-    if (provided && expected && safeEqual(provided, expected)) {
-        return {
-            ok: true,
-            method: 'api-key',
-            readOnly: envReadOnly(),
-            actorEmail: 'remote-mcp',
-        };
-    }
 
     if (provided && oauthOn) {
         const verified = await verifyMcpAccessToken(provided, {

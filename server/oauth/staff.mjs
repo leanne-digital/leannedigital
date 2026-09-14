@@ -1,5 +1,4 @@
-import { getUserByEmail } from '../auth.mjs';
-import { oauthAdminEmail } from './config.mjs';
+export const MCP_ADMIN_EMAILS = ['gary@leannedigital.com', 'leanne@leannedigital.com'];
 
 function normalizeEmail(email) {
     return String(email || '').trim().toLowerCase();
@@ -7,12 +6,9 @@ function normalizeEmail(email) {
 
 export function isOAuthStaffEmail(email) {
     const needle = normalizeEmail(email);
-    if (!needle) return false;
-    if (needle === oauthAdminEmail()) return true;
-    const portalUser = getUserByEmail(needle);
-    return portalUser?.role === 'staff';
+    return MCP_ADMIN_EMAILS.includes(needle);
 }
 
 export function oauthStaffDeniedMessage() {
-    return 'Only Leanne Digital staff may authorize the agency MCP. Client portal users cannot approve this access.';
+    return 'Only gary@leannedigital.com and leanne@leannedigital.com may authorize this MCP connection.';
 }

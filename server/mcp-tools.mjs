@@ -1,4 +1,7 @@
-import { credentialInventory, saveCredential } from './credential-tools.mjs';
+import { credentialInventory, saveCredential, deleteCredential } from './credential-tools.mjs';
+import {clientCrud,serviceSchema,proposalSchema} from './client-crud.mjs';
+import {loadReportRecord,saveSeoReport,deleteSeoReport} from '../scripts/seo-report-store.mjs';
+import {deleteClientProject} from '../scripts/client-project-store.mjs';
 import { portalStats } from '../scripts/portal-stats.mjs';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
@@ -153,12 +156,28 @@ function destructiveTool(server, name, description, schema, handler) {
 export function createMcpServer({
     actor = { email: 'mcp', createdBy: 'mcp' },
     readOnly = false,
-    credentialWrite = false,
+    credentialWrite = !readOnly,
 } = {}) {
     const server = new McpServer({
         name: 'leanne-digital',
-        version: '1.4.0',
+        version: '1.5.0',
     });
+    for (const area of ['services','hosting','proposals']) {
+        readTool(server,`list_client_${area}`,`List the client's ${area} records.`,{clientId:z.string()},async ({clientId})=>clientCrud(clientId,area,'read'));
+        if(!readOnly) for(const operation of ['create','update','delete']) {
+            const fields=area==='proposals'?proposalSchema.shape:serviceSchema.shape;
+            const schema={clientId:z.string(),...(operation==='create'?fields:operation==='update'?Object.fromEntries(Object.entries(fields).map(([key,value])=>[key,value.optional()])):{}),...(area==='proposals' && operation!=='create'?{id:z.string()}:{}),...(area==='services'?{type:z.string()}:{}),...(area==='hosting'?{type:z.literal('hosting').default('hosting')}:{}),...(operation==='delete'?{confirm:z.literal(true)}:{})};
+            (operation==='delete'?destructiveTool:writeTool)(server,`${operation}_client_${area}`,`${operation} a client ${area} record. Services are packages; hosting includes billing and renewal dates. Proposal records link to an existing proposal URL.`,schema,async ({clientId,confirm,...input})=>clientCrud(clientId,area,operation,input));
+        }
+    }
+    readTool(server,'list_client_reports','List all report links including legacy reports.',{clientId:z.string()},async ({clientId})=>({reports:getAgencyClient(clientId).reports||[]}));
+    readTool(server,'get_client_report','Read structured report content. Legacy reports may only have a public link.',{clientId:z.string(),slug:z.string()},async ({clientId,slug})=>({report:loadReportRecord(getAgencyClient(clientId).slug,slug)}));
+    if(!readOnly) {
+        const fields={clientId:z.string(),slug:z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),monthKey:z.string().regex(/^\d{4}-\d{2}$/),monthlyRecap:z.string().optional(),technicalRecap:z.string().optional(),keywordsRecap:z.string().optional(),contentRecap:z.string().optional(),adsRecap:z.string().optional(),nextSteps:z.string().optional(),hasGoogleAds:z.boolean().optional()};
+        writeTool(server,'save_client_report','Create or update a structured monthly SEO report and regenerate its public page. Omitted recap fields stay unchanged.',fields,async ({clientId,...input})=>saveSeoReport(getAgencyClient(clientId).slug,input));
+        destructiveTool(server,'delete_client_report','Delete a report record and generated source page. The published site requires deployment to remove its live copy.',{clientId:z.string(),slug:z.string(),confirm:z.literal(true)},async ({clientId,slug})=>deleteSeoReport(getAgencyClient(clientId).slug,slug));
+        destructiveTool(server,'delete_project','Delete a service project and its history.',{id:z.string(),confirm:z.literal(true)},async ({id})=>deleteClientProject(id));
+    }
 
     readTool(server, 'list_clients', 'List Leanne Digital clients. Optional serviceType filter (seo, hosting, maintenance). Does not change data.', {
         serviceType: z.string().optional(),
@@ -237,11 +256,14 @@ export function createMcpServer({
     readTool(server, 'list_client_credentials', 'List account names and slots for a client. Returns account counts and whether logins are saved, never passwords or usernames.', {
         id:z.string().describe('Client slug or id'),
     }, async ({id})=>credentialInventory(getAgencyClient(id).slug));
-    if (!readOnly || credentialWrite) writeTool(server, 'save_client_credential', 'Use only when the user asks to add or update a login for a specific client. Saves in the private admin record. Omitted fields stay unchanged. Never returns saved secrets. Software finds a matching name or uses an empty slot.', {
+    if (credentialWrite) writeTool(server, 'save_client_credential', 'Use only when the user asks to add or update a login for a specific client. Saves in the private admin record. Omitted fields stay unchanged. Never returns saved secrets. Software finds a matching name or uses an empty slot.', {
         id:z.string().describe('Confirmed client slug or id'),
         slot:z.enum(['software','domain','hosting','email_hosting','platform','ldd_portal',...Array.from({length:10},(_,i)=>`other${i+1}`)]).default('software'),
         name:z.string().max(1000).optional(),url:z.string().max(20000).optional(),username:z.string().max(20000).optional(),password:z.string().max(20000).optional(),
     }, async ({id,...input})=>saveCredential(getAgencyClient(id).slug,input));
+    if (credentialWrite) destructiveTool(server, 'delete_client_credential', 'Delete one stored credential by its exact slot. Requires explicit user instruction and confirm=true. Never returns secrets.', {
+        id:z.string(), slot:z.string(), confirm:z.literal(true),
+    }, async ({id,slot}) => deleteCredential(getAgencyClient(id).slug,slot));
     if (readOnly) return server;
 
     writeTool(server, 'create_client', 'Creates a client and portal login. Changes CRM data. Passwords are never returned over MCP.', clientFields, async (input) =>
@@ -314,6 +336,7 @@ export function createMcpServer({
 }
 
 export const MCP_READ_TOOLS = [
+    'list_client_services','list_client_hosting','list_client_proposals','list_client_reports','get_client_report',
     'get_hosting_accounts',
     'list_client_credentials',
     'list_clients',
@@ -334,6 +357,9 @@ export const MCP_READ_TOOLS = [
 ];
 
 export const MCP_WRITE_TOOLS = [
+    ...['services','hosting','proposals'].flatMap(area=>['create','update','delete'].map(operation=>`${operation}_client_${area}`)),
+    'save_client_report','delete_client_report','delete_project',
+    'delete_client_credential',
     'save_client_credential',
     'create_client',
     'update_client',

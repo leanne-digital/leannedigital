@@ -331,6 +331,13 @@ export function getClient(slugOrId) {
     );
 }
 
+export function removeClientReport(slug, reportSlug) {
+    const current = getClient(slug);
+    if (!current) throw Object.assign(new Error('Client not found'), {status:404});
+    if (!(current.reports || []).some(row => row.slug === reportSlug)) throw Object.assign(new Error('Report not found'), {status:404});
+    upsertOverlay({...current, reports:current.reports.filter(row => row.slug !== reportSlug)});
+}
+
 function upsertPortal(record) {
     const portal = readJson(PORTAL_FILE, []);
     const index = portal.findIndex((row) => row.slug === record.slug || row.id === record.id);
