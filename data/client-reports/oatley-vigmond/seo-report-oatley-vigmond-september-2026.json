@@ -13,7 +13,8 @@
   "keywordPdf": null,
   "monthlyRecap": [
     "September work to date focused on correcting search-result metadata and a broken event URL. We resolved duplicate titles on five pages, shortened 19 overlong title tags, added unique meta descriptions to 21 accident and injury archives, and redirected one missing event-date page to the main events listing.",
-    "This report records work completed and verified on September 14, 2026. September charts and performance data are pending and will be added when supplied. These implementation results do not yet establish a change in rankings, traffic, inquiries or the audit score."
+    "We also investigated mobile performance and Core Web Vitals issues, repaired the WP Rocket installation, removed overlapping optimization from SiteGround Speed Optimizer, and improved CSS and JavaScript delivery. Homepage mobile re-tests improved from roughly 50 to 90–96, with LCP at about 2.3–3.2 seconds and Total Blocking Time at 0 ms.",
+    "This report records September work to date, including the SEO updates verified on September 14 and the performance fixes and re-test results supplied for this report. September charts and full reporting exports will be added when supplied. Changes in rankings, traffic, inquiries and the audit score remain to be assessed."
   ],
   "technicalSeo": {
     "pdf": null,
@@ -21,6 +22,7 @@
     "thisMonthImage": "",
     "recap": [
       "Completed: 24 SEO title updates, 21 new meta descriptions and one 301 redirect. The detailed log below lists every affected URL and its final title or description.",
+      "Mobile performance work included a fresh WP Rocket installation, resolution of the previous installation’s critical error, disabling SiteGround Speed Optimizer, and CSS/JavaScript minification, deferred and delayed JavaScript, and Remove Unused CSS. Reported homepage mobile re-tests improved from roughly 50 to 90–96; LCP fell to about 2.3–3.2 seconds and Total Blocking Time to 0 ms. These test results do not by themselves confirm a pass for site-wide field Core Web Vitals.",
       "The August audit is shown as last month’s reference. September’s technical audit chart and updated score are pending. A fresh crawl is needed to confirm the audit tool has cleared the reported issues."
     ],
     "internalLinks": [
@@ -268,6 +270,31 @@
         "date": "2026-09-14",
         "task": "Metadata refresh and live verification",
         "details": "Refreshed Yoast archive metadata and relevant caches. Checked the live HTML for all 24 updated titles and all 21 descriptions. Verified the event redirect reached the Events page. Audit recrawl and search-engine reindexing remain separate follow-up steps."
+      },
+      {
+        "date": "September 2026",
+        "task": "Mobile performance and Core Web Vitals investigation",
+        "details": "Investigated mobile performance and Core Web Vitals issues flagged across the site."
+      },
+      {
+        "date": "September 2026",
+        "task": "WP Rocket installation repaired",
+        "details": "Re-installed a fresh copy of WP Rocket and resolved the critical error caused by the previous broken installation."
+      },
+      {
+        "date": "September 2026",
+        "task": "Conflicting optimization disabled",
+        "details": "Disabled SiteGround Speed Optimizer to prevent conflicts and overlapping optimization with WP Rocket."
+      },
+      {
+        "date": "September 2026",
+        "task": "CSS and JavaScript delivery optimized",
+        "details": "Optimized CSS and JavaScript delivery, including minification, deferred and delayed JavaScript, and Remove Unused CSS."
+      },
+      {
+        "date": "September 2026",
+        "task": "Mobile performance re-tested",
+        "details": "Homepage mobile performance improved from roughly 50 to 90–96 in re-tests. Largest Contentful Paint (LCP) was reduced to about 2.3–3.2 seconds, and Total Blocking Time (TBT) was reduced to 0 ms. These are individual test results; scores and timings vary between runs."
       }
     ],
     "internalLinking": [],
@@ -297,9 +324,9 @@
     "recap": []
   },
   "nextSteps": [
-    "Add the September visual assets and performance exports when supplied, then update the technical SEO and keyword-ranking commentary using the new evidence.",
+    "Add the September visual assets and reporting exports when supplied, including the mobile performance before-and-after charts, then update the technical SEO and keyword-ranking commentary.",
     "Recrawl the affected URLs in the SEO audit to confirm the duplicate-title, long-title, missing-description and event 404 flags have cleared.",
     "Monitor indexing and search-result presentation after the metadata updates. Record any additional September work in this report as it is completed."
   ],
-  "updatedAt": "2026-09-14T20:49:31.543Z"
+  "updatedAt": "2026-09-14T22:13:04.704Z"
 }
