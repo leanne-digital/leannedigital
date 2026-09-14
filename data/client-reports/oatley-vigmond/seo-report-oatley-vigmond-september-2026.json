@@ -1,0 +1,305 @@
+{
+  "slug": "seo-report-oatley-vigmond-september-2026",
+  "kind": "seo",
+  "monthKey": "2026-09",
+  "title": "September 2026",
+  "monthLabel": "SEPTEMBER 2026",
+  "companyName": "OATLEY VIGMOND",
+  "clientName": "Oatley Vigmond",
+  "campaignIntro": [
+    "This SEO growth initiative is focused on strengthening Oatley Vigmond’s visibility across Google Search, Google AI Overviews, ChatGPT, Gemini, and other emerging AI-powered search platforms.",
+    "Our ongoing work includes technical SEO, AI search optimization (AEO), geographic search optimization (GEO), content architecture, internal linking, conversion tracking, and marketing automation to increase qualified case inquiries across Ontario."
+  ],
+  "keywordPdf": null,
+  "monthlyRecap": [
+    "September work to date focused on correcting search-result metadata and a broken event URL. We resolved duplicate titles on five pages, shortened 19 overlong title tags, added unique meta descriptions to 21 accident and injury archives, and redirected one missing event-date page to the main events listing.",
+    "This report records work completed and verified on September 14, 2026. September charts and performance data are pending and will be added when supplied. These implementation results do not yet establish a change in rankings, traffic, inquiries or the audit score."
+  ],
+  "technicalSeo": {
+    "pdf": null,
+    "lastMonthImage": "/assets/clients/oatley-vigmond/ocl-tech-report-august-2026.jpg",
+    "thisMonthImage": "",
+    "recap": [
+      "Completed: 24 SEO title updates, 21 new meta descriptions and one 301 redirect. The detailed log below lists every affected URL and its final title or description.",
+      "The August audit is shown as last month’s reference. September’s technical audit chart and updated score are pending. A fresh crawl is needed to confirm the audit tool has cleared the reported issues."
+    ],
+    "internalLinks": [
+      {
+        "date": "2026-09-14",
+        "task": "WordPress management connection",
+        "details": "Connected Oatley Vigmond to WPVibe and verified authorized site access to carry out and check the SEO updates."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Duplicate-content review",
+        "details": "Reviewed five pages flagged for duplicate titles. The two BIASSMD event pages cover different years; the three Wayne stories describe different clients. All five contain distinct content and were retained. No content was deleted."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Duplicate title corrected",
+        "details": "https://oatleyvigmond.com/event/biassmd-golf-tournament/ — SEO title: BIASSMD Golf Tournament 2025 | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Duplicate title corrected",
+        "details": "https://oatleyvigmond.com/event/biassmd-golf-tournament-2/ — SEO title: BIASSMD Golf Tournament 2026 | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Duplicate title corrected",
+        "details": "https://oatleyvigmond.com/verdicts-settlements-testimonials/wayne-arsenault-story/ — SEO title: Wayne Arsenault’s Story | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Duplicate title corrected",
+        "details": "https://oatleyvigmond.com/verdicts-settlements-testimonials/waynes-campbell-story/ — SEO title: Wayne Campbell’s Story | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Duplicate title corrected",
+        "details": "https://oatleyvigmond.com/verdicts-settlements-testimonials/waynes-story/ — SEO title: Wayne Watson’s Story | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/accident-benefits-and-lawsuits/ — SEO title: Accident Benefits and Lawsuits | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/accident-benefits-in-ontario-what-you-can-claim-after-a-car-accident-even-if-you-were-at-fault/ — SEO title: Ontario Accident Benefits: At-Fault Claims | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/accident-type/long-term-disability/ — SEO title: Long-Term Disability Case Results | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/catastrophic-injury-cases/ — SEO title: Why Catastrophic Injury Cases Need a Team | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/catastrophic-injury/ — SEO title: Choosing a Catastrophic Injury Law Firm | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/event/hull-ellis-concussion-clinic-invitational/ — SEO title: Hull-Ellis Concussion Invitational | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/event/madd-simcoe-county-strides-for-change-walk-run-roll/ — SEO title: MADD Simcoe: Strides for Change | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/event/reimagining-rehab-conference/ — SEO title: Reimagining Rehab Conference | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/event/rvh-2026-foundation-gala/ — SEO title: RVH Foundation Gala 2026 | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/event/toronto-abi-network-conference/ — SEO title: Toronto ABI Network Conference | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/event/women-making-moves-hosted-by-womens-law-association-of-ontario-wlao-in-support-of-shelter-movers-2/ — SEO title: WLAO Women Making Moves | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/life-changing-injuries/ — SEO title: Life-Changing Injuries: Impact on Families | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/motorcycle-accident-lawsuit/ — SEO title: Motorcycle Accident Lawsuit Guide | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/recovery-after-an-injury/ — SEO title: When Injury Recovery Takes Longer | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/serious-car-accident-checklist-what-to-do-in-the-first-72-hours/ — SEO title: Car Accident Checklist: First 72 Hours | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/serious-injury-claims/ — SEO title: Why Serious Injury Claims Take Time | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/serious-personal-injury-cases/ — SEO title: Injury Case Evidence Beyond Medical Records | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/spinal-cord-injury-lawyer/ — SEO title: Choosing an Ontario Spinal Cord Injury Lawyer"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Long title shortened",
+        "details": "https://oatleyvigmond.com/verdicts-settlements-testimonials/pedestrian-accident-settlement-for-child-with-serious-injuries/ — SEO title: Child Pedestrian Accident Settlement | Oatley Vigmond"
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/bicycle-accident/ — Browse Oatley Vigmond bicycle accident settlements, including cases involving injured cyclists, brain injuries, fractures and uninsured drivers."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/boating-accident/ — Explore Oatley Vigmond boating accident case results, including settlements and verdicts involving amputations and lasting injuries on the water."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/car-accident/ — Browse Oatley Vigmond car accident settlements and verdicts involving serious injuries, concussion, lost income and the lasting effects of collisions."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/long-term-disability/ — Read about Oatley Vigmond’s long-term disability case result involving denied benefits and a settlement secured for a client challenging their insurer."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/medical-malpractice/ — Explore Oatley Vigmond medical malpractice case results involving delayed diagnoses, surgical injuries, hospital errors and the impact on patients."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/motor-vehicle-accident/ — Explore Oatley Vigmond motor vehicle accident case results involving serious collisions, lasting injuries and settlements for injured clients."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/motorcycle-accident/ — Browse Oatley Vigmond motorcycle accident settlements and client stories involving brain injuries, spinal injuries, amputations and fatal collisions."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/pedestrian-accident/ — Explore Oatley Vigmond pedestrian accident case results involving crosswalk collisions, uninsured drivers and serious injuries to people struck by vehicles."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/premise-and-property/ — Browse Oatley Vigmond premises and property injury case results involving unsafe conditions, falls and serious injuries in public and private spaces."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/product-liability/ — Read about an Oatley Vigmond product liability settlement involving a malfunctioning product that caused a brain injury, and the outcome for the client."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/slip-and-fall-accident/ — Explore Oatley Vigmond slip and fall settlements, verdicts and client stories involving fractures, lasting disabilities and other serious injuries."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/accident-type/transport-truck-accident/ — Browse Oatley Vigmond transport truck accident case results involving highway collisions, tractor trailers, brain injuries and spinal cord injuries."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/accident-benefits/ — Explore Oatley Vigmond accident benefits case results involving serious injuries, insurance settlements and support needs following vehicle collisions."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/amputation-injury/ — Browse Oatley Vigmond amputation injury case results involving limb loss after serious collisions and settlements addressing the impact on clients’ lives."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/catastrophic-injury/ — Explore Oatley Vigmond catastrophic injury settlements and verdicts involving brain injuries, spinal cord injuries and other life-changing harm."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/orthopaedic-injury/ — Browse Oatley Vigmond orthopaedic injury case results involving fractures, joint injuries and lasting physical limitations after serious accidents."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/paediatric-injury/ — Explore Oatley Vigmond paediatric injury case results involving children and teenagers injured in collisions, medical care and other serious incidents."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/psychological-injury/ — Browse Oatley Vigmond psychological injury case results involving PTSD, anxiety, depression and other lasting mental health effects after accidents."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/spinal-cord-injury/ — Explore Oatley Vigmond spinal cord injury settlements and client stories involving paralysis, serious accidents and the lasting effects of injury."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/traumatic-brain-injury/ — Browse Oatley Vigmond traumatic brain injury case results involving concussions, severe brain injuries and the long-term effects on clients’ lives."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Missing meta description added",
+        "details": "https://oatleyvigmond.com/injury-type/wrongful-death/ — Explore Oatley Vigmond wrongful death case results involving fatal collisions and medical care, and settlements for families following the loss of a loved one."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "404 URL redirected",
+        "details": "Added and verified a 301 permanent redirect from https://oatleyvigmond.com/events/2026-11-25/ to https://oatleyvigmond.com/events/."
+      },
+      {
+        "date": "2026-09-14",
+        "task": "Metadata refresh and live verification",
+        "details": "Refreshed Yoast archive metadata and relevant caches. Checked the live HTML for all 24 updated titles and all 21 descriptions. Verified the event redirect reached the Events page. Audit recrawl and search-engine reindexing remain separate follow-up steps."
+      }
+    ],
+    "internalLinking": [],
+    "targetUrls": {}
+  },
+  "keywords": {
+    "enabled": true,
+    "lastMonthImage": "",
+    "thisMonthImage": "",
+    "twoMonthsAgoImage": "",
+    "recap": [
+      "September keyword charts and reporting exports are pending. No month-over-month ranking change is claimed in this report."
+    ],
+    "pdf": null
+  },
+  "newContent": {
+    "enabled": true,
+    "log": [],
+    "recap": [
+      "The work documented here updates existing SEO metadata and a redirect. No new articles, page-body rewrites or page deletions were completed as part of this work. Page headings and existing content URLs were preserved."
+    ]
+  },
+  "googleAds": {
+    "enabled": false,
+    "na": true,
+    "image": "",
+    "recap": []
+  },
+  "nextSteps": [
+    "Add the September visual assets and performance exports when supplied, then update the technical SEO and keyword-ranking commentary using the new evidence.",
+    "Recrawl the affected URLs in the SEO audit to confirm the duplicate-title, long-title, missing-description and event 404 flags have cleared.",
+    "Monitor indexing and search-result presentation after the metadata updates. Record any additional September work in this report as it is completed."
+  ],
+  "updatedAt": "2026-09-14T20:49:31.543Z"
+}
