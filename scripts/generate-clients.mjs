@@ -92,7 +92,7 @@ function cycleLabel(service) {
 
 function serviceTags(client) {
     const types = [...new Set((client.services || []).map((service) => service.type))];
-    if ((client.reports || []).length && !types.includes('seo')) types.unshift('seo');
+    if ((client.reports || []).some((report) => report.kind !== 'aeo') && !types.includes('seo')) types.unshift('seo');
     return types;
 }
 
@@ -522,7 +522,7 @@ function serviceAvailableIcon() {
 
 function renderServiceList(client) {
     const activeTypes = new Set((client.services || []).map((service) => service.type));
-    if ((client.reports || []).length) activeTypes.add('seo');
+    if ((client.reports || []).some((report) => report.kind !== 'aeo')) activeTypes.add('seo');
     if (client.hosting?.provider) activeTypes.add('hosting');
     const items = SERVICE_OFFERINGS.map((service) => {
         const active = service.types.some((type) => activeTypes.has(type));
@@ -548,7 +548,7 @@ function startedIso(client) {
 
 function reportTypeLabel(report) {
     const kind = report.kind || (String(report.slug || '').includes('maintenance') ? 'maintenance' : 'seo');
-    return kind === 'maintenance' ? 'Site maintenance report' : 'SEO report';
+    return kind === 'aeo' ? 'AEO report' : kind === 'maintenance' ? 'Site maintenance report' : 'SEO report';
 }
 
 function planTypeLabel(service) {
@@ -849,7 +849,7 @@ function renderReportPage(client, report) {
     const body = reportBody(client.slug, report.slug);
 
     return `${renderHead({
-        title: `${report.title} SEO Report | ${client.name} | Leanne Digital`,
+        title: report.kind === 'aeo' ? `${report.title} | Leanne Digital` : `${report.title} SEO Report | ${client.name} | Leanne Digital`,
         description: `${report.title} SEO report for ${client.name}.`,
         depth: 3,
         extraCss: ['service-page.css', 'clients.css'],

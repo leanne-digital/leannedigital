@@ -251,7 +251,7 @@
                 ? rows
                       .map((row) => {
                           const href = `/clients/${client.slug}/${row.slug}/`;
-                          const type = reportKind(row) === 'maintenance' ? 'Site maintenance report' : 'SEO report';
+                          const type = reportKind(row) === 'aeo' ? 'AEO report' : reportKind(row) === 'maintenance' ? 'Site maintenance report' : 'SEO report';
                           return `<tr class="client-account-row" data-href="${escapeHtml(href)}" tabindex="0">
                             <td><a class="client-account-row__hit" href="${escapeHtml(href)}">${escapeHtml(row.title)}</a></td>
                             <td>${escapeHtml(type)}</td>

@@ -51,7 +51,14 @@
         ]
       }
     ],
-    "reports": [],
+    "reports": [
+      {
+        "slug": "seo-report-davis-window-and-door-september-2026",
+        "title": "Davis Window & Door — September 2026 AEO and Technical SEO Report",
+        "monthKey": "2026-09",
+        "kind": "aeo"
+      }
+    ],
     "credentials": [],
     "discount": 0,
     "taxAmount": 0
