@@ -16,6 +16,7 @@ import { generateAdminDashboard } from './generate-admin-dashboard.mjs';
 import { rewriteLegacyLinks } from './seo.mjs';
 import { loadReportRecord, renderSeoReportBody } from './seo-report-store.mjs';
 import { renderAdminSidebar } from './admin-navigation.mjs';
+import { renderClientPackages } from './client-packages.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -817,6 +818,7 @@ ${bio}${asset ? `\n${asset}` : ''}
         <section class="client-page section--navy">
             <div class="container">
 ${renderServiceList(client)}
+${renderClientPackages(client)}
 ${renderAccountTable(client)}
             </div>
         </section>

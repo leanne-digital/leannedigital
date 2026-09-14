@@ -630,6 +630,10 @@ async function handle(req, res) {
         return;
     }
     const method = req.method;
+    if (/^\/admin\/gbt-logistics-and-packaging-inc(?:\/|\/index\.html)?$/.test(pathname)) {
+        redirect(res, '/proposals/gbt-logistics-and-packaging-inc/', 301);
+        return;
+    }
     if (method === 'POST' && (pathname === '/thank-you' || pathname === '/thank-you/')) {
         const raw = await readRawBody(req);
         const body = parseFormBody(raw, req);

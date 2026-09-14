@@ -218,7 +218,7 @@ export function renderContactFormScript(depth) {
     <script src="${prefix}js/contact-form.js" defer></script>`;
 }
 
-const NOINDEX_PREFIXES = ['/clients/', '/login/', '/assets/clients/', '/admin/'];
+const NOINDEX_PREFIXES = ['/clients/', '/login/', '/assets/clients/', '/admin/', '/proposals/'];
 const NOINDEX_PATHS = new Set(['/client-portal/', '/project-tracker/', '/ldd-chat/']);
 
 export function isNoindexPath(pagePath) {
