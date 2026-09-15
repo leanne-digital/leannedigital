@@ -21,7 +21,7 @@ function writePage(relativeDir, html) {
 
 function scripts(depth) {
     const prefix = '../'.repeat(depth);
-    return `    <script src="${prefix}js/site-nav.js" defer></script>
+    return `    <script src="${prefix}js/site-nav.js?v=20260914eyes" defer></script>
     <script src="${prefix}js/portal-auth.js?v=${SCRIPT_V}" defer></script>`;
 }
 
@@ -247,7 +247,7 @@ ${renderNav(1, '/profile/')}
         </section>
     </main>
 ${renderFullFooter(1)}
-    <script src="../js/site-nav.js" defer></script>
+    <script src="../js/site-nav.js?v=20260914eyes" defer></script>
     <script src="../js/portal-auth.js?v=${SCRIPT_V}" defer></script>
     <script src="../js/portal-profile.js?v=${SCRIPT_V}" defer></script>
 </body>

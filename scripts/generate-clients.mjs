@@ -102,7 +102,7 @@ function portalScripts(depth, admin = false) {
     const adminScript = admin
         ? `\n    <script src="${prefix}js/portal-admin.js?v=20260819o" defer></script>`
         : '';
-    return `    <script src="${prefix}js/site-nav.js" defer></script>
+    return `    <script src="${prefix}js/site-nav.js?v=20260914eyes" defer></script>
     <script src="${prefix}js/portal-auth.js?v=${SCRIPT_V}" defer></script>
     <script src="${prefix}js/client-workspace.js?v=${SCRIPT_V}" defer></script>
     <script src="${prefix}js/client-hub.js?v=${SCRIPT_V}" defer></script>${adminScript}

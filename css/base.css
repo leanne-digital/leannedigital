@@ -103,7 +103,7 @@ main > section.trust-bar {
     border: 0;
     border-radius: 6px;
     background: transparent;
-    color: var(--ld-bg-solid);
+    color: #16818c;
     cursor: pointer;
     transform: translateY(-50%);
 }
@@ -117,4 +117,13 @@ main > section.trust-bar {
     width: 1.15rem;
     height: 1.15rem;
     display: block;
+}
+
+/* Keep the reveal control visible on both light and dark forms. */
+.ld-password__toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+.ld-password__toggle:hover {
+    background: rgba(22, 129, 140, 0.14);
 }

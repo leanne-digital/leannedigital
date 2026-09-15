@@ -129,7 +129,7 @@ export function renderHead({
         ...extraCss,
         'footer.css',
     ]
-        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}?v=${cssVersion}">`)
+        .map((file) => `    <link rel="stylesheet" href="${prefix}css/${file}?v=${file === 'base.css' ? '20260914eyes' : cssVersion}">`)
         .join('\n');
     const canonicalUrl = canonical || (path ? `${SITE_URL}${path === '/' ? '/' : path}` : '');
     const seo = title
@@ -161,7 +161,7 @@ ${renderLilipaddSnippet()}
 
 export function renderPageScripts(depth, extra = '') {
     const prefix = assetPrefix(depth);
-    return `    <script src="${prefix}js/site-nav.js" defer></script>
+    return `    <script src="${prefix}js/site-nav.js?v=20260914eyes" defer></script>
 ${extra}`;
 }
 
