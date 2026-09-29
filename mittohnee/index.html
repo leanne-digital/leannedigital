@@ -65,8 +65,8 @@
                 <label class="intake-choice"><input type="radio" name="ownsDomain" value="no"> No</label>
                 <label class="intake-choice"><input type="radio" name="ownsDomain" value="not-sure"> I’m not sure</label>
             </div></fieldset>
-            <label class="intake-field"><span>If yes, what is your domain?</span><input name="currentDomain" inputmode="url" maxlength="255" placeholder="mybusiness.ca"></label>
-            <label class="intake-field"><span>If no, what would you like your domain to be?</span><input name="desiredDomain" inputmode="url" maxlength="255" placeholder="mybusiness.ca"></label>
+            <label class="intake-field" data-domain-condition="yes" hidden><span>If yes, what is your domain?</span><input name="currentDomain" inputmode="url" maxlength="255" placeholder="mybusiness.ca" disabled></label>
+            <label class="intake-field" data-domain-condition="no" hidden><span>If no, what would you like your domain to be?</span><input name="desiredDomain" inputmode="url" maxlength="255" placeholder="mybusiness.ca" disabled></label>
             <fieldset class="intake-group"><legend>Do you currently have a website?</legend><div class="intake-choices">
                 <label class="intake-choice"><input type="radio" name="hasWebsite" value="yes"> Yes</label>
                 <label class="intake-choice"><input type="radio" name="hasWebsite" value="no"> No</label>
@@ -137,7 +137,7 @@
     </section>
     <footer class="intake-footer">Red River College intake form presented by Leanne Digital. <a href="/privacy-policy/">Privacy policy</a>.</footer>
 </main>
-<script src="/js/intake-form.js?v=20260929b" defer></script>
+<script src="/js/intake-form.js?v=20260929c" defer></script>
 <!-- lp:custom-body-end -->
 </body>
 </html>
