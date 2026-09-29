@@ -5,11 +5,21 @@
     const status = form.querySelector('[data-form-status]');
     const submit = form.querySelector('[type="submit"]');
     const websiteAddress = form.elements.websiteAddress;
+    const domainFields = form.querySelectorAll('[data-domain-condition]');
 
     function normalizeWebsiteAddress(value) {
         const address = String(value || '').trim();
         if (!address || /^[a-z][a-z\d+.-]*:\/\//i.test(address)) return address;
         return `https://${address}`;
+    }
+
+    function updateDomainFields() {
+        const selected = form.querySelector('[name="ownsDomain"]:checked')?.value || '';
+        for (const field of domainFields) {
+            const visible = field.dataset.domainCondition === selected;
+            field.hidden = !visible;
+            field.querySelector('input').disabled = !visible;
+        }
     }
 
     function formData() {
@@ -49,6 +59,10 @@
         timer = setTimeout(saveDraft, 400);
     });
 
+    form.addEventListener('change', (event) => {
+        if (event.target.name === 'ownsDomain') updateDomainFields();
+    });
+
     websiteAddress?.addEventListener('blur', () => {
         websiteAddress.value = normalizeWebsiteAddress(websiteAddress.value);
         saveDraft();
@@ -82,4 +96,5 @@
     });
 
     restoreDraft();
+    updateDomainFields();
 })();
