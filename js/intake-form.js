@@ -6,6 +6,8 @@
     const submit = form.querySelector('[type="submit"]');
     const websiteAddress = form.elements.websiteAddress;
     const domainFields = form.querySelectorAll('[data-domain-condition]');
+    const websiteFields = form.querySelectorAll('[data-website-condition]');
+    const offerFields = form.querySelectorAll('[data-offer-condition]');
 
     function normalizeWebsiteAddress(value) {
         const address = String(value || '').trim();
@@ -19,6 +21,24 @@
             const visible = field.dataset.domainCondition === selected;
             field.hidden = !visible;
             field.querySelector('input').disabled = !visible;
+        }
+    }
+
+    function updateWebsiteFields() {
+        const selected = form.querySelector('[name="hasWebsite"]:checked')?.value || '';
+        for (const field of websiteFields) {
+            const visible = field.dataset.websiteCondition === selected;
+            field.hidden = !visible;
+            field.querySelector('input').disabled = !visible;
+        }
+    }
+
+    function updateOfferFields() {
+        const selected = form.querySelector('[name="businessTypes"]:checked')?.value || '';
+        for (const field of offerFields) {
+            const visible = field.dataset.offerCondition.split(',').includes(selected);
+            field.hidden = !visible;
+            for (const control of field.querySelectorAll('input, textarea, select')) control.disabled = !visible;
         }
     }
 
@@ -61,6 +81,8 @@
 
     form.addEventListener('change', (event) => {
         if (event.target.name === 'ownsDomain') updateDomainFields();
+        if (event.target.name === 'hasWebsite') updateWebsiteFields();
+        if (event.target.name === 'businessTypes') updateOfferFields();
     });
 
     websiteAddress?.addEventListener('blur', () => {
@@ -97,4 +119,6 @@
 
     restoreDraft();
     updateDomainFields();
+    updateWebsiteFields();
+    updateOfferFields();
 })();
