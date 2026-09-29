@@ -64,6 +64,7 @@ import { handleRemoteMcp, isMcpPath } from './mcp-http.mjs';
 import { startOAuth } from './oauth/auth.mjs';
 import { handleOAuth, isOAuthPath } from './oauth/routes.mjs';
 import { oauthEnabled } from './oauth/config.mjs';
+import { listMittohneeSubmissions, saveMittohneeSubmission } from './intake-store.mjs';
 
 loadEnv();
 
@@ -112,6 +113,18 @@ function actor(req) {
 }
 
 const MAX_BODY_BYTES = 40 * 1024 * 1024;
+const intakeRequests = new Map();
+
+function intakeRateAllowed(req) {
+    const forwarded = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+    const address = forwarded || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const recent = (intakeRequests.get(address) || []).filter((time) => now - time < 60 * 60 * 1000);
+    if (recent.length >= 12) return false;
+    recent.push(now);
+    intakeRequests.set(address, recent);
+    return true;
+}
 
 function readRawBody(req) {
     return new Promise((resolve, reject) => {
@@ -487,6 +500,11 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 200, getAdminDashboard(user));
         return true;
     }
+    if (pathname === '/api/clients/red-river-college/intake' && method === 'GET') {
+        if (!requireStaff(user, req, res)) return true;
+        json(req, res, 200, listMittohneeSubmissions(queryFrom(req)));
+        return true;
+    }
     if (pathname === '/api/clients' && method === 'POST') {
         if (!requireStaff(user, req, res)) return true;
         const body = await readBody(req);
@@ -644,6 +662,20 @@ async function handle(req, res) {
             console.error('Contact form:', error.message);
         }
         redirect(res, '/thank-you/', 303);
+        return;
+    }
+    if (method === 'POST' && pathname === '/api/public/intake/mittohnee') {
+        if (!intakeRateAllowed(req)) {
+            json(req, res, 429, { error: 'Too many submissions. Please wait and try again.' });
+            return;
+        }
+        const body = await readBody(req);
+        try {
+            json(req, res, 201, saveMittohneeSubmission(body));
+        } catch (error) {
+            const issue = error?.issues?.[0]?.message;
+            json(req, res, 400, { error: issue || error.message || 'Check the form and try again.' });
+        }
         return;
     }
     const legacy = {

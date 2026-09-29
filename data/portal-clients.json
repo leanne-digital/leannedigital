@@ -937,5 +937,33 @@
     "taxAmount": 0,
     "archivedAt": null,
     "createdAt": "2026-09-01 15:29:28"
+  },
+  {
+    "id": 105,
+    "slug": "red-river-college",
+    "name": "Red River College",
+    "contactName": null,
+    "email": null,
+    "phone": null,
+    "location": "Winnipeg, Manitoba",
+    "website": "https://www.rrc.ca/",
+    "googleDrive": null,
+    "platform": "Intake portal",
+    "domainProvider": null,
+    "emailProvider": null,
+    "hosting": {
+      "type": "External",
+      "provider": null,
+      "lddHosted": false
+    },
+    "currency": "CAD",
+    "services": [],
+    "credentials": [],
+    "clientApps": [],
+    "onboarding": null,
+    "discount": 0,
+    "taxAmount": 0,
+    "archivedAt": null,
+    "createdAt": "2026-09-29 18:00:00"
   }
 ]

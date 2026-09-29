@@ -812,11 +812,15 @@ ${renderFullFooter(2)}
                 </figure>`
         : '';
 
+    const intakePanel = client.slug === 'red-river-college' ? renderIntakeResults() : '';
+    const intakeAssets = client.slug === 'red-river-college'
+        ? '<script src="../../js/intake-admin.js?v=20260929a" defer></script>'
+        : '';
     return `${renderHead({
         title: `${client.name} | Client Portal | Leanne Digital`,
         description: `Client portal for ${client.name}.`,
         depth: 2,
-        extraCss: ['clients.css'],
+        extraCss: client.slug === 'red-river-college' ? ['clients.css', 'intake.css'] : ['clients.css'],
         cssVersion: '20260831d',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
@@ -835,14 +839,40 @@ ${bio}${asset ? `\n${asset}` : ''}
 ${renderServiceList(client)}
 ${renderClientPackages(client)}
 ${renderAccountTable(client)}
+${intakePanel}
             </div>
         </section>
     </main>
 ${renderFullFooter(2)}
 ${portalScripts(2)}
+${intakeAssets}
 </body>
 </html>
 `;
+}
+
+function renderIntakeResults() {
+    return `            <section class="client-reports intake-results" data-admin-only data-intake-results>
+                <h2 class="client-reports__heading">Student intake results</h2>
+                <p class="dash-copy dash-copy--left">Search every answer or narrow the list by business type, customer location, and submission date.</p>
+                <form class="intake-filters" aria-label="Filter student intake results">
+                    <label>Search<input type="search" name="search" placeholder="Name, business, email or answer"></label>
+                    <label>Business type<select name="businessType"><option value="">All types</option><option value="service">Service-based</option><option value="product">Product-based</option><option value="both">Products and services</option><option value="other">Other</option></select></label>
+                    <label>Customer location<select name="customerLocation"><option value="">All locations</option><option value="local-community">Local community</option><option value="manitoba">Manitoba</option><option value="canada">Across Canada</option><option value="online">Online / Anywhere</option><option value="other">Other</option></select></label>
+                    <label>From<input type="date" name="dateFrom"></label>
+                    <label>To<input type="date" name="dateTo"></label>
+                    <button type="reset" class="dash-form__reset">Clear</button>
+                </form>
+                <p class="intake-count" data-result-count aria-live="polite">0 results</p>
+                <div class="dash-table-wrap">
+                    <table class="dash-table intake-table">
+                        <thead><tr><th>Business</th><th>Student</th><th>Type</th><th>Customer location</th><th>Submitted</th><th>Contact</th></tr></thead>
+                        <tbody><tr><td colspan="6">Loading submissions...</td></tr></tbody>
+                    </table>
+                </div>
+                <p data-empty-results hidden>No intake submissions match these filters.</p>
+                <dialog class="intake-dialog"><div class="intake-dialog__inner"><h3>Submission</h3><dl></dl><div class="intake-dialog__actions"><button type="button" class="ld-btn" data-close-dialog>Close</button></div></div></dialog>
+            </section>`;
 }
 
 function renderReportPage(client, report) {
@@ -906,6 +936,16 @@ ${portalScripts(2)}
 }
 
 function main() {
+    const onlySlug = process.argv.find((arg) => arg.startsWith('--client='))?.slice('--client='.length);
+    if (onlySlug) {
+        const clients = loadClients();
+        const client = clients.find((row) => row.slug === onlySlug);
+        if (!client) throw new Error(`Client not found: ${onlySlug}`);
+        writePage('clients', renderClientsHub(clients));
+        writePage(path.join('clients', client.slug), renderClientPage(client));
+        console.log(`Generated client picker and client page for ${client.name}.`);
+        return;
+    }
     generateLoginPages();
     generateAdminDashboard();
     const clients = loadClients();

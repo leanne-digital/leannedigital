@@ -304,6 +304,7 @@ Proxy these prefixes (plus trailing-slash variants as needed):
 - `/api/auth`
 - `/api/portal`
 - `/api/clients`
+- `/api/public/intake`
 
 Do not proxy `/admin` or `/clients` — those stay static HTML. Node still gates them with the session cookie once `/api/auth` is reachable.
 
