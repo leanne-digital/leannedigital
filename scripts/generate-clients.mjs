@@ -153,13 +153,13 @@ function statusLabel(status) {
 }
 
 function hostingCycleLabel(cycle) {
-    return cycle === 'monthly' ? 'Monthly' : cycle === 'yearly' ? 'Yearly' : '—';
+    return cycle === 'monthly' ? 'Monthly' : cycle === 'yearly' ? 'Yearly' : 'â€”';
 }
 
 function hostingProviderLabel(client) {
     if (client.hosting?.provider) return client.hosting.provider;
     if (client.hosting?.lddHosted) return 'Leanne Digital';
-    return client.hosting?.type || '—';
+    return client.hosting?.type || 'â€”';
 }
 
 function renderHostingDirectory(clients) {
@@ -173,7 +173,7 @@ function renderHostingDirectory(clients) {
         return `                            <tr class="hosting-directory__row hosting-directory__row--active" data-href="/clients/${escapeHtml(account.slug)}/#hosting" tabindex="0">
                                 <td><a href="/clients/${escapeHtml(account.slug)}/#hosting">${escapeHtml(account.name)}</a></td>
                                 <td>${escapeHtml(hostingProviderLabel(client || {}))}</td>
-                                <td>${escapeHtml(account.amount ? money(account.amount) : '—')}</td>
+                                <td>${escapeHtml(account.amount ? money(account.amount) : 'â€”')}</td>
                                 <td>${escapeHtml(hostingCycleLabel(account.cycle))}</td>
                                 <td>${escapeHtml(formatDay(account.nextBillDate) || 'No due date')}</td>
                                 <td><span class="hosting-directory__status">${escapeHtml(statusLabel(account.status))}</span></td>
@@ -240,11 +240,11 @@ function renderServiceDirectory({ route, title, lead, types }, clients) {
             const status = String(project.status || 'active').replace(/-/g, ' ');
             return `                            <tr class="service-directory__row service-directory__row--${escapeHtml(project.status || 'active')}" data-href="/clients/${escapeHtml(project.clientSlug)}/" tabindex="0">
                                 <td><a href="/clients/${escapeHtml(project.clientSlug)}/">${escapeHtml(client?.name || project.clientName)}</a></td>
-                                <td>${escapeHtml(project.name || '—')}</td>
+                                <td>${escapeHtml(project.name || 'â€”')}</td>
                                 <td>${escapeHtml(Number(project.fee) ? money(project.fee) : 'Rate to confirm')}</td>
                                 <td>${escapeHtml(project.billingFrequency === 'yearly' ? 'Annual' : 'Monthly')}</td>
                                 <td><span class="service-directory__status">${escapeHtml(status)}</span></td>
-                                <td>${escapeHtml(project.notes || '—')}</td>
+                                <td>${escapeHtml(project.notes || 'â€”')}</td>
                             </tr>`;
         }).join('\n');
 
@@ -338,14 +338,14 @@ function renderDashboard(stats) {
         .join('\n');
     const hostingRows = (stats.hostingAccounts || [])
         .map((row) => {
-            const cycle = row.cycle === 'monthly' ? 'Monthly' : row.cycle === 'yearly' ? 'Yearly' : '—';
-            const amount = row.amount ? money(row.amount, currency) : '—';
+            const cycle = row.cycle === 'monthly' ? 'Monthly' : row.cycle === 'yearly' ? 'Yearly' : 'â€”';
+            const amount = row.amount ? money(row.amount, currency) : 'â€”';
             return `                    <tr class="dash-hosting__row dash-hosting__row--${escapeHtml(row.status)}">
                         <td><a href="/clients/${escapeHtml(row.slug)}/">${escapeHtml(row.name)}</a></td>
                         <td>${escapeHtml(amount)}</td>
                         <td>${escapeHtml(cycle)}</td>
-                        <td>${escapeHtml(formatDay(row.lastBilled) || '—')}</td>
-                        <td>${escapeHtml(formatDay(row.nextBillDate) || '—')}</td>
+                        <td>${escapeHtml(formatDay(row.lastBilled) || 'â€”')}</td>
+                        <td>${escapeHtml(formatDay(row.nextBillDate) || 'â€”')}</td>
                         <td>${escapeHtml(statusLabel(row.status))}</td>
                     </tr>`;
         })
@@ -428,7 +428,7 @@ ${totals}
                     <p><button class="dash-form__add" type="button" data-invite-client hidden>Send login link</button></p>
                     <div class="dash-creds" data-client-apps hidden></div>
                     <h3 class="dash-form__heading">Credentials</h3>
-                    <p class="dash-copy dash-copy--left">Logins for hosting, domain, email, and other apps. Staff only — clients never see this.</p>
+                    <p class="dash-copy dash-copy--left">Logins for hosting, domain, email, and other apps. Staff only â€” clients never see this.</p>
                     <div class="dash-creds" data-credential-list></div>
                     <p><button class="dash-form__add" type="button" data-add-credential>Add login</button></p>
                     <h3 class="dash-form__heading">Packages</h3>
@@ -608,7 +608,7 @@ function renderSeoReportComposer() {
         .join('\n');
     return `                <form class="dash-form seo-composer" data-admin-only data-seo-report-form id="seo-report">
                     <h3 class="dash-form__heading">Create SEO report</h3>
-                    <p class="dash-copy dash-copy--left">Upload this month’s screenshots and the Ubersuggest PDF, then edit each recap. Last month’s shots carry forward automatically. If the client has no Google Ads, leave that box off and we’ll put N/A.</p>
+                    <p class="dash-copy dash-copy--left">Upload this monthâ€™s screenshots and the Ubersuggest PDF, then edit each recap. Last monthâ€™s shots carry forward automatically. If the client has no Google Ads, leave that box off and weâ€™ll put N/A.</p>
                     <input type="hidden" name="slug" value="">
                     <div class="dash-form__grid">
                         <label>Month
@@ -803,11 +803,15 @@ function renderClientPage(client) {
                 </figure>`
         : '';
 
+    const intakePanel = client.slug === 'red-river-college' ? renderIntakeResults() : '';
+    const intakeAssets = client.slug === 'red-river-college'
+        ? '<script src="../../js/intake-admin.js?v=20260929a" defer></script>'
+        : '';
     return `${renderHead({
         title: `${client.name} | Client Portal | Leanne Digital`,
         description: `Client portal for ${client.name}.`,
         depth: 2,
-        extraCss: ['clients.css'],
+        extraCss: client.slug === 'red-river-college' ? ['clients.css', 'intake.css'] : ['clients.css'],
         cssVersion: '20260914hub2',
         robots: ROBOTS,
         canonical: `${SITE_URL}/clients/${client.slug}/`,
@@ -828,21 +832,48 @@ ${bio}
                 <nav class="client-hub-nav" aria-label="Client sections">
                     <a href="#overview">Overview</a><a href="#reports">Reports <span class="client-hub-count" data-report-count>${(client.reports || []).length}</span></a><a href="#proposals">Active proposals <span class="client-hub-count">${listClientProposals(client.slug).filter(row=>row.status==='active').length}</span></a>
                     ${isHostingClient(client) ? '<a href="#hosting">Hosting <span class="client-hub-count">1</span></a>' : ''}
-                    <a href="#credentials" data-admin-tab hidden>Credentials <span class="client-hub-count" data-credential-count aria-live="polite">�</span></a>
+                    ${client.slug === 'red-river-college' ? '<a href="#intake" data-admin-tab hidden>Student intake</a>' : ''}
+                    <a href="#credentials" data-admin-tab hidden>Credentials <span class="client-hub-count" data-credential-count aria-live="polite">—</span></a>
                 </nav>
                 <section id="overview" data-hub-panel><h2>Overview</h2><p>Services, project documents and reports for ${escapeHtml(client.name)}.</p><div data-private-overview></div></section>
                 <section id="reports" data-hub-panel hidden>${renderAccountTable(client)}</section>
                 <section id="proposals" data-hub-panel hidden><h2>Proposals</h2>${listClientProposals(client.slug).filter(row=>row.status!=='draft').map(row=>`<p><a href="${escapeHtml(row.url)}">${escapeHtml(row.title)}</a>  ${escapeHtml(row.status)}</p>`).join('') || '<p>No proposals linked yet.</p>'}</section>
                 ${isHostingClient(client) ? '<section id="hosting" data-hub-panel hidden><h2>Hosting</h2><p>Website hosting with Leanne Digital.</p><div data-private-hosting></div></section>' : ''}
+                ${intakePanel}
                 <section id="credentials" data-hub-panel hidden><h2>Credentials</h2><p>Private accounts and software logins. Only administrators can access this section.</p><div data-private-credentials></div></section>
             </div>
         </section>
     </main>
 ${renderFullFooter(2)}
 ${portalScripts(2)}
+${intakeAssets}
 </body>
 </html>
 `;
+}
+
+function renderIntakeResults() {
+    return `                <section id="intake" class="client-reports intake-results" data-admin-only data-admin-tab data-hub-panel data-intake-results hidden>
+                <h2 class="client-reports__heading">Student intake results</h2>
+                <p class="dash-copy dash-copy--left">Search every answer or narrow the list by business type, customer location, and submission date.</p>
+                <form class="intake-filters" aria-label="Filter student intake results">
+                    <label>Search<input type="search" name="search" placeholder="Name, business, email or answer"></label>
+                    <label>Business type<select name="businessType"><option value="">All types</option><option value="service">Service-based</option><option value="product">Product-based</option><option value="both">Products and services</option><option value="other">Other</option></select></label>
+                    <label>Customer location<select name="customerLocation"><option value="">All locations</option><option value="local-community">Local community</option><option value="manitoba">Manitoba</option><option value="canada">Across Canada</option><option value="online">Online / Anywhere</option><option value="other">Other</option></select></label>
+                    <label>From<input type="date" name="dateFrom"></label>
+                    <label>To<input type="date" name="dateTo"></label>
+                    <button type="reset" class="dash-form__reset">Clear</button>
+                </form>
+                <p class="intake-count" data-result-count aria-live="polite">0 results</p>
+                <div class="dash-table-wrap">
+                    <table class="dash-table intake-table">
+                        <thead><tr><th>Business</th><th>Student</th><th>Type</th><th>Customer location</th><th>Submitted</th><th>Contact</th></tr></thead>
+                        <tbody><tr><td colspan="6">Loading submissions...</td></tr></tbody>
+                    </table>
+                </div>
+                <p data-empty-results hidden>No intake submissions match these filters.</p>
+                <dialog class="intake-dialog"><div class="intake-dialog__inner"><h3>Submission</h3><dl></dl><div class="intake-dialog__actions"><button type="button" class="ld-btn" data-close-dialog>Close</button></div></div></dialog>
+            </section>`;
 }
 
 function renderReportPage(client, report) {
@@ -906,6 +937,16 @@ ${portalScripts(2)}
 }
 
 function main() {
+    const onlySlug = process.argv.find((arg) => arg.startsWith('--client='))?.slice('--client='.length);
+    if (onlySlug) {
+        const clients = loadClients();
+        const client = clients.find((row) => row.slug === onlySlug);
+        if (!client) throw new Error(`Client not found: ${onlySlug}`);
+        writePage('clients', renderClientsHub(clients));
+        writePage(path.join('clients', client.slug), renderClientPage(client));
+        console.log(`Generated client picker and client page for ${client.name}.`);
+        return;
+    }
     generateLoginPages();
     generateAdminDashboard();
     const clients = loadClients();
