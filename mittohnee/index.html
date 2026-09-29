@@ -71,21 +71,21 @@
                 <label class="intake-choice"><input type="radio" name="hasWebsite" value="yes"> Yes</label>
                 <label class="intake-choice"><input type="radio" name="hasWebsite" value="no"> No</label>
             </div></fieldset>
-            <label class="intake-field"><span>If yes, what is the website address?</span><input name="websiteAddress" type="text" maxlength="500" placeholder="mybusiness.ca"></label>
+            <label class="intake-field" data-website-condition="yes" hidden><span>If yes, what is the website address?</span><input name="websiteAddress" type="text" maxlength="500" placeholder="mybusiness.ca" disabled></label>
         </section>
 
         <section class="intake-section" aria-labelledby="offer-title">
             <h2 id="offer-title">What Does Your Business Offer?</h2>
             <fieldset class="intake-group"><legend>Which best describes your business?</legend><div class="intake-choices">
-                <label class="intake-choice"><input type="checkbox" name="businessTypes" value="service"> Service-based</label>
-                <label class="intake-choice"><input type="checkbox" name="businessTypes" value="product"> Product-based</label>
-                <label class="intake-choice"><input type="checkbox" name="businessTypes" value="both"> Both products and services</label>
-                <label class="intake-choice"><input type="checkbox" name="businessTypes" value="other"> Other</label>
+                <label class="intake-choice"><input type="radio" name="businessTypes" value="service"> Service-based</label>
+                <label class="intake-choice"><input type="radio" name="businessTypes" value="product"> Product-based</label>
+                <label class="intake-choice"><input type="radio" name="businessTypes" value="both"> Both products and services</label>
+                <label class="intake-choice"><input type="radio" name="businessTypes" value="other"> Other</label>
             </div></fieldset>
-            <label class="intake-field"><span>If other, tell us how you describe it</span><input name="businessTypeOther" maxlength="200"></label>
-            <label class="intake-field"><span>If you offer services, what services do you provide?</span><textarea name="services" maxlength="5000"></textarea></label>
-            <label class="intake-field"><span>If you sell products, what kinds of products do you sell?</span><textarea name="products" maxlength="5000"></textarea></label>
-            <fieldset class="intake-group"><legend>Approximately how many products do you have?</legend><div class="intake-choices">
+            <label class="intake-field" data-offer-condition="other" hidden><span>If other, tell us how you describe it</span><input name="businessTypeOther" maxlength="200" disabled></label>
+            <label class="intake-field" data-offer-condition="service,both" hidden><span>If you offer services, what services do you provide?</span><textarea name="services" maxlength="5000" disabled></textarea></label>
+            <label class="intake-field" data-offer-condition="product,both" hidden><span>If you sell products, what kinds of products do you sell?</span><textarea name="products" maxlength="5000" disabled></textarea></label>
+            <fieldset class="intake-group" data-offer-condition="product,both" hidden><legend>Approximately how many products do you have?</legend><div class="intake-choices">
                 <label class="intake-choice"><input type="radio" name="productCount" value="1-10"> 1–10</label>
                 <label class="intake-choice"><input type="radio" name="productCount" value="11-25"> 11–25</label>
                 <label class="intake-choice"><input type="radio" name="productCount" value="26-50"> 26–50</label>
@@ -137,7 +137,7 @@
     </section>
     <footer class="intake-footer">Red River College intake form presented by Leanne Digital. <a href="/privacy-policy/">Privacy policy</a>.</footer>
 </main>
-<script src="/js/intake-form.js?v=20260929c" defer></script>
+<script src="/js/intake-form.js?v=20260929d" defer></script>
 <!-- lp:custom-body-end -->
 </body>
 </html>
