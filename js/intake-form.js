@@ -4,9 +4,17 @@
     const key = 'ld:mittohnee:draft:v1';
     const status = form.querySelector('[data-form-status]');
     const submit = form.querySelector('[type="submit"]');
+    const websiteAddress = form.elements.websiteAddress;
+
+    function normalizeWebsiteAddress(value) {
+        const address = String(value || '').trim();
+        if (!address || /^[a-z][a-z\d+.-]*:\/\//i.test(address)) return address;
+        return `https://${address}`;
+    }
 
     function formData() {
         const data = Object.fromEntries(new FormData(form));
+        data.websiteAddress = normalizeWebsiteAddress(data.websiteAddress);
         data.businessTypes = new FormData(form).getAll('businessTypes');
         data.customerLocations = new FormData(form).getAll('customerLocations');
         data.consent = form.elements.consent.checked;
@@ -41,6 +49,11 @@
         timer = setTimeout(saveDraft, 400);
     });
 
+    websiteAddress?.addEventListener('blur', () => {
+        websiteAddress.value = normalizeWebsiteAddress(websiteAddress.value);
+        saveDraft();
+    });
+
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
@@ -70,4 +83,3 @@
 
     restoreDraft();
 })();
-
