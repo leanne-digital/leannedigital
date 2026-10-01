@@ -27,7 +27,7 @@ export function saveClientRecord(slug, fields, user) {
     data.profiles ||= {};
     const previous=data.profiles[slug] || {};
     for (const [key,value] of Object.entries(fields)) {
-        if (!recordFields.includes(key) || typeof value !== 'string' || value.length>20000) throw Object.assign(new Error('Invalid field'),{status:400});
+        if (!(recordFields.includes(key) || /^other[1-9]\d*_(name|url|username|password|notes)$/.test(key)) || typeof value !== 'string' || value.length>20000) throw Object.assign(new Error('Invalid field'),{status:400});
         previous[key]=value;
     }
     data.profiles[slug]=previous;

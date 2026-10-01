@@ -258,8 +258,8 @@ export function createMcpServer({
     }, async ({id})=>credentialInventory(getAgencyClient(id).slug));
     if (credentialWrite) writeTool(server, 'save_client_credential', 'Use only when the user asks to add or update a login for a specific client. Saves in the private admin record. Omitted fields stay unchanged. Never returns saved secrets. Software finds a matching name or uses an empty slot.', {
         id:z.string().describe('Confirmed client slug or id'),
-        slot:z.enum(['software','domain','hosting','email_hosting','platform','ldd_portal',...Array.from({length:10},(_,i)=>`other${i+1}`)]).default('software'),
-        name:z.string().max(1000).optional(),url:z.string().max(20000).optional(),username:z.string().max(20000).optional(),password:z.string().max(20000).optional(),
+        slot:z.string().regex(/^(software|domain|hosting|email_hosting|platform|ldd_portal|other[1-9]\d*)$/).default('software'),
+        name:z.string().max(1000).optional(),url:z.string().max(20000).optional(),username:z.string().max(20000).optional(),password:z.string().max(20000).optional(),notes:z.string().max(20000).optional(),
     }, async ({id,...input})=>saveCredential(getAgencyClient(id).slug,input));
     if (credentialWrite) destructiveTool(server, 'delete_client_credential', 'Delete one stored credential by its exact slot. Requires explicit user instruction and confirm=true. Never returns secrets.', {
         id:z.string(), slot:z.string(), confirm:z.literal(true),

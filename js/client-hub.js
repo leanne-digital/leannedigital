@@ -20,7 +20,6 @@
         ['Email', [...account('email_hosting','Email','email_hosting_provider')[1],['email_hosting_other','Other provider']], 'credentials'],
         ['Website platform', [...account('platform','Platform','platform_name')[1],['platform_other','Other platform']], 'credentials'],
         ['LD hosting account', [['ldd_litespeed_portal_url','LiteSpeed portal URL'],['ldd_portal_username','Portal username'],['ldd_portal_password','Portal password']], 'credentials'],
-        ...Array.from({length:10},(_,i)=>[`Software ${i+1}`, [['name','Service name'],['url','Login URL'],['username','Username'],['password','Password']].map(([k,l])=>[`other${i+1}_${k}`,l]), 'credentials']),
         ['Hosting and billing', [['ldd_hosting_type','Hosting type'],['ldd_billing_cycle','Billing cycle'],['ldd_amount','Amount'],['ldd_tax_rate','Tax rate'],['ldd_last_billed','Billing start date'],['ldd_next_bill_date','Next bill date']], 'hosting'],
     ];
     async function boot({api,user}) {
@@ -37,21 +36,24 @@
             const data=await api.getSystemRecord(slug);
             status.textContent=data.available ? '' : 'The original client record has not been imported on this server yet.';
             const fields=data.fields || {};
+            const softwareGroup=slot=>[`Software ${slot.slice(5)}`, [['name','Service name'],['url','Login URL'],['username','Username'],['password','Password'],['notes','Notes / 2FA']].map(([k,l])=>[`${slot}_${k}`,l]), 'credentials'];
+            const slots=[...new Set(Object.keys(fields).map(key=>key.match(/^(other[1-9]\d*)_/ )?.[1]).filter(Boolean))].sort((a,b)=>Number(a.slice(5))-Number(b.slice(5)));
+            groups.push(...slots.map(softwareGroup));
             const updateCount=()=>{
                 $('[data-credential-count]').textContent=String(groups.filter(([,names,target])=>target==='credentials' && names.some(([key])=>String(fields[key] || '').trim())).length);
             };
             if(data.available) updateCount();
             const emptySoftware=[];
-            for (const [title, names, target] of groups) {
-                if (!containers[target]) continue;
+            function renderGroup([title, names, target]) {
+                if (!containers[target]) return;
                 const form=document.createElement('form'); form.className='client-record-form';
                 const heading=document.createElement('h3'); heading.textContent=title; form.append(heading);
                 const grid=document.createElement('div'); grid.className='client-record-grid'; form.append(grid);
                 for (const [key,label] of names) {
                     const wrap=document.createElement('label'); wrap.textContent=label;
-                    const input=document.createElement(key==='notes'?'textarea':'input');
+                    const input=document.createElement(key.endsWith('notes')?'textarea':'input');
                     input.name=key; input.value=fields[key] || '';
-                    if(key!=='notes') input.type=key.endsWith('_password')?'password':'text';
+                    if(!key.endsWith('notes')) input.type=key.endsWith('_password')?'password':'text';
                     input.autocomplete='off'; wrap.append(input);
                     if(key.endsWith('_url')) {
                         const link=document.createElement('a');link.textContent='Open';link.target='_blank';link.rel='noopener noreferrer';
@@ -74,11 +76,11 @@
                     details.append(summary,form);containers[target].append(details);
                 } else containers[target].append(form);
             }
-            if(emptySoftware.length) {
-                const add=document.createElement('button');add.type='button';add.className='ld-btn';add.textContent='Add software account';
-                add.addEventListener('click',()=>{const details=emptySoftware.shift();details.hidden=false;details.open=true;details.querySelector('input').focus();if(!emptySoftware.length)add.hidden=true;});
-                containers.credentials.append(add);
-            }
+            groups.forEach(renderGroup);
+            const add=document.createElement('button');add.type='button';add.className='ld-btn';add.textContent='Add software account';
+            let nextNumber=Math.max(0,...slots.map(slot=>Number(slot.slice(5))));
+            add.addEventListener('click',()=>{const group=softwareGroup(`other${++nextNumber}`);groups.push(group);renderGroup(group);const details=emptySoftware.pop();details.hidden=false;details.open=true;details.querySelector('input').focus();containers.credentials.append(add);});
+            containers.credentials.append(add);
         } catch(error) { status.textContent=error.message === 'Not found' ? 'The credentials service is not available on this deployment yet. Update and restart the portal API to enable it.' : 'Could not load the private client record. '+(error.message || ''); }
     }
     if(window.__LD_PORTAL__)boot(window.__LD_PORTAL__);
