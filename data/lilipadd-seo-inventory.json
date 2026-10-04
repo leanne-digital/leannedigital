@@ -1328,7 +1328,7 @@
     "path": "/seo-workshop-thank-you/",
     "title": "SEO Workshop Thank You | Leanne Digital",
     "description": "Thanks for registering. This page is coming soon.",
-    "robots": "noindex, follow",
+    "robots": "noindex,follow",
     "canonical": "https://leannedigital.com/seo-workshop-thank-you/",
     "inSitemap": false,
     "schema": null
@@ -1454,9 +1454,9 @@
     "path": "/thank-you/",
     "title": "Thank you | Leanne Digital",
     "description": "We got your message and will reply soon.",
-    "robots": "index,follow",
+    "robots": "noindex,follow",
     "canonical": "https://leannedigital.com/thank-you/",
-    "inSitemap": true,
+    "inSitemap": false,
     "schema": null
   },
   {
