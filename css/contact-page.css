@@ -45,7 +45,7 @@
 
 .contact-hero__copy a {
     color: var(--ld-accent);
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 0.15em;
 }
 
