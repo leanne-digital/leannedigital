@@ -90,7 +90,9 @@ export function transformHtml(html) {
         `\n${PLATFORM_SCRIPT}`,
     );
     out = out.replace(/<script[^>]*lilipadd-events\.js[^>]*>\s*<\/script>\s*/gi, '');
-    out = out.replace(/<script[^>]*contact-form\.js[^>]*>\s*<\/script>\s*/gi, '');
+    if (!out.includes('data-contact-backend="smtp"')) {
+        out = out.replace(/<script[^>]*contact-form\.js[^>]*>\s*<\/script>\s*/gi, '');
+    }
     out = out.replace(/<script>window\.LD_RECAPTCHA_SITE_KEY[\s\S]*?<\/script>\s*/gi, '');
     out = out.replace(/<script src="https:\/\/www\.google\.com\/recaptcha\/api\.js[^"]*"><\/script>\s*/gi, '');
 
@@ -115,6 +117,7 @@ export function transformHtml(html) {
     }
 
     out = out.replace(/<form([^>]*class="[^"]*contact-form[^"]*"[^>]*)>/gi, (_match, attrs) => {
+        if (/data-contact-backend="smtp"/.test(attrs)) return _match;
         let next = attrs;
         if (!/data-lp-form=/.test(next)) next += ' data-lp-form="contact"';
         if (!/\blp-form\b/.test(next)) {

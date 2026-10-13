@@ -28,7 +28,7 @@
             email: String(data.get('email') || '').trim(),
             message: String(data.get('message') || '').trim(),
             service: String(data.get('service') || '').trim(),
-            honey: String(data.get('_honey') || data.get('company_website') || ''),
+            honey: String(data.get('_honey') || data.get('company_website') || data.get('website') || ''),
             page: location.pathname,
         };
     }
