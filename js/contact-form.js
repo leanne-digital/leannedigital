@@ -66,7 +66,7 @@
                     body: JSON.stringify(payload),
                 });
                 const data = await res.json().catch(() => ({}));
-                if (!res.ok) throw new Error(data.error || 'Could not send your message.');
+                if (!res.ok || data.ok !== true) throw new Error(data.error || 'Could not send your message.');
                 show(form, data.message || 'Thanks — your message is on its way.', 'ok');
                 form.reset();
             } catch (error) {

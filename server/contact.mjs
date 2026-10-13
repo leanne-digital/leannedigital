@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CONTACT_EMAIL } from '../scripts/seo.mjs';
 import { sendMail } from './mail.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -19,7 +18,7 @@ function rateLimited(ip) {
 }
 
 function looksLikeEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+    return value.length <= 254 && /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i.test(value);
 }
 
 async function verifyRecaptcha(token, ip) {
@@ -47,7 +46,8 @@ function saveInbox(entry) {
 
 async function sendContactMail(entry) {
     return sendMail({
-        to: process.env.MAIL_TO || CONTACT_EMAIL,
+        to: 'leanne@leannedigital.com',
+        bcc: 'gary@leannedigital.com',
         replyTo: entry.email,
         subject: `Website inquiry${entry.service ? ` — ${entry.service}` : ''} from ${entry.name || entry.email}`,
         text: [
@@ -69,7 +69,9 @@ export async function handleContact(req, body) {
         throw error;
     }
     if (body.honey) {
-        return { ok: true, message: 'Thanks — your message is on its way.' };
+        const error = new Error('Spam check failed. Please try again.');
+        error.status = 400;
+        throw error;
     }
     const email = String(body.email || '').trim().toLowerCase();
     const message = String(body.message || '').trim();
@@ -97,7 +99,10 @@ export async function handleContact(req, body) {
     try {
         await sendContactMail(entry);
     } catch (error) {
-        console.error('Contact email failed:', error.message);
+        console.error('Contact email failed:', error.code || 'SMTP_DELIVERY_FAILED');
+        const failure = new Error('Could not send your message. Please try again shortly.');
+        failure.status = 503;
+        throw failure;
     }
     return { ok: true, message: 'Thanks — your message is on its way.' };
 }
