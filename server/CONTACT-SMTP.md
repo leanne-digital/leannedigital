@@ -36,3 +36,9 @@ The contact page loads `js/contact-form.js` and uses
 `data-contact-backend="smtp"` instead of Lilipadd form markers.
 `scripts/lilipadd-slots.mjs` preserves this handler during site generation.
 Deploy these page and generator changes with the backend files.
+
+All ten public inquiry forms use this setup. `scripts/contact-forms.mjs`
+normalizes the forms for both service generation and Lilipadd slot updates.
+It removes Lilipadd form interception, sets `/api/contact`, and loads the
+shared script. Successful responses redirect to `/thank-you/`; errors keep
+the visitor on the form. Intake, login, and portal forms are separate.

@@ -517,7 +517,7 @@
                         </div>
                         <a class="ld-btn" href="/contact/" data-lp-event="contact_cta">Book A Call With mE</a>
                     </div>
-                    <form class="contact-form" id="contact" action="/thank-you/" method="post" aria-label="Book a Call" data-lp-form="contact">
+                    <form class="contact-form" id="contact" aria-label="Book a Call" action="/api/contact" method="post" data-contact-backend="smtp">
                         <div class="contact-form__field">
                             <label for="contact-email">Email</label>
                             <input type="email" id="contact-email" name="email" placeholder="Email" required autocomplete="email">
@@ -603,5 +603,6 @@
     <script src="js/site-nav.js" defer></script>
     <script src="js/process-tabs.js" defer></script>
     <!-- lp:custom-body-end -->
+    <script src="/js/contact-form.js?v=smtp-2" defer></script>
 </body>
 </html>

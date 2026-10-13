@@ -74,6 +74,26 @@ test('site generation preserves the SMTP form handler', async () => {
     const generated = transformHtml(html);
     assert.match(generated, /action="\/api\/contact"/);
     assert.match(generated, /data-contact-backend="smtp"/);
-    assert.match(generated, /src="..\/js\/contact-form.js"/);
+    assert.match(generated, /src="\/js\/contact-form.js\?v=smtp-2"/);
     assert.doesNotMatch(generated, /data-lp-form="contact"/);
+});
+
+test('all public contact pages use one handler and retain it after generation', async () => {
+    const { normalizeContactForms } = await import('../scripts/contact-forms.mjs');
+    const { transformHtml } = await import('../scripts/lilipadd-slots.mjs');
+    const pages = ['index.html', 'about/index.html', 'contact/index.html', 'google-ads/index.html',
+        'graphic-design/index.html', 'indigenous-graphic-design/index.html', 'seo/index.html',
+        'website-design/index.html', 'website-management-support/index.html', 'winnipeg-logo-design/index.html'];
+    for (const page of pages) {
+        const html = fs.readFileSync(new URL(`../${page}`, import.meta.url), 'utf8');
+        for (const content of [html, transformHtml(html)]) {
+            assert.match(content, /action="\/api\/contact"/, page);
+            assert.match(content, /data-contact-backend="smtp"/, page);
+            assert.doesNotMatch(content, /data-lp-form=|class="contact-form lp-form"/, page);
+            assert.equal((content.match(/src="[^"]*contact-form\.js/g) || []).length, 1, page);
+        }
+        assert.equal(normalizeContactForms(normalizeContactForms(html)), normalizeContactForms(html), page);
+    }
+    const intake = fs.readFileSync(new URL('../mittohnee/index.html', import.meta.url), 'utf8');
+    assert.equal(normalizeContactForms(intake), intake);
 });

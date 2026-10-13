@@ -189,9 +189,9 @@
                         </div>
                         <a class="ld-btn" href="/contact/" data-lp-event="service_contact_cta">Book A Call With Me</a>
                     </div>
-                    <form class="contact-form lp-form" id="contact" method="post" action="/thank-you/" data-lp-form="contact" aria-label="Service contact form">
-                        <input type="text" name="website" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-                        <p class="contact-form__status" data-lp-form-message hidden></p>
+                    <form class="contact-form" id="contact" aria-label="Service contact form" action="/api/contact" method="post" data-contact-backend="smtp">
+                        <input type="text" name="_honey" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <p class="contact-form__status" data-form-status hidden></p>
                         <div class="contact-form__field">
                             <label for="service-contact-email">Email</label>
                             <input type="email" id="service-contact-email" name="email" placeholder="Email" required autocomplete="email">
@@ -252,5 +252,6 @@
     </footer>
     <script src="../js/site-nav.js" defer></script>
 
+    <script src="/js/contact-form.js?v=smtp-2" defer></script>
 </body>
 </html>

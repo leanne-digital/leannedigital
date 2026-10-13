@@ -251,7 +251,7 @@
                         </div>
                         <a class="ld-btn" href="/contact/" data-lp-event="contact_cta">Book A Call With mE</a>
                     </div>
-                    <form class="contact-form" id="contact" action="/thank-you/" method="post" aria-label="About contact form" data-lp-form="contact">
+                    <form class="contact-form" id="contact" aria-label="About contact form" action="/api/contact" method="post" data-contact-backend="smtp">
                         <div class="contact-form__field">
                             <label for="about-contact-email">Email</label>
                             <input type="email" id="about-contact-email" name="email" placeholder="Email" required autocomplete="email">
@@ -336,5 +336,6 @@
     </footer>
     <script src="../js/site-nav.js" defer></script>
         <!-- lp:custom-body-end -->
+    <script src="/js/contact-form.js?v=smtp-2" defer></script>
 </body>
 </html>

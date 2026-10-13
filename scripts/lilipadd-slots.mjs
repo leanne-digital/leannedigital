@@ -1,3 +1,4 @@
+import { normalizeContactForms } from './contact-forms.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -90,9 +91,6 @@ export function transformHtml(html) {
         `\n${PLATFORM_SCRIPT}`,
     );
     out = out.replace(/<script[^>]*lilipadd-events\.js[^>]*>\s*<\/script>\s*/gi, '');
-    if (!out.includes('data-contact-backend="smtp"')) {
-        out = out.replace(/<script[^>]*contact-form\.js[^>]*>\s*<\/script>\s*/gi, '');
-    }
     out = out.replace(/<script>window\.LD_RECAPTCHA_SITE_KEY[\s\S]*?<\/script>\s*/gi, '');
     out = out.replace(/<script src="https:\/\/www\.google\.com\/recaptcha\/api\.js[^"]*"><\/script>\s*/gi, '');
 
@@ -116,23 +114,7 @@ export function transformHtml(html) {
         out = out.replace(/<\/body>/i, '    <!-- lp:custom-body-end -->\n</body>');
     }
 
-    out = out.replace(/<form([^>]*class="[^"]*contact-form[^"]*"[^>]*)>/gi, (_match, attrs) => {
-        if (/data-contact-backend="smtp"/.test(attrs)) return _match;
-        let next = attrs;
-        if (!/data-lp-form=/.test(next)) next += ' data-lp-form="contact"';
-        if (!/\blp-form\b/.test(next)) {
-            next = next.replace(/class="([^"]*)"/, 'class="$1 lp-form"');
-        }
-        if (/\bid="/.test(next)) next = next.replace(/\bid="[^"]*"/, 'id="contact"');
-        else next += ' id="contact"';
-        if (/action="/.test(next)) next = next.replace(/action="[^"]*"/, 'action="/thank-you/"');
-        else next += ' action="/thank-you/"';
-        if (/method="/.test(next)) next = next.replace(/method="[^"]*"/, 'method="post"');
-        else next += ' method="post"';
-        return `<form${next}>`;
-    });
-    out = out.replace(/name="_honey"/g, 'name="website"');
-    out = out.replace(/name="company_website"/g, 'name="website"');
+    out = normalizeContactForms(out);
 
     return out;
 }

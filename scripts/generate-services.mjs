@@ -1,3 +1,4 @@
+import { normalizeContactForms } from './contact-forms.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -243,7 +244,7 @@ function main() {
 
     for (const page of pages) {
         const dir = slugFromServicePath(page.path);
-        writePage(dir, renderServicePage(page, depthFromDir(dir)));
+        writePage(dir, normalizeContactForms(renderServicePage(page, depthFromDir(dir))));
     }
 
     console.log(`Generated ${pages.length} service pages.`);
