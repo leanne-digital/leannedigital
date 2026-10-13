@@ -66,3 +66,14 @@ test('contact delivery, recipient headers, and failure handling', async () => {
         fs.rmSync(fixture, { recursive: true, force: true });
     }
 });
+
+
+test('site generation preserves the SMTP form handler', async () => {
+    const { transformHtml } = await import('../scripts/lilipadd-slots.mjs');
+    const html = fs.readFileSync(new URL('../contact/index.html', import.meta.url), 'utf8');
+    const generated = transformHtml(html);
+    assert.match(generated, /action="\/api\/contact"/);
+    assert.match(generated, /data-contact-backend="smtp"/);
+    assert.match(generated, /src="..\/js\/contact-form.js"/);
+    assert.doesNotMatch(generated, /data-lp-form="contact"/);
+});

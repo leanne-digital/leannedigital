@@ -31,3 +31,8 @@ the application checkout, and the JavaScript file to the public document root.
 Reload systemd configuration and restart the portal after environment changes.
 
 Run regression checks with `node --test tests/contact-mail.test.mjs`.
+
+The contact page loads `js/contact-form.js` and uses
+`data-contact-backend="smtp"` instead of Lilipadd form markers.
+`scripts/lilipadd-slots.mjs` preserves this handler during site generation.
+Deploy these page and generator changes with the backend files.
