@@ -9,6 +9,7 @@ export function normalizeContactForms(html) {
             .replace(/\saction="[^"]*"/g, '')
             .replace(/\smethod="[^"]*"/g, '')
             .replace(/class="([^"]*)"/, (_class, value) => `class="${value.split(/\s+/).filter((name) => name !== 'lp-form').join(' ')}"`);
+        next = next.replace(/[ \t]+(?=\r?\n)/g, '');
         body = body.replace(/data-lp-form-message/g, 'data-form-status')
             .replace(/name="(?:website|company_website)"/g, 'name="_honey"');
         return `<form${next} action="/api/contact" method="post" data-contact-backend="smtp">${body}</form>`;
