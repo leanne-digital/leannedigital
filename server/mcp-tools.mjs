@@ -1,3 +1,4 @@
+import { registerGscTools } from './gsc-tools.mjs';
 import { credentialInventory, saveCredential, deleteCredential } from './credential-tools.mjs';
 import {clientCrud,serviceSchema,proposalSchema} from './client-crud.mjs';
 import {loadReportRecord,saveSeoReport,deleteSeoReport} from '../scripts/seo-report-store.mjs';
@@ -162,6 +163,7 @@ export function createMcpServer({
         name: 'leanne-digital',
         version: '1.5.0',
     });
+    registerGscTools(server);
     for (const area of ['services','hosting','proposals']) {
         readTool(server,`list_client_${area}`,`List the client's ${area} records.`,{clientId:z.string()},async ({clientId})=>clientCrud(clientId,area,'read'));
         if(!readOnly) for(const operation of ['create','update','delete']) {

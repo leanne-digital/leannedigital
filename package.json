@@ -13,7 +13,8 @@
     "portal:mcp": "node server/mcp.mjs",
     "test": "node scripts/test-remote-mcp.mjs && node scripts/test-mcp-oauth.mjs",
     "integrate": "node scripts/apply-lilipadd.mjs && npm run generate",
-    "integrate:prod": "node scripts/integrate-prod.mjs"
+    "integrate:prod": "node scripts/integrate-prod.mjs",
+    "test:gsc": "node --test tests/gsc.test.mjs"
   },
   "dependencies": {
     "@better-auth/oauth-provider": "^1.6.29",
