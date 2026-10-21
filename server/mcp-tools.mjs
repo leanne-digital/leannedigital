@@ -1,4 +1,5 @@
 import { registerGscTools } from './gsc-tools.mjs';
+import { appendClientWorkLog, listClientWorkLogs, workLogSchema } from './services/client-work-log.mjs';
 import { credentialInventory, saveCredential, deleteCredential } from './credential-tools.mjs';
 import {clientCrud,serviceSchema,proposalSchema} from './client-crud.mjs';
 import {loadReportRecord,saveSeoReport,deleteSeoReport} from '../scripts/seo-report-store.mjs';
@@ -158,6 +159,7 @@ export function createMcpServer({
     actor = { email: 'mcp', createdBy: 'mcp' },
     readOnly = false,
     credentialWrite = !readOnly,
+    workLogWrite = !readOnly,
 } = {}) {
     const server = new McpServer({
         name: 'leanne-digital',
@@ -173,7 +175,23 @@ export function createMcpServer({
         }
     }
     readTool(server,'list_client_reports','List all report links including legacy reports.',{clientId:z.string()},async ({clientId})=>({reports:getAgencyClient(clientId).reports||[]}));
-    readTool(server,'get_client_report','Read structured report content. Legacy reports may only have a public link.',{clientId:z.string(),slug:z.string()},async ({clientId,slug})=>({report:loadReportRecord(getAgencyClient(clientId).slug,slug)}));
+    readTool(server,'get_client_report','Read structured report content and saved work-log entries. Legacy reports may only have a public link.',{clientId:z.string(),slug:z.string()},async ({clientId,slug})=>({report:loadReportRecord(getAgencyClient(clientId).slug,slug),workLog:listClientWorkLogs({clientSlug:getAgencyClient(clientId).slug,reportSlug:slug})}));
+    readTool(server, 'list_client_work_logs', 'Read client work-log entries for a report month. Check for duplicates before appending work.', {
+        clientId: z.string(), month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).optional(), reportSlug: z.string().optional(),
+    }, async ({clientId, ...filters}) => ({entries:listClientWorkLogs({clientSlug:getAgencyClient(clientId).slug,...filters})}));
+    if (workLogWrite) writeTool(server, 'append_client_work_log', 'Append dated client work for a monthly report. Exact repeated content returns the existing record. Does not change projects, billing, credentials or publish a report. Requires mcp:worklog:write.', {
+        clientId: z.string(), projectId: z.string().optional(), reportSlug: z.string(), month: z.string(), workedOn: z.string(), title: z.string(), details: z.string(), status: z.enum(['completed','awaiting_client','in_progress']),
+    }, async ({clientId, ...input}) => {
+        const client = getAgencyClient(clientId);
+        if (input.projectId) {
+            const project = getClientProject(input.projectId);
+            if (!project || project.clientSlug !== client.slug) throw new Error('Project does not belong to this client');
+        }
+        const report = (client.reports || []).find(report => report.slug === input.reportSlug);
+        if (!report) throw new Error('Report does not belong to this client');
+        if (report.monthKey && report.monthKey !== input.month) throw new Error('Report month does not match');
+        return appendClientWorkLog(workLogSchema.parse({clientSlug:client.slug,...input}), actor.email || actor.createdBy);
+    });
     if(!readOnly) {
         const fields={clientId:z.string(),slug:z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),monthKey:z.string().regex(/^\d{4}-\d{2}$/),monthlyRecap:z.string().optional(),technicalRecap:z.string().optional(),keywordsRecap:z.string().optional(),contentRecap:z.string().optional(),adsRecap:z.string().optional(),nextSteps:z.string().optional(),hasGoogleAds:z.boolean().optional()};
         writeTool(server,'save_client_report','Create or update a structured monthly SEO report and regenerate its public page. Omitted recap fields stay unchanged.',fields,async ({clientId,...input})=>saveSeoReport(getAgencyClient(clientId).slug,input));

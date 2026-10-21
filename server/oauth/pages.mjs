@@ -59,6 +59,7 @@ export function consentPageHtml({ error = '', csrfToken, clientName, scopes, oau
             if (scope === 'offline_access') return 'Stay connected until access is revoked (refresh token)';
             if (scope === 'mcp:credentials:write') return 'Add, update or delete client login credentials in the private admin record. Saved passwords are never returned.';
             if (scope === 'mcp:write') return 'Create, update and delete agency client records, services, projects, proposals and reports';
+            if (scope === 'mcp:worklog:write') return 'Append client work-log entries for monthly reports; no editing or deleting records, billing, credentials, or published reports';
             return escapeHtml(scope);
         })
         .map((text) => `<li>${text}</li>`)

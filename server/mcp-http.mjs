@@ -2,9 +2,10 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { getOAuthProtectedResourceMetadataUrl } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { createMcpServer } from './mcp-tools.mjs';
 import { getOAuth } from './oauth/auth.mjs';
-import { oauthEnabled, oauthResource, MCP_SCOPE_READ } from './oauth/config.mjs';
+import { oauthEnabled, oauthResource, MCP_SCOPE_READ, MCP_SCOPE_WORK_LOG_WRITE, OFFLINE_SCOPE } from './oauth/config.mjs';
+import { permissionsForScopes } from './mcp-permissions.mjs';
 import { oauthWwwAuthenticate } from './oauth/routes.mjs';
-import { tokenHasWriteScope, verifyMcpAccessToken } from './oauth/verify.mjs';
+import { verifyMcpAccessToken } from './oauth/verify.mjs';
 
 export const MCP_PATH = '/mcp';
 const MAX_BODY_BYTES = 256 * 1024;
@@ -40,7 +41,7 @@ function resourceUrl() {
 
 function challengeHeaders({ error = 'invalid_token', description = 'Authentication required', extra = {} } = {}) {
     return {
-        'WWW-Authenticate': oauthWwwAuthenticate(resourceUrl(), { error, description, scopes: [MCP_SCOPE_READ] }),
+        'WWW-Authenticate': oauthWwwAuthenticate(resourceUrl(), { error, description, scopes: [MCP_SCOPE_READ, MCP_SCOPE_WORK_LOG_WRITE, OFFLINE_SCOPE] }),
         'Access-Control-Expose-Headers': 'WWW-Authenticate',
         ...extra,
     };
@@ -67,10 +68,9 @@ export async function authenticateRemoteMcp(req) {
             return {
                 ok: true,
                 method: 'oauth',
-                readOnly: envReadOnly() || !tokenHasWriteScope(verified.scopes),
+                ...permissionsForScopes(verified.scopes, envReadOnly()),
                 actorEmail: verified.email || verified.subject || 'oauth',
                 scopes: verified.scopes,
-                credentialWrite: !envReadOnly() && verified.scopes.includes('mcp:credentials:write'),
             };
         }
         if (verified.error === 'insufficient_scope') {
@@ -211,6 +211,7 @@ export async function handleRemoteMcp(req, res) {
         actor: { email: auth.actorEmail || 'remote-mcp', createdBy: auth.actorEmail || 'remote-mcp' },
         readOnly: auth.readOnly,
         credentialWrite: auth.credentialWrite || false,
+        workLogWrite: auth.workLogWrite || false,
     });
     res.on('close', () => {
         void transport.close();

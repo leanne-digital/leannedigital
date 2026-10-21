@@ -180,7 +180,7 @@ const dcr = await fetchRaw(metadata.registration_endpoint, {
         grant_types: ['authorization_code', 'refresh_token'],
         response_types: ['code'],
         token_endpoint_auth_method: 'none',
-        scope: 'mcp:read mcp:write mcp:credentials:write offline_access',
+        scope: 'mcp:read mcp:write mcp:credentials:write mcp:worklog:write offline_access',
     }),
 });
 const clientId = dcr.json?.client_id;
@@ -360,6 +360,16 @@ check('9b. OAuth/read-only does not expose write tools',
     `writes=${MCP_WRITE_TOOLS.filter((name) => names.includes(name)).join(',') || 'none'}`);
 
 const credentialPkce = pkce();
+const workLogPkce = pkce();
+const workLogAuth = await completeAuthorization({...workLogPkce, scope:'mcp:read mcp:worklog:write offline_access'});
+const workLogTokens = await exchangeCode({code:workLogAuth.code, verifier:workLogPkce.verifier});
+process.env.REMOTE_MCP_READ_ONLY = '0';
+const workLogTools = await mcpPost(workLogTokens.json?.access_token, rpcPayload(24,'tools/list',{}));
+const workLogWrites = (workLogTools.json?.result?.tools || []).filter(tool => !tool.annotations?.readOnlyHint).map(tool => tool.name);
+check('9-worklog. Narrow grant exposes only append work log over authenticated HTTP', workLogTools.status === 200 && JSON.stringify(workLogWrites) === JSON.stringify(['append_client_work_log']));
+process.env.REMOTE_MCP_READ_ONLY = '1';
+const workLogBlocked = await mcpPost(workLogTokens.json?.access_token, rpcPayload(25,'tools/list',{}));
+check('9-worklog-blocked. Global read-only overrides work-log grant', !(workLogBlocked.json?.result?.tools || []).some(tool => !tool.annotations?.readOnlyHint));
 const credentialAuth = await completeAuthorization({...credentialPkce, scope:'mcp:read mcp:credentials:write offline_access'});
 const credentialTokens = await exchangeCode({code:credentialAuth.code,verifier:credentialPkce.verifier});
 process.env.REMOTE_MCP_READ_ONLY = '';
