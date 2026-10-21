@@ -37,7 +37,7 @@ function figure(src, caption) {
 function pdfButton(pdf, fallbackLabel) {
     if (!pdf?.href) return '';
     const label = pdf.label || fallbackLabel || 'Download keyword report';
-    return `            <p class="seo-report__actions"><a class="ld-btn" href="${escapeHtml(pdf.href)}" target="_blank" rel="noopener">${escapeHtml(label)}</a></p>`;
+    return `            <p class="seo-report__actions"><a class="ld-btn" href="${escapeHtml(pdf.href)}"${pdf.download ? ' download' : ''} target="_blank" rel="noopener">${escapeHtml(label)}</a></p>`;
 }
 
 function activityTable(rows = [], empty = 'No activity logged this month.') {
@@ -174,22 +174,22 @@ ${paragraphsHtml(report.newContent?.recap)}`
         : '        <p class="seo-report__empty">Client does not have a new content and updates strategy with Leanne Digital.</p>';
 
     return `<article class="seo-report">
-    <header class="seo-report__intro">
+${report.startWithRecap ? '' : `    <header class="seo-report__intro">
         <h1>${escapeHtml(company)}</h1>
 ${paragraphsHtml(report.campaignIntro)}
 ${pdfButton(report.keywordPdf, pdfLabel)}
     </header>
     <p class="seo-report__kicker">${escapeHtml(company)} — SEO Report</p>
-    <p class="seo-report__month">${escapeHtml(monthLabel)}</p>
+    <p class="seo-report__month">${escapeHtml(monthLabel)}</p>`}
     <section class="seo-report__section">
         <h2>Monthly recap</h2>
+${report.startWithRecap ? `<p class="seo-report__month" style="color: var(--ld-accent, #49c5ce)">${escapeHtml(report.title || monthLabel)}</p>` : ''}
 ${paragraphsHtml(report.monthlyRecap) || '                <p>Recap for this month will go here.</p>'}
     </section>
     <section class="seo-report__section">
         <h2>Technical SEO</h2>
         <div class="seo-report__shots">
-${figure(report.technicalSeo?.lastMonthImage, 'Last month')}
-${figure(report.technicalSeo?.thisMonthImage, 'This month')}
+${report.technicalSeo?.thisMonthFirst ? figure(report.technicalSeo?.thisMonthImage, 'This month') + figure(report.technicalSeo?.lastMonthImage, 'Last month') : figure(report.technicalSeo?.lastMonthImage, 'Last month') + figure(report.technicalSeo?.thisMonthImage, 'This month')}
         </div>
 ${paragraphsHtml(report.technicalSeo?.recap)}
 ${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
@@ -201,21 +201,22 @@ ${technicalActivityTable(report.technicalSeo?.internalLinks)}
 ${headingStructureProof(report.technicalSeo?.headingStructureProof)}
     <section class="seo-report__section">
         <h2>Internal linking</h2>
+${paragraphsHtml(report.technicalSeo?.internalLinkingNote)}
 ${internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
     </section>
-    <section class="seo-report__section">
+${report.hiddenSections?.includes("Keyword rankings") ? '' : `    <section class="seo-report__section">
         <h2>Keyword rankings</h2>
 ${keywordsBlock}
-    </section>
-    <section class="seo-report__section">
+    </section>`}
+${report.hiddenSections?.includes("New content and updates") ? '' : `    <section class="seo-report__section">
         <h2>New content and updates</h2>
 ${contentOn ? '        <h3>Activity log</h3>' : ''}
 ${contentBlock}
-    </section>
-    <section class="seo-report__section">
+    </section>`}
+${report.hiddenSections?.includes("Google Ads") ? '' : `    <section class="seo-report__section">
         <h2>Google Ads</h2>
 ${adsBlock}
-    </section>
+    </section>`}
     <section class="seo-report__section">
         <h2>Next steps and strategy</h2>
 ${paragraphsHtml(report.nextSteps) || '                <p>Next month’s plan will go here.</p>'}

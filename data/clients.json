@@ -84,6 +84,12 @@
     ],
     "reports": [
       {
+        "slug": "seo-report-oatley-vigmond-october-2026",
+        "title": "October 2026",
+        "monthKey": "2026-10",
+        "kind": "seo"
+      },
+      {
         "slug": "seo-report-oatley-vigmond-september-2026",
         "title": "September 2026",
         "monthKey": "2026-09",

@@ -39,5 +39,5 @@ export function normalizeContactForms(html) {
     });
     if (!found) return html;
     out = out.replace(/\s*<script[^>]*\bsrc="[^"]*contact-form\.js[^"]*"[^>]*>\s*<\/script>/gi, '');
-    return out.replace(/<\/body>/i, '    <script src="/js/contact-form.js?v=smtp-4" defer></script>\n</body>');
+    return out.replace(/\s*<\/body>/i, '\n    <script src="/js/contact-form.js?v=smtp-4" defer></script>\n</body>');
 }

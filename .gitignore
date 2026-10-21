@@ -10,6 +10,7 @@ data/portal-resets.json
 data/portal-bootstrap.json
 data/avatars/
 data/contact-inbox.jsonl
+data/contact-spam.jsonl
 data/lead-status.json
 data/calendly-bookings.json
 .cursor/
@@ -18,3 +19,5 @@ _import/*
 !_import/README.md
 
 data/contact-spam.jsonl
+
+tmp/

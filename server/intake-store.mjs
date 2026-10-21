@@ -120,7 +120,7 @@ function safeJson(value, fallback) {
     try { return JSON.parse(value); } catch { return fallback; }
 }
 
-export function listMittohneeSubmissions(filters = {}) {
+export function listMittohneeSubmissions(filters = {}, { all = false } = {}) {
     const clauses = ['client_slug = ?', 'form_slug = ?'];
     const values = ['red-river-college', 'mittohnee'];
     const search = String(filters.search || '').trim().toLowerCase();
@@ -140,8 +140,8 @@ export function listMittohneeSubmissions(filters = {}) {
         FROM intake_submissions
         WHERE ${clauses.join(' AND ')}
         ORDER BY submitted_at DESC
-        LIMIT ?
-    `).all(...values, limit);
+        ${all ? '' : 'LIMIT ?'}
+    `).all(...values, ...(all ? [] : [limit]));
     const submissions = rows.map((row) => ({
         ...safeJson(row.payload, {}),
         id: row.id,
@@ -153,6 +153,31 @@ export function listMittohneeSubmissions(filters = {}) {
         customerLocations: safeJson(row.customer_locations, []),
     }));
     return { submissions, count: submissions.length };
+}
+
+export function exportMittohneeCsv() {
+    const columns = [
+        ['id', 'Submission ID'], ['submittedAt', 'Submitted at'], ['name', 'Student'],
+        ['businessName', 'Business'], ['email', 'Email'], ['ownsDomain', 'Owns domain'],
+        ['currentDomain', 'Current domain'], ['desiredDomain', 'Desired domain'],
+        ['hasWebsite', 'Has website'], ['websiteAddress', 'Website address'],
+        ['businessTypes', 'Business types'], ['businessTypeOther', 'Other business type'],
+        ['services', 'Services'], ['products', 'Products'], ['productCount', 'Product count'],
+        ['idealCustomer', 'Ideal customer'], ['customerLocations', 'Customer locations'],
+        ['customerLocationOther', 'Other customer location'], ['customerProblem', 'Problem or need'],
+        ['customerResult', 'Result provided'], ['businessValues', 'Business values'],
+        ['differentiator', 'What makes the approach different'], ['statementProvides', 'Business provides'],
+        ['statementFor', 'Business serves'], ['statementOutcome', 'Business helps customers'], ['consent', 'Consent'],
+    ];
+    const labels = { service: 'Service-based', product: 'Product-based', both: 'Products and services', other: 'Other', 'local-community': 'Local community', manitoba: 'Manitoba', canada: 'Across Canada', online: 'Online / Anywhere' };
+    const cell = (value) => {
+        let text = Array.isArray(value) ? value.map((item) => labels[item] || item).join('; ') : String(value ?? '');
+        // Prevent spreadsheet formulas from executing when opening student answers.
+        if (/^[\s]*[=+@-]/.test(text)) text = "'" + text;
+        return '"' + text.replace(/"/g, '""') + '"';
+    };
+    const rows = listMittohneeSubmissions({}, { all: true }).submissions;
+    return '\uFEFF' + [columns.map(([, label]) => cell(label)).join(','), ...rows.map((row) => columns.map(([key]) => cell(row[key])).join(','))].join('\r\n') + '\r\n';
 }
 
 export function closeIntakeDatabase() {

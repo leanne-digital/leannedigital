@@ -12,18 +12,20 @@
   ],
   "keywordPdf": null,
   "monthlyRecap": [
-    "September work to date focused on correcting search-result metadata and a broken event URL. We resolved duplicate titles on five pages, shortened 19 overlong title tags, added unique meta descriptions to 21 accident and injury archives, and redirected one missing event-date page to the main events listing.",
-    "We also investigated mobile performance and Core Web Vitals issues, repaired the WP Rocket installation, removed overlapping optimization from SiteGround Speed Optimizer, and improved CSS and JavaScript delivery. Homepage mobile re-tests improved from roughly 50 to 90–96, with LCP at about 2.3–3.2 seconds and Total Blocking Time at 0 ms.",
-    "This report records September work to date, including the SEO updates verified on September 14 and the performance fixes and re-test results supplied for this report. September charts and full reporting exports will be added when supplied. Changes in rankings, traffic, inquiries and the audit score remain to be assessed."
+    "September focused on strengthening Oatley Vigmond’s technical SEO foundation and improving site performance. We corrected metadata issues across key pages, resolved a broken event URL, repaired the site’s performance optimization setup and significantly improved mobile speed scores. This work gives us a cleaner technical base to build on as we shift more attention toward AEO, structured data and AI search readiness in October."
   ],
   "technicalSeo": {
-    "pdf": null,
+    "pdf": {
+      "href": "/assets/clients/oatley-vigmond/oatley-vigmond-technical-seo-audit-september-2026.pdf",
+      "label": "Download technical SEO audit",
+      "download": true
+    },
     "lastMonthImage": "/assets/clients/oatley-vigmond/ocl-tech-report-august-2026.jpg",
-    "thisMonthImage": "",
+    "thisMonthImage": "/assets/clients/oatley-vigmond/ovl-tech-audit-sept-2026.jpg",
     "recap": [
       "Completed: 24 SEO title updates, 21 new meta descriptions and one 301 redirect. The detailed log below lists every affected URL and its final title or description.",
       "Mobile performance work included a fresh WP Rocket installation, resolution of the previous installation’s critical error, disabling SiteGround Speed Optimizer, and CSS/JavaScript minification, deferred and delayed JavaScript, and Remove Unused CSS. Reported homepage mobile re-tests improved from roughly 50 to 90–96; LCP fell to about 2.3–3.2 seconds and Total Blocking Time to 0 ms. These test results do not by themselves confirm a pass for site-wide field Core Web Vitals.",
-      "The August audit is shown as last month’s reference. September’s technical audit chart and updated score are pending. A fresh crawl is needed to confirm the audit tool has cleared the reported issues."
+      "The August audit is shown as last month’s reference. The September 26 audit is shown above for this month."
     ],
     "internalLinks": [
       {
@@ -297,8 +299,451 @@
         "details": "Homepage mobile performance improved from roughly 50 to 90–96 in re-tests. Largest Contentful Paint (LCP) was reduced to about 2.3–3.2 seconds, and Total Blocking Time (TBT) was reduced to 0 ms. These are individual test results; scores and timings vary between runs."
       }
     ],
-    "internalLinking": [],
-    "targetUrls": {}
+    "internalLinking": [
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "What To Do After A Car Accident",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "What is Accidental Death and Dismemberment Coverage?",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Bicycle Safety – the Cyclist and Driver Relationship",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Levels of Spinal Cord Injury",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "The Dangers of Medically Unfit Drivers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Leaving the scene of an accident",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Yellow Light and Left Hand Turn Accidents – Who’s At Fault?",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Proposed Change To Auto Insurance Could Diminish Benefits For The Catastrophically Impaired",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "From MIG to CAT – The Difficulties of a Claim for Mild Traumatic Brain Injury",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Brain Injury and the Glasgow Outcome Scale",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Expediting a Catastrophic Application",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Drinking and Driving During the Holidays",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Traumatic Brain Injury and Post-Traumatic Stress Disorder",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-30",
+        "keyword": "motor vehicle accident",
+        "source": "Jury Openings in MedMal Cases",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "The Latest Word from FSCO and Judges on Relevant Facebook Production Issues",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Compensate Brain Injured NFL Players",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Bicycle Safety",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "North Bay Office Location",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Sudbury Office Location",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Hamilton Office Location",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Toronto Office Location",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "North York Office Location",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Barrie Office Location",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Tell Us Your Story",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Contact",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Results",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-23",
+        "keyword": "motor vehicle accident",
+        "source": "Cross Border Injury",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Degloving",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Amputations",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Motor Vehicle Accident Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Car Accident Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Wrongful Death Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Accident Benefits",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Orthopaedic Injury Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Paediatric Injury Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Traumatic Brain Injury Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Spinal Cord Injury Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Catastrophic Injury Lawyers",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "About Ontario’s Personal Injury Law Firm",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Elementor",
+        "sourceType": "Page",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      },
+      {
+        "date": "2026-09-17",
+        "keyword": "motor vehicle accident",
+        "source": "Limiting Municipal Liability Hurts the Innocent",
+        "target": "Page",
+        "linksAdded": "1",
+        "storage": "Content",
+        "sourceType": "Post",
+        "loggedDate": "2026-09-30",
+        "user": "gary"
+      }
+    ],
+    "targetUrls": {},
+    "thisMonthFirst": true,
+    "internalLinkingNote": "Reporting groups: September 30, 23 and 17. The supplied activity log records all 40 new links on September 30, 2026."
   },
   "keywords": {
     "enabled": true,
@@ -324,9 +769,13 @@
     "recap": []
   },
   "nextSteps": [
-    "Add the September visual assets and reporting exports when supplied, including the mobile performance before-and-after charts, then update the technical SEO and keyword-ranking commentary.",
-    "Recrawl the affected URLs in the SEO audit to confirm the duplicate-title, long-title, missing-description and event 404 flags have cleared.",
-    "Monitor indexing and search-result presentation after the metadata updates. Record any additional September work in this report as it is completed."
+    "In October, we’ll complete a fresh technical crawl to confirm the September fixes have cleared, then focus on AEO and AI search readiness. We’ll review the site’s schema and structured data, assess how clearly Oatley Vigmond’s lawyers, services, locations and expertise are understood by search engines and AI systems, and implement the highest-priority improvements. We’ll also continue monitoring indexing, crawl health and search-result presentation as the recent metadata changes are reprocessed."
   ],
-  "updatedAt": "2026-09-14T22:13:04.704Z"
+  "updatedAt": "2026-10-01T02:23:14.531Z",
+  "hiddenSections": [
+    "Keyword rankings",
+    "New content and updates",
+    "Google Ads"
+  ],
+  "startWithRecap": true
 }

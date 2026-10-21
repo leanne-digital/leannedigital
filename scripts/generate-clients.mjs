@@ -864,6 +864,7 @@ function renderIntakeResults() {
                     <label>To<input type="date" name="dateTo"></label>
                     <button type="reset" class="dash-form__reset">Clear</button>
                 </form>
+                <p><a class="ld-btn" href="/api/clients/red-river-college/intake/export" download>Export all entries to CSV</a></p>
                 <p class="intake-count" data-result-count aria-live="polite">0 results</p>
                 <div class="dash-table-wrap">
                     <table class="dash-table intake-table">

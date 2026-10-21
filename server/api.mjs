@@ -69,7 +69,7 @@ import { handleRemoteMcp, isMcpPath } from './mcp-http.mjs';
 import { startOAuth } from './oauth/auth.mjs';
 import { handleOAuth, isOAuthPath } from './oauth/routes.mjs';
 import { oauthEnabled } from './oauth/config.mjs';
-import { listMittohneeSubmissions, saveMittohneeSubmission } from './intake-store.mjs';
+import { exportMittohneeCsv, listMittohneeSubmissions, saveMittohneeSubmission } from './intake-store.mjs';
 
 loadEnv();
 
@@ -508,6 +508,16 @@ async function handleApi(req, res, method, pathname, user) {
     if (pathname === '/api/clients/dashboard' && method === 'GET') {
         if (!requireStaff(user, req, res)) return true;
         json(req, res, 200, getAdminDashboard(user));
+        return true;
+    }
+    if (pathname === '/api/clients/red-river-college/intake/export' && method === 'GET') {
+        if (!requireStaff(user, req, res)) return true;
+        res.writeHead(200, {
+            'Content-Type': 'text/csv; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="red-river-college-intake.csv"',
+            'Cache-Control': 'no-store',
+        });
+        res.end(exportMittohneeCsv());
         return true;
     }
     if (pathname === '/api/clients/red-river-college/intake' && method === 'GET') {

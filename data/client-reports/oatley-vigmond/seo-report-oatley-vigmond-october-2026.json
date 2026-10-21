@@ -1,0 +1,45 @@
+{
+  "slug": "seo-report-oatley-vigmond-october-2026",
+  "kind": "seo",
+  "monthKey": "2026-10",
+  "title": "October 2026",
+  "monthLabel": "OCTOBER 2026",
+  "companyName": "OATLEY VIGMOND",
+  "clientName": "Oatley Vigmond",
+  "campaignIntro": [
+    "This SEO growth initiative is focused on strengthening Oatley Vigmond’s visibility across Google Search, Google AI Overviews, ChatGPT, Gemini, and other emerging AI-powered search platforms.",
+    "Our ongoing work includes technical SEO, AI search optimization (AEO), geographic search optimization (GEO), content architecture, internal linking, conversion tracking, and marketing automation to increase qualified case inquiries across Ontario."
+  ],
+  "keywordPdf": null,
+  "monthlyRecap": [],
+  "technicalSeo": {
+    "pdf": null,
+    "lastMonthImage": "",
+    "thisMonthImage": "",
+    "recap": [],
+    "internalLinks": [],
+    "internalLinking": [],
+    "targetUrls": {}
+  },
+  "keywords": {
+    "enabled": true,
+    "lastMonthImage": "",
+    "thisMonthImage": "",
+    "twoMonthsAgoImage": "",
+    "recap": [],
+    "pdf": null
+  },
+  "newContent": {
+    "enabled": true,
+    "log": [],
+    "recap": []
+  },
+  "googleAds": {
+    "enabled": false,
+    "na": true,
+    "image": "",
+    "recap": []
+  },
+  "nextSteps": [],
+  "updatedAt": "2026-09-30T00:00:00.000Z"
+}

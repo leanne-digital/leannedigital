@@ -177,6 +177,8 @@ function buildRecord(client, input, current, previous, assets) {
     return {
         slug,
         kind: 'seo',
+        hiddenSections: current?.hiddenSections || [],
+        startWithRecap: current?.startWithRecap === true,
         monthKey,
         title,
         monthLabel,
@@ -190,6 +192,11 @@ function buildRecord(client, input, current, previous, assets) {
         keywordPdf: pdfHref ? { href: pdfHref, label: pdfLabel } : null,
         monthlyRecap: asParagraphs(input.monthlyRecap ?? current?.monthlyRecap ?? ''),
         technicalSeo: {
+            pdf: current?.technicalSeo?.pdf || null,
+            internalLinking: current?.technicalSeo?.internalLinking || [],
+            internalLinkingNote: current?.technicalSeo?.internalLinkingNote || "",
+            targetUrls: current?.technicalSeo?.targetUrls || {},
+            thisMonthFirst: current?.technicalSeo?.thisMonthFirst === true,
             lastMonthImage:
                 assets.techLastMonth ||
                 current?.technicalSeo?.lastMonthImage ||
