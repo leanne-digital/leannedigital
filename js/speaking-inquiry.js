@@ -1,18 +1,18 @@
 (function () {
-    // The shared contact handler only sends name, email, service and message.
-    // Fold the event details into the message before contact-form.js reads it.
+    // The shared contact handler accepts name, email, companyName, service and message.
+    // Service is fixed to "Speaking Engagements"; fold the event details into the
+    // message before contact-form.js reads it.
     const form = document.getElementById('speaking-inquiry-form');
     if (!form) return;
 
     const fields = [
-        ['organization', 'Organization'],
         ['event_date', 'Event date'],
         ['event_location', 'Location'],
     ];
 
     function compose() {
         const data = new FormData(form);
-        const lines = [`Speaking inquiry: ${String(data.get('service') || '').trim() || '(event type not selected)'}`];
+        const lines = [`Event type: ${String(data.get('event_type') || '').trim() || '(not selected)'}`];
         fields.forEach(([name, label]) => {
             const value = String(data.get(name) || '').trim();
             if (value) lines.push(`${label}: ${value}`);

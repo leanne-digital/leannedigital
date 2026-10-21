@@ -425,7 +425,9 @@
                         </div>
                     </div>
                     <form class="contact-form" id="speaking-inquiry-form" aria-labelledby="inquiry-heading" action="/api/contact" method="post" data-contact-backend="smtp">
-                        <input type="hidden" name="message" value="">
+                        <input type="text" name="_honey" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <input type="hidden" name="service" value="Speaking Engagements" required>
+                        <input type="hidden" name="message" value="" required>
                         <div class="contact-form__field contact-form__field--half">
                             <label for="speaking-name">Name</label>
                             <input type="text" id="speaking-name" name="name" required autocomplete="name" maxlength="120">
@@ -436,11 +438,11 @@
                         </div>
                         <div class="contact-form__field contact-form__field--half">
                             <label for="speaking-organization">Organization</label>
-                            <input type="text" id="speaking-organization" name="organization" autocomplete="organization" maxlength="160">
+                            <input type="text" id="speaking-organization" name="companyName" autocomplete="organization" maxlength="200">
                         </div>
                         <div class="contact-form__field contact-form__field--half">
                             <label for="speaking-type">Event type</label>
-                            <select id="speaking-type" name="service" required>
+                            <select id="speaking-type" name="event_type" required>
                                 <option value="">Choose one</option>
                                 <option value="Conference">Conference</option>
                                 <option value="Podcast interview">Podcast interview</option>
@@ -539,7 +541,7 @@
     </footer>
     <script src="../js/site-nav.js" defer></script>
         <!-- lp:custom-body-end -->
-    <script src="/js/speaking-inquiry.js?v=20261021a" defer></script>
-    <script src="/js/contact-form.js?v=smtp-2" defer></script>
+    <script src="/js/speaking-inquiry.js?v=20261021b" defer></script>
+    <script src="/js/contact-form.js?v=smtp-4" defer></script>
 </body>
 </html>
