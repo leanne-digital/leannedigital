@@ -35,6 +35,7 @@ export const PRIMARY_NAV = [
     { path: '/about/', title: 'About' },
     { path: '/portfolio/', title: 'Portfolio' },
     { type: 'services', title: 'Services', children: SERVICE_LINKS },
+    { path: '/public-speaking/', title: 'Speaking' },
     { path: '/blog/', title: 'Blog' },
     { path: '/contact/', title: 'Contact' },
 ];
