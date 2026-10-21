@@ -538,5 +538,23 @@
       "question": "Do I still need SEO if I run ads?",
       "answer": "Ads stop when you stop paying. SEO is slower to build and keeps working. Most businesses benefit from both, used on purpose."
     }
+  ],
+  "/public-speaking/": [
+    {
+      "question": "What does Leanne Jones speak about?",
+      "answer": "Leanne speaks about branding and marketing, helping customers find you online through SEO, the personal side of entrepreneurship and the opportunities ahead for Indigenous entrepreneurs. Each topic can be tailored to your audience."
+    },
+    {
+      "question": "Is Leanne available for virtual events?",
+      "answer": "Yes. Leanne is based in Winnipeg, Manitoba, and is available for in-person and virtual opportunities across Canada."
+    },
+    {
+      "question": "What kinds of events does Leanne take part in?",
+      "answer": "Conferences and public speaking, podcast interviews, branding and digital marketing workshops, panel discussions, entrepreneurship programs and community events."
+    },
+    {
+      "question": "How do I invite Leanne to speak?",
+      "answer": "Fill out the speaking inquiry form on this page with your event type, organization, date and location, or email leanne@leannedigital.com."
+    }
   ]
 }

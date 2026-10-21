@@ -27,6 +27,7 @@ function sitemapTitles() {
         '/privacy-policy/': 'Privacy Policy',
         '/sitemap/': 'Sitemap',
         '/google-ads/': 'Google Ads',
+        '/public-speaking/': 'Public Speaking, Podcasts & Workshops',
     };
     for (const link of SERVICE_LINKS) titles[link.path] = link.title;
     for (const post of loadJson('data/blog-posts.json')) titles[post.path] = post.title;
