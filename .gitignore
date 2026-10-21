@@ -16,3 +16,5 @@ data/calendly-bookings.json
 runtime/
 _import/*
 !_import/README.md
+
+data/contact-spam.jsonl

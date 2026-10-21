@@ -32,6 +32,21 @@ Reload systemd configuration and restart the portal after environment changes.
 
 Run regression checks with `node --test tests/contact-mail.test.mjs`.
 
+Name, email, message and service are mandatory in all public inquiry forms and
+on the server. Whitespace-only fields, invalid service choices and oversized
+values are rejected before storage or email. Every form includes a hidden
+`_honey` trap; the handler rejects filled traps, including legacy field aliases.
+
+The contact handler quarantines the observed bot pattern: a single
+16–80-letter message containing at least six case changes, even with a filled
+name and service.
+Matching submissions are retained in `data/contact-spam.jsonl` with a reason,
+without sending email or adding a lead. This private file is Git-ignored and
+created with mode 0600; keep `/data` inaccessible through the public web server.
+Ordinary inquiries and job applications are not filtered by this rule. It is a
+narrow campaign filter, not general spam detection. Existing inbox entries are
+not changed. Deploy only the reviewed contact handler to enable this rule.
+
 The contact page loads `js/contact-form.js` and uses
 `data-contact-backend="smtp"` instead of Lilipadd form markers.
 `scripts/lilipadd-slots.mjs` preserves this handler during site generation.

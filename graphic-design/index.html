@@ -158,16 +158,16 @@
                         </div>
                         <a class="ld-btn" href="/contact/" data-lp-event="service_contact_cta">Book A Call With mE</a>
                     </div>
-                    <form class="contact-form" id="contact" aria-label="Service contact form" action="/api/contact" method="post" data-contact-backend="smtp">
+                    <form class="contact-form" id="contact" aria-label="Service contact form" action="/api/contact" method="post" data-contact-backend="smtp"><div class="contact-form__field"><label for="inquiry-name">Name</label><input type="text" id="inquiry-name" name="name" required autocomplete="name" maxlength="120"></div>
                         <input type="text" name="_honey" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <p class="contact-form__status" data-form-status hidden></p>
                         <div class="contact-form__field">
                             <label for="service-contact-email">Email</label>
                             <input type="email" id="service-contact-email" name="email" placeholder="Email" required autocomplete="email">
                         </div>
-                        <div class="contact-form__field">
+                        <div class="contact-form__field" style="grid-column: 1 / -1"><label for="inquiry-company">Company Name (Optional)</label><input type="text" id="inquiry-company" name="companyName" maxlength="200" autocomplete="organization"></div><div class="contact-form__field" style="grid-column: 1 / -1"><label for="inquiry-website">Current Website (Optional)</label><input type="text" inputmode="url" id="inquiry-website" name="currentWebsite" maxlength="500" autocomplete="url" placeholder="example.com"></div><div class="contact-form__field"><label for="inquiry-service">Service</label><select id="inquiry-service" name="service" required><option value="">Select a service</option><option value="Web Design">Web Design</option><option value="Graphic Design">Graphic Design</option><option value="SEO Strategy and Marketing">SEO Strategy and Marketing</option><option value="Website Maintenance">Website Maintenance</option><option value="Custom Application">Custom Application</option><option value="Speaking Engagements">Speaking Engagements</option><option value="AI and Automations">AI and Automations</option><option value="Other">Other</option></select></div><div class="contact-form__field">
                             <label for="service-contact-message">Message</label>
-                            <textarea id="service-contact-message" name="message" rows="4" placeholder="Message"></textarea>
+                            <textarea id="service-contact-message" name="message" rows="4" placeholder="Message" required></textarea>
                         </div>
                         <button class="ld-btn" type="submit" data-lp-event="service_form_submit">Send A Message (I'll respond!)</button>
                     </form>
@@ -220,7 +220,6 @@
         </div>
     </footer>
     <script src="../js/site-nav.js" defer></script>
-
-    <script src="/js/contact-form.js?v=smtp-2" defer></script>
+    <script src="/js/contact-form.js?v=smtp-4" defer></script>
 </body>
 </html>

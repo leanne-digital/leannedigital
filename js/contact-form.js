@@ -28,6 +28,8 @@
             email: String(data.get('email') || '').trim(),
             message: String(data.get('message') || '').trim(),
             service: String(data.get('service') || '').trim(),
+            companyName: String(data.get('companyName') || '').trim(),
+            currentWebsite: String(data.get('currentWebsite') || '').trim(),
             honey: String(data.get('_honey') || data.get('company_website') || data.get('website') || ''),
             page: location.pathname,
         };
@@ -59,6 +61,9 @@
             show(form, '', '');
             if (submit) submit.disabled = true;
             try {
+                for (const field of ['name', 'email', 'message', 'service']) {
+                    if (!payload[field]) throw new Error(`Please complete the ${field} field.`);
+                }
                 payload.recaptchaToken = await recaptchaToken();
                 const res = await fetch('/api/contact', {
                     method: 'POST',
