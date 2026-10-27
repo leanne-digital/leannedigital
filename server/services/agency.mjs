@@ -251,3 +251,6 @@ export {
     getSiteStatistics,
     getSiteConversions,
 };
+
+// Legacy callers retain record-only creation semantics.
+export { createClientRecord as createClientWithAccount };
