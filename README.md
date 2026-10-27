@@ -115,3 +115,16 @@ scripts/site-config.mjs
 scripts/generate-pages.mjs
 assets/images/
 ```
+
+
+### Client records and portal access
+
+`create_client` (MCP) and `POST /api/clients` create only the client record and service projects. They never provision portal users, generate temporary passwords, or send invitations, even if legacy account flags/passwords are supplied. Saving a client and starting the server also do not provision missing client accounts.
+
+Portal access requires two separate explicit requests:
+1. Use `create_client_portal_account`, `POST /api/clients/{id}/account`, or the admin **Create portal account (no email)** button. This creates a login without sending email.
+2. Use `invite_client`, `POST /api/clients/{id}/invite`, or **Send login link** to explicitly send an invitation. An existing account with a real email is required.
+
+Existing invitation revocation: there is no dedicated revoke API, MCP tool, or admin control. Invitations are hashed password-reset tokens in the private `data/portal-resets.json` store. An operator can invalidate a link by removing its matching token row (or all rows for that user, which also revokes password-reset links). Sending a new invitation does **not** revoke previous tokens. Tokens expire, and using one consumes only that token. Revoking a token does not disable an existing account or session. No live invitations were revoked during this change.
+
+Validation: `node scripts/test-client-crud.mjs` runs in a temporary copy with email transport blocked; it checks record-only creation/update, explicit account creation, rejection of invitations without an account, and invalidation of a removed token. No invitation emails are sent by this test.

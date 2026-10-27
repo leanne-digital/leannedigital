@@ -13,7 +13,6 @@ import {
     changePassword,
     cookieHeader,
     destroySession,
-    ensureClientAccounts,
     getSessionUser,
     getUserById,
     isSuperAdmin,
@@ -33,7 +32,8 @@ import {
     addProjectUpdate,
     archiveClientWithAccount,
     createClientProject,
-    createClientWithAccount,
+    createClientRecord,
+    createClientPortalAccount,
     createPortfolioProject,
     deleteClientWithAccount,
     deletePortfolioProject,
@@ -537,8 +537,15 @@ async function handleApi(req, res, method, pathname, user) {
             json(req, res, 201, await provisionStaffAccount(body, originFrom(req)));
             return true;
         }
-        const created = await createClientWithAccount(body, { origin: originFrom(req) });
+        const created = await createClientRecord(body, { origin: originFrom(req) });
         json(req, res, 201, created);
+        return true;
+    }
+    const accountMatch = pathname.match(/^\/api\/clients\/([^/]+)\/account$/);
+    if (accountMatch && method === 'POST') {
+        if (!requireStaff(user, req, res)) return true;
+        const client = getAgencyClient(decodeURIComponent(accountMatch[1]));
+        json(req, res, 200, await createClientPortalAccount(client));
         return true;
     }
     const inviteMatch = pathname.match(/^\/api\/clients\/([^/]+)\/invite$/);
@@ -771,7 +778,7 @@ export function startPortal({ port = PORT, bind = BIND } = {}) {
                     await startOAuth({ port: actualPort });
                 }
                 const staff = await seedStaffAccount();
-                const accounts = await ensureClientAccounts();
+                const accounts = []; // Client accounts require an explicit request.
                 console.log(`Client portal http://${bind}:${actualPort}/login/`);
                 console.log(`Admin dashboard http://${bind}:${actualPort}/admin/`);
                 console.log(`API http://${bind}:${actualPort}/api/clients`);

@@ -28,7 +28,7 @@ HTTP auth: session cookie `ld_portal`, or `X-API-Key` / `Authorization: Bearer` 
 Remote MCP auth: ChatGPT uses OAuth (see below). Manual tests may still use `Authorization: Bearer` with `REMOTE_MCP_API_KEY`.  
 Do not put keys, passwords, or `data/portal-*.json` in frontend JS or public GPT instructions.
 
-The client portal is a closed system. Staff add a client with a real email; the API creates a login and emails a set-password link (`/login/reset/?token=`). Clients then land on `/client-portal/` to change their password, complete onboarding (providers, not domain/hosting passwords), add extra apps like Mailchimp, and upload an avatar. Reports stay at `/clients/{slug}/`.
+The client portal is a closed system. Staff add a client record independently. Creating a portal account requires a separate explicit request (`create_client_portal_account` or `POST /api/clients/{id}/account`), and sending a set-password invitation requires another explicit request (`invite_client` or `POST /api/clients/{id}/invite`). Client creation never creates a login or sends email. Clients then land on `/client-portal/` to change their password, complete onboarding (providers, not domain/hosting passwords), add extra apps like Mailchimp, and upload an avatar. Reports stay at `/clients/{slug}/`.
 
 ---
 

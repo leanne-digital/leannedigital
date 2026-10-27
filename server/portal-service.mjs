@@ -108,52 +108,37 @@ export function listClientsFor(user, clients) {
 
 function inviteableUser(client) {
     const user = usersForClient(client.slug)[0] || (looksLikeEmail(client.email) ? getUserByEmail(client.email) : null);
-    if (!user || isPlaceholderEmail(user.email)) return null;
+    if (!user || user.clientSlug !== client.slug || isPlaceholderEmail(user.email)) return null;
     return user;
 }
 
 export async function inviteClient(client, origin) {
-    let user = inviteableUser(client);
-    if (!user) {
-        const account = await provisionClientAccount(client);
-        user = getUserByEmail(account.email);
-    }
+    const user = inviteableUser(client);
     if (!user || isPlaceholderEmail(user.email)) {
-        const error = new Error('Add a real client email before sending a login link');
+        const error = new Error('Create a portal account with a real client email before sending a login link');
         error.status = 400;
         throw error;
     }
     return inviteUser(user, origin);
 }
 
-export async function createClientWithAccount(input, { origin } = {}) {
+// Record creation deliberately ignores all account/invitation options.
+export async function createClientRecord(input) {
     const client = await createClient(input);
     seedProjectsFromClientServices();
-    const account = await provisionClientAccount(client, input);
-    let invite = null;
-    if (!isPlaceholderEmail(account.email)) {
-        try {
-            invite = await inviteClient(client, origin);
-        } catch (error) {
-            console.error('Client invite failed:', error.message);
-        }
-    }
-    return {
-        client,
-        account: {
-            email: account.email,
-            temporaryPassword: account.temporaryPassword || undefined,
-            created: account.created,
-        },
-        invite,
-    };
+    return { client };
+}
+
+export const createClientWithAccount = createClientRecord;
+
+export async function createClientPortalAccount(client) {
+    return { account: await provisionClientAccount(client) };
 }
 
 export async function updateClientWithAccount(id, input) {
     const client = await updateClient(id, input, { regenerate: false });
     seedProjectsFromClientServices();
-    const existing = syncClientUser(client, input);
-    if (!existing) await provisionClientAccount(client, input);
+    syncClientUser(client, input);
     return { client };
 }
 

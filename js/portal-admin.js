@@ -415,6 +415,17 @@
             $('[data-credential-list]', form).appendChild(credentialRow({ kind: 'app' }));
         });
 
+        $('[data-create-portal-account]', form)?.addEventListener('click', async () => {
+            const slug = form.slug.value;
+            if (!slug) return show(errorEl, 'Save the client record first.');
+            try {
+                const response = await fetch(`/api/clients/${encodeURIComponent(slug)}/account`, { method: 'POST', credentials: 'same-origin' });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Could not create portal account');
+                show(okEl, `Portal account ready for ${result.account.email}. No email was sent. Use Send login link to invite them.`);
+            } catch (error) { show(errorEl, error.message); }
+        });
+
         $('[data-invite-client]', form)?.addEventListener('click', async () => {
             const slug = form.slug.value;
             if (!slug) return;
@@ -470,16 +481,7 @@
                 render(clients);
                 form.reset();
                 if (op === 'create') {
-                    const email = result.account?.email || payload.email;
-                    const invited = result.invite?.emailed;
-                    const link = result.invite?.inviteUrl;
-                    const temp = result.account?.temporaryPassword;
-                    const parts = [`Client added. Login email: ${email || 'n/a'}.`];
-                    if (invited) parts.push('A set-password link was emailed to them.');
-                    else parts.push('Invite email was not sent (check SMTP), so share the login link or temporary password.');
-                    if (link) parts.push(`Login link: ${link}`);
-                    if (temp) parts.push(`Temporary password: ${temp}`);
-                    show(okEl, parts.join(' '));
+                    show(okEl, 'Client record added. No portal account was created and no email was sent.');
                 } else {
                     show(okEl, 'Client updated.');
                 }

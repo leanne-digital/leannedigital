@@ -2,7 +2,8 @@ import { getClient, loadClients } from '../../scripts/client-store.mjs';
 import { portalStats } from '../../scripts/portal-stats.mjs';
 import { listStaffAccounts } from '../auth.mjs';
 import {
-    createClientWithAccount,
+    createClientRecord,
+    createClientPortalAccount,
     deleteClientWithAccount,
     archiveClientWithAccount,
     getPortalMe,
@@ -223,7 +224,8 @@ export function getAdminDashboard(user) {
 }
 
 export {
-    createClientWithAccount,
+    createClientRecord,
+    createClientPortalAccount,
     updateClientWithAccount,
     archiveClientWithAccount,
     deleteClientWithAccount,

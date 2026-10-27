@@ -907,7 +907,9 @@
                 const kind = isStaffAccount ? (type === 'super-admin' ? 'Super admin' : 'Admin') : 'Client';
                 show(
                     okEl,
-                    emailed
+                    !isStaffAccount
+                        ? 'Client record created. No portal account was created and no email was sent.'
+                        : emailed
                         ? `${kind} ready. A login email was sent to ${who}, and the temporary login is shown below.`
                         : `${kind} ready. Copy the temporary login below and send it securely to ${who}.`
                 );
@@ -916,6 +918,17 @@
             } finally {
                 submit.disabled = false;
             }
+        });
+
+        $('[data-create-portal-account]', clientForm)?.addEventListener('click', async () => {
+            const slug = clientForm.slug.value;
+            if (!slug) return show(errorEl, 'Save the client record first.');
+            try {
+                const response = await fetch(`/api/clients/${encodeURIComponent(slug)}/account`, { method: 'POST', credentials: 'same-origin' });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || 'Could not create portal account');
+                show(okEl, `Portal account ready for ${result.account.email}. No email was sent. Use Send login link to invite them.`);
+            } catch (error) { show(errorEl, error.message); }
         });
 
         inviteBtn?.addEventListener('click', async () => {

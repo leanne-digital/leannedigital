@@ -424,8 +424,9 @@ ${totals}
                             </select>
                         </label>
                     </div>
-                    <p class="dash-copy dash-copy--left" data-invite-note>Saving a new client emails them a login link to set their password. You can resend it after they exist.</p>
-                    <p><button class="dash-form__add" type="button" data-invite-client hidden>Send login link</button></p>
+                    <p class="dash-copy dash-copy--left" data-invite-note>Saving creates only a client record. Create a portal account separately, then explicitly send a login link.</p>
+                    <p><button type="button" data-create-portal-account>Create portal account (no email)</button>
+<button class="dash-form__add" type="button" data-invite-client hidden>Send login link</button></p>
                     <div class="dash-creds" data-client-apps hidden></div>
                     <h3 class="dash-form__heading">Credentials</h3>
                     <p class="dash-copy dash-copy--left">Logins for hosting, domain, email, and other apps. Staff only â€” clients never see this.</p>

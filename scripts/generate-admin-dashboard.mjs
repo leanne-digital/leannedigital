@@ -15,7 +15,7 @@ import { renderAdminSidebar } from './admin-navigation.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260901f';
+const SCRIPT_V = '20261027client-records';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -219,7 +219,7 @@ ${tagCheckboxes()}
 ${panel(
     'new-client',
     'Add a client or team member',
-    'Choose the account type, enter their details, and create the account. A temporary password appears after you save.',
+    'Saving a client creates only its record. Create portal access separately, then send an invitation only when requested.',
     `                    <div data-client-account hidden>
                         <h3 class="dash-form__heading">Reports and plans</h3>
                         <p class="dash-copy dash-copy--left">Open a report to page through past months. Plans show pricing, signup, and the next renewal.</p>
@@ -356,7 +356,8 @@ ${panel(
                         <div class="dash-form__actions">
                             <button class="ld-btn" type="submit">Add client</button>
                             <button class="dash-form__reset" type="reset">Clear</button>
-                            <button class="ld-btn ld-btn--ghost" type="button" data-invite-client hidden>Send login link</button>
+                            <button type="button" data-create-portal-account>Create portal account (no email)</button>
+<button class="ld-btn ld-btn--ghost" type="button" data-invite-client hidden>Send login link</button>
                             <button class="dash-form__reset" type="button" data-archive-client-btn hidden>Archive client</button>
                         </div>
                     </form>

@@ -16,6 +16,28 @@ if(!process.env.LD_CRUD_FIXTURE) {
         process.stdout.write(result.stdout);process.stderr.write(result.stderr);assert.equal(result.status,0);
     } finally {fs.rmSync(dir,{recursive:true,force:true});}
 } else {
+    // Fail closed if any creation/update regression tries to send email.
+    const nodemailer = (await import('nodemailer')).default;
+    nodemailer.createTransport = () => { throw new Error('Email forbidden in tests'); };
+    process.env.SMTP_HOST = 'forbidden.invalid';
+    const {createClientRecord, updateClientWithAccount, inviteClient, createClientPortalAccount} = await import('../server/portal-service.mjs');
+    const {usersForClient, createResetToken, resetPassword} = await import('../server/auth.mjs');
+    const record = await createClientRecord({name:'Independent fixture',email:'fixture@example.invalid',password:'ignored-password',sendInvite:true,createAccount:true});
+    assert.deepEqual(Object.keys(record), ['client']);
+    assert.equal(usersForClient(record.client.slug).length, 0);
+    await updateClientWithAccount(record.client.slug, {contactName:'Changed fixture'});
+    assert.equal(usersForClient(record.client.slug).length, 0);
+    await assert.rejects(() => inviteClient(record.client), {status:400});
+    assert.equal(usersForClient(record.client.slug).length, 0);
+    await createClientPortalAccount(record.client);
+    const account = usersForClient(record.client.slug)[0];
+    assert.ok(account);
+    assert.equal(fs.existsSync(path.join(root,'data/portal-resets.json')), false);
+    const token = createResetToken(account.id);
+    // Revocation requires removing the stored token; no email is needed.
+    fs.writeFileSync(path.join(root,'data/portal-resets.json'), '[]');
+    await assert.rejects(() => resetPassword(token, 'fixture-password-long'), {status:400});
+    console.log('PASS independent client creation/update, explicit account provisioning, missing-account invitation rejection and token revocation; email blocked');
     const {clientCrud}=await import('../server/client-crud.mjs');
     const {credentialInventory,saveCredential,deleteCredential}=await import('../server/credential-tools.mjs');
     const {loadClients}=await import('./client-store.mjs');
@@ -48,6 +70,14 @@ if(!process.env.LD_CRUD_FIXTURE) {
     const base=`http://127.0.0.1:${server.address().port}/api/clients/${client}`;
     const headers={'X-API-Key':process.env.PORTAL_API_KEY,'Content-Type':'application/json'};
     try {
+        const creation = await fetch(base.split('/api/')[0]+'/api/clients', {method:'POST',headers,body:JSON.stringify({name:'HTTP independent fixture',email:'http@example.invalid',password:'ignored',sendInvite:true})});
+        assert.equal(creation.status,201);
+        const createdClient = await creation.json();
+        assert.deepEqual(Object.keys(createdClient), ['client']);
+        assert.equal(usersForClient(createdClient.client.slug).length,0);
+        assert.equal((await fetch(base.split('/api/')[0]+'/api/clients/'+createdClient.client.slug+'/invite', {method:'POST',headers})).status,400);
+        const mcpSource = fs.readFileSync(path.join(root,'server/mcp-tools.mjs'),'utf8');
+        assert.match(mcpSource, /createClientRecord\(compact\(input\)\)/);
         assert.equal((await fetch(base+'/credentials')).status,401);
         assert.equal((await fetch(base+'/credentials',{method:'POST',headers,body:JSON.stringify({name:'Fixture',password:'private-test'})})).status,200);
         const read=await fetch(base+'/credentials',{headers});assert.equal(read.status,200);assert.ok(!(await read.text()).includes('private-test'));

@@ -30,7 +30,6 @@ export function openApiSpec(port = 4174) {
                         name: { type: 'string', example: 'Some Company' },
                         contactName: { type: 'string' },
                         email: { type: 'string' },
-                        password: { type: 'string', description: 'Optional. If omitted, a temporary password is returned once.' },
                         website: { type: 'string' },
                         googleDrive: { type: 'string', example: 'https://drive.google.com/drive/folders/...' },
                         location: { type: 'string' },
@@ -190,7 +189,7 @@ export function openApiSpec(port = 4174) {
                     responses: { 200: { description: 'Staff see all clients; clients see only themselves' } },
                 },
                 post: {
-                    summary: 'Create a client and portal login',
+                    summary: 'Create only a client record; no portal account or email',
                     operationId: 'createClient',
                     requestBody: {
                         required: true,
@@ -200,7 +199,7 @@ export function openApiSpec(port = 4174) {
                             },
                         },
                     },
-                    responses: { 201: { description: 'Created client plus temporary password' } },
+                    responses: { 201: { description: 'Created client record only' } },
                 },
             },
             '/api/clients/{id}': {
@@ -236,6 +235,14 @@ export function openApiSpec(port = 4174) {
                     responses: { 200: { description: 'Deleted' } },
                 },
             },
+            '/api/clients/{id}/account': {
+                parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+                post: {
+                    summary: 'Explicitly create a client portal account without sending email',
+                    operationId: 'createClientPortalAccount',
+                    responses: { 200: { description: 'Portal account created or already exists; no invitation sent' } },
+                },
+            },
             '/api/clients/{id}/invite': {
                 parameters: [
                     {
@@ -246,7 +253,7 @@ export function openApiSpec(port = 4174) {
                     },
                 ],
                 post: {
-                    summary: 'Email a set-password login link',
+                    summary: 'Explicitly email a set-password link for an existing portal account',
                     operationId: 'inviteClient',
                     responses: { 200: { description: 'Invite sent or login URL returned' } },
                 },

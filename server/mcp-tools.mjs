@@ -10,7 +10,9 @@ import { z } from 'zod';
 import {
     addProjectUpdate,
     createClientProject,
-    createClientWithAccount,
+    createClientRecord,
+    createClientPortalAccount,
+    inviteClient,
     createPortfolioProject,
     deleteClientWithAccount,
     deletePortfolioProject,
@@ -61,8 +63,7 @@ const DESTRUCTIVE = { readOnlyHint: false, destructiveHint: true, openWorldHint:
 const clientFields = {
     name: z.string().describe('Company name, e.g. Some Company'),
     contactName: z.string().optional(),
-    email: z.string().optional().describe('Login email. Defaults to the client email or slug@clients.leannedigital.com'),
-    password: z.string().optional().describe('Optional portal password to set. Never returned in MCP output.'),
+    email: z.string().optional().describe('Client contact email; does not create a login'),
     website: z.string().optional(),
     googleDrive: z.string().optional().describe('Google Drive folder URL for this client'),
     location: z.string().optional(),
@@ -286,8 +287,14 @@ export function createMcpServer({
     }, async ({id,slot}) => deleteCredential(getAgencyClient(id).slug,slot));
     if (readOnly) return server;
 
-    writeTool(server, 'create_client', 'Creates a client and portal login. Changes CRM data. Passwords are never returned over MCP.', clientFields, async (input) =>
-        createClientWithAccount(compact(input))
+    writeTool(server, 'create_client_portal_account', 'Only on explicit request: create a portal login for an existing client. Does not send any email.', {
+        client: z.string().describe('Existing client slug or id'),
+    }, async ({ client }) => createClientPortalAccount(getAgencyClient(client)));
+    writeTool(server, 'invite_client', 'Only on explicit request: send an invitation email for an existing client portal account. Does not create an account.', {
+        client: z.string().describe('Existing client slug or id'),
+    }, async ({ client }) => ({ invite: await inviteClient(getAgencyClient(client)) }));
+    writeTool(server, 'create_client', 'Creates only a client record. Never creates a portal account or sends email, regardless of input. Portal accounts and invitations each require a separate explicit request.', clientFields, async (input) =>
+        createClientRecord(compact(input))
     );
 
     writeTool(server, 'update_client', 'Updates an existing client retainer, contact details, or hosting amount. Changes CRM data.', {
@@ -382,6 +389,8 @@ export const MCP_WRITE_TOOLS = [
     'delete_client_credential',
     'save_client_credential',
     'create_client',
+    'create_client_portal_account',
+    'invite_client',
     'update_client',
     'delete_client',
     'create_project',
