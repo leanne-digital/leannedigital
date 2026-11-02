@@ -194,7 +194,7 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .client-update-button:hover { background: #e7eff7; }
 .client-dialog { width: min(960px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); padding: 0; border: 1px solid #b6c7d7; border-radius: 12px; color: #212c3e; background: #f7f8fa; box-shadow: 0 20px 60px #10243b40; }
 .client-dialog::backdrop { background: #10243b99; }
-.client-dialog__bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 22px; background: #193b60; color: white; }
+.client-dialog__bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 22px; background: var(--workspace-navy, #212c3e); color: white; }
 .client-dialog__bar h2 { margin: 0; font-size: 20px; }
 .client-dialog__bar button { background: white; color: #193b60; padding: 8px 14px; border: 0; border-radius: 6px; cursor: pointer; }
 .client-dialog .admin-panel { padding: 22px; }

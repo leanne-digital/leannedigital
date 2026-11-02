@@ -136,7 +136,13 @@
             lines.push({ label: 'Site maintenance', amount: num('maintenanceAmount'), period: form.maintenanceCycle?.value === 'yearly' ? 'year' : 'month' });
         }
         if (num('discount')) lines.push({ label: 'Discount', amount: -num('discount'), period: 'month' });
-        if (num('taxAmount')) lines.push({ label: 'Tax', amount: num('taxAmount'), period: 'once' });
+        const rate = num('taxAmount');
+        if (rate) {
+            const monthlyBase = Math.max(0, lines.filter(row => row.period === 'month').reduce((sum,row)=>sum+row.amount,0));
+            const yearlyBase = lines.filter(row => row.period === 'year').reduce((sum,row)=>sum+row.amount,0);
+            if (monthlyBase) lines.push({label: rate === .13 ? 'HST 13%' : 'GST 5%', amount: monthlyBase * rate, period:'month'});
+            if (yearlyBase) lines.push({label: rate === .13 ? 'HST 13%' : 'GST 5%', amount: yearlyBase * rate, period:'year'});
+        }
         return lines;
     }
 
@@ -747,6 +753,12 @@
             event.preventDefault(); event.stopImmediatePropagation();
             openClientDialog(edit?.dataset.editClient);
         }, true);
+        const taxInput = clientForm?.elements.taxAmount;
+        if (taxInput && taxInput.tagName !== 'SELECT') {
+            const select = document.createElement('select'); select.name = 'taxAmount';
+            select.innerHTML = '<option value="0">None</option><option value="0.13">HST 13%</option><option value="0.05">GST 5%</option>';
+            taxInput.replaceWith(select);
+        }
         const serviceChoices = clientForm?.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
         if (serviceChoices) {
             const primary = ['maintenance','aeo','geo','technical-seo','website','content','ads','design'];
@@ -920,7 +932,7 @@
             if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = billedAmount(maintenance);
             if (clientForm.maintenanceCycle) clientForm.maintenanceCycle.value = maintenance?.cycle || 'monthly';
             if (clientForm.discount) clientForm.discount.value = Number(client?.discount) > 0 ? String(client.discount) : '';
-            if (clientForm.taxAmount) clientForm.taxAmount.value = Number(client?.taxAmount) > 0 ? String(client.taxAmount) : '';
+            if (clientForm.taxAmount) clientForm.taxAmount.value = [0.13, 0.05].includes(Number(client?.taxAmount)) ? String(Number(client.taxAmount)) : '0';
             if (packageOn(clientForm, 'hosting') && clientForm.hostingLastBilled?.value && !clientForm.hostingNextBillDate?.value) {
                 fillHostingNextDue(clientForm);
             }
