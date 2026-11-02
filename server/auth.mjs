@@ -118,6 +118,7 @@ export function listStaffAccounts() {
             id: user.id,
             email: user.email,
             name: user.name || '',
+            avatarUrl: user.avatarFile ? `/api/portal/avatar?u=${user.id}` : '/assets/icons/favicon-192x192.png',
             privilege: staffPrivilege(user),
         }))
         .sort((a, b) => a.email.localeCompare(b.email));
