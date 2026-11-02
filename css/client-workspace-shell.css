@@ -79,3 +79,7 @@ main .workspace-tabs a:hover { background: var(--workspace-row-hover); }
   .sidebar nav > a, .sidebar .profile, .sidebar #workspace-logout,
   main table tbody tr > td { transition: none; }
 }
+
+/* Consistent navigation icon sizing. */
+.sidebar nav > a > span { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
+.sidebar nav > a > span svg { display: block; width: 20px; height: 20px; }
