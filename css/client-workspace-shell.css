@@ -116,3 +116,13 @@ main .dash-stat__value, main .dash-stat__label { color: #fff; }
 main .dash-stat--link:hover { background: var(--workspace-navy-hover); border-color: var(--workspace-teal); }
 main .dash-stat--link:focus-visible { outline: 3px solid var(--workspace-teal-dark); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { main .dash-stat { transition: none; } }
+
+/* Report actions */
+.report-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+main .report-actions .report-action { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; background: var(--workspace-navy); color: #fff; border: 1px solid var(--workspace-navy); white-space: nowrap; cursor: pointer; }
+main .report-actions .report-action:hover { background: var(--workspace-navy-hover); color: #fff; border-color: var(--workspace-navy-hover); }
+main .report-actions .report-action:focus-visible { outline: 3px solid var(--workspace-teal); outline-offset: 2px; }
+main .report-actions .report-copy { width: 40px; padding: 0; }
+.report-copy svg { flex: none; }
+.report-copy-status { flex-basis: 100%; font-size: 12px; color: var(--workspace-navy); }
+.report-copy-status:empty { display: none; }
