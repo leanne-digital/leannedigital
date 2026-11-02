@@ -629,7 +629,7 @@
                 const plans=packageView?(client.services||[]).filter(plan=>viewTypes.includes(plan.type)):[];
                 const planLabel=plan=>SERVICE_LABELS.find(row=>row.types.includes(plan.type))?.label||plan.type;
                 const prices=plans.map(plan=>`<div>${maintenanceView?'':escapeHtml(planLabel(plan))+': '}${plan.amount===null||plan.amount===undefined||plan.amount===''?'Not recorded':escapeHtml(money(plan.amount))}</div>`).join('')||'Not recorded';
-                const cycles=plans.map(plan=>`<div>${maintenanceView?'':escapeHtml(planLabel(plan))+': '}${escapeHtml(plan.cycle==='yearly'?'Yearly':plan.cycle==='monthly'?'Monthly':'Not recorded')}</div>`).join('')||'Not recorded';
+                const cycles=[...new Set(plans.map(plan=>plan.cycle==='yearly'?'Yearly':plan.cycle==='monthly'?'Monthly':'' ).filter(Boolean))].join(' / ') || (['seo-clients','technical-seo'].includes(filterId) ? 'Monthly' : '—');
                 return `<tr class="admin-clients-table__row" data-open-client="${escapeHtml(client.slug)}" data-href="${href}" tabindex="0">
                     <td>
                         <a class="admin-clients-table__hit" href="${href}">

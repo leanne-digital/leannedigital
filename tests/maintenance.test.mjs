@@ -32,7 +32,7 @@ test('maintenance defaults to active, keeps aggregate stable across search, and 
     let html=nodes.get('[data-clients-body]').innerHTML;
     assert.ok(!html.includes('data-open-client="mth"'));
     assert.ok(html.includes('<div>$75</div>'));
-    assert.ok(html.includes('<div>Yearly</div>'));
+    assert.ok(html.includes('<td>Yearly</td>'));
     assert.ok(html.includes('Site maintenance, backups and security'));
     assert.ok(nodes.get('[data-income-summary]').innerHTML.includes('$125'));
     renderClientsTable(clients,'maintenance-clients','annual');
