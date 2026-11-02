@@ -587,7 +587,7 @@
             label.innerHTML = 'Status <select data-maintenance-status><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select>';
             visibilityControl.closest('label').after(label);
             statusControl = label.querySelector('select');
-            statusControl.addEventListener('change', () => renderClientsTable(clients, filterId, $('[data-client-search]')?.value || ''));
+            statusControl.addEventListener('change', () => visibilityControl.dispatchEvent(new Event('change')));
         }
         if (statusControl) statusControl.closest('label').hidden = !maintenanceView;
         const visibility = visibilityControl?.value || 'shared';
