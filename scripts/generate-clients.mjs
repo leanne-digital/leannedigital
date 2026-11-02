@@ -899,7 +899,7 @@ ${renderNav(3, '/clients/')}
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
 ${renderReportServiceIntro(resolveReportServiceIntro(client, loadReportRecord(client.slug, report.slug) || report))}
-${(loadReportRecord(client.slug, report.slug) || report).hideCover ? '' : renderReportCover(client)}
+${(loadReportRecord(client.slug, report.slug) || report).hideCover ? '' : renderReportCover({ ...client, asset: (loadReportRecord(client.slug, report.slug) || report).coverImage || client.asset })}
 ${renderPreviousReports(client, report)}
             </div>
         </section>
