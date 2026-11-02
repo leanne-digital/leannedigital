@@ -506,8 +506,9 @@
         const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
         const [year,month,date]=today.split('-').map(Number);
         const limit=new Date(Date.UTC(year,month-1,date+30)).toISOString().slice(0,10);
-        const urgent=day>=today&&day<=limit,overdue=day<today;
-        return `<span class="renewal-date ${urgent?'renewal-date--due':''}"><time datetime="${day}">${escapeHtml(formatDay(day))}</time></span>${urgent?`<span class="renewal-reminder">${overdue?'Overdue — ':''}Contact client for renewal</span>`:''}`;
+        const yearly=serviceOf(client,type)?.cycle==='yearly';
+        const urgent=yearly&&day>=today&&day<=limit,overdue=day<today;
+        return `<span class="renewal-date ${urgent?'renewal-date--due':''}"><time datetime="${day}">${escapeHtml(formatDay(day))}</time></span>${yearly&&(urgent||overdue)?`<span class="renewal-reminder">${overdue?'Overdue — ':''}Contact client for renewal</span>`:''}`;
     }
     function maintenanceActive(client) {
         return serviceOf(client, 'maintenance')?.status !== 'inactive';
