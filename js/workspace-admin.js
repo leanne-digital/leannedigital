@@ -621,7 +621,7 @@
         const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
-        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Price</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Status</th>':'');
+        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Billing Rate</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Status</th>':'');
         if (tableHead) tableHead.innerHTML += '<th>Actions</th>';
         body.innerHTML = list
             .map((client) => {
