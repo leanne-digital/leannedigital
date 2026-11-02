@@ -41,7 +41,7 @@ function pdfButton(pdf, fallbackLabel) {
 }
 
 function reportVisuals(items) {
-    return `<div class="seo-report__shots" style="display: grid; grid-template-columns: minmax(0, 1fr)">${items.map((item) => figure(item.image, item.caption)).join('\n')}</div>`;
+    return `<div class="seo-report__shots" style="display: grid; grid-template-columns: minmax(0, 1fr)">${items.map((item) => figure(item.image, item.caption) + (item.pdf ? pdfButton(item.pdf) : '')).join('\n')}</div>`;
 }
 
 function activityTable(rows = [], empty = 'No activity logged this month.') {
