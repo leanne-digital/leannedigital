@@ -44,7 +44,7 @@ main :is(.dash-stat, .platform-card, .summary, .dash-form, .admin-package, .admi
 }
 main .admin-panel :is(.dash-form, .admin-package, .admin-tags) { background: #f0f3f6; }
 main :is(.dash-table-wrap, .table-wrap) { background: #fafbfc; }
-main table thead th { background: var(--workspace-teal-dark); color: #fff; border-color: var(--workspace-teal-dark); }
+main table thead th { background: var(--workspace-navy); color: #fff; border-color: var(--workspace-navy); }
 main table tbody tr > td { transition: background-color 140ms ease; }
 main table tbody tr:hover > td, main table tbody tr:focus-within > td { background: var(--workspace-row-hover); }
 main .client-account-row[data-href] { cursor: pointer; }
