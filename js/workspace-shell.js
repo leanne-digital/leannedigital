@@ -45,7 +45,7 @@
     return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + navIcons[id] + '</svg>';
   }
   const routes = [
-    ['Workspace', [['overview','Clients','▤'],['dashboard','Overview','⌂']]],
+    ['Workspace', [['dashboard','Overview','⌂'],['overview','Clients','▤']]],
     ['Connect', [['google','Google Platforms','♧']]],
     ['Manage', [['projects','Projects','▦'],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','Maintenance','◇'],['management-clients','Site management','▧'],['credentials','Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
   ];
