@@ -496,7 +496,7 @@
         const day=renewalDay(client);if(!day)return '<span class="renewal-missing">Not set</span>';
         const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
         const [year,month,date]=today.split('-').map(Number);
-        const limit=new Date(Date.UTC(year,month,Math.min(date,new Date(Date.UTC(year,month+1,0)).getUTCDate()))).toISOString().slice(0,10);
+        const limit=new Date(Date.UTC(year,month-1,date+30)).toISOString().slice(0,10);
         const urgent=day<=limit,overdue=day<today;
         return `<span class="renewal-date ${urgent?'renewal-date--due':''}"><time datetime="${day}">${escapeHtml(formatDay(day))}</time></span>${urgent?`<span class="renewal-reminder">${overdue?'Overdue — ':''}Contact client for renewal</span>`:''}`;
     }

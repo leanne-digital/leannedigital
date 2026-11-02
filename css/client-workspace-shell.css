@@ -224,3 +224,6 @@ body :is(main, dialog) :is(button, .ld-btn, .workspace-action, .button):focus-vi
 }
 body :is(main, dialog) button:disabled { opacity: .6; cursor: not-allowed; }
 body main button.dash-stat :is(.dash-stat__value, .dash-stat__label) { color: #fff; }
+
+.renewal-date { background: var(--workspace-teal, #4ec3cc); color: #212c3e; padding: 7px 17px; }
+.renewal-date--due { background: #b42332; color: #fff; outline: none; }
