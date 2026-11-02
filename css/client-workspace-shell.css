@@ -254,3 +254,7 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 
 .topbar { column-gap: 8px; }
 .topbar #sidebar-toggle { margin-right: 0; }
+
+.client-work-client-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.client-work-client-pills button { border-radius: 999px; padding: 8px 16px; min-height: 36px; font-size: 12px; cursor: pointer; }
+.client-work-client-pills button[aria-pressed="true"] { outline: 3px solid #4ec3cc; outline-offset: 1px; }

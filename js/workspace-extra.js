@@ -70,11 +70,16 @@
 (() => {
  const host=document.querySelector('.admin-content');if(!host)return;
  const panel=document.createElement('section');panel.className='admin-panel';panel.dataset.adminPanel='client-work';panel.hidden=true;
- panel.innerHTML=`<h2 class="admin-panel__title">Client Work</h2><p class="admin-panel__lead">Work-log entries grouped by client. New entries appear automatically; completed and pending work keep their recorded status.</p><div class="workspace-toolbar client-work-toolbar"><label>Visibility <select id="client-work-visibility"><option value="shared" selected>Leanne Digital</option><option value="private">Private</option><option value="all">All</option></select></label><label>Client <select id="client-work-client"><option value="">All clients</option></select></label><label>Month <input type="month" id="client-work-month" required></label><button type="button" class="workspace-action" id="client-work-refresh">Refresh</button><button type="button" class="workspace-action" id="client-work-export" disabled>Export client JSON</button></div><p id="client-work-status" role="status" aria-live="polite"></p><div class="dash-table-wrap"><table class="client-work-table"><thead><tr><th scope="col" colspan="5">Work entries — expand to view details</th></tr></thead><tbody id="client-work-rows"></tbody></table></div>`;
+ panel.innerHTML=`<h2 class="admin-panel__title">Client Work</h2><p class="admin-panel__lead">Work-log entries grouped by client. New entries appear automatically; completed and pending work keep their recorded status.</p><div class="workspace-toolbar client-work-toolbar"><label>Visibility <select id="client-work-visibility"><option value="shared" selected>Leanne Digital</option><option value="private">Private</option><option value="all">All</option></select></label><label>Client <select id="client-work-client"><option value="">All clients</option></select></label><label>Month <input type="month" id="client-work-month" required></label><button type="button" class="workspace-action" id="client-work-refresh">Refresh</button><button type="button" class="workspace-action" id="client-work-export" disabled>Export client JSON</button></div><nav id="client-work-clients" class="client-work-client-pills" aria-label="Clients with work this month"></nav><p id="client-work-status" role="status" aria-live="polite"></p><div class="dash-table-wrap"><table class="client-work-table"><thead><tr><th scope="col" colspan="5">Work entries — expand to view details</th></tr></thead><tbody id="client-work-rows"></tbody></table></div>`;
  host.append(panel);
  const month=panel.querySelector('#client-work-month'),refresh=panel.querySelector('#client-work-refresh'),download=panel.querySelector('#client-work-export'),status=panel.querySelector('#client-work-status'),rows=panel.querySelector('#client-work-rows');
  const visibility=panel.querySelector('#client-work-visibility');
  const clientFilter=panel.querySelector('#client-work-client');
+ const clientPills=panel.querySelector('#client-work-clients');
+ clientPills.addEventListener('click',event=>{
+  const button=event.target.closest('[data-work-client]');if(!button)return;
+  clientFilter.value=button.dataset.workClient;load();
+ });
  function syncClientChoices(){}
  const now=new Date();month.value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -102,6 +107,7 @@
   clientFilter.innerHTML='<option value="">All clients</option>'+results.map(group=>`<option value="${esc(group.client.slug)}">${esc(group.client.name)}</option>`).join('');
   const selectedClient=results.some(group=>group.client.slug===requestedClient)?requestedClient:'';
   clientFilter.value=selectedClient;
+  clientPills.innerHTML=(results.length?`<button type="button" data-work-client="" aria-pressed="${!selectedClient}">All</button>`:'')+results.map(group=>`<button type="button" data-work-client="${esc(group.client.slug)}" aria-pressed="${selectedClient===group.client.slug}">${esc(group.client.name)}</button>`).join('');
   if(selectedClient) { const match=results.find(group=>group.client.slug===selectedClient);results.splice(0,results.length,match); }
   const total=results.reduce((sum,g)=>sum+g.entries.length,0);
   exportData={schemaVersion:1,reportMonth:selected,visibility:selectedVisibility,generatedAt:new Date().toISOString(),source:'Leanne Digital client work logs',entryCount:total,clientCount:results.length,clients:results};
