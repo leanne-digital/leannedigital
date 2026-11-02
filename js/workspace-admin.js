@@ -658,6 +658,7 @@
                 const available = new Set(list.filter(client => matchesQuery(client, query)).map(initial));
                 alphabet.innerHTML = ['', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '#'].map(value => {
                     const enabled = !value || (value === '#' ? [...available].some(char => !/^[A-Z]$/.test(char)) : available.has(value));
+                    if (!enabled) return '';
                     return `<button type="button" data-client-letter="${value}" aria-pressed="${letter === value}" ${enabled ? '' : 'disabled'}>${value || 'All'}</button>`;
                 }).join('');
                 if (letter) list = list.filter(client => letter === '#' ? !/^[A-Z]$/.test(initial(client)) : initial(client) === letter);
