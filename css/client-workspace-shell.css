@@ -244,3 +244,6 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 .client-work-entry .client-work-details { min-width: 0; max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
 .client-work-table td { height: auto; }
 .client-work-entry summary:focus-visible { outline: 2px solid #176772; outline-offset: 2px; }
+
+.portfolio-dialog > .dash-form { margin: 20px; max-width: none; }
+.portfolio-dialog__messages > p:not([hidden]) { margin: 16px 20px 0; }

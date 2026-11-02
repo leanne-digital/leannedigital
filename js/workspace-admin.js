@@ -685,7 +685,7 @@
                     <td>${escapeHtml(project.categoriesLine || '')}</td>
                     <td><span class="admin-pill${project.hidden ? ' admin-pill--hidden' : ''}">${project.hidden ? 'Hidden' : 'Live'}</span></td>
                     <td>
-                        <button type="button" data-edit-project="${escapeHtml(project.slug)}">Edit</button>
+                        <button type="button" data-edit-project="${escapeHtml(project.slug)}">Edit Portfolio</button>
                         <button type="button" data-toggle-project="${escapeHtml(project.slug)}">${project.hidden ? 'Show' : 'Hide'}</button>
                         <button type="button" data-delete-project="${escapeHtml(project.slug)}">Remove</button>
                     </td>
@@ -719,6 +719,34 @@
         const errorEl = $('[data-admin-error]');
         const okEl = $('[data-admin-ok]');
         const form = $('[data-portfolio-form]');
+        const portfolioDialog = document.createElement('dialog');
+        portfolioDialog.className = 'client-dialog portfolio-dialog';
+        portfolioDialog.setAttribute('aria-labelledby','portfolio-dialog-title');
+        portfolioDialog.innerHTML = '<div class="client-dialog__bar"><h2 id="portfolio-dialog-title">Add Portfolio</h2><button type="button" aria-label="Close portfolio editor">Close</button></div><div class="portfolio-dialog__messages"></div>';
+        document.body.append(portfolioDialog);
+        const portfolioMessageHome = document.createComment('portfolio messages');
+        errorEl.before(portfolioMessageHome);
+        if (form) {
+            const add = document.createElement('button');
+            add.type='button';add.className='workspace-action';add.textContent='Add Portfolio';
+            form.before(add);portfolioDialog.append(form);
+            add.addEventListener('click',()=>openPortfolio(null));
+        }
+        function openPortfolio(project) {
+            fillProjectForm(form,project);
+            portfolioDialog.querySelector('h2').textContent=project?'Edit Portfolio':'Add Portfolio';
+            portfolioDialog.querySelector('.portfolio-dialog__messages').append(errorEl,okEl);
+            show(errorEl,'');show(okEl,'');
+            if(!portfolioDialog.open)portfolioDialog.showModal();
+            portfolioDialog.scrollTop=0;
+            form.querySelector('input:not([type=hidden])')?.focus({preventScroll:true});
+            document.body.classList.add('client-dialog-open');
+        }
+        portfolioDialog.querySelector('button').addEventListener('click',()=>portfolioDialog.close());
+        portfolioDialog.addEventListener('close',()=>{
+            portfolioMessageHome.after(errorEl,okEl);
+            document.body.classList.remove('client-dialog-open');
+        });
         const clientForm = $('[data-client-form]');
         if (clientForm && !clientForm.elements.monthlyReportEnabled) {
             const field=document.createElement('label');field.className='monthly-report-setting';
@@ -1325,7 +1353,8 @@
                 await refresh();
                 fillProjectForm(form, null);
                 form.reset();
-                show(okEl, payload.slug ? 'Project updated.' : 'Project added.');
+                if(portfolioDialog.open)portfolioDialog.close();
+                show(okEl, payload.slug ? 'Portfolio updated.' : 'Portfolio added.');
             } catch (error) {
                 show(errorEl, error.message || 'Could not save that project.');
             } finally {
@@ -1374,8 +1403,8 @@
             if (!project) return;
             try {
                 if (edit) {
-                    fillProjectForm(form, project);
                     setSection('portfolio');
+                    openPortfolio(project);
                     return;
                 }
                 if (toggle) {
