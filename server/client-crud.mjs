@@ -3,7 +3,7 @@ import {getClient, updateClient, regeneratePages} from '../scripts/client-store.
 import {listClientProposals,mutateClientProposal} from '../scripts/client-proposal-store.mjs';
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).or(z.literal(''));
 const safeUrl=z.string().refine(value=>/^\/(?!\/)/.test(value)||/^https:\/\//.test(value),'Use a site-relative path or HTTPS URL');
-export const serviceSchema=z.object({type:z.string().regex(/^[a-z][a-z0-9-]*$/),label:z.string().max(500).optional(),amount:z.number().nonnegative().optional(),cycle:z.enum(['monthly','yearly']).optional(),lastBilled:date.optional(),nextBillDate:date.optional()}).strict();
+export const serviceSchema=z.object({type:z.string().regex(/^[a-z][a-z0-9-]*$/),label:z.string().max(500).optional(),amount:z.number().nonnegative().optional(),status:z.enum(['active','inactive']).optional(),cycle:z.enum(['monthly','yearly']).optional(),lastBilled:date.optional(),nextBillDate:date.optional()}).strict();
 export const proposalSchema=z.object({title:z.string().min(1).max(500),url:safeUrl,status:z.enum(['draft','active','accepted','declined','expired']),notes:z.string().max(20000).optional()}).strict();
 export async function clientCrud(clientId, area, operation, input={}) {
     const client=getClient(clientId);

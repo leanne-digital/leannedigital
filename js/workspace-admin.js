@@ -42,7 +42,7 @@
 
     const SERVICE_LABELS = [
         { types: ['website', 'development'], label: 'Web development' },
-        { types: ['maintenance'], label: 'Site Maintenance' },
+        { types: ['maintenance'], label: 'Site maintenance, backups and security' },
         { types: ['hosting'], label: 'Hosting' },
         { types: ['design', 'graphic-design'], label: 'Graphic Design' },
         { types: ['management'], label: 'Site management' },
@@ -490,6 +490,51 @@
         const urgent=day<=limit,overdue=day<today;
         return `<span class="renewal-date ${urgent?'renewal-date--due':''}"><time datetime="${day}">${escapeHtml(formatDay(day))}</time></span>${urgent?`<span class="renewal-reminder">${overdue?'Overdue — ':''}Contact client for renewal</span>`:''}`;
     }
+    function maintenanceActive(client) {
+        return serviceOf(client, 'maintenance')?.status !== 'inactive';
+    }
+
+    const INCOME_GROUPS = [
+        {id: 'maintenance-clients', label: 'Maintenance', accent: 'teal', types: ['maintenance']},
+        {id: 'hosting-clients', label: 'Hosting', accent: 'gold', types: ['hosting']},
+        {id: 'seo-clients', label: 'SEO clients', accent: 'violet', types: ['seo', 'aeo', 'geo', 'technical-seo', 'content', 'ads', 'google-ads']},
+    ];
+
+    function incomeTotals(clients) {
+        return INCOME_GROUPS.map(group => {
+            let amount = 0, missing = 0;
+            for (const client of clients) {
+                if (client.archivedAt || !hasService(client, CLIENT_FILTERS[group.id].types)) continue;
+                const plans = (client.services || []).filter(plan => group.types.includes(plan.type));
+                if (!plans.length) missing++;
+                for (const plan of plans) {
+                    if (plan.status && plan.status !== 'active') continue;
+                    const fee = Number(plan.amount);
+                    if (plan.amount == null || plan.amount === '' || !Number.isFinite(fee) || fee < 0 || !['monthly', 'yearly'].includes(plan.cycle)) {
+                        missing++;
+                        continue;
+                    }
+                    amount += plan.cycle === 'yearly' ? fee / 12 : fee;
+                }
+            }
+            return {...group, amount, missing};
+        });
+    }
+
+    function maintenanceIncome(clients) {
+        return incomeTotals(clients)[0].amount;
+    }
+
+    function incomeCard(group) {
+        const icon = window.LDWorkspaceIcon?.(group.id) || '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10h4v10m4 0V4h4v16m4 0V7M2 20h20"/></svg>';
+        return `<article class="income-card income-card--${group.accent}">
+            <div class="income-card__heading"><h3>${escapeHtml(group.label)}</h3><span class="income-card__icon" aria-hidden="true">${icon}</span></div>
+            <p class="income-card__amount">${money(group.amount)}<span> / month</span></p>
+            <p class="income-card__caption">Approx. monthly income</p>
+            <p class="income-card__note">${group.id === 'dashboard' ? 'Maintenance + hosting + SEO' : 'All active plans · Yearly fees ÷ 12'}${group.missing ? `<br>${group.missing} missing billing details excluded` : ''}</p>
+        </article>`;
+    }
+
     function renderClientsTable(clients, filterId, query) {
         const body = $('[data-clients-body]');
         const empty = $('[data-clients-empty]');
@@ -498,9 +543,46 @@
         const filter = CLIENT_FILTERS[filterId] || CLIENT_FILTERS.overview;
         document.querySelector('[data-admin-panel=overview] .admin-panel__title').textContent = filterId === 'dashboard' ? 'Overview' : filter.heading;
         document.querySelector('[data-admin-panel=overview] .admin-panel__lead').textContent = filterId === 'credentials' ? 'Choose a client to manage their saved logins and access details.' : 'Your client accounts, services and contact details in one place.';
-        const visibility = $('[data-visibility-filter]')?.value || 'all';
-        let list = clients.filter(client => visibility === 'all' || (client.visibility || 'shared') === visibility);
+        const maintenanceView = filterId === 'maintenance-clients';
+        const visibilityMode = maintenanceView ? 'maintenance' : filterId === 'seo-clients' ? 'seo' : 'clients';
+        let visibilityControl = $('[data-visibility-filter]');
+        if (!visibilityControl && heading) {
+            const label = document.createElement('label');
+            label.className = 'maintenance-visibility';
+            label.innerHTML = 'Visibility <select data-visibility-filter><option value="all">All</option><option value="shared">Shared</option><option value="private">Private</option></select>';
+            heading.before(label);
+            visibilityControl = label.querySelector('select');
+        }
+        if (visibilityControl && visibilityControl.dataset.mode !== visibilityMode) {
+            if (!visibilityControl.dataset.originalOptions) visibilityControl.dataset.originalOptions = visibilityControl.innerHTML;
+            visibilityControl.innerHTML = maintenanceView
+                ? '<option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option>'
+                : visibilityControl.dataset.originalOptions;
+            if (visibilityMode === 'seo') visibilityControl.value = 'shared';
+            visibilityControl.dataset.mode = visibilityMode;
+        }
+        const visibility = visibilityControl?.value || (maintenanceView ? 'active' : visibilityMode === 'seo' ? 'shared' : 'all');
+        let list = clients.filter(client => visibility === 'all' || (maintenanceView ? (maintenanceActive(client) ? 'active' : 'inactive') === visibility : (client.visibility || 'shared') === visibility));
         if (filter.types) list = list.filter((client) => hasService(client, filter.types));
+        let summary = $('[data-income-summary]');
+        if (!summary && heading) {
+            summary = document.createElement('div');
+            summary.dataset.incomeSummary = '';
+            summary.setAttribute('role', 'status');
+            heading.before(summary);
+        }
+        if (summary) {
+            const overview = filterId === 'dashboard';
+            const incomeId = filterId === 'technical-seo' ? 'seo-clients' : filterId;
+            const totals = incomeTotals(clients);
+            const selected = totals.find(group => group.id === incomeId);
+            summary.hidden = !overview && !selected;
+            summary.className = overview ? 'income-summary income-summary--overview' : 'income-summary';
+            summary.innerHTML = overview ? [
+                ...totals,
+                {id: 'dashboard', label: 'Grand total', accent: 'total', amount: totals.reduce((sum, group) => sum + group.amount, 0), missing: totals.reduce((sum, group) => sum + group.missing, 0)},
+            ].map(incomeCard).join('') : selected ? incomeCard(selected) : '';
+        }
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';
@@ -508,14 +590,14 @@
         const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
-        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Price</th><th>Billing frequency</th>':'');
+        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Price</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Status</th>':'');
         body.innerHTML = list
             .map((client) => {
                 const href = `/clients/?client=${encodeURIComponent(client.slug)}#new-client`;
                 const plans=packageView?(client.services||[]).filter(plan=>viewTypes.includes(plan.type)):[];
                 const planLabel=plan=>SERVICE_LABELS.find(row=>row.types.includes(plan.type))?.label||plan.type;
-                const prices=plans.map(plan=>`<div>${escapeHtml(planLabel(plan))}: ${plan.amount===null||plan.amount===undefined||plan.amount===''?'Not recorded':escapeHtml(money(plan.amount))}</div>`).join('')||'Not recorded';
-                const cycles=plans.map(plan=>`<div>${escapeHtml(planLabel(plan))}: ${escapeHtml(plan.cycle==='yearly'?'Yearly':plan.cycle==='monthly'?'Monthly':'Not recorded')}</div>`).join('')||'Not recorded';
+                const prices=plans.map(plan=>`<div>${maintenanceView?'':escapeHtml(planLabel(plan))+': '}${plan.amount===null||plan.amount===undefined||plan.amount===''?'Not recorded':escapeHtml(money(plan.amount))}</div>`).join('')||'Not recorded';
+                const cycles=plans.map(plan=>`<div>${maintenanceView?'':escapeHtml(planLabel(plan))+': '}${escapeHtml(plan.cycle==='yearly'?'Yearly':plan.cycle==='monthly'?'Monthly':'Not recorded')}</div>`).join('')||'Not recorded';
                 return `<tr class="admin-clients-table__row" data-open-client="${escapeHtml(client.slug)}" data-href="${href}" tabindex="0">
                     <td>
                         <a class="admin-clients-table__hit" href="${href}">
@@ -524,7 +606,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}${maintenanceView ? `<td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
                 </tr>`;
             })
             .join('');
@@ -840,13 +922,34 @@
             clientQuery = String(event.target.value || '').trim().toLowerCase();
             renderClientsTable(data.clients, clientFilter, clientQuery);
         });
-        $('[data-clients-body]')?.addEventListener('click', (event) => {
+        $('[data-clients-body]')?.addEventListener('click', async (event) => {
+            const toggle = event.target.closest('[data-maintenance-toggle]');
+            if (toggle) {
+                const client = data.clients.find(row => row.slug === toggle.dataset.maintenanceToggle);
+                if (!client) return;
+                toggle.disabled = true;
+                const status = maintenanceActive(client) ? 'inactive' : 'active';
+                try {
+                    const existing = serviceOf(client, 'maintenance');
+                    await request(`/api/clients/${encodeURIComponent(client.slug)}/services${existing ? '/maintenance' : ''}`, {
+                        method: existing ? 'PATCH' : 'POST', body: {type: 'maintenance', status},
+                    });
+                    if (existing) existing.status = status;
+                    else (client.services ||= []).push({type: 'maintenance', status});
+                    renderClientsTable(data.clients, clientFilter, clientQuery);
+                    show(okEl, `${client.name} maintenance is now ${status}.`);
+                } catch (error) {
+                    toggle.disabled = false;
+                    show(errorEl, error.message || 'Could not save maintenance status. Try again.');
+                }
+                return;
+            }
             const row = event.target.closest('tr[data-open-client]');
-            if (!row || event.target.closest('a')) return;
+            if (!row || event.target.closest('a, button, select')) return;
             location.href = row.getAttribute('data-href');
         });
         $('[data-clients-body]')?.addEventListener('keydown', (event) => {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
+            if (event.target.closest('button, select, a') || (event.key !== 'Enter' && event.key !== ' ')) return;
             const row = event.target.closest('tr[data-open-client]');
             if (!row) return;
             event.preventDefault();
@@ -854,11 +957,11 @@
         });
         $('[data-client-account-body]')?.addEventListener('click', (event) => {
             const row = event.target.closest('tr[data-href]');
-            if (!row || event.target.closest('a')) return;
+            if (!row || event.target.closest('a, button, select')) return;
             location.href = row.getAttribute('data-href');
         });
         $('[data-client-account-body]')?.addEventListener('keydown', (event) => {
-            if (event.key !== 'Enter' && event.key !== ' ') return;
+            if (event.target.closest('button, select, a') || (event.key !== 'Enter' && event.key !== ' ')) return;
             const row = event.target.closest('tr[data-href]');
             if (!row) return;
             event.preventDefault();

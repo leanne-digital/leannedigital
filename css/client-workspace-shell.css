@@ -157,3 +157,26 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .renewal-date--due { outline:3px solid #ffc329;outline-offset:2px; }
 .renewal-reminder { display:block;margin-top:9px;color:#805000;font-size:12px;font-weight:600; }
 .renewal-missing { color:#606d7b; }
+
+[data-maintenance-toggle] { min-height: 36px; cursor: pointer; }
+[data-maintenance-toggle]:disabled { opacity: .6; cursor: wait; }
+
+.maintenance-visibility { display: flex; align-items: center; gap: 8px; margin: 0 0 24px; }
+
+.income-summary { display: grid; grid-template-columns: minmax(0, 380px); gap: 16px; margin: 0 0 28px; }
+.income-summary--overview { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.income-card { --income-accent: #4ec3cc; position: relative; overflow: hidden; padding: 20px; border: 1px solid #31577e; border-radius: 12px; background: #193b60; color: #fff; }
+.income-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--income-accent); }
+.income-card--gold { --income-accent: #ffc329; }
+.income-card--violet { --income-accent: #c5adff; }
+.income-card--total { --income-accent: #8ae4bd; background: #112e4d; border-color: #5a83a8; }
+.income-card__heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.income-card__heading h3 { margin: 0; color: #fff; font-size: 15px; font-weight: 600; }
+.income-card__icon { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 9px; background: var(--income-accent); color: #112e4d; }
+.income-card__icon svg { width: 21px; height: 21px; }
+.income-card .income-card__amount { margin: 16px 0 4px; color: #fff; font-size: 30px; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.income-card__amount span { font-size: 13px; font-weight: 400; white-space: nowrap; color: #dce9f6; }
+.income-card .income-card__caption { margin: 0; font-size: 13px; color: #dce9f6; }
+.income-card .income-card__note { margin: 16px 0 0; font-size: 12px; line-height: 1.5; color: #dce9f6; }
+@media (max-width: 1250px) { .income-summary--overview { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .income-summary, .income-summary--overview { grid-template-columns: minmax(0, 1fr); } }
