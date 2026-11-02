@@ -29,7 +29,8 @@
             if (url.origin === location.origin) { const image = document.createElement('img'); image.src = url.href; image.alt = ''; image.addEventListener('error',()=>{trigger.innerHTML=icon('person');}); trigger.replaceChildren(image); }
         }
         if (!user) { row('Login', trigger.href, 'person'); return; }
-        row('Bio', '/profile/', 'person'); row('Client workspace', workspace, 'workspace'); row('Go to main site', '/', 'home');
+        row('Bio', '/profile/', 'person'); row('Client workspace', workspace, 'workspace'); const mainSite=row('Go to main site', '/', 'home');
+        mainSite.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();location.assign('/?workspaceVisit='+Date.now());});
         const logout = document.createElement('button'); logout.type = 'button'; logout.innerHTML = icon('logout'); logout.append(document.createTextNode('Logout')); menu.append(logout);
         logout.addEventListener('click', async () => {
             logout.disabled = true;

@@ -164,5 +164,8 @@
         if(event.key==='ArrowDown' && event.target===trigger){event.preventDefault();open(true);menu.querySelector('a,button')?.focus();}
     });
     document.addEventListener('ld-portal-ready',event=>paint(event.detail.user));
-    fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'}).then(r=>r.ok?r.json():null).then(data=>paint(data?.user || null)).catch(()=>{});
+    const refreshAccount=()=>fetch('/api/auth/me',{credentials:'same-origin',cache:'no-store'}).then(r=>r.ok?r.json():null).then(data=>paint(data?.user || null)).catch(()=>{});
+    window.addEventListener('pageshow',refreshAccount);
+    refreshAccount();
+    const currentUrl=new URL(location.href);if(currentUrl.searchParams.has('workspaceVisit')){currentUrl.searchParams.delete('workspaceVisit');history.replaceState(history.state,'',currentUrl.pathname+currentUrl.search+currentUrl.hash);}
 })();
