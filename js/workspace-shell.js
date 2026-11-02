@@ -49,7 +49,7 @@
   const routes = [
     ['Workspace', [['dashboard','Overview','⌂'],['overview','Clients','▤']]],
     ['Connect', [['google','Google Platforms','♧']]],
-    ['Manage', [['client-work','Client Work',''],['projects','Projects','▦'],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','WP Backups and Security','◇'],['management-clients','Site management','▧'],['credentials','Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
+    ['Manage', [['client-work','Client Work',''],['projects','Projects','▦'],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','WP Backups and Security','◇'],['management-clients','AI Site Management','▧'],['credentials','Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
   ];
   const href = id => id === 'google' ? '/google-platforms/' : '/clients/#' + id;
   const google = location.pathname.startsWith('/google-platforms');
