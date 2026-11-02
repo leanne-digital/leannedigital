@@ -151,6 +151,14 @@ ${items.map((item) => figure(item.image, item.caption || 'Heading structure')).j
     </section>`;
 }
 
+export function renderReportServiceIntro(report) {
+    if (!report.serviceTitle) return '';
+    return `<header class="report-service-intro" style="max-width: 72rem; margin: 0 0 2.5rem">
+        <h1 style="font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: 1.08; margin: 0 0 1.25rem; overflow-wrap: anywhere">${escapeHtml(report.serviceTitle)}</h1>
+        <div style="max-width: 70ch; font-size: 1.1rem; line-height: 1.65">${paragraphsHtml(report.serviceIntro)}</div>
+    </header>`;
+}
+
 export function renderSeoReportBody(report) {
     const company = report.companyName || report.clientName || 'Client';
     const monthLabel = report.monthLabel || report.title || '';
@@ -177,11 +185,7 @@ ${pdfButton(report.keywords?.pdf || report.keywordPdf, pdfLabel)}`
 ${paragraphsHtml(report.newContent?.recap)}`
         : '        <p class="seo-report__empty">Client does not have a new content and updates strategy with Leanne Digital.</p>';
 
-    return `<article class="seo-report">${report.serviceTitle ? `
-    <header class="seo-report__intro">
-        <h1>${escapeHtml(report.serviceTitle)}</h1>
-${paragraphsHtml(report.serviceIntro)}
-    </header>` : ''}
+    return `<article class="seo-report">
 ${report.startWithRecap ? '' : `    <header class="seo-report__intro">
         <h1>${escapeHtml(company)}</h1>
 ${paragraphsHtml(report.campaignIntro)}
