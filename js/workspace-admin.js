@@ -478,6 +478,18 @@
         return hay.includes(query);
     }
 
+    function renewalDay(client) {
+        const value=String(serviceOf(client,'hosting')?.nextBillDate||'').slice(0,10);
+        return /^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value))?value:'';
+    }
+    function renewalPill(client) {
+        const day=renewalDay(client);if(!day)return '<span class="renewal-missing">Not set</span>';
+        const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+        const [year,month,date]=today.split('-').map(Number);
+        const limit=new Date(Date.UTC(year,month,Math.min(date,new Date(Date.UTC(year,month+1,0)).getUTCDate()))).toISOString().slice(0,10);
+        const urgent=day<=limit,overdue=day<today;
+        return `<span class="renewal-date ${urgent?'renewal-date--due':''}"><time datetime="${day}">${escapeHtml(formatDay(day))}</time></span>${urgent?`<span class="renewal-reminder">${overdue?'Overdue — ':''}Contact client for renewal</span>`:''}`;
+    }
     function renderClientsTable(clients, filterId, query) {
         const body = $('[data-clients-body]');
         const empty = $('[data-clients-empty]');
@@ -492,6 +504,7 @@
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';
+        if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
         if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>';
         body.innerHTML = list
@@ -505,7 +518,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client)}</td>${hostingView ? `<td>${escapeHtml(formatDay(serviceOf(client, 'hosting')?.nextBillDate) || 'Not set')}</td>` : ''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}
                 </tr>`;
             })
             .join('');

@@ -152,3 +152,8 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .monthly-report-setting small { color: #606d7b; line-height: 1.5; }
 
 .portal-avatar { display:flex;align-items:center;gap:20px;flex-wrap:wrap; } .portal-avatar__preview img { width:96px;height:96px;border-radius:50%;object-fit:cover; } .portal-avatar__pick { display:inline-block;cursor:pointer;padding:10px 16px;border-radius:6px;background:#212c3e;color:white; } .portal-card--profile { padding:24px;background:#f7f8fa;border:1px solid #dce2e8;border-radius:12px;margin-bottom:20px; }
+
+.renewal-date { display:inline-flex;align-items:center;padding:6px 11px;border-radius:999px;background:#212c3e;color:#fff;font-size:12px;white-space:nowrap; }
+.renewal-date--due { outline:3px solid #ffc329;outline-offset:2px; }
+.renewal-reminder { display:block;margin-top:9px;color:#805000;font-size:12px;font-weight:600; }
+.renewal-missing { color:#606d7b; }
