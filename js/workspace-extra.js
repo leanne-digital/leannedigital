@@ -1,3 +1,44 @@
+// Apply the same visibility choices to the remaining workspace sections.
+(() => {
+ let latest = null, forwarding = false;
+ const sections = ['projects', 'reports', 'credentials'];
+ const choices = new Map();
+ function setup() {
+  for (const id of sections) {
+   const panel = document.querySelector(`[data-admin-panel="${id}"]`);
+   if (!panel || choices.has(id)) continue;
+   const label = document.createElement('label');
+   label.className = 'maintenance-visibility';
+   label.innerHTML = 'Visibility <select><option value="shared">Leanne Digital</option><option value="private">Private</option><option value="all">All</option></select>';
+   const select = label.querySelector('select'); choices.set(id, select);
+   panel.querySelector('.admin-panel__lead')?.after(label);
+   select.addEventListener('change', publish);
+  }
+ }
+ function publish() {
+  if (!latest) return;
+  setup();
+  const id = location.hash.slice(1), selection = choices.get(id)?.value || 'all';
+  const clients = latest.clients.filter(client => selection === 'all' || (client.visibility || 'shared') === selection);
+  const allowed = new Set(clients.map(client => client.slug));
+  forwarding = true;
+  try { window.dispatchEvent(new CustomEvent('workspace-data', {detail:{...latest, clients, projects:(latest.projects || []).filter(project => allowed.has(project.clientSlug))}})); }
+  finally { forwarding = false; }
+ }
+ window.addEventListener('workspace-data', event => {
+  if (forwarding) return;
+  latest = event.detail;
+  event.stopImmediatePropagation();
+  publish();
+ }, true);
+ window.addEventListener('hashchange', () => {
+  const select = choices.get(location.hash.slice(1));
+  if (select) select.value = 'shared';
+  publish();
+ });
+ setup();
+})();
+
 (() => {
  const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  let clients=[],projects=[],ready=false;
