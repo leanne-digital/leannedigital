@@ -160,7 +160,7 @@
                         return null;
                     }
                 },
-                login(email, password) {
+                login(email, password, enrollMfa = false) {
                     return request(`${endpoint}login`, {
                         method: 'POST',
                         body: withKey({ email, password }),
@@ -241,10 +241,10 @@
                     return null;
                 }
             },
-            login(email, password) {
+            login(email, password, enrollMfa = false) {
                 return request('/api/auth/login', {
                     method: 'POST',
-                    body: { email, password },
+                    body: { email, password, enrollMfa },
                     action: 'login',
                 });
             },
@@ -405,10 +405,67 @@
         const type = form.getAttribute('data-portal-form');
         const errorEl = form.querySelector('[data-portal-error]');
         const okEl = form.querySelector('[data-portal-ok]');
+        let mfaChallenge = '';
+        let completedUser = null;
+
+        function handleLoginResult(data) {
+            const submit = form.querySelector('button[type="submit"]');
+                    if (data.mfaRequired) {
+                        mfaChallenge = data.challenge;
+                        form.querySelectorAll('.login-form__field').forEach(el => el.remove());
+                        const field = document.createElement('div');
+                        field.className = 'login-form__field';
+                        const instructions = document.createElement('p');
+                        instructions.textContent = data.setupRequired
+                            ? 'Set up two-step verification. In your authenticator app, add an account using the setup key below (time-based), then enter its six-digit code. Keep this key private.'
+                            : 'Enter the code from your authenticator app, or one of your saved recovery codes.';
+                        field.append(instructions);
+                        if (data.secret) {
+                            const key = document.createElement('code'); key.textContent = data.secret;
+                            key.style.cssText = 'display:block;overflow-wrap:anywhere;user-select:all;margin:16px 0'; field.append(key);
+                        }
+                        const label = document.createElement('label'); label.htmlFor = 'mfa-code'; label.textContent = 'Verification code';
+                        const input = document.createElement('input'); input.id = 'mfa-code'; input.name = 'code'; input.autocomplete = 'one-time-code'; input.required = true; input.maxLength = 40;
+                        const restart = document.createElement('a'); restart.href = '/login/'; restart.textContent = 'Start over';
+                        field.append(label, input, restart); submit.before(field); submit.textContent = 'Verify and log in'; input.focus();
+                        return;
+                    }
+                    if (data.recoveryCodes) {
+                        completedUser = data.user;
+                        form.querySelectorAll('.login-form__field').forEach(el => el.remove());
+                        const box = document.createElement('div'); box.className = 'login-form__field';
+                        const title = document.createElement('p'); title.textContent = 'Two-step verification is enabled. Save these recovery codes in your password manager before continuing. Each code works once if you lose your authenticator.';
+                        const codes = document.createElement('pre'); codes.textContent = data.recoveryCodes.join('\n'); codes.style.cssText = 'white-space:pre-wrap;overflow-wrap:anywhere;user-select:all';
+                        box.append(title, codes); submit.before(box); submit.textContent = 'I saved my codes — Continue';
+                        return;
+                    }
+                    location.replace(nextPath(data.user));
+        }
 
         if (type === 'login') {
+            const option = document.createElement('label'); option.className = 'login-form__field';
+            option.style.cssText = 'display:flex;align-items:center;gap:10px;font-size:14px';
+            const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.name = 'enrollMfa'; checkbox.style.cssText = 'width:18px;height:18px;flex:none';
+            option.append(checkbox, document.createTextNode('Set up optional two-step verification (staff)'));
+            form.querySelector('button[type="submit"]').before(option);
             if (new URLSearchParams(location.search).get('reset') === '1') {
                 show(okEl, 'Password updated. Log in with your new password.');
+            }
+            const google = document.createElement('button'); google.type = 'button'; google.className = 'ld-btn ld-btn--ghost';
+            google.textContent = 'Sign in with Google'; google.style.cssText = 'width:100%;margin-top:12px';
+            google.hidden = true; form.append(google);
+            request('/api/auth/google/status').then(data => { google.hidden = !data.enabled; }).catch(() => {});
+            google.addEventListener('click', async () => {
+                google.disabled = true; show(errorEl, '');
+                try { const data = await request('/api/auth/google/start', {method:'POST',body:{},action:'login'}); location.assign(data.url); }
+                catch (error) { show(errorEl,error.message); google.disabled = false; }
+            });
+            const googleState = new URLSearchParams(location.search).get('google');
+            if (googleState === 'error') show(errorEl, 'Google sign-in was not completed or that account is not approved. Try again or use your email and password.');
+            if (googleState === 'complete') {
+                history.replaceState(null, '', '/login/');
+                try { const data = await request('/api/auth/google/complete', {method:'POST',body:{},action:'login'}); handleLoginResult(data); }
+                catch (error) { show(errorEl,error.message); }
             }
             const session = await api.me();
             if (session?.user) {
@@ -426,8 +483,11 @@
             if (submit) submit.disabled = true;
             try {
                 if (type === 'login') {
-                    const data = await api.login(payload.email, payload.password);
-                    location.replace(nextPath(data.user));
+                    if (completedUser) { location.replace(nextPath(completedUser)); return; }
+                    const data = mfaChallenge
+                        ? await request('/api/auth/mfa', { method: 'POST', body: { challenge: mfaChallenge, code: payload.code }, action: 'login' })
+                        : await api.login(payload.email, payload.password, payload.enrollMfa === 'on');
+                    handleLoginResult(data);
                     return;
                 }
                 if (type === 'forgot') {

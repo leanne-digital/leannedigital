@@ -1,3 +1,4 @@
+import { startMfa, finishMfa, hasMfa } from './login-security.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash, randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
@@ -19,7 +20,7 @@ export const COOKIE_NAME = 'ld_portal';
 const SESSION_DAYS = 7;
 const RESET_MINUTES = 60;
 const INVITE_DAYS = 14;
-const PASSWORD_MIN = 8;
+const PASSWORD_MIN = 12;
 
 function readJson(file, fallback) {
     if (!fs.existsSync(file)) return fallback;
@@ -151,7 +152,7 @@ export async function createUser({ email, password, role, clientSlug, name, must
         error.status = 409;
         throw error;
     }
-    if (String(password || '').length < PASSWORD_MIN) {
+    if (typeof password !== 'string' || password.length < PASSWORD_MIN || password.length > 1024) {
         const error = new Error(`Password must be at least ${PASSWORD_MIN} characters`);
         error.status = 400;
         throw error;
@@ -308,12 +309,13 @@ function loadSessions() {
     return sessions;
 }
 
-export function createSession(userId) {
+export function createSession(userId, { mfaVerified = false } = {}) {
     const sessions = loadSessions();
     const session = {
         id: randomBytes(32).toString('hex'),
         userId,
-        expiresAt: new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000).toISOString(),
+        mfaVerified,
+        expiresAt: new Date(Date.now() + (mfaVerified ? 8 : SESSION_DAYS * 24) * 60 * 60 * 1000).toISOString(),
     };
     sessions.push(session);
     writeJson(SESSIONS_FILE, sessions);
@@ -339,25 +341,29 @@ export function getSessionUser(req) {
     if (!session) return { session: null, user: null };
     const user = getUserById(session.userId);
     if (!user) return { session: null, user: null };
+    if (user.role === 'staff' && hasMfa(user.id) && !session.mfaVerified) return { session: null, user: null };
     return { session, user };
 }
 
 export function cookieHeader(sessionId, { clear = false } = {}) {
     if (clear || !sessionId) {
-        return `${COOKIE_NAME}=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0`;
+        return `${COOKIE_NAME}=; Secure; HttpOnly; Path=/; SameSite=Lax; Max-Age=0`;
     }
-    return `${COOKIE_NAME}=${sessionId}; HttpOnly; Path=/; SameSite=Lax; Max-Age=${SESSION_DAYS * 24 * 60 * 60}`;
+    return `${COOKIE_NAME}=${sessionId}; Secure; HttpOnly; Path=/; SameSite=Lax; Max-Age=${SESSION_DAYS * 24 * 60 * 60}`;
 }
 
-export async function login(email, password) {
+const DUMMY_HASH = await hashPassword(randomBytes(32).toString('hex'));
+export async function login(email, password, { enrollMfa = false } = {}) {
+    if (typeof email !== 'string' || email.length > 254 || typeof password !== 'string' || password.length > 1024) throw Object.assign(new Error('Invalid email or password'), { status: 401 });
     const user = getUserByEmail(email);
-    if (!user || !(await verifyPassword(password, user.passwordHash))) {
-        const error = new Error('Invalid email or password');
-        error.status = 401;
-        throw error;
-    }
-    const session = createSession(user.id);
-    return { user: publicUser(user), session };
+    const valid = await verifyPassword(password, user?.passwordHash || DUMMY_HASH);
+    if (!user || !valid) throw Object.assign(new Error('Invalid email or password'), { status: 401 });
+    if (user.role === 'staff' && (hasMfa(user.id) || enrollMfa === true)) return startMfa(user);
+    return { user: publicUser(user), session: createSession(user.id) };
+}
+export function verifyLoginMfa(challenge, code) {
+    const { user, recoveryCodes } = finishMfa(challenge, code, getUserById);
+    return { user: publicUser(user), session: createSession(user.id, { mfaVerified: true }), ...(recoveryCodes ? { recoveryCodes } : {}) };
 }
 
 function hashToken(token) {
@@ -423,7 +429,7 @@ async function emailResetLink(user, resetUrl, kind = 'reset') {
               'Leanne Digital',
           ].join('\n');
     if (!mailConfigured()) {
-        console.log(`${invite ? 'Portal invite' : 'Password reset'} for ${user.email}: ${resetUrl}`);
+        console.error('Portal email not delivered; reset links are not logged.');
         return false;
     }
     try {
@@ -431,7 +437,7 @@ async function emailResetLink(user, resetUrl, kind = 'reset') {
         return true;
     } catch (error) {
         console.error('Portal email failed:', error.message);
-        console.log(`${invite ? 'Portal invite' : 'Password reset'} for ${user.email}: ${resetUrl}`);
+        console.error('Portal email not delivered; reset links are not logged.');
         return false;
     }
 }
@@ -474,7 +480,7 @@ export async function changePassword(userId, { currentPassword, password } = {})
         error.status = 401;
         throw error;
     }
-    if (String(password || '').length < PASSWORD_MIN) {
+    if (typeof password !== 'string' || password.length < PASSWORD_MIN || password.length > 1024) {
         const error = new Error(`Password must be at least ${PASSWORD_MIN} characters`);
         error.status = 400;
         throw error;
@@ -551,7 +557,7 @@ export async function resetPassword(token, password) {
         error.status = 400;
         throw error;
     }
-    if (String(password || '').length < PASSWORD_MIN) {
+    if (typeof password !== 'string' || password.length < PASSWORD_MIN || password.length > 1024) {
         const error = new Error(`Password must be at least ${PASSWORD_MIN} characters`);
         error.status = 400;
         throw error;

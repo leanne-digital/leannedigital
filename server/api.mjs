@@ -1,3 +1,5 @@
+import { handleGoogleLogin } from './google-login.mjs';
+import { guardBrowserWrite, limitAuth } from './login-security.mjs';
 import http from 'node:http';
 import {clientCrud} from './client-crud.mjs';
 import {credentialInventory,saveCredential,deleteCredential} from './credential-tools.mjs';
@@ -17,6 +19,7 @@ import {
     getUserById,
     isSuperAdmin,
     login,
+    verifyLoginMfa,
     provisionStaffAccount,
     publicUser,
     requestPasswordReset,
@@ -137,9 +140,9 @@ function readRawBody(req) {
         let size = 0;
         req.on('data', (chunk) => {
             size += chunk.length;
-            if (size > MAX_BODY_BYTES) {
+            if (size > (req.url.startsWith('/api/auth/') ? 8192 : MAX_BODY_BYTES)) {
                 reject(Object.assign(new Error('Upload is too large'), { status: 413 }));
-                req.destroy();
+                chunks.length = 0;
                 return;
             }
             chunks.push(chunk);
@@ -238,6 +241,16 @@ function requireStaff(user, req, res) {
 }
 
 async function handleAuth(req, res, method, pathname) {
+    if (pathname.startsWith('/api/auth/') && method === 'POST') {
+        guardBrowserWrite(req);
+        if (['login', 'forgot', 'reset', 'mfa', 'password'].includes(pathname.split('/').at(-1))) limitAuth(req, pathname.split('/').at(-1));
+    }
+    if (pathname.startsWith('/api/auth/google/') && await handleGoogleLogin(req, res)) return true;
+    if (pathname === '/api/auth/mfa' && method === 'POST') {
+        const body = await readBody(req);
+        const { user, session, recoveryCodes } = verifyLoginMfa(body.challenge, body.code);
+        return json(req, res, 200, { user, ...(recoveryCodes ? { recoveryCodes } : {}) }, { 'Set-Cookie': cookieHeader(session.id) });
+    }
     if (pathname === '/api/auth/me' && method === 'GET') {
         const { user } = getSessionUser(req);
         if (!user) return json(req, res, 401, { error: 'Unauthorized' });
@@ -245,7 +258,10 @@ async function handleAuth(req, res, method, pathname) {
     }
     if (pathname === '/api/auth/login' && method === 'POST') {
         const body = await readBody(req);
-        const { user, session } = await login(body.email, body.password);
+        limitAuth(req, 'login', String(body.email || '(missing)'));
+        const result = await login(body.email, body.password, { enrollMfa: body.enrollMfa === true });
+        if (result.mfaRequired) return json(req, res, 200, result);
+        const { user, session } = result;
         return json(req, res, 200, { user }, { 'Set-Cookie': cookieHeader(session.id) });
     }
     if (pathname === '/api/auth/logout' && method === 'POST') {
@@ -255,7 +271,8 @@ async function handleAuth(req, res, method, pathname) {
     }
     if (pathname === '/api/auth/forgot' && method === 'POST') {
         const body = await readBody(req);
-        const result = await requestPasswordReset(body.email, originFrom(req));
+        limitAuth(req, 'forgot', String(body.email || '(missing)'));
+        const result = await requestPasswordReset(body.email, 'https://leannedigital.com');
         return json(req, res, 200, result);
     }
     if (pathname === '/api/auth/reset' && method === 'POST') {
@@ -636,7 +653,10 @@ async function handleApi(req, res, method, pathname, user) {
         json(req, res, 200, {
             client: presentClient(client, user),
             projects: listClientProjects({ client: client.slug }).map((row) => presentProject(row, user)),
-        }, { 'Cache-Control': 'private, no-store', 'Vary': 'Cookie, Authorization' });
+        }, { 'Cache-Control': 'private, no-store',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'Referrer-Policy': 'same-origin', 'Vary': 'Cookie, Authorization' });
         return true;
     }
     if (!requireStaff(user, req, res)) return true;
@@ -686,6 +706,7 @@ function handleStatic(req, res, pathname, user) {
 }
 
 async function handle(req, res) {
+    if (req.url.startsWith('/api/') && !['GET', 'HEAD', 'OPTIONS'].includes(req.method) && req.headers.cookie && !hasApiKey(req)) guardBrowserWrite(req);
     const rawPath = requestPath(req.url);
     const pathname =
         rawPath.startsWith('/api/') && rawPath.endsWith('/') && rawPath.length > 5
@@ -762,6 +783,7 @@ async function handle(req, res) {
 export function createPortalServer() {
     return http.createServer((req, res) => {
         handle(req, res).catch((error) => {
+            if (error.retryAfter) res.setHeader('Retry-After', String(error.retryAfter));
             json(req, res, error.status || 500, { error: error.message || 'Server error' });
         });
     });

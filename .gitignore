@@ -21,3 +21,5 @@ _import/*
 data/contact-spam.jsonl
 
 tmp/
+
+data/login-security/

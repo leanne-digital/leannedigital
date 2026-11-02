@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = '20260820d';
+const SCRIPT_V = 'security-google-20261102';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);
@@ -89,11 +89,11 @@ function resetForm() {
                         <p class="login-form__error" data-portal-error hidden></p>
                         <div class="login-form__field">
                             <label for="password">New password</label>
-                            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                            <input id="password" name="password" type="password" autocomplete="new-password" minlength="12" required>
                         </div>
                         <div class="login-form__field">
                             <label for="confirm">Confirm password</label>
-                            <input id="confirm" name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+                            <input id="confirm" name="confirm" type="password" autocomplete="new-password" minlength="12" required>
                         </div>
                         <button class="ld-btn" type="submit">Save new password</button>
                     </form>`;
@@ -179,11 +179,11 @@ ${renderNav(1, '/profile/')}
                         <form class="login-form" data-password-form>
                             <div class="login-form__field">
                                 <label for="new-password">New password</label>
-                                <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                                <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="12" required>
                             </div>
                             <div class="login-form__field">
                                 <label for="confirm-password">Confirm password</label>
-                                <input id="confirm-password" name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+                                <input id="confirm-password" name="confirm" type="password" autocomplete="new-password" minlength="12" required>
                             </div>
                             <button class="ld-btn" type="submit">Save password</button>
                         </form>
@@ -230,10 +230,10 @@ ${renderNav(1, '/profile/')}
                                 <input name="currentPassword" type="password" autocomplete="current-password" required>
                             </label>
                             <label>New password
-                                <input name="password" type="password" autocomplete="new-password" minlength="8" required>
+                                <input name="password" type="password" autocomplete="new-password" minlength="12" required>
                             </label>
                             <label>Confirm password
-                                <input name="confirm" type="password" autocomplete="new-password" minlength="8" required>
+                                <input name="confirm" type="password" autocomplete="new-password" minlength="12" required>
                             </label>
                         </div>
                         <div class="dash-form__actions">
