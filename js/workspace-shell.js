@@ -63,6 +63,8 @@
     document.querySelectorAll('[data-workspace-nav]').forEach(a=>{if(a.dataset.workspaceNav===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     const title = routes.flatMap(r=>r[1]).find(r=>r[0]===id)?.[1] || (id==='new-client' ? 'Client details' : id==='profile' ? 'Your profile' : 'Workspace');
     const heading=document.querySelector('.topbar h1');if(heading)heading.textContent=title;
+    const topIcon=document.querySelector('#sidebar-toggle');
+    if(topIcon)topIcon.innerHTML=navIcon(id);
     document.title=title+' | Leanne Digital';
   }
   addEventListener('workspace-view-change',sync);
