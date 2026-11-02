@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh monthly reports from saved client work
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/sites/leannedigital
+EnvironmentFile=-/opt/sites/leannedigital/.env
+Environment=CLIENT_WORK_LOG_DB_PATH=/home/leannedigital.com/private/client-work-log/work-log.sqlite
+ExecStart=/usr/bin/node /opt/sites/leannedigital/scripts/generate-monthly-reports.mjs --apply --publish-root=/home/leannedigital.com/public_html

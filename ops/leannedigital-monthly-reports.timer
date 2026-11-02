@@ -1,0 +1,10 @@
+[Unit]
+Description=Retry and refresh current-month client reports
+
+[Timer]
+OnCalendar=*-*-* *:0/5:00
+Persistent=true
+Unit=leannedigital-monthly-reports.service
+
+[Install]
+WantedBy=timers.target

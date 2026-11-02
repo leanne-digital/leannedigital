@@ -13,7 +13,7 @@ test('append-only work log preserves date, report association, actor and duplica
     const original = process.env.CLIENT_WORK_LOG_DB_PATH;
     process.env.CLIENT_WORK_LOG_DB_PATH = path.join(directory, 'log.sqlite');
     try {
-        const input = {clientSlug:'gbt-logistics', projectId:'44', month:'2026-10', reportSlug:'seo-report-gbt-logistics-october-2026', workedOn:'2026-10-21', title:'GA4 investigation',details:'Investigated measurement mismatch. Awaiting response. No changes.',status:'awaiting_client'};
+        const input = {category:'analytics',clientSlug:'gbt-logistics', projectId:'44', month:'2026-10', reportSlug:'seo-report-gbt-logistics-october-2026', workedOn:'2026-10-21', title:'GA4 investigation',details:'Investigated measurement mismatch. Awaiting response. No changes.',status:'awaiting_client'};
         const first = appendClientWorkLog(input, 'test-staff');
         assert.equal(first.created, true);
         assert.equal(first.entry.createdBy, 'test-staff');

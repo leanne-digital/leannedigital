@@ -1,7 +1,7 @@
 import { WORK_LOG_INSTRUCTIONS } from './work-log-instructions.mjs';
 import { WORK_CATEGORIES } from '../scripts/work-categories.mjs';
 import { registerGscTools } from './gsc-tools.mjs';
-import { appendClientWorkLog, listClientWorkLogs, workLogSchema } from './services/client-work-log.mjs';
+import { appendClientWorkLogAndSync as appendClientWorkLog, listClientWorkLogs, workLogSchema } from './services/client-work-log.mjs';
 import { credentialInventory, saveCredential, deleteCredential } from './credential-tools.mjs';
 import {clientCrud,serviceSchema,proposalSchema} from './client-crud.mjs';
 import {loadReportRecord,saveSeoReport,deleteSeoReport} from '../scripts/seo-report-store.mjs';
@@ -183,7 +183,7 @@ export function createMcpServer({
     readTool(server, 'list_client_work_logs', 'Read client work-log entries for a report month. Check for duplicates before appending work.', {
         clientId: z.string(), month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).optional(), reportSlug: z.string().optional(),
     }, async ({clientId, ...filters}) => ({entries:listClientWorkLogs({clientSlug:getAgencyClient(clientId).slug,...filters})}));
-    if (workLogWrite) writeTool(server, 'append_client_work_log', 'Append dated client work for a monthly report. Exact repeated content returns the existing record. Does not change projects, billing, credentials or publish a report. Requires mcp:worklog:write.', {
+    if (workLogWrite) writeTool(server, 'append_client_work_log', 'Append dated client work for a monthly report. Exact repeated content returns the existing record. Creates or refreshes the enabled shared client’s monthly report from saved work. Does not change projects, billing or credentials. Requires mcp:worklog:write.', {
         clientId: z.string(), category: z.enum(Object.keys(WORK_CATEGORIES)).describe('Work category; clarify with the user if the kind of work is not clear.'), projectId: z.string().optional(), reportSlug: z.string(), month: z.string(), workedOn: z.string(), title: z.string(), details: z.string(), status: z.enum(['completed','awaiting_client','in_progress']),
     }, async ({clientId, ...input}) => {
         const client = getAgencyClient(clientId);
@@ -192,8 +192,7 @@ export function createMcpServer({
             if (!project || project.clientSlug !== client.slug) throw new Error('Project does not belong to this client');
         }
         const report = (client.reports || []).find(report => report.slug === input.reportSlug);
-        if (!report) throw new Error('Report does not belong to this client');
-        if (report.monthKey && report.monthKey !== input.month) throw new Error('Report month does not match');
+        if (report?.monthKey && report.monthKey !== input.month) throw new Error('Report month does not match');
         return appendClientWorkLog(workLogSchema.parse({clientSlug:client.slug,...input}), actor.email || actor.createdBy);
     });
     if(!readOnly) {

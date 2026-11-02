@@ -692,7 +692,7 @@
         const clientForm = $('[data-client-form]');
         if (clientForm && !clientForm.elements.monthlyReportEnabled) {
             const field=document.createElement('label');field.className='monthly-report-setting';
-            field.innerHTML='<strong>Monthly SEO report</strong><select name="monthlyReportEnabled"><option value="no">No</option><option value="yes">Yes</option></select><small>Create the previous month’s report on the 1st using saved work logs.</small>';
+            field.innerHTML='<strong>Monthly SEO report</strong><select name="monthlyReportEnabled"><option value="no">No</option><option value="yes">Yes</option></select><small>Create a monthly report on the first saved work entry, then keep it up to date. No entries means no report.</small>';
             const choices=clientForm.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
             if(choices)choices.after(field);else clientForm.append(field);
         }

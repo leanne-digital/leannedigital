@@ -70,3 +70,18 @@ export function appendClientWorkLog(input, actor = 'staff') {
         } catch (error) { db.exec('ROLLBACK'); throw error; }
     });
 }
+
+// Await the report refresh in the write tool while preserving a successful database write on render failure.
+export async function appendClientWorkLogAndSync(input, actor = 'staff') {
+    const result = appendClientWorkLog(input, actor);
+    if (!process.env.MONTHLY_REPORT_PUBLISH_ROOT) return result;
+    try {
+        const {generateMonthlyReports} = await import('../../scripts/generate-monthly-reports.mjs');
+        const reports = await generateMonthlyReports({month: result.entry.month, clientSlug: result.entry.clientSlug,
+            apply: true, publishRoot: process.env.MONTHLY_REPORT_PUBLISH_ROOT});
+        return {...result, report: reports.clients[0] || {status:'not-enabled'}};
+    } catch (error) {
+        console.error('Monthly report refresh deferred:', error.message);
+        return {...result, report:{status:'refresh-pending',message:'Work is saved. The scheduled report refresh will retry.'}};
+    }
+}
