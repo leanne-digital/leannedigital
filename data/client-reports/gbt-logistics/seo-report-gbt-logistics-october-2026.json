@@ -55,6 +55,45 @@
     "recap": []
   },
   "nextSteps": [
-    "In November, we plan to add more useful internal links, improve GBT’s Google Business Profile and continue website health checks. We’ll also review how search engines and AI tools understand the site, check inquiry tracking and identify ways to make it easier for visitors to contact GBT. For GA4, confirm the correct property with the client, then complete any necessary tag changes and verify that data is being received."
+    "In November, we’ll build on the completed SEO cleanup with the following planned work."
+  ],
+  "nextStepsWorkTitle": "Work planned for November",
+  "nextStepsWork": [
+    {
+      "area": "Website health",
+      "action": "Continue checking how search engines access and index the website, and review redirects and other technical issues."
+    },
+    {
+      "area": "Internal linking",
+      "action": "Review and add selected links from the remaining 275 recommendations, then verify each placement and update the tracker."
+    },
+    {
+      "area": "Google Business Profile",
+      "action": "Review business information, categories, services and links, and make improvements where needed."
+    },
+    {
+      "area": "Google Analytics 4 and tracking",
+      "action": "Confirm the correct Analytics property with the client, complete any necessary tag changes and test that data is being received. Review key inquiry actions."
+    },
+    {
+      "area": "Search performance",
+      "action": "Document the Search Console findings and establish a baseline for future reporting."
+    },
+    {
+      "area": "Search-engine information",
+      "action": "Review the website’s structured data, make appropriate improvements and check that it works correctly."
+    },
+    {
+      "area": "AI search visibility",
+      "action": "Review page structure, FAQs and service descriptions, and recommend improvements to help AI tools understand GBT’s business."
+    },
+    {
+      "area": "Visitor inquiries",
+      "action": "Review calls to action and contact paths, and recommend ways to make it easier for visitors to inquire."
+    },
+    {
+      "area": "Monthly review",
+      "action": "Review progress, summarize completed work and set priorities for the following month."
+    }
   ]
 }

@@ -223,7 +223,9 @@ ${adsBlock}
     </section>`}
     <section class="seo-report__section">
         <h2>Next steps and strategy</h2>
-${paragraphsHtml(report.nextSteps) || '                <p>Next month’s plan will go here.</p>'}
+${paragraphsHtml(report.nextSteps) || '                <p>Next month’s plan will go here.</p>'}${report.nextStepsWork?.length ? `
+        <h3>${escapeHtml(report.nextStepsWorkTitle || 'Planned work')}</h3>
+        <div class="dash-table-wrap" role="region" aria-label="${escapeHtml(report.nextStepsWorkTitle || 'Planned work')}" tabindex="0"><table class="client-report-table"><thead><tr><th scope="col">Work area</th><th scope="col">Next action</th></tr></thead><tbody>${report.nextStepsWork.map(row => `<tr><td>${escapeHtml(row.area)}</td><td>${escapeHtml(row.action)}</td></tr>`).join('')}</tbody></table></div>` : ''}
     </section>
 </article>
 `;
