@@ -1,12 +1,12 @@
 (function () {
     const CLIENT_FILTERS = {
-        overview: { types: null, heading: 'All clients' },
-        dashboard: { types: null, heading: 'All clients' },
-        'technical-seo': { types: ['seo','aeo','geo','technical-seo','content'], heading: 'Technical SEO clients' },
-        'seo-clients': { types: ['seo','aeo','geo','technical-seo','content'], heading: 'SEO clients' },
-        'maintenance-clients': { types: ['maintenance'], heading: 'Maintenance clients' },
-        'hosting-clients': { types: ['hosting'], heading: 'Hosting clients' },
-        'management-clients': { types: ['management'], heading: 'Site management' },
+        overview: { types: null, heading: 'All Clients' },
+        dashboard: { types: null, heading: 'All Clients' },
+        'technical-seo': { types: ['seo','aeo','geo','technical-seo','content'], heading: 'Technical SEO Clients' },
+        'seo-clients': { types: ['seo','aeo','geo','technical-seo','content'], heading: 'SEO Clients' },
+        'maintenance-clients': { types: ['maintenance'], heading: 'WP Backups and Security' },
+        'hosting-clients': { types: ['hosting'], heading: 'Hosting Clients' },
+        'management-clients': { types: ['management'], heading: 'AI Site Management' },
     };
 
     function $(sel, root) {
@@ -46,7 +46,7 @@
         { types: ['maintenance'], label: 'Site maintenance, backups and security' },
         { types: ['hosting'], label: 'Hosting' },
         { types: ['design', 'graphic-design'], label: 'Graphic Design' },
-        { types: ['management'], label: 'Site management' },
+        { types: ['management'], label: 'AI Site Management' },
         { types: ['updates'], label: 'Site updates' },
         { types: ['ads', 'google-ads'], label: 'Paid Ads' },
         { types: ['integrations'], label: 'Integrations' },
@@ -125,7 +125,7 @@
             });
         }
         if (packageOn(form, 'management') && num('managementAmount')) {
-            lines.push({ label: 'Site management', amount: num('managementAmount'), period: form.managementCycle?.value === 'yearly' ? 'year' : 'month' });
+            lines.push({ label: 'AI Site Management', amount: num('managementAmount'), period: form.managementCycle?.value === 'yearly' ? 'year' : 'month' });
         }
         if (packageOn(form, 'seo') && num('seoAmount')) {
             lines.push({ label: 'SEO', amount: num('seoAmount'), period: form.seoCycle?.value === 'yearly' ? 'year' : 'month' });
@@ -244,7 +244,7 @@
         if (type === 'aeo') return 'AEO plan';
         if (type === 'hosting') return 'Hosting';
         if (type === 'maintenance') return 'Maintenance plan';
-        if (type === 'management') return 'Site management';
+        if (type === 'management') return 'AI Site Management';
         return String(type || '').replace(/-/g, ' ');
     }
 
@@ -466,12 +466,12 @@
         const stats = $('[data-overview-stats]');
         if (stats) {
             stats.innerHTML = [
-                statCard('SEO clients', seo.length, 'seo-clients'),
-                statCard('Maintenance clients', maintenance.length, 'maintenance-clients'),
-                statCard('Hosting clients', hosting.length, 'hosting-clients'),
-                statCard('Site management', management.length, 'management-clients'),
-                statCard('Portfolio projects', data.projects.length, 'portfolio'),
-                statCard('All clients', data.clients.length, 'overview'),
+                statCard('SEO Clients', seo.length, 'seo-clients'),
+                statCard('WP Backups and Security', maintenance.length, 'maintenance-clients'),
+                statCard('Hosting Clients', hosting.length, 'hosting-clients'),
+                statCard('AI Site Management', management.length, 'management-clients'),
+                statCard('Portfolio Projects', data.projects.length, 'portfolio'),
+                statCard('All Clients', data.clients.length, 'overview'),
             ].join('');
         }
     }
@@ -518,9 +518,9 @@
 
     const INCOME_GROUPS = [
         {id: 'maintenance-clients', label: 'Maintenance', accent: 'teal', types: ['maintenance']},
-        {id: 'management-clients', label: 'Site management', accent: 'rose', types: ['management']},
+        {id: 'management-clients', label: 'AI Site Management', accent: 'rose', types: ['management']},
         {id: 'hosting-clients', label: 'Hosting', accent: 'gold', types: ['hosting']},
-        {id: 'seo-clients', label: 'SEO clients', accent: 'violet', types: ['seo', 'aeo', 'geo', 'technical-seo', 'content', 'ads', 'google-ads']},
+        {id: 'seo-clients', label: 'SEO Clients', accent: 'violet', types: ['seo', 'aeo', 'geo', 'technical-seo', 'content', 'ads', 'google-ads']},
     ];
 
     function incomeTotals(clients) {
@@ -612,7 +612,7 @@
             summary.className = overview ? 'income-summary income-summary--overview' : 'income-summary';
             summary.innerHTML = overview ? [
                 ...totals,
-                {id: 'dashboard', label: 'Grand total', accent: 'total', amount: totals.reduce((sum, group) => sum + group.amount, 0), missing: totals.reduce((sum, group) => sum + group.missing, 0)},
+                {id: 'dashboard', label: 'Grand Total', accent: 'total', amount: totals.reduce((sum, group) => sum + group.amount, 0), missing: totals.reduce((sum, group) => sum + group.missing, 0)},
             ].map(incomeCard).join('') : selected ? incomeCard(selected) : '';
         }
         const panel = $('[data-admin-panel="overview"]');
@@ -642,8 +642,11 @@
         const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
-        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Billing Rate</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Next billing</th><th>Status</th>':'');
-        if (tableHead) tableHead.innerHTML += '<th>Actions</th>';
+        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next Billing</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Billing Rate</th><th>Billing Frequency</th>':'')+(maintenanceView?'<th>Next Billing</th><th>Status</th>':'');
+        if (tableHead) {
+            if (['seo-clients','technical-seo'].includes(filterId)) tableHead.innerHTML = tableHead.innerHTML.replace('Billing Frequency','Next Billing');
+            tableHead.innerHTML += '<th>Actions</th>';
+        }
         body.innerHTML = list
             .map((client) => {
                 const href = `/clients/?client=${encodeURIComponent(client.slug)}#new-client`;
@@ -659,7 +662,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${['seo-clients','technical-seo','management-clients'].includes(filterId)?`<span class="renewal-date">${cycles}</span>`:cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${['seo-clients','technical-seo','management-clients'].includes(filterId)?`<span class="renewal-date">${['seo-clients','technical-seo'].includes(filterId)?escapeHtml(formatDay(nextMaintenanceBill({}))):cycles}</span>`:cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
                     <td><button type="button" class="client-update-button" data-edit-client="${escapeHtml(client.slug)}">Update client</button></td>
                 </tr>`;
             })
@@ -727,7 +730,7 @@
             const amount = clientForm?.elements[`${type}Amount`];
             if (!amount || clientForm.elements[`${type}Cycle`]) continue;
             const field = document.createElement('label');
-            field.innerHTML = `Billing frequency<select name="${type}Cycle"><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>`;
+            field.innerHTML = `Billing Frequency<select name="${type}Cycle"><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>`;
             amount.closest('label').after(field);
         }
         const clientPanel = $('[data-admin-panel="new-client"]');
@@ -1032,7 +1035,7 @@
                     fillClientForm(client);
                     setSection('new-client');
                     document.querySelector('[data-admin-panel="new-client"] .admin-panel__title').textContent=client.name;
-                    const actions=document.createElement('div');actions.className='workspace-tabs';actions.innerHTML=`<a href='/clients/#overview'>← All clients</a><a href='/clients/?credentialClient=${encodeURIComponent(client.slug)}#credentials'>Credentials</a><a href='/clients/#reports'>Reports</a><a href='/google-platforms/'>Google accounts</a>`;clientForm.before(actions);
+                    const actions=document.createElement('div');actions.className='workspace-tabs';actions.innerHTML=`<a href='/clients/#overview'>← All Clients</a><a href='/clients/?credentialClient=${encodeURIComponent(client.slug)}#credentials'>Credentials</a><a href='/clients/#reports'>Reports</a><a href='/google-platforms/'>Google accounts</a>`;clientForm.before(actions);
                 }
             })();
         }
