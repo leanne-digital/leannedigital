@@ -29,9 +29,10 @@
 (() => {
  const host=document.querySelector('.admin-content');if(!host)return;
  const panel=document.createElement('section');panel.className='admin-panel';panel.dataset.adminPanel='client-work';panel.hidden=true;
- panel.innerHTML=`<h2 class="admin-panel__title">Client Work</h2><p class="admin-panel__lead">Work-log entries grouped by client. New entries appear automatically; completed and pending work keep their recorded status.</p><div class="workspace-toolbar client-work-toolbar"><label>Month <input type="month" id="client-work-month" required></label><button type="button" class="workspace-action" id="client-work-refresh">Refresh</button><button type="button" class="workspace-action" id="client-work-export" disabled>Export JSON</button></div><p id="client-work-status" role="status" aria-live="polite"></p><div class="dash-table-wrap"><table class="client-work-table"><thead><tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col">Work</th><th scope="col">Details</th><th scope="col">Status</th></tr></thead><tbody id="client-work-rows"></tbody></table></div>`;
+ panel.innerHTML=`<h2 class="admin-panel__title">Client Work</h2><p class="admin-panel__lead">Work-log entries grouped by client. New entries appear automatically; completed and pending work keep their recorded status.</p><div class="workspace-toolbar client-work-toolbar"><label>Visibility <select id="client-work-visibility"><option value="shared" selected>Leanne Digital only</option><option value="private">Private clients only</option><option value="all">All clients</option></select></label><label>Month <input type="month" id="client-work-month" required></label><button type="button" class="workspace-action" id="client-work-refresh">Refresh</button><button type="button" class="workspace-action" id="client-work-export" disabled>Export JSON</button></div><p id="client-work-status" role="status" aria-live="polite"></p><div class="dash-table-wrap"><table class="client-work-table"><thead><tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col">Work</th><th scope="col">Details</th><th scope="col">Status</th></tr></thead><tbody id="client-work-rows"></tbody></table></div>`;
  host.append(panel);
  const month=panel.querySelector('#client-work-month'),refresh=panel.querySelector('#client-work-refresh'),download=panel.querySelector('#client-work-export'),status=panel.querySelector('#client-work-status'),rows=panel.querySelector('#client-work-rows');
+ const visibility=panel.querySelector('#client-work-visibility');
  const now=new Date();month.value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const categoryNames={'content-creation':'Content creation',aeo:'AEO',geo:'GEO','technical-seo':'Technical SEO','site-updates':'Site updates','website-development':'Website development',marketing:'Marketing',strategy:'Strategy','bug-fixes':'Bug fixes','internal-linking':'Internal linking','paid-ads':'Paid ads','conversion-tracking':'Conversion tracking',analytics:'Analytics','site-maintenance':'Site maintenance','graphic-design':'Graphic design',consultation:'Consultation',other:'Other'};
@@ -40,10 +41,10 @@
  const active=()=>location.hash==='#client-work'&&!document.hidden;
  async function load(){
   if(!ready)return;
-  const selected=month.value,id=++serial;exportData=null;download.disabled=true;
+  const selected=month.value,selectedVisibility=visibility.value,id=++serial;exportData=null;download.disabled=true;rows.replaceChildren();
   if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(selected)){loading=false;refresh.disabled=false;status.textContent='Choose a month.';rows.replaceChildren();return;}
   loading=true;refresh.disabled=true;status.textContent='Loading client work…';
-  const list=[...clients].sort((a,b)=>a.name.localeCompare(b.name));const results=[],failures=[];let cursor=0;
+  const list=clients.filter(client=>selectedVisibility==='all'||(selectedVisibility==='shared'?(client.visibility||'shared')==='shared':(client.visibility||'shared')!=='shared')).sort((a,b)=>a.name.localeCompare(b.name));const results=[],failures=[];let cursor=0;
   async function worker(){while(cursor<list.length){if(id!==serial)return;const client=list[cursor++];try{
    const response=await fetch(`/api/clients/${encodeURIComponent(client.slug)}/work-logs?month=${encodeURIComponent(selected)}`,{credentials:'same-origin',cache:'no-store'});
    if(!response.ok)throw Error('Could not load work');const data=await response.json();if(!Array.isArray(data.entries))throw Error('Invalid work-log response');
@@ -56,12 +57,12 @@
   if(failures.length){rows.replaceChildren();status.textContent=`Could not load work for ${failures.join(', ')}. Refresh to retry. Export is disabled until all entries load.`;return;}
   results.sort((a,b)=>a.client.name.localeCompare(b.client.name));
   const total=results.reduce((sum,g)=>sum+g.entries.length,0);
-  exportData={schemaVersion:1,reportMonth:selected,generatedAt:new Date().toISOString(),source:'Leanne Digital client work logs',entryCount:total,clientCount:results.length,clients:results};
-  rows.innerHTML=results.map(group=>`<tr class="client-work-group"><th scope="rowgroup" colspan="5">${esc(group.client.name)} <span>${group.entries.length} ${group.entries.length===1?'entry':'entries'}</span></th></tr>${group.entries.map(entry=>`<tr><td><time datetime="${esc(entry.workedOn)}">${esc(entry.workedOn)}</time></td><td>${esc(categoryNames[entry.category]||'Needs categorization')}</td><td>${esc(entry.title)}</td><td class="client-work-details">${esc(entry.details)}</td><td><span class="client-work-state" data-status="${esc(entry.status)}">${esc(labels[entry.status]||entry.status)}</span></td></tr>`).join('')}`).join('')||'<tr><td colspan="5" class="workspace-empty">No work-log entries for this month.</td></tr>';
+  exportData={schemaVersion:1,reportMonth:selected,visibility:selectedVisibility,generatedAt:new Date().toISOString(),source:'Leanne Digital client work logs',entryCount:total,clientCount:results.length,clients:results};
+  rows.innerHTML=results.map(group=>`<tr class="client-work-group"><th scope="rowgroup" colspan="5">${esc(group.client.name)} <span>${group.entries.length} ${group.entries.length===1?'entry':'entries'}</span></th></tr>${group.entries.map(entry=>`<tr><td><time datetime="${esc(entry.workedOn)}">${esc(entry.workedOn)}</time></td><td>${esc(categoryNames[entry.category]||'Needs categorization')}</td><td>${esc(entry.title)}</td><td class="client-work-details">${esc(entry.details)}</td><td><span class="client-work-state" data-status="${esc(entry.status)}">${esc(labels[entry.status]||entry.status)}</span></td></tr>`).join('')}`).join('')||'<tr><td colspan="5" class="workspace-empty">No work-log entries for this month and visibility.</td></tr>';
   status.textContent=`${total} ${total===1?'entry':'entries'} across ${results.length} ${results.length===1?'client':'clients'} · Updated ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}. Refreshes every minute while this section is open.`;
   download.disabled=false;
  }
- month.addEventListener('change',load);refresh.addEventListener('click',load);
+ visibility.addEventListener('change',load);month.addEventListener('change',load);refresh.addEventListener('click',load);
  download.addEventListener('click',()=>{if(!exportData)return;const blob=new Blob([JSON.stringify(exportData,null,2)+'\n'],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`leanne-digital-client-work-${exportData.reportMonth}.json`;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);});
  window.addEventListener('workspace-data',event=>{clients=event.detail.clients||[];ready=true;if(active())load();});
  const onView=()=>{if(active()&&!loading)load();};
