@@ -1,4 +1,33 @@
 (() => {
+  const reportNames = {
+    'davis-window-and-door': 'AEO and Technical SEO Report',
+    'gbt-logistics': 'Technical SEO and AEO Report',
+    'oatley-vigmond': 'Technical SEO and AEO Report',
+    'melissa-jean-art': 'Technical SEO Report',
+    'shift-physiotherapy': 'Technical SEO, GEO, AEO and Content Creation Report',
+    'sierra-electrical': 'Technical SEO, GEO, AEO and Content Creation Report'
+  };
+  const reportMonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function reportMonth(report) {
+    if (/^\d{4}-(0[1-9]|1[0-2])$/.test(report.monthKey || '')) return report.monthKey;
+    const slug = String(report.slug || '').toLowerCase();
+    for (let i=0;i<reportMonths.length;i++) {
+      const match=slug.match(new RegExp('-'+reportMonths[i].toLowerCase()+'-(\\d{4})$'));
+      if(match)return match[1]+'-'+String(i+1).padStart(2,'0');
+    }
+    return '';
+  }
+  window.LDReportNaming = {
+    month: reportMonth,
+    title(client, report) {
+      const key=reportMonth(report), type=reportNames[client.slug];
+      if (!key || !type) return report.title || report.slug;
+      const [year,month]=key.split('-');
+      return reportMonths[Number(month)-1]+' '+year+' - '+type;
+    },
+    newest(a,b) { return reportMonth(b).localeCompare(reportMonth(a)); }
+  };
+
   const navIcons = {
     overview: '<circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',
     dashboard: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
