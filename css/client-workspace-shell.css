@@ -227,3 +227,7 @@ body main button.dash-stat :is(.dash-stat__value, .dash-stat__label) { color: #f
 
 .renewal-date { background: var(--workspace-teal, #4ec3cc); color: #212c3e; padding: 7px 17px; }
 .renewal-date--due { background: #b42332; color: #fff; outline: none; }
+
+/* Payment dates share one treatment across service sections. */
+.renewal-date { background: #b42332; color: #fff; padding: 7px 17px; }
+.renewal-date--due { background: #ffc329; color: #212c3e; outline: none; }
