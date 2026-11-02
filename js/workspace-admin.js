@@ -203,6 +203,7 @@
             aeoCycle: form.aeoCycle?.value || 'monthly',
             maintenanceAmount: maintenanceOn ? amount('maintenanceAmount') : '',
             maintenanceCycle: form.maintenanceCycle?.value || 'monthly',
+            maintenanceNextBillDate: maintenanceOn ? amount('maintenanceNextBillDate') : '',
             discount: amount('discount'),
             taxAmount: amount('taxAmount'),
         };
@@ -492,12 +493,20 @@
         const value=String(serviceOf(client,'hosting')?.nextBillDate||'').slice(0,10);
         return /^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value))?value:'';
     }
-    function renewalPill(client) {
-        const day=renewalDay(client);if(!day)return '<span class="renewal-missing">Not set</span>';
+    function nextMaintenanceBill(client) {
+        const plan=serviceOf(client,'maintenance');
+        if (plan?.nextBillDate) return String(plan.nextBillDate).slice(0,10);
+        if (plan?.cycle === 'yearly') return '';
+        const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit'}).formatToParts(new Date());
+        const year=Number(parts.find(p=>p.type==='year').value),month=Number(parts.find(p=>p.type==='month').value);
+        return new Date(Date.UTC(year,month,1)).toISOString().slice(0,10);
+    }
+    function renewalPill(client, type='hosting') {
+        const day=type==='maintenance'?nextMaintenanceBill(client):renewalDay(client);if(!day)return '<span class="renewal-missing">Not set</span>';
         const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
         const [year,month,date]=today.split('-').map(Number);
         const limit=new Date(Date.UTC(year,month-1,date+30)).toISOString().slice(0,10);
-        const urgent=day<=limit,overdue=day<today;
+        const urgent=day<=limit&&(type!=='maintenance'||serviceOf(client,'maintenance')?.cycle==='yearly'),overdue=day<today;
         return `<span class="renewal-date ${urgent?'renewal-date--due':''}"><time datetime="${day}">${escapeHtml(formatDay(day))}</time></span>${urgent?`<span class="renewal-reminder">${overdue?'Overdue — ':''}Contact client for renewal</span>`:''}`;
     }
     function maintenanceActive(client) {
@@ -621,7 +630,7 @@
         const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
-        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Billing Rate</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Status</th>':'');
+        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Billing Rate</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Next billing</th><th>Status</th>':'');
         if (tableHead) tableHead.innerHTML += '<th>Actions</th>';
         body.innerHTML = list
             .map((client) => {
@@ -638,7 +647,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}${maintenanceView ? `<td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
                     <td><button type="button" class="client-update-button" data-edit-client="${escapeHtml(client.slug)}">Update client</button></td>
                 </tr>`;
             })
@@ -753,6 +762,11 @@
             event.preventDefault(); event.stopImmediatePropagation();
             openClientDialog(edit?.dataset.editClient);
         }, true);
+        if (clientForm && !clientForm.elements.maintenanceNextBillDate) {
+            const field=document.createElement('label');
+            field.innerHTML='Next billing date<input type="date" name="maintenanceNextBillDate">';
+            clientForm.elements.maintenanceCycle?.closest('label').after(field);
+        }
         const taxInput = clientForm?.elements.taxAmount;
         if (taxInput && taxInput.tagName !== 'SELECT') {
             const select = document.createElement('select'); select.name = 'taxAmount';
@@ -931,6 +945,7 @@
             if (clientForm.aeoCycle) clientForm.aeoCycle.value = aeo?.cycle || 'monthly';
             if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = billedAmount(maintenance);
             if (clientForm.maintenanceCycle) clientForm.maintenanceCycle.value = maintenance?.cycle || 'monthly';
+            if (clientForm.maintenanceNextBillDate) clientForm.maintenanceNextBillDate.value = nextMaintenanceBill(client || {});
             if (clientForm.discount) clientForm.discount.value = Number(client?.discount) > 0 ? String(client.discount) : '';
             if (clientForm.taxAmount) clientForm.taxAmount.value = [0.13, 0.05].includes(Number(client?.taxAmount)) ? String(Number(client.taxAmount)) : '0';
             if (packageOn(clientForm, 'hosting') && clientForm.hostingLastBilled?.value && !clientForm.hostingNextBillDate?.value) {
