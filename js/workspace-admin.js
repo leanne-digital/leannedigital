@@ -504,7 +504,7 @@
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';
-        const viewTypes=filterId==='maintenance-clients'?['maintenance']:['seo-clients','technical-seo'].includes(filterId)?['seo','aeo','geo','technical-seo','content','ads','google-ads']:null;
+        const viewTypes=filterId==='management-clients'?['management','maintenance']:filterId==='maintenance-clients'?['maintenance']:['seo-clients','technical-seo'].includes(filterId)?['seo','aeo','geo','technical-seo','content','ads','google-ads']:null;
         const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
