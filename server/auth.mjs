@@ -85,7 +85,7 @@ function publicUser(user) {
         name: user.name || null,
         mustChangePassword: Boolean(user.mustChangePassword),
         privilege: staffPrivilege(user),
-        avatarUrl: user.avatarFile ? `/api/portal/avatar?u=${user.id}` : null,
+        avatarUrl: user.avatarFile ? `/api/portal/avatar?u=${user.id}` : `https://gravatar.com/avatar/${createHash('sha256').update(String(user.email || '').trim().toLowerCase()).digest('hex')}?s=192&d=mp&r=g`,
     };
 }
 

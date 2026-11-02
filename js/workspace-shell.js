@@ -70,4 +70,4 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('nav-open');});
 })();
 
-(() => { if (!document.querySelector('.topbar')) return; const script=document.createElement('script'); script.src='/js/workspace-account.js?v=account-refresh-20261102'; document.body.append(script); })();
+(() => { if (!document.querySelector('.topbar')) return; const script=document.createElement('script'); script.src='/js/workspace-account.js?v=bio-20261102'; document.body.append(script); })();

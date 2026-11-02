@@ -136,7 +136,7 @@
         trigger.title = user ? 'Your account' : 'Login';
         if (user?.avatarUrl) {
             const url = new URL(user.avatarUrl, location.origin);
-            if (url.origin === location.origin) { const image = document.createElement('img'); image.src = url.href; image.alt = ''; image.addEventListener('error',()=>{trigger.innerHTML=icon('person');}); trigger.replaceChildren(image); }
+            if ((url.origin === location.origin || url.origin === 'https://gravatar.com')) { const image = document.createElement('img'); image.src = url.href; image.alt = ''; image.addEventListener('error',()=>{trigger.innerHTML=icon('person');}); trigger.replaceChildren(image); }
         }
         if (!user) { row('Login', trigger.href, 'person'); return; }
         row('Bio', '/profile/', 'person'); row('Client workspace', workspace, 'workspace');

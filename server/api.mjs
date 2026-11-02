@@ -352,7 +352,7 @@ async function handleApi(req, res, method, pathname, user) {
     }
     if (pathname === '/api/portal/avatar' && method === 'POST') {
         const body = await readBody(req);
-        const next = saveUserAvatar(user.id, body.image || body.dataUrl);
+        const next = body.useGravatar === true ? updateUserProfile(user.id, {avatarFile:null}) : saveUserAvatar(user.id, body.image || body.dataUrl);
         json(req, res, 200, { user: next });
         return true;
     }

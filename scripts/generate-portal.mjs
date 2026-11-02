@@ -250,7 +250,7 @@ ${needChecks}
         </section>
     </main>
 ${renderFullFooter(1)}
-    <script src="../js/site-nav.js?v=account-refresh-20261102" defer></script>
+    <script src="../js/site-nav.js?v=bio-20261102" defer></script>
     <script src="../js/portal-auth.js?v=${SCRIPT_V}" defer></script>
     <script src="../js/portal-client.js?v=${SCRIPT_V}" defer></script>
 </body>

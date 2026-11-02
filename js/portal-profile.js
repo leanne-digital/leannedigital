@@ -33,7 +33,8 @@
     }
 
     async function boot({ api, user }) {
-        if (document.body.getAttribute('data-portal-page') !== 'profile') return;
+        if (document.body.getAttribute('data-portal-page') !== 'profile' || document.body.dataset.profileBound) return;
+        document.body.dataset.profileBound='1';
 
         const errorEl = $('[data-portal-error]');
         const okEl = $('[data-portal-ok]');
@@ -98,6 +99,11 @@
         }
 
         showWorkspace();
+        const avatarForm=$('[data-avatar-form]');
+        if(avatarForm){
+            const reset=document.createElement('button');reset.type='button';reset.className='workspace-action';reset.textContent='Use Gravatar';avatarForm.append(reset);
+            reset.addEventListener('click',async()=>{reset.disabled=true;try{const response=await fetch('/api/portal/avatar',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({useGravatar:true})});const data=await response.json();if(!response.ok)throw Error(data.error||'Could not update photo');state.user=data.user;window.__LD_PORTAL__.user=data.user;paint();show(okEl,'Gravatar restored.');document.dispatchEvent(new CustomEvent('ld-portal-ready',{detail:window.__LD_PORTAL__}));}catch(e){show(errorEl,e.message);}finally{reset.disabled=false;}});
+        }
 
         async function submitPassword(form, requireCurrent) {
             show(errorEl, '');
@@ -174,6 +180,7 @@
                 window.__LD_PORTAL__.user = data.user;
                 paint();
                 show(okEl, 'Photo updated.');
+                document.dispatchEvent(new CustomEvent('ld-portal-ready',{detail:window.__LD_PORTAL__}));
             } catch (error) {
                 show(errorEl, error.message);
             }

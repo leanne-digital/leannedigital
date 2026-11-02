@@ -23,7 +23,7 @@ ${renderNav(2, '')}
   </div>
 </main>
 ${renderFullFooter(2)}
-<script src="../../js/site-nav.js?v=account-refresh-20261102" defer></script>
+<script src="../../js/site-nav.js?v=bio-20261102" defer></script>
 <!-- lp:custom-body-end -->
 </body></html>`;
 const destination = new URL('proposals/gbt-logistics-and-packaging-inc/', root);
