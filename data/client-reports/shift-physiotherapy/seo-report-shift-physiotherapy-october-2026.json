@@ -1,0 +1,170 @@
+{
+  "slug": "seo-report-shift-physiotherapy-october-2026",
+  "kind": "seo",
+  "hiddenSections": [],
+  "startWithRecap": true,
+  "monthKey": "2026-10",
+  "title": "October 2026",
+  "monthLabel": "OCTOBER 2026",
+  "companyName": "SHIFT PHYSIOTHERAPY & WELLNESS",
+  "clientName": "Shift Physiotherapy & Wellness",
+  "keywordPdf": null,
+  "monthlyRecap": [
+    "October combined continued SEO improvements with the addition of Google Ads management. We published three educational articles, completed the prenatal physiotherapy page, strengthened internal linking, and corrected 25 French meta descriptions. We also corrected the French prenatal page title and URL with a permanent redirect, and verified all 50 URLs in the duplicate-description audit.",
+    "November 1, 2026 follow-up to October: we reviewed the Google Ads, Google Tag Manager and GA4 setup and confirmed that a Book Online click fired the Jane click tags once in the observed test. A genuine appointment booking was also completed through Jane. The before-and-after booking-import and double-counting checks remain pending; tracking has not been verified as fully fixed.",
+    "Reporting note — the supplied technical-audit, keyword and Google Ads visuals and keyword PDF are included with their actual dates. Historical visuals below are labelled by month and are not October results. Booking-import and double-counting verification remain pending."
+  ],
+  "technicalSeo": {
+    "thisMonthFirst": true,
+    "thisMonthImage": "/assets/clients/shift-physiotherapy/shift-tech-audit-october-2026.jpg",
+    "lastMonthImage": "/assets/clients/shift-physiotherapy/shift-tech-audit-sept-2026.jpg",
+    "pdf": null,
+    "visuals": [
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-tech-audit-october-2026.jpg",
+        "caption": "October 2026 reporting — technical audit crawled November 1, 2026"
+      },
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-tech-audit-sept-2026.jpg",
+        "caption": "September 2026 technical audit — historical comparison"
+      },
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-tech-audit-august-2026-current.jpg",
+        "caption": "August 2026 technical audit — historical comparison"
+      }
+    ],
+    "recap": [
+      "The supplied Ubersuggest audit, crawled November 1, 2026 at 10:27 PM (tool-displayed time), is a dated follow-up for October. It shows an on-page SEO score of 100 and two remaining issues: two pages with poorly formatted URLs. It does not establish an issue-free site.",
+      "The audit lists 205 page entries: 144 crawled and 61 blocked. Of the crawled pages, 131 were successful, 13 redirected and none broken. Its snapshot also reports estimated organic monthly traffic of 306, 292 organic keywords and 263 backlinks. These are Ubersuggest snapshot metrics, not verified October Analytics/Search Console totals or counts of newly built links. The backlink snapshot is separate from Leanne’s earlier 180-to-201 monitoring period.",
+      "On October 30, 25 unique French meta descriptions were published, and all 50 URLs from the duplicate-description audit were verified live. No duplicate descriptions remained within that audited set. The 50-URL verification was separate from the newly supplied November 1 crawl.",
+      "French headings, navigation and body translations still need work. A subsequent check confirmed the metadata fixes were already live; it did not represent another 25 edits. Review the two URL-format issues from the new crawl. An October technical-audit PDF has not been supplied."
+    ],
+    "completedWorkHtml": "<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"October technical work\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Work completed</th><th scope=\"col\">Verified scope</th></tr></thead><tbody><tr><td>October 30</td><td>French duplicate meta descriptions corrected and published</td><td>Updated and published 25 French meta descriptions in Wix for shiftptwellness.com, replacing copied English descriptions and duplicated service copy with distinct French descriptions. Covered service pages, seven massage subpages, team, contact, FAQ, sitemap, privacy policy and the prenatal physiotherapy page. Preserved coming-soon availability in chiropractic and nutrition descriptions. Also translated and shortened the Contact and FAQ title tags.</td></tr><tr><td>October 30</td><td>Prenatal French title and URL corrected with 301 redirect</td><td>Confirmed the page at /fr/diastasis-recti-physiotherapy-edmonton-1 is prenatal physiotherapy content in the English source. Replaced its copied dyspareunia title with “Physiothérapie prénatale à Edmonton | Shift” and added a matching unique French description. Published the corrected URL /fr/physiotherapie-prenatale-edmonton. Verified the old URL returns a 301 redirect to the new page, which returns HTTP 200.</td></tr><tr><td>October 30</td><td>Live SEO verification across 50 audited URLs</td><td>Rechecked all 50 URLs from the supplied Ubersuggest duplicate-meta-description audit after publication. All resolved successfully to HTTP 200, including the redirected prenatal URL. Confirmed 25 descriptions changed and no duplicate meta descriptions remain within that audited set. This was a live-page verification, not a new Ubersuggest crawl. Follow-up identified: several French headings, menu labels and body sections still contain copied or unfinished translations; those broader content issues were not corrected in this SEO metadata pass.</td></tr></tbody></table></div>",
+    "internalLinking": [
+      {
+        "date": "October 30, 2026",
+        "keyword": "why your knee clicks when you bend it",
+        "source": "What Is Causing My Knee Pain?",
+        "sourceUrl": "https://www.shiftptwellness.com/post/what-is-causing-my-knee-pain-common-reasons-explained-by-an-edmonton-physiotherapist",
+        "targetUrl": "https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it"
+      },
+      {
+        "date": "October 30, 2026",
+        "keyword": "why sitting can make lower back pain worse",
+        "source": "What Causes Chronic Back Pain?",
+        "sourceUrl": "https://www.shiftptwellness.com/post/what-causes-chronic-back-pain-and-how-can-physiotherapy-in-edmonton-help",
+        "targetUrl": "https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton"
+      },
+      {
+        "date": "October 30, 2026",
+        "keyword": "common causes of lateral hip pain",
+        "source": "Can a Physiotherapist Tell if You Have Arthritis?",
+        "sourceUrl": "https://www.shiftptwellness.com/post/can-a-physiotherapist-tell-if-you-have-arthritis",
+        "targetUrl": "https://www.shiftptwellness.com/post/lateral-hip-pain-causes-physiotherapy-edmonton"
+      },
+      {
+        "date": "October 30, 2026",
+        "keyword": "why your knee clicks when you bend it",
+        "source": "Runner's Knee Slowing Your Marathon Training?",
+        "sourceUrl": "https://www.shiftptwellness.com/post/runner-s-knee-slowing-your-marathon-training-how-physiotherapy-in-edmonton-can-help-you-recover",
+        "targetUrl": "https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it"
+      },
+      {
+        "date": "October 30, 2026",
+        "keyword": "why sitting can make lower back pain worse",
+        "source": "How Physiotherapy in Edmonton Helps Relieve Lower Back Pain",
+        "sourceUrl": "https://www.shiftptwellness.com/post/how-physiotherapy-in-edmonton-helps-relieve-lower-back-pain",
+        "targetUrl": "https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton"
+      },
+      {
+        "date": "October 30, 2026",
+        "keyword": "Prenatal Physiotherapy in Edmonton",
+        "source": "Pelvic Pain During Pregnancy",
+        "sourceUrl": "https://www.shiftptwellness.com/post/pelvic-pain-during-pregnancy-physiotherapist-edmonton",
+        "targetUrl": "https://www.shiftptwellness.com/prenatal-physiotherapy"
+      },
+      {
+        "date": "October 30, 2026",
+        "keyword": "how to relax your pelvic floor muscles",
+        "source": "How to Do Kegel Exercises Correctly",
+        "sourceUrl": "https://www.shiftptwellness.com/post/how-to-do-kegel-exercises-correctly-most-people-are-doing-them-wrong",
+        "targetUrl": "https://www.shiftptwellness.com/post/how-to-relax-your-pelvic-floor-muscles-especially-if-they-feel-tight"
+      }
+    ],
+    "internalLinkingNote": [
+      "Reviewed 56 existing published blog posts; seven contextual links were added, published and verified on October 30. The table documents those seven additions. An earlier link from the Pelvic Floor Physiotherapy service page to Prenatal Physiotherapy brings the reported total to eight links."
+    ],
+    "internalLinkingHtml": "<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"Seven internal links added October 30\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Anchor text</th><th scope=\"col\">Source page / post</th><th scope=\"col\">Target URL</th></tr></thead><tbody><tr><td>October 30, 2026</td><td>why your knee clicks when you bend it</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/what-is-causing-my-knee-pain-common-reasons-explained-by-an-edmonton-physiotherapist\" target=\"_blank\" rel=\"noopener noreferrer\">What Is Causing My Knee Pain?</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it</a></td></tr><tr><td>October 30, 2026</td><td>why sitting can make lower back pain worse</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/what-causes-chronic-back-pain-and-how-can-physiotherapy-in-edmonton-help\" target=\"_blank\" rel=\"noopener noreferrer\">What Causes Chronic Back Pain?</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton</a></td></tr><tr><td>October 30, 2026</td><td>common causes of lateral hip pain</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/can-a-physiotherapist-tell-if-you-have-arthritis\" target=\"_blank\" rel=\"noopener noreferrer\">Can a Physiotherapist Tell if You Have Arthritis?</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/lateral-hip-pain-causes-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/lateral-hip-pain-causes-physiotherapy-edmonton</a></td></tr><tr><td>October 30, 2026</td><td>why your knee clicks when you bend it</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/runner-s-knee-slowing-your-marathon-training-how-physiotherapy-in-edmonton-can-help-you-recover\" target=\"_blank\" rel=\"noopener noreferrer\">Runner's Knee Slowing Your Marathon Training?</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it</a></td></tr><tr><td>October 30, 2026</td><td>why sitting can make lower back pain worse</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/how-physiotherapy-in-edmonton-helps-relieve-lower-back-pain\" target=\"_blank\" rel=\"noopener noreferrer\">How Physiotherapy in Edmonton Helps Relieve Lower Back Pain</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton</a></td></tr><tr><td>October 30, 2026</td><td>Prenatal Physiotherapy in Edmonton</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/pelvic-pain-during-pregnancy-physiotherapist-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Pelvic Pain During Pregnancy</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/prenatal-physiotherapy\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/prenatal-physiotherapy</a></td></tr><tr><td>October 30, 2026</td><td>how to relax your pelvic floor muscles</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/how-to-do-kegel-exercises-correctly-most-people-are-doing-them-wrong\" target=\"_blank\" rel=\"noopener noreferrer\">How to Do Kegel Exercises Correctly</a></td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/how-to-relax-your-pelvic-floor-muscles-especially-if-they-feel-tight\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/how-to-relax-your-pelvic-floor-muscles-especially-if-they-feel-tight</a></td></tr></tbody></table></div>"
+  },
+  "keywords": {
+    "enabled": true,
+    "thisMonthFirst": true,
+    "thisMonthImage": "/assets/clients/shift-physiotherapy/shift-keywords-october-2026.jpg",
+    "lastMonthImage": "/assets/clients/shift-physiotherapy/shift-keywords-audit-sept-2026.jpg",
+    "twoMonthsAgoImage": "/assets/clients/shift-physiotherapy/shift-keywords-august-2026-current.jpg",
+    "pdf": {
+      "href": "/assets/clients/shift-physiotherapy/ubs_rank_tracking_shiftptwellness-com_2026-11-02.pdf",
+      "label": "Download keyword rankings report — October 2–November 1, 2026",
+      "download": true
+    },
+    "visuals": [
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-keywords-october-2026.jpg",
+        "caption": "October 2026 reporting — keyword snapshot October 2–November 1, 2026"
+      },
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-keywords-audit-sept-2026.jpg",
+        "caption": "September 2026 keyword rankings — historical comparison"
+      },
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-keywords-august-2026-current.jpg",
+        "caption": "August 2026 keyword rankings — historical comparison"
+      }
+    ],
+    "recap": [
+      "The supplied keyword screenshot and PDF cover October 2–November 1, 2026 for Google Canada, English, desktop. This is not an exact October 1–31 reporting period. The screenshot’s last update is October 28; the PDF identifies its export date as November 1, despite the November 2 filename.",
+      "Across 75 tracked keywords, 25 moved up, 18 moved down and 32 were unchanged. The screenshot shows average position moving from 11.95 to 15.55, a worsening of 3.60 positions. Its displayed ranking groups are 5 in Top 3, 17 in Top 10, 17 in Top 100 and 36 not ranked.",
+      "Ubersuggest warns that altered Google results are affecting SEO-tool ranking data and may cause keywords to appear not ranked or differ from Google results. Treat these as tool-reported observations; October organic traffic and Search Console performance still require review. Historical charts below retain their own reporting periods and are not used as matched-period comparisons."
+    ]
+  },
+  "newContent": {
+    "enabled": true,
+    "log": [],
+    "recap": [
+      "Work and dates above are reported in Leanne’s October 30 work summary. Content approval and design completion are distinguished from publication."
+    ],
+    "reportHtml": "<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"October content and local SEO work\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Content / area</th><th scope=\"col\">Work and status</th></tr></thead><tbody><tr><td>October 5</td><td>Bing Places</td><td>Registration approved following Gary’s registration.</td></tr><tr><td>October 7–10</td><td>Content research</td><td>Researched three topics and revised titles with Nicolas’s clinical feedback.</td></tr><tr><td>October 16–30</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/lateral-hip-pain-causes-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Lateral Hip Pain: Common Causes and How a Physiotherapist Can Help</a></td><td>Published in Wix after clinical feedback; content formatted and revised.</td></tr><tr><td>October 16–30</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/lower-back-pain-from-sitting-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Why Sitting Can Make Lower Back Pain Worse and What You Can Do About It</a></td><td>Published in Wix after clinical feedback; content formatted and revised.</td></tr><tr><td>October 16–30</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/why-does-my-knee-click-when-i-bend-it\" target=\"_blank\" rel=\"noopener noreferrer\">Why Does My Knee Click When I Bend It? Understanding Patellofemoral Pain</a></td><td>Published in Wix after clinical feedback; content formatted and revised.</td></tr><tr><td>October 19</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/prenatal-physiotherapy\" target=\"_blank\" rel=\"noopener noreferrer\">Prenatal Physiotherapy in Edmonton</a></td><td>Completed page content, corrected booking buttons and added a link from the Pelvic Floor service page.</td></tr><tr><td>October 20–22</td><td>Constipation Physiotherapy</td><td>Content and Figma design completed; approved October 22. Development outstanding and publication unverified.</td></tr><tr><td>October 20–26</td><td>Meta recruitment coordination</td><td>Permissions and account-access coordination. Recruitment postponed until the new year after a physiotherapist was hired; Leanne reported the $250 Meta advertising fee refunded. Separate from Google Ads.</td></tr><tr><td>October 21</td><td>Backlink monitoring</td><td>21 newly detected backlinks: 13 between September 23–October 7, then 8 between October 7–21. Reported total rose from 180 to 201. These are detections, not 21 links built; referring domains and quality remain unaudited.</td></tr><tr><td>October 30</td><td>Blog review and internal linking</td><td>Reviewed 56 existing posts and published/verified seven contextual links, documented above.</td></tr><tr><td>October 30</td><td>Google Business Profile</td><td>Published a post highlighting Pelvic Floor Physiotherapy in Edmonton and linking to the service.</td></tr></tbody></table></div>"
+  },
+  "googleAds": {
+    "enabled": true,
+    "title": "Google Ads Management",
+    "image": "/assets/clients/shift-physiotherapy/shift-google-ads-october-2026.jpg",
+    "visuals": [
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-google-ads-october-2026.jpg",
+        "caption": "October 2026 reporting — Google Ads snapshot October 5–November 1, 2026"
+      },
+      {
+        "image": "/assets/clients/shift-physiotherapy/shift-ga-audit-sept-2026.jpg",
+        "caption": "September 2026 Google Ads — historical comparison"
+      }
+    ],
+    "recap": [
+      "Google Ads management was added to Shift’s services in October, alongside ongoing SEO and content work. October 20–26 work included a dedicated Pelvic Health landing-page design and conversion-focused copy. Advertising wording was reviewed against the client’s feedback; final compliant copy, approval and development remain outstanding.",
+      "The supplied Google Ads screenshot covers October 5–November 1, 2026, not the full calendar month of October. It reports 125 clicks, 2.67K impressions, 10.00 conversions and a displayed cost of $2.06K. The currency is not identified in this screenshot and remains unverified. These aggregate conversions are not confirmed unique appointments or patients; they must not be equated with the action-level All conversions baseline below.",
+      "Campaign, search-term, targeting, schedule and budget reviews remain next steps; proposed optimizations are not presented as completed changes. No matched-period performance comparison is asserted."
+    ],
+    "reportHtml": "<h3>November 1, 2026 — conversion validation follow-up</h3><p>This post-period update is separate from October performance. The Google Ads, GTM and GA4 setup, conversion linker, click and lead-form triggers, and active campaign landing pages were reviewed. No campaigns, budgets, conversion goals, tags or settings were changed, and no GTM version was published.</p>\n<h3>Observed click test — passed</h3><p>Book Online on the Physiotherapy page opened Jane. The Google Ads Jane click tag succeeded once and the GA4 Jane click tag fired once; GA4 Realtime recorded click_jane_tm = 1. This verifies the observed outbound click, not an Ads-attributed conversion or completed appointment. A phone-click event was observed, but full call attribution and email/form end-to-end tests remain unverified.</p>\n<h3>Genuine booking — confirmed; Ads import pending</h3><p>A legitimate appointment was booked through Jane on November 1 and a confirmation email arrived. Appointment details are omitted. No completion debug trace was captured. At the subsequent check, October 31 was still the latest visible upload; no correlated new booking upload was visible.</p>\n<h3>Before-and-after checks — pending</h3><p>The baseline covers <strong>October 5–November 1, 2026</strong>, not the full October reporting period. Values below are reported conversion values; currency is unverified.</p>\n<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"Booking conversion baseline and pending after checks\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Conversion action</th><th scope=\"col\">Before: All conversions</th><th scope=\"col\">Reported value</th><th scope=\"col\">Configuration / status</th><th scope=\"col\">After</th></tr></thead><tbody><tr><td>Janeapp Click</td><td>21</td><td>0</td><td>Active; Primary; Count One</td><td>Pending</td></tr><tr><td>Jane Online Booking</td><td>6</td><td>1,080</td><td>Needs attention; Primary; Count Every</td><td>Pending</td></tr></tbody></table></div>\n<p>Nine records in the visible October 22–31 import entries failed, with 0% success across those entries. Earlier entries included successes. Exact rejection reasons are unknown; duplicate rejection has not been established.</p>\n<p><strong>Double-counting checks remain pending.</strong> Janeapp Click and Jane Online Booking are both Primary account-default goals, so click-plus-booking overlap may affect aggregate reporting. This is separate from duplicate tag firing. A separate Jane container was detected, but its configuration was not verified; multiple containers alone do not prove duplication. Aggregate conversions must not be treated as unique bookings or patients.</p>\n<p>Next, compare the same actions and date range after processing; correlate the genuine booking with its confirmation time and booking identifier; confirm timezone, attribution eligibility and reporting latency; inspect exact upload errors and retry deduplication with the integration owner or Jane support. A totals increase alone cannot prove attribution or absence of duplicates. No repeat appointment is needed. <strong>Booking-import reliability and absence of double counting remain unverified.</strong></p>"
+  },
+  "nextSteps": [
+    "Complete the genuine-booking before-and-after comparison and investigate Jane import errors. Distinguish outbound booking intent from completed, attributed appointments.",
+    "Review Primary conversion-goal overlap and document approval before any settings changes.",
+    "Finalize advertising-compliant Pelvic Health landing-page copy, obtain approval and complete development.",
+    "Verify the Constipation Physiotherapy page’s current status, then complete development and publication of the approved page.",
+    "Continue French body and navigation translations, and review the two URL-format issues shown in the supplied November 1 crawl.",
+    "Confirm Google Ads reporting currency and review October organic traffic and Search Console performance. Interpret the supplied Ads and keyword snapshots using their actual date ranges; retain the keyword provider’s data-quality warning.",
+    "Audit backlink quality and referring domains, and continue content development and internal linking.",
+    "Continue Google Ads campaign, search-term, geographic-targeting, scheduling and budget review. Proposed optimizations require separate implementation."
+  ],
+  "richSections": true
+}

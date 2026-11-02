@@ -136,6 +136,18 @@
     ],
     "reports": [
       {
+        "slug": "seo-report-shift-physiotherapy-october-2026",
+        "title": "October 2026",
+        "monthKey": "2026-10",
+        "kind": "seo"
+      },
+      {
+        "slug": "seo-report-shift-physiotherapy-september-2026",
+        "title": "September 2026",
+        "monthKey": "2026-09",
+        "kind": "seo"
+      },
+      {
         "slug": "seo-report-shift-physiotherapy-august-2026",
         "title": "August 2026",
         "monthKey": "2026-08"

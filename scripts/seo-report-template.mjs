@@ -40,6 +40,10 @@ function pdfButton(pdf, fallbackLabel) {
     return `            <p class="seo-report__actions"><a class="ld-btn" href="${escapeHtml(pdf.href)}"${pdf.download ? ' download' : ''} target="_blank" rel="noopener">${escapeHtml(label)}</a></p>`;
 }
 
+function reportVisuals(items) {
+    return `<div class="seo-report__shots" style="display: grid; grid-template-columns: minmax(0, 1fr)">${items.map((item) => figure(item.image, item.caption)).join('\n')}</div>`;
+}
+
 function activityTable(rows = [], empty = 'No activity logged this month.') {
     if (!rows.length) {
         return `            <p class="seo-report__empty">${escapeHtml(empty)}</p>`;
@@ -155,21 +159,21 @@ export function renderSeoReportBody(report) {
     const keywordsOn = report.keywords?.enabled !== false && report.keywords?.na !== true;
     const contentOn = report.newContent?.enabled !== false && report.newContent?.na !== true;
     const adsBlock = adsOn
-        ? `${figure(report.googleAds?.image, 'Google Ads')}
-${paragraphsHtml(report.googleAds?.recap) || '                <p>No Google Ads recap yet.</p>'}`
+        ? `${report.googleAds?.visuals ? reportVisuals(report.googleAds.visuals) : figure(report.googleAds?.image, 'Google Ads')}
+${paragraphsHtml(report.googleAds?.recap) || '                <p>No Google Ads recap yet.</p>'}${report.richSections && report.googleAds?.reportHtml ? '\n' + report.googleAds.reportHtml : ''}`
         : '            <p class="seo-report__empty">Client does not have a Google Ads strategy with Leanne Digital.</p>';
     const keywordsShotClass = report.keywords?.twoMonthsAgoImage ? ' seo-report__shots--three' : '';
     const keywordsBlock = keywordsOn
-        ? `        <div class="seo-report__shots${keywordsShotClass}">
+        ? `${report.keywords?.visuals ? reportVisuals(report.keywords.visuals) : `        <div class="seo-report__shots${keywordsShotClass}">
 ${figure(report.keywords?.lastMonthImage, 'Last month')}
 ${figure(report.keywords?.thisMonthImage, 'This month')}
 ${report.keywords?.twoMonthsAgoImage ? figure(report.keywords.twoMonthsAgoImage, 'Two months ago') : ''}
-        </div>
+        </div>`}
 ${paragraphsHtml(report.keywords?.recap)}
 ${pdfButton(report.keywords?.pdf || report.keywordPdf, pdfLabel)}`
         : '        <p class="seo-report__empty">Client does not have a keyword rankings strategy with Leanne Digital.</p>';
     const contentBlock = contentOn
-        ? `${activityTable(report.newContent?.log, 'No new content logged this month.')}
+        ? `${(report.richSections && report.newContent?.reportHtml) || activityTable(report.newContent?.log, 'No new content logged this month.')}
 ${paragraphsHtml(report.newContent?.recap)}`
         : '        <p class="seo-report__empty">Client does not have a new content and updates strategy with Leanne Digital.</p>';
 
@@ -188,21 +192,21 @@ ${paragraphsHtml(report.monthlyRecap) || '                <p>Recap for this mont
     </section>
     <section class="seo-report__section">
         <h2>Technical SEO</h2>
-        <div class="seo-report__shots">
+        ${report.technicalSeo?.visuals ? reportVisuals(report.technicalSeo.visuals) : `<div class="seo-report__shots">
 ${report.technicalSeo?.thisMonthFirst ? figure(report.technicalSeo?.thisMonthImage, 'This month') + figure(report.technicalSeo?.lastMonthImage, 'Last month') : figure(report.technicalSeo?.lastMonthImage, 'Last month') + figure(report.technicalSeo?.thisMonthImage, 'This month')}
-        </div>
+        </div>`}
 ${paragraphsHtml(report.technicalSeo?.recap)}
 ${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
     </section>
     <section class="seo-report__section">
         <h2>Technical work completed</h2>
-${technicalActivityTable(report.technicalSeo?.internalLinks)}
+${(report.richSections && report.technicalSeo?.completedWorkHtml) || technicalActivityTable(report.technicalSeo?.internalLinks)}
     </section>
 ${headingStructureProof(report.technicalSeo?.headingStructureProof)}
     <section class="seo-report__section">
         <h2>Internal linking</h2>
 ${paragraphsHtml(report.technicalSeo?.internalLinkingNote)}
-${internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
+${(report.richSections && report.technicalSeo?.internalLinkingHtml) || internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
     </section>
 ${report.hiddenSections?.includes("Keyword rankings") ? '' : `    <section class="seo-report__section">
         <h2>Keyword rankings</h2>
@@ -214,7 +218,7 @@ ${contentOn ? '        <h3>Activity log</h3>' : ''}
 ${contentBlock}
     </section>`}
 ${report.hiddenSections?.includes("Google Ads") ? '' : `    <section class="seo-report__section">
-        <h2>Google Ads</h2>
+        <h2>${escapeHtml((report.richSections && report.googleAds?.title) || 'Google Ads')}</h2>
 ${adsBlock}
     </section>`}
     <section class="seo-report__section">

@@ -1,0 +1,174 @@
+{
+  "slug": "seo-report-shift-physiotherapy-september-2026",
+  "kind": "seo",
+  "hiddenSections": [],
+  "startWithRecap": true,
+  "monthKey": "2026-09",
+  "title": "September 2026",
+  "monthLabel": "SEPTEMBER 2026",
+  "companyName": "SHIFT PHYSIOTHERAPY & WELLNESS",
+  "clientName": "Shift Physiotherapy & Wellness",
+  "campaignIntro": [
+    "This SEO campaign is focused on improving Shift Physiotherapy’s visibility for local physiotherapy searches and helping more patients find the practice online.",
+    "Each month, we monitor technical site health, keyword visibility, and on-page opportunities to strengthen search performance and support sustainable organic growth."
+  ],
+  "keywordPdf": null,
+  "monthlyRecap": [
+    "September was an important transition month for Shift as we prepared to take over management of the Google Ads account while continuing to strengthen the site’s SEO foundation. We reviewed the existing campaigns, conversion tracking and supporting website setup, and we’re excited to begin managing Google Ads directly so we can better connect the advertising strategy with the SEO and content work already underway."
+  ],
+  "technicalSeo": {
+    "pdf": {
+      "href": "/assets/clients/shift-physiotherapy/shift-technical-seo-audit-september-2026.pdf",
+      "label": "Download technical SEO audit",
+      "download": true
+    },
+    "internalLinking": [
+      {
+        "date": "Sept. 12",
+        "source": "Pregnancy & Postpartum Pelvic Floor Physiotherapy",
+        "keyword": "Pelvic Organ Prolapse",
+        "targetUrl": "https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton"
+      },
+      {
+        "date": "Sept. 12",
+        "source": "Pregnancy & Postpartum Pelvic Floor Physiotherapy",
+        "keyword": "Urinary or Fecal Incontinence",
+        "targetUrl": "https://www.shiftptwellness.com/urinary-incontinence"
+      },
+      {
+        "date": "Sept. 12",
+        "source": "Pregnancy & Postpartum Pelvic Floor Physiotherapy",
+        "keyword": "Diastasis Recti Abdominis",
+        "targetUrl": "https://www.shiftptwellness.com/diastasis-recti-physiotherapy-edmonton"
+      },
+      {
+        "date": "Sept. 15",
+        "source": "Leaking Urine? Pelvic Floor Physiotherapy Might Be Right For You!",
+        "keyword": "what urinary incontinence is",
+        "targetUrl": "https://www.shiftptwellness.com/urinary-incontinence"
+      },
+      {
+        "date": "Sept. 15",
+        "source": "Pessary Care: What to Know, How to Maintain It, and When to Get Help",
+        "keyword": "pelvic organ prolapse",
+        "targetUrl": "https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "Can Physiotherapy Help With Headaches?",
+        "keyword": "Physiotherapy Treatments",
+        "targetUrl": "https://www.shiftptwellness.com/physiotherapy-treatments"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "Can Physiotherapy Help With Headaches?",
+        "keyword": "Motor Vehicle Accident Physiotherapy",
+        "targetUrl": "https://www.shiftptwellness.com/motor-vehicle-accident-physiotherapy-edmonton"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "Can Physiotherapy Help With Headaches?",
+        "keyword": "TMJ Physiotherapy",
+        "targetUrl": "https://www.shiftptwellness.com/post/tmj-physiotherapy-edmonton-how-physio-helps-reduce-jaw-pain-and-tension"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "ACL Injury Management",
+        "keyword": "Physiotherapy Treatments",
+        "targetUrl": "https://www.shiftptwellness.com/physiotherapy-treatments"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "ACL Injury Management",
+        "keyword": "Knee Pain",
+        "targetUrl": "https://www.shiftptwellness.com/post/what-is-causing-my-knee-pain-common-reasons-explained-by-an-edmonton-physiotherapist"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "ACL Injury Management",
+        "keyword": "Runner’s Knee",
+        "targetUrl": "https://www.shiftptwellness.com/post/runner-s-knee-slowing-your-marathon-training-how-physiotherapy-in-edmonton-can-help-you-recover"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "Tennis Elbow",
+        "keyword": "Physiotherapy Treatments",
+        "targetUrl": "https://www.shiftptwellness.com/physiotherapy-treatments"
+      },
+      {
+        "date": "Sept. 16",
+        "source": "Tennis Elbow",
+        "keyword": "Shoulder Pain",
+        "targetUrl": "https://www.shiftptwellness.com/post/why-does-shoulder-pain-get-worse-at-night-how-physiotherapy-in-edmonton-can-help"
+      }
+    ],
+    "internalLinkingNote": "",
+    "targetUrls": {},
+    "thisMonthFirst": true,
+    "lastMonthImage": "/assets/clients/shift-physiotherapy/shift-tech-audit-august-2026-current.jpg",
+    "thisMonthImage": "/assets/clients/shift-physiotherapy/shift-tech-audit-sept-2026.jpg",
+    "recap": [
+      "In September, we cleaned up 404 errors and duplicate-content issues to improve the site’s technical health. We also cleared all major errors and warnings in Google Search Console. The latest technical audit achieved a 100/100 score with no SEO issues detected, giving Shift a stronger foundation for continued search visibility."
+    ],
+    "internalLinks": [],
+    "completedWorkHtml": "<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"September technical work\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Page / Area</th><th scope=\"col\">Work completed</th></tr></thead><tbody><tr><td>September 23</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Homepage</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/faq\" target=\"_blank\" rel=\"noopener noreferrer\">FAQ page</a></td><td>Added FAQ structured data for 10 homepage FAQs and 9 FAQ-page questions.<br>Verified homepage markup in live HTML alongside existing business and website markup.</td></tr><tr><td>September 23</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/diastasis-recti-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Diastasis Recti</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/urinary-incontinence\" target=\"_blank\" rel=\"noopener noreferrer\">Urinary Incontinence</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/mobile-pelvic-floor-physiotherapy\" target=\"_blank\" rel=\"noopener noreferrer\">Mobile Pelvic Floor Physiotherapy</a></td><td>Added FAQ structured data for 7, 5 and 4 visible patient questions, respectively.</td></tr><tr><td>September 23</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/pessary-clinic-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Pessary Clinic</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Pelvic Organ Prolapse</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/registered-dietitian-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Registered Dietitian</a></td><td>Added FAQ structured data for 6, 14 and 6 patient questions, respectively.<br>Kept prolapse answers within Wix’s size limits. Existing About-page FAQ markup was already working and left unchanged.</td></tr><tr><td>September 16</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/motor-vehicle-accident-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Motor Vehicle Accident Physiotherapy</a></td><td>Replaced a meta description duplicated from Dry Needling; verified it in the live source.<br><strong>New description:</strong> Recover after a car accident with personalized MVA physiotherapy in Edmonton at Shift Physiotherapy &amp; Wellness. Direct billing available.</td></tr><tr><td>September 16</td><td>Duplicate French Dyspareunia URL</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/fr/dyspareunia-physiotherapy-edmonton-1\" target=\"_blank\" rel=\"noopener noreferrer\">Old URL: /fr/dyspareunia-physiotherapy-edmonton-1</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/fr/dyspareunia-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Destination: /fr/dyspareunia-physiotherapy-edmonton</a><br>Added a live permanent 301 redirect to consolidate the duplicate URL.</td></tr><tr><td>September 30</td><td>Internal-linking audit</td><td>Reviewed 94 English URLs across service pages, blog posts and categories.<br>Identified weakly linked service pages and generic “Learn More” / “More Information” links.</td></tr><tr><td>September 30</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/pregnancy-postpartum-pelvic-floor-physiotherapy\" target=\"_blank\" rel=\"noopener noreferrer\">Pregnancy &amp; Postpartum Pelvic Floor Physiotherapy</a></td><td>Added contextual links:<br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Pelvic Organ Prolapse</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/urinary-incontinence\" target=\"_blank\" rel=\"noopener noreferrer\">Urinary or Fecal Incontinence</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/diastasis-recti-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Diastasis Recti Abdominis</a></td></tr><tr><td>September 30</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/leaking-urine-pelvic-floor-physiotherapy-might-be-right-for-you\" target=\"_blank\" rel=\"noopener noreferrer\">Leaking Urine? Pelvic Floor Physiotherapy Might Be Right For You!</a><br><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/pessary-care-what-to-know-how-to-maintain-it-and-when-to-get-help\" target=\"_blank\" rel=\"noopener noreferrer\">Pessary Care: What to Know, How to Maintain It, and When to Get Help</a></td><td>Added “<a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/urinary-incontinence\" target=\"_blank\" rel=\"noopener noreferrer\">what urinary incontinence is</a>” to the Leaking Urine article.<br>Added “<a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">pelvic organ prolapse</a>” to Pessary Care.</td></tr><tr><td>September 30</td><td>Existing-link checks</td><td>Checked existing links before adding new ones to avoid duplication.<br>The dyspareunia article already links to its service page; Pessary Care already links to the Pessary Clinic.</td></tr></tbody></table></div><p>September was our first month of aggressive internal linking. We’ll continue this important work next month.</p>",
+    "internalLinkingHtml": "<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"September internal links\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Source Page</th><th scope=\"col\">Anchor Text / Keyword</th><th scope=\"col\">Destination URL</th></tr></thead><tbody><tr><td>Sept. 12</td><td>Pregnancy &amp; Postpartum Pelvic Floor Physiotherapy</td><td>Pelvic Organ Prolapse</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton</a></td></tr><tr><td>Sept. 12</td><td>Pregnancy &amp; Postpartum Pelvic Floor Physiotherapy</td><td>Urinary or Fecal Incontinence</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/urinary-incontinence\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/urinary-incontinence</a></td></tr><tr><td>Sept. 12</td><td>Pregnancy &amp; Postpartum Pelvic Floor Physiotherapy</td><td>Diastasis Recti Abdominis</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/diastasis-recti-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/diastasis-recti-physiotherapy-edmonton</a></td></tr><tr><td>Sept. 15</td><td>Leaking Urine? Pelvic Floor Physiotherapy Might Be Right For You!</td><td>what urinary incontinence is</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/urinary-incontinence\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/urinary-incontinence</a></td></tr><tr><td>Sept. 15</td><td>Pessary Care: What to Know, How to Maintain It, and When to Get Help</td><td>pelvic organ prolapse</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/pelvic-organ-prolapse-physiotherapy-in-edmonton</a></td></tr><tr><td>Sept. 16</td><td>Can Physiotherapy Help With Headaches?</td><td>Physiotherapy Treatments</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/physiotherapy-treatments\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/physiotherapy-treatments</a></td></tr><tr><td>Sept. 16</td><td>Can Physiotherapy Help With Headaches?</td><td>Motor Vehicle Accident Physiotherapy</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/motor-vehicle-accident-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/motor-vehicle-accident-physiotherapy-edmonton</a></td></tr><tr><td>Sept. 16</td><td>Can Physiotherapy Help With Headaches?</td><td>TMJ Physiotherapy</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/tmj-physiotherapy-edmonton-how-physio-helps-reduce-jaw-pain-and-tension\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/tmj-physiotherapy-edmonton-how-physio-helps-reduce-jaw-pain-and-tension</a></td></tr><tr><td>Sept. 16</td><td>ACL Injury Management</td><td>Physiotherapy Treatments</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/physiotherapy-treatments\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/physiotherapy-treatments</a></td></tr><tr><td>Sept. 16</td><td>ACL Injury Management</td><td>Knee Pain</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/what-is-causing-my-knee-pain-common-reasons-explained-by-an-edmonton-physiotherapist\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/what-is-causing-my-knee-pain-common-reasons-explained-by-an-edmonton-physiotherapist</a></td></tr><tr><td>Sept. 16</td><td>ACL Injury Management</td><td>Runner’s Knee</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/runner-s-knee-slowing-your-marathon-training-how-physiotherapy-in-edmonton-can-help-you-recover\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/runner-s-knee-slowing-your-marathon-training-how-physiotherapy-in-edmonton-can-help-you-recover</a></td></tr><tr><td>Sept. 16</td><td>Tennis Elbow</td><td>Physiotherapy Treatments</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/physiotherapy-treatments\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/physiotherapy-treatments</a></td></tr><tr><td>Sept. 16</td><td>Tennis Elbow</td><td>Shoulder Pain</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/why-does-shoulder-pain-get-worse-at-night-how-physiotherapy-in-edmonton-can-help\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.shiftptwellness.com/post/why-does-shoulder-pain-get-worse-at-night-how-physiotherapy-in-edmonton-can-help</a></td></tr></tbody></table></div>"
+  },
+  "keywords": {
+    "thisMonthImage": "/assets/clients/shift-physiotherapy/shift-keywords-audit-sept-2026.jpg",
+    "lastMonthImage": "/assets/clients/shift-physiotherapy/shift-keywords-august-2026-current.jpg",
+    "twoMonthsAgoImage": "",
+    "recap": [
+      "September’s keyword chart is shown first, with August’s chart below for comparison."
+    ],
+    "pdf": {
+      "href": "/assets/clients/shift-physiotherapy/rank_tracking_shiftptwellness-com_2026-10-01.pdf",
+      "label": "Download keyword rankings report",
+      "download": true
+    },
+    "thisMonthFirst": true
+  },
+  "newContent": {
+    "log": [],
+    "recap": [
+      "September content and on-page updates will be added once the completed work is confirmed."
+    ],
+    "reportHtml": "<p>Leanne’s September content work included new local SEO articles, blog optimization and internal linking.</p><p>Dates are reporting groups assigned for this summary, not verified publication or completion dates.</p><div class=\"dash-table-wrap\" role=\"region\" aria-label=\"September content work\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Content / Area</th><th scope=\"col\">Work completed</th></tr></thead><tbody><tr><td>September 9</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/pelvic-pain-during-pregnancy-physiotherapist-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Pelvic Pain During Pregnancy: When to See a Physiotherapist in Edmonton</a></td><td>New local SEO article on pregnancy-related pelvic pain and when to consider physiotherapy.<br><strong>Status:</strong> Published</td></tr><tr><td>September 9</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/achilles-tendon-pain-running-physiotherapy-edmonton\" target=\"_blank\" rel=\"noopener noreferrer\">Achilles Tendon Pain From Running: How Physiotherapy in Edmonton Can Help</a></td><td>New article for runners seeking help with Achilles tendon pain in Edmonton.<br><strong>Status:</strong> Published</td></tr><tr><td>September 9</td><td><a class=\"client-report-table__url\" href=\"https://www.shiftptwellness.com/post/how-long-sprained-ankle-heal-edmonton-physiotherapist\" target=\"_blank\" rel=\"noopener noreferrer\">How Long Does a Sprained Ankle Take to Heal? Advice From an Edmonton Physiotherapist</a></td><td>New article answering ankle recovery questions and supporting local physiotherapy searches.<br><strong>Status:</strong> Published</td></tr><tr><td>September 9</td><td>September blog SEO optimization</td><td>SEO titles and meta descriptions; blog categories.<br>Relevant images, image alt text and on-page formatting.</td></tr><tr><td>September 23</td><td>Prenatal Physiotherapy in Edmonton Service Page</td><td>Created SEO copy and page design.<br><strong>Status:</strong> In review / not yet published; awaiting approval.</td></tr></tbody></table></div>"
+  },
+  "googleAds": {
+    "enabled": true,
+    "na": false,
+    "image": "/assets/clients/shift-physiotherapy/shift-ga-audit-sept-2026.jpg",
+    "recap": [
+      "As we take over management of Shift’s Google Ads account, our first priority will be improving the quality of the data Google is using to optimize the campaigns. The account is currently tracking a number of different actions as conversions, so we’ll begin by separating true lead and booking activity from lower-value engagement actions. From there, we’ll refine campaign structure, search terms, targeting, scheduling and landing-page alignment so budget is focused more heavily on the searches and services that are most likely to generate actual appointments.",
+      "This first month of management will be focused on getting the account’s foundation right before making larger changes to bidding or budgets. Once conversion tracking is cleaned up and we have a clearer picture of which campaigns and searches are producing actual bookings, we’ll be able to make more informed decisions about automated bidding, budget allocation and where additional advertising spend can generate the strongest return."
+    ],
+    "title": "Google Ads Management",
+    "priorities": [
+      {
+        "priority": "Conversion tracking cleanup",
+        "description": "Review all current conversion actions and prioritize completed Jane bookings, qualified calls and meaningful lead submissions so campaign optimization is based on real patient acquisition rather than softer engagement signals."
+      },
+      {
+        "priority": "Campaign and search-term review",
+        "description": "Audit the Pelvic Floor, Physio and Dry Needling campaigns, identify high-performing search terms, reduce wasted spend and tighten keyword targeting around strong local service intent."
+      },
+      {
+        "priority": "Geographic targeting review",
+        "description": "Confirm ads are focused on the Edmonton-area locations Shift actually wants to serve and remove any unnecessary geographic reach that could be wasting budget."
+      },
+      {
+        "priority": "Ad scheduling and budget analysis",
+        "description": "Review when leads and bookings are occurring, adjust ad schedules where appropriate, and assess how the current budget should be distributed between the three active campaigns. Pelvic Floor will receive particular attention because it is currently the strongest and most budget-constrained campaign."
+      },
+      {
+        "priority": "Landing-page and campaign alignment",
+        "description": "Coordinate the dedicated Pelvic Health landing page with the campaign and review the ad-to-page experience so messaging, services and calls to action closely match the searches driving each campaign."
+      }
+    ]
+  },
+  "nextSteps": [
+    "In October, we’ll continue adding fresh, optimized content and expand the internal linking strategy across more pages and blog posts. We’ll also begin cleaning up Google Tag Manager and the Google Ads account so conversion tracking, campaign data and future optimizations are built on a cleaner and more reliable foundation."
+  ],
+  "updatedAt": "2026-10-01T03:40:13.179Z"
+}
