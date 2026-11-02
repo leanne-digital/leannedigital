@@ -272,3 +272,6 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 [data-client-form] .admin-revenue li { display:flex;justify-content:space-between;gap:20px;padding:8px 0;border-bottom:1px solid #dce2e8; }
 [data-client-form] .dash-form__total { margin:16px 0 0;padding:16px;background:#e9f0f7;border-radius:8px;font-size:17px; }
 @media(max-width:600px){.client-editor-section{padding:16px;}}
+
+.team-member { display: inline-flex; align-items: center; gap: 12px; }
+.team-member img { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; flex-shrink: 0; }

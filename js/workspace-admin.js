@@ -937,7 +937,7 @@
             body.innerHTML = (staff || [])
                 .map(
                     (row) => `<tr>
-                    <td>${escapeHtml(row.name || '—')}</td>
+                    <td><span class="team-member"><img src="${escapeHtml(row.avatarUrl || '/assets/icons/favicon-192x192.png')}" alt="" width="36" height="36">${escapeHtml(row.name || '—')}</span></td>
                     <td>${escapeHtml(row.email)}</td>
                     <td>${escapeHtml(labels[row.privilege] || row.privilege || 'Admin')}</td>
                 </tr>`
