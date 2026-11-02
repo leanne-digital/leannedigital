@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ROBOTS = 'noindex, nofollow';
-const SCRIPT_V = 'security-google-20261102';
+const SCRIPT_V = 'security-google-icon-20261102';
 
 function writePage(relativeDir, html) {
     const dir = path.join(ROOT, relativeDir);

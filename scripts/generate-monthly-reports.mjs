@@ -56,7 +56,7 @@ export async function generateMonthlyReports({month=previousMonth(),apply=false,
    const meta={slug:record.slug,monthKey:month,title:record.title,kind:'seo'};
    // Render only this new report. Never regenerate historical pages or the staff workspace.
    let html=renderReportPage({...client,reports:[meta,...(client.reports||[])]},meta);
-   html=html.replace(/site-nav\.js(?:\?v=[\w.-]+)?/g,'site-nav.js?v=account-20261102').replace(/portal-auth\.js(?:\?v=[\w.-]+)?/g,'portal-auth.js?v=security-google-20261102');
+   html=html.replace(/site-nav\.js(?:\?v=[\w.-]+)?/g,'site-nav.js?v=account-20261102').replace(/portal-auth\.js(?:\?v=[\w.-]+)?/g,'portal-auth.js?v=security-google-icon-20261102');
    const relative=path.join('clients',client.slug,record.slug,'index.html');write(path.join(ROOT,relative),html);
    if(publishRoot)write(path.join(path.resolve(publishRoot),relative),html);
    upsertClientReport(client.slug,meta);
