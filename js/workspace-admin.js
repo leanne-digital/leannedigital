@@ -635,6 +635,35 @@
             else if (filterId === 'dashboard') header.after(summary);
             else heading.before(summary);
         }
+        let alphabet = $('[data-client-alphabet]');
+        if (!alphabet && heading) {
+            alphabet = document.createElement('nav');
+            alphabet.dataset.clientAlphabet = '';
+            alphabet.className = 'client-alphabet';
+            alphabet.setAttribute('aria-label', 'Filter clients by first letter');
+            alphabet.dataset.letter = '';
+            heading.before(alphabet);
+            alphabet.addEventListener('click', event => {
+                const button = event.target.closest('[data-client-letter]');
+                if (!button) return;
+                alphabet.dataset.letter = button.dataset.clientLetter;
+                visibilityControl.dispatchEvent(new Event('change'));
+            });
+        }
+        if (alphabet) {
+            alphabet.hidden = filterId !== 'overview';
+            if (!alphabet.hidden) {
+                const letter = alphabet.dataset.letter || '';
+                const initial = client => String(client.name || '').trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '').charAt(0).toUpperCase();
+                const available = new Set(list.filter(client => matchesQuery(client, query)).map(initial));
+                alphabet.innerHTML = ['', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '#'].map(value => {
+                    const enabled = !value || (value === '#' ? [...available].some(char => !/^[A-Z]$/.test(char)) : available.has(value));
+                    return `<button type="button" data-client-letter="${value}" aria-pressed="${letter === value}" ${enabled ? '' : 'disabled'}>${value || 'All'}</button>`;
+                }).join('');
+                if (letter) list = list.filter(client => letter === '#' ? !/^[A-Z]$/.test(initial(client)) : initial(client) === letter);
+                list.sort((a,b)=>a.name.localeCompare(b.name));
+            }
+        }
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';

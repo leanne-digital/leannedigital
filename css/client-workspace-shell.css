@@ -247,3 +247,7 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 
 .portfolio-dialog > .dash-form { margin: 20px; max-width: none; }
 .portfolio-dialog__messages > p:not([hidden]) { margin: 16px 20px 0; }
+
+.client-alphabet { display: flex; flex-wrap: wrap; gap: 6px; margin: 20px 0 16px; }
+.client-alphabet button { min-width: 34px; min-height: 36px; padding: 6px 9px; border-radius: 6px; font-size: 12px; }
+.client-alphabet button[aria-pressed="true"] { outline: 3px solid #4ec3cc; outline-offset: 1px; }
