@@ -68,3 +68,5 @@
   if(!google)document.querySelector('#sidebar-toggle')?.addEventListener('click',e=>{const mobile=matchMedia('(max-width:700px)').matches;document.body.classList.toggle(mobile?'nav-open':'nav-collapsed');e.currentTarget.setAttribute('aria-expanded',String(document.body.classList.contains(mobile?'nav-open':'nav-collapsed')));});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('nav-open');});
 })();
+
+(() => { if (!document.querySelector('.topbar')) return; const script=document.createElement('script'); script.src='/js/workspace-account.js?v=navy-topbar-20261102'; document.body.append(script); })();

@@ -126,3 +126,10 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .report-copy svg { flex: none; }
 .report-copy-status { flex-basis: 100%; font-size: 12px; color: var(--workspace-navy); }
 .report-copy-status:empty { display: none; }
+
+.topbar { background: #212c3e; color: #fff; border-bottom-color: #36445a; z-index: 20; }
+.topbar h1, .topbar .icon-button, .topbar .workspace-label { color: #fff; }
+.topbar .icon-button:hover { background: #182234; }
+.topbar .site-account { margin-left: 12px; }
+.topbar .site-account__menu { line-height: 1.4; }
+@media(max-width:700px) { .topbar .workspace-label { display: none; } .topbar .site-account { margin-left: auto; } }
