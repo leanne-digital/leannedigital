@@ -49,15 +49,16 @@
   const routes = [
     ['Workspace', [['dashboard','Overview','⌂'],['overview','Clients','▤']]],
     ['Connect', [['google','Google Platforms','♧']]],
-    ['Manage', [['client-work','Client Work',''],['projects','Projects','▦'],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','WP Backups and Security','◇'],['management-clients','AI Site Management','▧'],['credentials','Client Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
+    ['Manage', [['client-work','Client Work',''],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','WP Backups and Security','◇'],['management-clients','AI Site Management','▧'],['credentials','Client Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
   ];
   const href = id => id === 'google' ? '/google-platforms/' : '/clients/#' + id;
   const google = location.pathname.startsWith('/google-platforms');
   const sidebar = document.querySelector('.sidebar');
   if (!sidebar) return;
-  sidebar.innerHTML = `<a class="brand" href="/clients/"><img class="workspace-brand-icon" src="/assets/icons/favicon-192x192.png" alt="" width="38" height="38"><span>leanne digital<span class="brand-sub">CLIENT WORKSPACE</span></span></a><nav aria-label="Workspace">${routes.map(([label,items])=>`<p>${label}</p>${items.map(([id,title,icon])=>`<a href="${href(id)}" data-workspace-nav="${id}"><span aria-hidden="true">${navIcon(id)}</span>${title}</a>`).join('')}`).join('')}</nav><div class="sidebar-note"><strong>Your clients. Connected.</strong><p>Clients, projects and Google accounts in one workspace.</p><a href="/clients/#new-client">Add a client <span aria-hidden="true">↗</span></a></div><a class="profile" href="/profile/"><span class="avatar">LD</span><span>Leanne Digital<small>Staff workspace</small></span><span aria-hidden="true">↗</span></a><button id="workspace-logout" class="text-button">Sign out</button>`;
+  sidebar.innerHTML = `<a class="brand" href="/clients/"><img class="workspace-brand-icon" src="/assets/icons/favicon-192x192.png" alt="" width="38" height="38"><span>leanne digital<span class="brand-sub">CLIENT WORKSPACE</span></span></a><nav aria-label="Workspace">${routes.map(([label,items])=>`<p>${label}</p>${items.map(([id,title,icon])=>`<a href="${href(id)}" data-workspace-nav="${id}"><span aria-hidden="true">${navIcon(id)}</span>${title}</a>`).join('')}`).join('')}</nav><div class="sidebar-note"><strong>Your clients. Connected.</strong><p>Clients, services and Google accounts in one workspace.</p><a href="/clients/#new-client">Add a client <span aria-hidden="true">↗</span></a></div><a class="profile" href="/profile/"><span class="avatar">LD</span><span>Leanne Digital<small>Staff workspace</small></span><span aria-hidden="true">↗</span></a><button id="workspace-logout" class="text-button">Sign out</button>`;
   document.querySelector('#workspace-logout')?.addEventListener('click',async()=>{const r=await fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'});if(r.ok)location.assign('/login/');});
   function sync() {
+    if (location.hash === '#projects') { location.replace('#dashboard'); return; }
     const id = location.pathname.startsWith('/profile') ? 'profile' : google ? 'google' : location.hash.slice(1) || 'overview';
     document.querySelectorAll('[data-workspace-nav]').forEach(a=>{if(a.dataset.workspaceNav===id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     const title = routes.flatMap(r=>r[1]).find(r=>r[0]===id)?.[1] || (id==='new-client' ? 'Client details' : id==='profile' ? 'Your profile' : 'Workspace');

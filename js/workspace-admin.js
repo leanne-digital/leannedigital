@@ -1032,7 +1032,7 @@
                     fillClientForm(client);
                     setSection('new-client');
                     document.querySelector('[data-admin-panel="new-client"] .admin-panel__title').textContent=client.name;
-                    const actions=document.createElement('div');actions.className='workspace-tabs';actions.innerHTML=`<a href='/clients/#overview'>← All clients</a><a href='/clients/?credentialClient=${encodeURIComponent(client.slug)}#credentials'>Credentials</a><a href='/clients/#projects'>Projects</a><a href='/clients/#reports'>Reports</a><a href='/google-platforms/'>Google accounts</a>`;clientForm.before(actions);
+                    const actions=document.createElement('div');actions.className='workspace-tabs';actions.innerHTML=`<a href='/clients/#overview'>← All clients</a><a href='/clients/?credentialClient=${encodeURIComponent(client.slug)}#credentials'>Credentials</a><a href='/clients/#reports'>Reports</a><a href='/google-platforms/'>Google accounts</a>`;clientForm.before(actions);
                 }
             })();
         }
