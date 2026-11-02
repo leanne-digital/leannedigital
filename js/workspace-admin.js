@@ -648,7 +648,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${['seo-clients','technical-seo'].includes(filterId)?`<span class="renewal-date">${cycles}</span>`:cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
                     <td><button type="button" class="client-update-button" data-edit-client="${escapeHtml(client.slug)}">Update client</button></td>
                 </tr>`;
             })
