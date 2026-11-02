@@ -420,6 +420,7 @@
         const res = await fetch(url, {
             method,
             credentials: 'include',
+            cache: 'no-store',
             headers: body ? { 'Content-Type': 'application/json' } : undefined,
             body: body ? JSON.stringify(body) : undefined,
         });
@@ -1168,6 +1169,11 @@
                 if (slug) {
                     await request(`/api/clients/${encodeURIComponent(slug)}`, { method: 'PATCH', body: payload });
                     await refresh();
+                    const fresh = await request(`/api/clients/${encodeURIComponent(slug)}`);
+                    if (fresh.client) {
+                        data.clients = data.clients.map(client => client.slug === slug ? {...client, ...fresh.client} : client);
+                        paint();
+                    }
                     show(okEl, 'Client updated.');
                     if (clientDialog.open) clientDialog.close();
                     showClients(clientFilter);
