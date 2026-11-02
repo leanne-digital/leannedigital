@@ -183,6 +183,7 @@
         if (aeoOn && !types.includes('aeo')) types.push('aeo');
         if (maintenanceOn && !types.includes('maintenance')) types.push('maintenance');
         return {
+            monthlyReportEnabled: form.elements.monthlyReportEnabled?.value === 'yes',
             serviceTags: $$('input[name="serviceTypes"]', form).filter(input => input.checked).map(input => input.value),
             hostingAmount: hostingOn ? amount('hostingAmount') : '',
             hostingCycle: form.hostingCycle?.value || 'yearly',
@@ -561,6 +562,12 @@
         const okEl = $('[data-admin-ok]');
         const form = $('[data-portfolio-form]');
         const clientForm = $('[data-client-form]');
+        if (clientForm && !clientForm.elements.monthlyReportEnabled) {
+            const field=document.createElement('label');field.className='monthly-report-setting';
+            field.innerHTML='<strong>Monthly SEO report</strong><select name="monthlyReportEnabled"><option value="no">No</option><option value="yes">Yes</option></select><small>Create the previous month’s report on the 1st using saved work logs.</small>';
+            const choices=clientForm.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
+            if(choices)choices.after(field);else clientForm.append(field);
+        }
         const serviceChoices = clientForm?.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
         if (serviceChoices) {
             const primary = ['maintenance','aeo','geo','technical-seo','website','content','ads','design'];
@@ -725,6 +732,7 @@
             if (clientForm.hostingLastBilled) clientForm.hostingLastBilled.value = (hosting?.lastBilled || '').slice(0, 10);
             if (clientForm.hostingNextBillDate) clientForm.hostingNextBillDate.value = (hosting?.nextBillDate || '').slice(0, 10);
             if (clientForm.managementAmount) clientForm.managementAmount.value = billedAmount(management);
+            if (clientForm.elements.monthlyReportEnabled) clientForm.elements.monthlyReportEnabled.value = client?.monthlyReportEnabled ? 'yes' : 'no';
             if (clientForm.seoAmount) clientForm.seoAmount.value = billedAmount(seo);
             if (clientForm.aeoAmount) clientForm.aeoAmount.value = billedAmount(aeo);
             if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = billedAmount(maintenance);

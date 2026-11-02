@@ -147,3 +147,6 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .client-work-state { display: inline-block; border-radius: 20px; padding: 5px 8px; background: #fff0df; color: #75460e; font-size: 12px; white-space: nowrap; }
 .client-work-state[data-status="completed"] { background: #e4f4ec; color: #236546; }
 .client-work-state[data-status="in_progress"] { background: #e5edf9; color: #254f8b; }
+
+.monthly-report-setting { display: grid; gap: 8px; margin: 20px 0; max-width: 480px; }
+.monthly-report-setting small { color: #606d7b; line-height: 1.5; }

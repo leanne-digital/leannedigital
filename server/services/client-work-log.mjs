@@ -1,3 +1,4 @@
+import { WORK_CATEGORIES } from '../../scripts/work-categories.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,6 +17,7 @@ export const workLogSchema = z.object({
     reportSlug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
     workedOn: date,
+    category: z.enum(Object.keys(WORK_CATEGORIES), {required_error:'Clarify the kind of work before saving: content creation, AEO, GEO, technical SEO, site updates, website development, marketing, strategy, bug fixes or another listed category.'}),
     title: z.string().trim().min(1).max(200),
     details: z.string().trim().min(1).max(20000),
     status: z.enum(['completed', 'awaiting_client', 'in_progress']),
@@ -46,7 +48,7 @@ export function listClientWorkLogs({ clientSlug, month, reportSlug } = {}) {
     const args = [clientSlug];
     if (month) { where.push('report_month = ?'); args.push(month); }
     if (reportSlug) { where.push('report_slug = ?'); args.push(reportSlug); }
-    return withDatabase(db => db.prepare(`SELECT payload FROM client_work_log WHERE ${where.join(' AND ')} ORDER BY worked_on, id`).all(...args).map(row => JSON.parse(row.payload)));
+    return withDatabase(db => db.prepare(`SELECT payload FROM client_work_log WHERE ${where.join(' AND ')} ORDER BY worked_on, id`).all(...args).map(row => ({category:'uncategorized',...JSON.parse(row.payload)})));
 }
 
 export function appendClientWorkLog(input, actor = 'staff') {

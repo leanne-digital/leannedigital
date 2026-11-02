@@ -1,3 +1,4 @@
+import { WORK_CATEGORIES } from '../scripts/work-categories.mjs';
 import { registerGscTools } from './gsc-tools.mjs';
 import { appendClientWorkLog, listClientWorkLogs, workLogSchema } from './services/client-work-log.mjs';
 import { credentialInventory, saveCredential, deleteCredential } from './credential-tools.mjs';
@@ -61,6 +62,7 @@ const WRITE = { readOnlyHint: false, destructiveHint: false, openWorldHint: fals
 const DESTRUCTIVE = { readOnlyHint: false, destructiveHint: true, openWorldHint: false };
 
 const clientFields = {
+    monthlyReportEnabled: z.boolean().optional().describe('Create a monthly report automatically on the first of each month for the previous month.'),
     name: z.string().describe('Company name, e.g. Some Company'),
     contactName: z.string().optional(),
     email: z.string().optional().describe('Client contact email; does not create a login'),
@@ -181,7 +183,7 @@ export function createMcpServer({
         clientId: z.string(), month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).optional(), reportSlug: z.string().optional(),
     }, async ({clientId, ...filters}) => ({entries:listClientWorkLogs({clientSlug:getAgencyClient(clientId).slug,...filters})}));
     if (workLogWrite) writeTool(server, 'append_client_work_log', 'Append dated client work for a monthly report. Exact repeated content returns the existing record. Does not change projects, billing, credentials or publish a report. Requires mcp:worklog:write.', {
-        clientId: z.string(), projectId: z.string().optional(), reportSlug: z.string(), month: z.string(), workedOn: z.string(), title: z.string(), details: z.string(), status: z.enum(['completed','awaiting_client','in_progress']),
+        clientId: z.string(), category: z.enum(Object.keys(WORK_CATEGORIES)).describe('Work category; clarify with the user if the kind of work is not clear.'), projectId: z.string().optional(), reportSlug: z.string(), month: z.string(), workedOn: z.string(), title: z.string(), details: z.string(), status: z.enum(['completed','awaiting_client','in_progress']),
     }, async ({clientId, ...input}) => {
         const client = getAgencyClient(clientId);
         if (input.projectId) {

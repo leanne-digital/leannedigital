@@ -7,7 +7,7 @@ for(const relative of ['clients/index.html','google-platforms/index.html','profi
     const file=path.join(root,relative);
     if(!fs.existsSync(file))continue;
     const current=fs.readFileSync(file,'utf8');
-    const updated=current.replace(/client-workspace-shell\.css(?:\?v=[\w.-]+)?/g,'client-workspace-shell.css?v=client-work-20261102')
-        .replace(/workspace-(shell|extra|admin)\.js(?:\?v=[\w.-]+)?/g,'workspace-$1.js?v=client-work-20261102');
+    const updated=current.replace(/client-workspace-shell\.css(?:\?v=[\w.-]+)?/g,'client-workspace-shell.css?v=monthly-reports-20261102')
+        .replace(/workspace-(shell|extra|admin)\.js(?:\?v=[\w.-]+)?/g,'workspace-$1.js?v=monthly-reports-20261102');
     if(updated!==current)fs.writeFileSync(file,updated);
 }

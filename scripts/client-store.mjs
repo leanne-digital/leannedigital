@@ -1,3 +1,4 @@
+import { monthlyReportFlag } from './work-categories.mjs';
 import { normalizeServiceTags } from './client-service-tags.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -358,6 +359,7 @@ function upsertPortal(record) {
         hosting: record.hosting || { type: 'External', provider: null, lddHosted: false },
         currency: record.currency || 'CAD',
         services: record.services || [],
+        monthlyReportEnabled: record.monthlyReportEnabled === true,
         ...(Array.isArray(record.serviceTags) ? {serviceTags: record.serviceTags} : {}),
         credentials: record.credentials || [],
         clientApps: record.clientApps || [],
@@ -398,6 +400,7 @@ function upsertOverlay(record) {
         name: record.name,
         currency: record.currency || 'CAD',
         services: overlayServices,
+        monthlyReportEnabled: record.monthlyReportEnabled === true,
         credentials: record.credentials || (index >= 0 ? overlays[index].credentials : []) || [],
         discount: Number(record.discount) || 0,
         taxAmount: Number(record.taxAmount) || 0,
@@ -462,6 +465,7 @@ export async function createClient(input) {
         },
         currency: input.currency || 'CAD',
         services,
+        ...(input.monthlyReportEnabled !== undefined ? {monthlyReportEnabled: monthlyReportFlag(input.monthlyReportEnabled)} : {}),
         ...(input.serviceTags !== undefined ? {serviceTags: normalizeServiceTags(input.serviceTags)} : {}),
         credentials: normalizeCredentials(input.credentials),
         clientApps: normalizeClientApps(input.clientApps),
@@ -506,6 +510,7 @@ export async function updateClient(slugOrId, input, { regenerate = true } = {}) 
         currency: input.currency || current.currency,
         bio: input.bio ?? current.bio,
         services: incomingServices,
+        ...(input.monthlyReportEnabled !== undefined ? {monthlyReportEnabled: monthlyReportFlag(input.monthlyReportEnabled)} : {}),
         ...(input.serviceTags !== undefined ? {serviceTags: normalizeServiceTags(input.serviceTags)} : {}),
         credentials: 'credentials' in input ? normalizeCredentials(input.credentials) : current.credentials || [],
         clientApps: 'clientApps' in input ? normalizeClientApps(input.clientApps) : current.clientApps || [],

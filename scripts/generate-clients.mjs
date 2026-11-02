@@ -2,7 +2,7 @@ import { renderReportServiceIntro } from './seo-report-template.mjs';
 import { resolveReportServiceIntro } from './report-service-intros.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
     escapeHtml,
     renderFullFooter,
@@ -880,7 +880,7 @@ function renderIntakeResults() {
             </section>`;
 }
 
-function renderReportPage(client, report) {
+export function renderReportPage(client, report) {
     const body = reportBody(client.slug, report.slug);
 
     return `${renderHead({
@@ -997,4 +997,4 @@ function main() {
     console.log(`Generated login pages, client portal, admin dashboard, ${clients.length} client report pages, and the /clients/ picker.`);
 }
 
-main();
+if(process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

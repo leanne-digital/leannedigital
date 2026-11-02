@@ -206,10 +206,11 @@ ${report.technicalSeo?.thisMonthFirst ? figure(report.technicalSeo?.thisMonthIma
 ${paragraphsHtml(report.technicalSeo?.recap)}
 ${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
     </section>`}
-    <section class="seo-report__section">
+${Array.isArray(report.automatedWorkSections) ? (report.automatedWorkSections.length ? report.automatedWorkSections.map(group => `<section class="seo-report__section"><h2>${escapeHtml(group.title)}</h2><div class="dash-table-wrap" role="region" aria-label="${escapeHtml(group.title)}" tabindex="0"><table class="client-report-table"><thead><tr><th scope="col">Date</th><th scope="col">Work completed</th><th scope="col">Details</th></tr></thead><tbody>${group.entries.map(entry=>`<tr><td>${escapeHtml(entry.workedOn)}</td><td>${escapeHtml(entry.title)}</td><td style="white-space:pre-wrap;overflow-wrap:anywhere">${escapeHtml(entry.details)}</td></tr>`).join('')}</tbody></table></div></section>`).join('') : '<section class="seo-report__section"><h2>Work completed</h2><p>No completed work entries were recorded for this month.</p></section>') : `    <section class="seo-report__section">
         <h2>${escapeHtml(report.completedWorkTitle || 'Technical work completed')}</h2>
 ${(report.richSections && report.technicalSeo?.completedWorkHtml) || technicalActivityTable(report.technicalSeo?.internalLinks)}
     </section>
+`}
 ${report.richSections && report.postMonthEndUpdateHtml ? report.postMonthEndUpdateHtml : ''}
 ${headingStructureProof(report.technicalSeo?.headingStructureProof)}
 ${report.hiddenSections?.includes('Internal linking') ? '' : `    <section class="seo-report__section">
