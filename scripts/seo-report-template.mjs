@@ -210,6 +210,7 @@ ${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
         <h2>${escapeHtml(report.completedWorkTitle || 'Technical work completed')}</h2>
 ${(report.richSections && report.technicalSeo?.completedWorkHtml) || technicalActivityTable(report.technicalSeo?.internalLinks)}
     </section>
+${report.richSections && report.postMonthEndUpdateHtml ? report.postMonthEndUpdateHtml : ''}
 ${headingStructureProof(report.technicalSeo?.headingStructureProof)}
 ${report.hiddenSections?.includes('Internal linking') ? '' : `    <section class="seo-report__section">
         <h2>Internal linking</h2>
