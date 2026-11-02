@@ -151,6 +151,7 @@
         const lines = revenueLines(form);
         const list = $('[data-revenue-lines]', form);
         if (list) {
+            list.hidden = lines.length <= 1;
             list.innerHTML = lines
                 .map((row) => {
                     const period = row.period === 'year' ? '/ year' : row.period === 'month' ? '/ mo' : '';
@@ -166,7 +167,7 @@
         if (yearly) parts.push(`${money(yearly)} / year`);
         if (tax) parts.push(`${money(tax)} tax`);
         const el = $('[data-package-total]', form);
-        if (el) el.textContent = parts.join(' · ') || '$0';
+        if (el) el.textContent = `Total Billing: ${parts.join(' · ') || '$0'}`;
     }
 
     function setServiceChecked(form, type, on) {
@@ -851,6 +852,33 @@
             const primary = ['maintenance','aeo','geo','technical-seo','website','content','ads','design'];
             const ordered = [...primary.map(type=>SERVICE_LABELS.find(row=>row.types[0]===type)), ...SERVICE_LABELS.filter(row=>!primary.includes(row.types[0]))];
             serviceChoices.innerHTML = ordered.map(row=>`<label class="portal-check"><input type="checkbox" name="serviceTypes" value="${row.types[0]}"><span class="admin-pill service-pill" data-service="${row.types[0]}">${row.label}</span></label>`).join('');
+        }
+        if (clientForm && !clientForm.querySelector('.client-editor-account')) {
+            const account = document.createElement('section');
+            account.className = 'client-editor-section client-editor-account';
+            const accountHeading = document.createElement('h3');
+            accountHeading.textContent = 'Account Details';
+            account.append(accountHeading);
+            const accountType = clientForm.querySelector('[name="accountType"]')?.closest('label');
+            const lead = clientForm.querySelector('[data-account-lead]');
+            const grid = clientForm.querySelector('.dash-form__grid');
+            clientForm.prepend(account);
+            for (const element of [accountType, lead, grid]) if(element) account.append(element);
+            for (const section of [...clientForm.children]) {
+                if (section.tagName !== 'DIV' || section.classList.contains('dash-form__actions')) continue;
+                const heading = section.querySelector('h3');
+                if (!heading) continue;
+                section.classList.add('client-editor-section');
+                if (/credentials/i.test(heading.textContent)) { heading.textContent='Client Credentials';section.classList.add('client-editor-credentials'); }
+                else if (/total revenue/i.test(heading.textContent)) { heading.textContent='Billing Summary';section.classList.add('client-editor-billing'); }
+                else if (/work with us/i.test(heading.textContent)) heading.textContent='Work With Us';
+                else if (/services/i.test(heading.textContent)) heading.textContent='Service Pricing';
+            }
+            for (const block of clientForm.querySelectorAll('[data-package-block]')) {
+                const type=block.dataset.packageBlock;
+                const label=block.querySelector('.portal-check span');
+                if(label){label.classList.add('admin-pill','service-pill');label.dataset.service=type;}
+            }
         }
         const inviteCard = $('[data-invite-card]');
         const inviteUrlEl = $('[data-invite-url]');

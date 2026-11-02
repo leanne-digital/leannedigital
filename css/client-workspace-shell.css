@@ -258,3 +258,17 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 .client-work-client-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
 .client-work-client-pills button { border-radius: 999px; padding: 8px 16px; min-height: 36px; font-size: 12px; cursor: pointer; }
 .client-work-client-pills button[aria-pressed="true"] { outline: 3px solid #4ec3cc; outline-offset: 1px; }
+
+[data-client-form] { background: transparent !important; border: 0; padding: 0; display: grid; gap: 20px; }
+.client-editor-section { padding: 22px; border: 1px solid #dce2e8; border-radius: 12px; background: #fff !important; }
+.client-editor-section > h3 { margin: 0 0 16px; color: #212c3e; font-size: 17px; }
+.client-editor-account { border-top: 4px solid #4ec3cc; }
+.client-editor-billing { border-top: 4px solid #ffc329; }
+.client-editor-credentials { border-top: 4px solid #baa0ed; }
+[data-client-form] .dash-form__grid { row-gap: 8px; }
+[data-client-form] .admin-service-checks { display:flex;flex-wrap:wrap;gap:10px 16px; }
+[data-client-form] .admin-package { margin: 10px 0; padding: 16px; background: #f7f8fa; }
+[data-client-form] .admin-revenue { list-style: none; padding: 0; }
+[data-client-form] .admin-revenue li { display:flex;justify-content:space-between;gap:20px;padding:8px 0;border-bottom:1px solid #dce2e8; }
+[data-client-form] .dash-form__total { margin:16px 0 0;padding:16px;background:#e9f0f7;border-radius:8px;font-size:17px; }
+@media(max-width:600px){.client-editor-section{padding:16px;}}
