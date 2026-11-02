@@ -161,7 +161,7 @@ ${renderLilipaddSnippet()}
 
 export function renderPageScripts(depth, extra = '') {
     const prefix = assetPrefix(depth);
-    return `    <script src="${prefix}js/site-nav.js?v=20260914eyes" defer></script>
+    return `    <script src="${prefix}js/site-nav.js?v=account-20261102" defer></script>
 ${extra}`;
 }
 

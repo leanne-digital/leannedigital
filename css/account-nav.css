@@ -1,0 +1,14 @@
+.site-header__inner > .site-nav { margin-left: auto; }
+.site-account { position: relative; flex: 0 0 auto; font-family: var(--ld-font-nav, sans-serif); line-height: 1.4; }
+.site-account__trigger { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; background: transparent; transition: background-color .15s; }
+.site-account__trigger:hover { color: #fff; background: #182234; }
+.site-account__trigger svg { width: 25px; height: 25px; }
+.site-account__trigger img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #4ec3cc; }
+.site-account__menu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 215px; padding: 8px; border: 1px solid #36445a; border-radius: 10px; background: #212c3e; box-shadow: 0 12px 28px #0004; z-index: 1100; }
+.site-account__menu[hidden] { display: none; }
+.site-account__menu a, .site-account__menu button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 10px 12px; border: 0; border-radius: 6px; background: transparent; color: #fff; font: inherit; font-size: 15px; text-align: left; text-decoration: none; cursor: pointer; transition: background-color .15s; }
+.site-account__menu svg { width: 19px; height: 19px; flex: none; color: #4ec3cc; }
+.site-account__menu a:hover, .site-account__menu button:hover { background: #182234; color: #fff; }
+.site-account a:focus-visible, .site-account button:focus-visible { outline: 2px solid #4ec3cc; outline-offset: 2px; }
+@media(max-width:960px) { .site-header__inner { gap: 12px; } .site-header__inner > .site-nav__toggle { margin-left: auto; } .site-header__inner > .site-nav { margin-left: 0; } }
+@media(prefers-reduced-motion:reduce) { .site-account * { transition: none; } }
