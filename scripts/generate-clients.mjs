@@ -898,7 +898,7 @@ ${renderNav(3, '/clients/')}
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
 ${renderReportServiceIntro(loadReportRecord(client.slug, report.slug) || report)}
-${renderReportCover(client)}
+${(loadReportRecord(client.slug, report.slug) || report).hideCover ? '' : renderReportCover(client)}
 ${renderPreviousReports(client, report)}
             </div>
         </section>

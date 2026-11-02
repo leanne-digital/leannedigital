@@ -1,0 +1,60 @@
+{
+  "slug": "seo-report-melissa-jean-art-october-2026",
+  "kind": "seo",
+  "title": "October 2026 — In progress",
+  "monthLabel": "OCTOBER 2026",
+  "monthKey": "2026-10",
+  "companyName": "MELISSA JEAN ART",
+  "clientName": "Melissa Jean Art",
+  "startWithRecap": true,
+  "richSections": true,
+  "hideCover": true,
+  "serviceTitle": "Website Support and Marketing Consultation",
+  "serviceIntro": [
+    "We support Melissa Jean Art with marketing guidance and practical Shopify improvements that help customers explore the artwork and shop with confidence."
+  ],
+  "hiddenSections": [
+    "Technical SEO",
+    "Internal linking",
+    "Keyword rankings",
+    "Google Ads"
+  ],
+  "monthlyRecap": [
+    "Report in progress — this is the start of Melissa Jean Art’s October report. Leanne’s work has focused mainly on marketing consultation, with further website work still planned. We’ll add those updates once completed.",
+    "On October 27, we completed two Shopify updates: displaying full artwork images in the Originals and Prints collections, and updating the prints collection so all 29 current prints appear on the first page. Melissa reviewed the changes and confirmed she was happy with the result."
+  ],
+  "completedWorkTitle": "October work completed",
+  "technicalSeo": {
+    "completedWorkHtml": "<p>The ten entries below describe the tasks within two completed Shopify updates, not ten separate projects. All were completed on October 27, 2026. Other collection templates were left unchanged.</p><div class=\"dash-table-wrap\" role=\"region\" aria-label=\"Shopify work completed October 27\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Date</th><th scope=\"col\">Update</th><th scope=\"col\">Work completed</th></tr></thead><tbody><tr><td>October 27, 2026</td><td>Artwork display</td><td>Updated the Originals collection thumbnails to show each artwork’s full image.</td></tr><tr><td>October 27, 2026</td><td>Artwork display</td><td>Updated the Prints collection thumbnails to show each artwork’s full image.</td></tr><tr><td>October 27, 2026</td><td>Artwork display</td><td>Preserved artwork proportions so customers can distinguish horizontal, vertical and square pieces.</td></tr><tr><td>October 27, 2026</td><td>Artwork display</td><td>Removed the square cropping that previously obscured parts of the artwork.</td></tr><tr><td>October 27, 2026</td><td>Artwork display</td><td>Published the approved artwork display changes to the live Shopify theme.</td></tr><tr><td>October 27, 2026</td><td>Prints collection</td><td>Created a dedicated collection template for canvas prints.</td></tr><tr><td>October 27, 2026</td><td>Prints collection</td><td>Assigned the new template to the prints collection.</td></tr><tr><td>October 27, 2026</td><td>Prints collection</td><td>Increased the prints collection’s page limit to 36 products.</td></tr><tr><td>October 27, 2026</td><td>Prints collection</td><td>Verified that all 29 current prints appeared on the first page, eliminating the need to browse a second page.</td></tr><tr><td>October 27, 2026</td><td>Client review</td><td>Sent the completed updates to Melissa for review and received her confirmation: “That’s perfect!! Thank you!”</td></tr></tbody></table></div>"
+  },
+  "keywords": {
+    "enabled": false
+  },
+  "googleAds": {
+    "enabled": false
+  },
+  "newContentTitle": "Marketing consultation",
+  "newContent": {
+    "enabled": true,
+    "reportHtml": "<div class=\"dash-table-wrap\" role=\"region\" aria-label=\"Leanne consultation and planning\" tabindex=\"0\"><table class=\"client-report-table\"><thead><tr><th scope=\"col\">Area</th><th scope=\"col\">Update</th><th scope=\"col\">Status</th></tr></thead><tbody><tr><td>Marketing consultation</td><td>Leanne provided Melissa with marketing guidance; this has been the main focus of her work so far.</td><td>Consultation provided; ongoing</td></tr><tr><td>Website follow-up planning</td><td>Leanne plans to carry out further website work following the consultation. The details will be added after the work is completed.</td><td>Planned — not yet completed</td></tr></tbody></table></div>",
+    "recap": []
+  },
+  "nextSteps": [
+    "Continue marketing consultation, complete the planned website follow-up and update this report as further work is finished. The remaining website scope and completion dates are still to be confirmed."
+  ],
+  "nextStepsWorkTitle": "Upcoming work",
+  "nextStepsWork": [
+    {
+      "area": "Marketing guidance",
+      "action": "Continue discussing marketing priorities with Melissa."
+    },
+    {
+      "area": "Website follow-up",
+      "action": "Confirm and complete the next website improvements; record the work once finished."
+    },
+    {
+      "area": "Report completion",
+      "action": "Add Leanne’s remaining work and any further client feedback before finalizing the report."
+    }
+  ]
+}

@@ -198,30 +198,30 @@ ${pdfButton(report.keywordPdf, pdfLabel)}
 ${report.startWithRecap ? `<p class="seo-report__month" style="color: var(--ld-accent, #49c5ce)">${escapeHtml(report.title || monthLabel)}</p>` : ''}
 ${paragraphsHtml(report.monthlyRecap) || '                <p>Recap for this month will go here.</p>'}
     </section>
-    <section class="seo-report__section">
+${report.hiddenSections?.includes('Technical SEO') ? '' : `    <section class="seo-report__section">
         <h2>Technical SEO</h2>
         ${report.technicalSeo?.visuals ? reportVisuals(report.technicalSeo.visuals) : `<div class="seo-report__shots">
 ${report.technicalSeo?.thisMonthFirst ? figure(report.technicalSeo?.thisMonthImage, 'This month') + figure(report.technicalSeo?.lastMonthImage, 'Last month') : figure(report.technicalSeo?.lastMonthImage, 'Last month') + figure(report.technicalSeo?.thisMonthImage, 'This month')}
         </div>`}
 ${paragraphsHtml(report.technicalSeo?.recap)}
 ${pdfButton(report.technicalSeo?.pdf, 'Download technical SEO audit')}
-    </section>
+    </section>`}
     <section class="seo-report__section">
-        <h2>Technical work completed</h2>
+        <h2>${escapeHtml(report.completedWorkTitle || 'Technical work completed')}</h2>
 ${(report.richSections && report.technicalSeo?.completedWorkHtml) || technicalActivityTable(report.technicalSeo?.internalLinks)}
     </section>
 ${headingStructureProof(report.technicalSeo?.headingStructureProof)}
-    <section class="seo-report__section">
+${report.hiddenSections?.includes('Internal linking') ? '' : `    <section class="seo-report__section">
         <h2>Internal linking</h2>
 ${paragraphsHtml(report.technicalSeo?.internalLinkingNote)}
 ${(report.richSections && report.technicalSeo?.internalLinkingHtml) || internalLinkingTable(report.technicalSeo?.internalLinking, report.technicalSeo?.targetUrls)}
-    </section>
+    </section>`}
 ${report.hiddenSections?.includes("Keyword rankings") ? '' : `    <section class="seo-report__section">
         <h2>Keyword rankings</h2>
 ${keywordsBlock}
     </section>`}
 ${report.hiddenSections?.includes("New content and updates") ? '' : `    <section class="seo-report__section">
-        <h2>New content and updates</h2>
+        <h2>${escapeHtml(report.newContentTitle || 'New content and updates')}</h2>
 ${contentOn ? '        <h3>Activity log</h3>' : ''}
 ${contentBlock}
     </section>`}
