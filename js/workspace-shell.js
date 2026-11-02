@@ -37,6 +37,7 @@
     'maintenance-clients': '<path d="M14.5 6.5a5 5 0 0 0-6.3 6.3L3 18a2.1 2.1 0 0 0 3 3l5.2-5.2a5 5 0 0 0 6.3-6.3L14 13l-3-3 3.5-3.5Z"/>',
     'management-clients': '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 8h18M8 8v13M6 5.5h.01M9 5.5h.01M12 12h5M12 16h3"/>',
     credentials: '<circle cx="8" cy="8" r="5"/><path d="m11.5 11.5 9 9M17 16l3-3M14 13l3-3M6.5 6.5h.01"/>',
+    'client-work': '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v4H9zM8 12l2 2 5-5M8 17h8"/>',
     reports: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 17v-3M12 17v-5M16 17v-2"/>',
     portfolio: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m21 16-6-6L3 21"/>'
   };
@@ -48,7 +49,7 @@
   const routes = [
     ['Workspace', [['dashboard','Overview','⌂'],['overview','Clients','▤']]],
     ['Connect', [['google','Google Platforms','♧']]],
-    ['Manage', [['projects','Projects','▦'],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','Maintenance','◇'],['management-clients','Site management','▧'],['credentials','Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
+    ['Manage', [['client-work','Client Work',''],['projects','Projects','▦'],['seo-clients','SEO clients','⌁'],['hosting-clients','Hosting','▱'],['maintenance-clients','Maintenance','◇'],['management-clients','Site management','▧'],['credentials','Credentials','⚿'],['reports','Reports','▥'],['portfolio','Portfolio','▨']]],
   ];
   const href = id => id === 'google' ? '/google-platforms/' : '/clients/#' + id;
   const google = location.pathname.startsWith('/google-platforms');

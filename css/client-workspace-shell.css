@@ -135,3 +135,15 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 @media(max-width:700px) { .topbar .workspace-label { display: none; } .topbar .site-account { margin-left: auto; } }
 
 .sidebar .workspace-brand-icon { width: 38px; height: 38px; object-fit: contain; flex: 0 0 38px; }
+
+.client-work-toolbar input { padding: 9px; border: 1px solid var(--workspace-border); border-radius: 6px; background: white; }
+.client-work-toolbar .workspace-action { background: var(--workspace-navy); color: white; border-color: var(--workspace-navy); min-height: 40px; cursor: pointer; }
+.client-work-toolbar .workspace-action:hover { background: var(--workspace-navy-hover); }
+.client-work-group th { background: #e4edf1; color: #212c3e; padding: 14px 12px; text-align: left; }
+.client-work-group span { font-weight: 400; margin-left: 10px; font-size: 12px; }
+.client-work-details { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 220px; max-width: 650px; }
+.client-work-table td { vertical-align: top; }
+.client-work-table time { white-space: nowrap; }
+.client-work-state { display: inline-block; border-radius: 20px; padding: 5px 8px; background: #fff0df; color: #75460e; font-size: 12px; white-space: nowrap; }
+.client-work-state[data-status="completed"] { background: #e4f4ec; color: #236546; }
+.client-work-state[data-status="in_progress"] { background: #e5edf9; color: #254f8b; }
