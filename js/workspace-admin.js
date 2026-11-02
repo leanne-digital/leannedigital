@@ -479,7 +479,7 @@
     function syncOverviewMode(filterId) {
         document.querySelector('[data-overview-stats]').hidden = filterId !== 'dashboard';
         const table = $('[data-clients-table-wrap]');
-        if (table) table.hidden = false;
+        if (table) table.hidden = filterId === 'dashboard';
     }
 
     function matchesQuery(client, query) {
