@@ -154,7 +154,7 @@ ${items.map((item) => figure(item.image, item.caption || 'Heading structure')).j
 export function renderReportServiceIntro(report) {
     if (!report.serviceTitle) return '';
     return `<header class="report-service-intro" style="max-width: 72rem; margin: 0 0 2.5rem">
-        <h1 style="font-size: clamp(2.25rem, 5vw, 4.5rem); line-height: 1.08; margin: 0 0 1.25rem; overflow-wrap: anywhere">${escapeHtml(report.serviceTitle)}</h1>
+        <h1 style="font-size: clamp(2rem, 5vw, 50px); line-height: 1.08; margin: 0 0 1.25rem; overflow-wrap: anywhere">${escapeHtml(report.serviceTitle)}</h1>
         <div style="max-width: 70ch; font-size: 1.1rem; line-height: 1.65">${paragraphsHtml(report.serviceIntro)}</div>
     </header>`;
 }

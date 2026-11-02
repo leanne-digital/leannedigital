@@ -1,4 +1,5 @@
 import { renderReportServiceIntro } from './seo-report-template.mjs';
+import { resolveReportServiceIntro } from './report-service-intros.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -897,7 +898,7 @@ ${renderNav(3, '/clients/')}
         <section class="clients-hero section--navy">
             <div class="container client-profile__header">
                 <a class="client-reports__back" href="/clients/${escapeHtml(client.slug)}/">${escapeHtml(client.name)}</a>
-${renderReportServiceIntro(loadReportRecord(client.slug, report.slug) || report)}
+${renderReportServiceIntro(resolveReportServiceIntro(client, loadReportRecord(client.slug, report.slug) || report))}
 ${(loadReportRecord(client.slug, report.slug) || report).hideCover ? '' : renderReportCover(client)}
 ${renderPreviousReports(client, report)}
             </div>
