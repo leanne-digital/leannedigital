@@ -33,7 +33,7 @@
     }
 
     async function boot({ api, user }) {
-        if (document.body.getAttribute('data-portal-page') !== 'profile' || document.body.dataset.profileBound) return;
+        if ((document.body.getAttribute('data-portal-page') !== 'profile' && !/^\/profile\/?$/.test(location.pathname)) || document.body.dataset.profileBound) return;
         document.body.dataset.profileBound='1';
 
         const errorEl = $('[data-portal-error]');
