@@ -638,7 +638,7 @@
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';
-        const viewTypes=filterId==='management-clients'?['management','maintenance']:filterId==='maintenance-clients'?['maintenance']:['seo-clients','technical-seo'].includes(filterId)?['seo','aeo','geo','technical-seo','content','ads','google-ads']:null;
+        const viewTypes=filterId==='management-clients'?['management']:filterId==='maintenance-clients'?['maintenance']:['seo-clients','technical-seo'].includes(filterId)?['seo','aeo','geo','technical-seo','content','ads','google-ads']:null;
         const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
@@ -649,7 +649,7 @@
                 const href = `/clients/?client=${encodeURIComponent(client.slug)}#new-client`;
                 const plans=packageView?(client.services||[]).filter(plan=>viewTypes.includes(plan.type)):[];
                 const planLabel=plan=>SERVICE_LABELS.find(row=>row.types.includes(plan.type))?.label||plan.type;
-                const prices=plans.map(plan=>`<div>${maintenanceView||['seo-clients','technical-seo'].includes(filterId)?'':escapeHtml(planLabel(plan))+': '}${plan.amount===null||plan.amount===undefined||plan.amount===''?'Not recorded':escapeHtml(money(plan.amount))}</div>`).join('')||'Not recorded';
+                const prices=plans.map(plan=>`<div>${maintenanceView||['seo-clients','technical-seo','management-clients'].includes(filterId)?'':escapeHtml(planLabel(plan))+': '}${plan.amount===null||plan.amount===undefined||plan.amount===''?'Not recorded':escapeHtml(money(plan.amount))}</div>`).join('')||'Not recorded';
                 const cycles=[...new Set(plans.map(plan=>plan.cycle==='yearly'?'Yearly':plan.cycle==='monthly'?'Monthly':'' ).filter(Boolean))].join(' / ') || (['seo-clients','technical-seo'].includes(filterId) ? 'Monthly' : '—');
                 return `<tr class="admin-clients-table__row" data-open-client="${escapeHtml(client.slug)}" data-href="${href}" tabindex="0">
                     <td>
@@ -659,7 +659,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${['seo-clients','technical-seo'].includes(filterId)?`<span class="renewal-date">${cycles}</span>`:cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${['seo-clients','technical-seo','management-clients'].includes(filterId)?`<span class="renewal-date">${cycles}</span>`:cycles}</td>`:''}${maintenanceView ? `<td>${renewalPill(client,'maintenance')}</td><td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
                     <td><button type="button" class="client-update-button" data-edit-client="${escapeHtml(client.slug)}">Update client</button></td>
                 </tr>`;
             })
