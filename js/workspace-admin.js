@@ -570,7 +570,7 @@
         if (!visibilityControl && heading) {
             const label = document.createElement('label');
             label.className = 'maintenance-visibility';
-            label.innerHTML = 'Visibility <select data-visibility-filter><option value="all">All</option><option value="shared">Shared</option><option value="private">Private</option></select>';
+            label.innerHTML = 'Visibility <select data-visibility-filter><option value="all">All</option><option value="shared">Leanne Digital</option><option value="private">Private</option></select>';
             heading.before(label);
             visibilityControl = label.querySelector('select');
         }
@@ -581,6 +581,13 @@
                 : visibilityControl.dataset.originalOptions;
             if (visibilityMode === 'seo') visibilityControl.value = 'shared';
             visibilityControl.dataset.mode = visibilityMode;
+        }
+        if (visibilityControl && !maintenanceView) {
+            for (const option of visibilityControl.options) {
+                if (option.value === 'shared') option.textContent = 'Leanne Digital';
+                if (option.value === 'private') option.textContent = 'Private';
+                if (option.value === 'all') option.textContent = 'All';
+            }
         }
         const visibility = visibilityControl?.value || (maintenanceView ? 'active' : visibilityMode === 'seo' ? 'shared' : 'all');
         let list = clients.filter(client => visibility === 'all' || (maintenanceView ? (maintenanceActive(client) ? 'active' : 'inactive') === visibility : (client.visibility || 'shared') === visibility));
