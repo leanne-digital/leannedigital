@@ -180,3 +180,28 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .income-card .income-card__note { margin: 16px 0 0; font-size: 12px; line-height: 1.5; color: #dce9f6; }
 @media (max-width: 1250px) { .income-summary--overview { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .income-summary, .income-summary--overview { grid-template-columns: minmax(0, 1fr); } }
+
+.clients-header { margin-bottom: 20px; }
+.clients-header--income { display: grid; grid-template-columns: minmax(0, 1fr) 330px; align-items: start; gap: 24px; }
+.clients-header__intro { min-width: 0; }
+.clients-header .admin-clients-toolbar { justify-content: flex-start; gap: 12px; margin: 20px 0 12px; flex-wrap: wrap; }
+.clients-header .income-summary { margin: 0; }
+.clients-header .income-card { padding: 14px 18px; }
+.clients-header .income-card__amount { margin-top: 6px; }
+.clients-header .income-card__note { margin-top: 8px; }
+.income-card--rose { --income-accent: #ffb5c5; }
+.client-update-button { white-space: nowrap; min-height: 36px; padding: 7px 12px; border: 1px solid #b6c7d7; border-radius: 6px; background: #fff; color: #193b60; cursor: pointer; }
+.client-update-button:hover { background: #e7eff7; }
+.client-dialog { width: min(960px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); padding: 0; border: 1px solid #b6c7d7; border-radius: 12px; color: #212c3e; background: #f7f8fa; box-shadow: 0 20px 60px #10243b40; }
+.client-dialog::backdrop { background: #10243b99; }
+.client-dialog__bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 22px; background: #193b60; color: white; }
+.client-dialog__bar h2 { margin: 0; font-size: 20px; }
+.client-dialog__bar button { background: white; color: #193b60; padding: 8px 14px; border: 0; border-radius: 6px; cursor: pointer; }
+.client-dialog .admin-panel { padding: 22px; }
+.client-dialog .admin-panel > .admin-panel__title, .client-dialog .admin-panel > .admin-panel__lead { display: none; }
+.client-dialog__messages > p:not([hidden]) { margin: 16px 22px 0; }
+.client-dialog-open { overflow: hidden; }
+@media (max-width: 800px) { .clients-header--income { grid-template-columns: minmax(0, 1fr); gap: 16px; } .client-dialog .admin-panel { padding: 16px; } }
+
+.clients-header .admin-clients-toolbar .ld-btn { margin-left: 0; }
+.income-summary--overview { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }

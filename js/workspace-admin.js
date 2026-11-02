@@ -124,16 +124,16 @@
             });
         }
         if (packageOn(form, 'management') && num('managementAmount')) {
-            lines.push({ label: 'Site management', amount: num('managementAmount'), period: 'month' });
+            lines.push({ label: 'Site management', amount: num('managementAmount'), period: form.managementCycle?.value === 'yearly' ? 'year' : 'month' });
         }
         if (packageOn(form, 'seo') && num('seoAmount')) {
-            lines.push({ label: 'SEO', amount: num('seoAmount'), period: 'month' });
+            lines.push({ label: 'SEO', amount: num('seoAmount'), period: form.seoCycle?.value === 'yearly' ? 'year' : 'month' });
         }
         if (packageOn(form, 'aeo') && num('aeoAmount')) {
-            lines.push({ label: 'AEO', amount: num('aeoAmount'), period: 'month' });
+            lines.push({ label: 'AEO', amount: num('aeoAmount'), period: form.aeoCycle?.value === 'yearly' ? 'year' : 'month' });
         }
         if (packageOn(form, 'maintenance') && num('maintenanceAmount')) {
-            lines.push({ label: 'Site maintenance', amount: num('maintenanceAmount'), period: 'month' });
+            lines.push({ label: 'Site maintenance', amount: num('maintenanceAmount'), period: form.maintenanceCycle?.value === 'yearly' ? 'year' : 'month' });
         }
         if (num('discount')) lines.push({ label: 'Discount', amount: -num('discount'), period: 'month' });
         if (num('taxAmount')) lines.push({ label: 'Tax', amount: num('taxAmount'), period: 'once' });
@@ -190,9 +190,13 @@
             hostingLastBilled: hostingOn ? amount('hostingLastBilled') : '',
             hostingNextBillDate: hostingOn ? amount('hostingNextBillDate') : '',
             managementAmount: managementOn ? amount('managementAmount') : '',
+            managementCycle: form.managementCycle?.value || 'monthly',
             seoAmount: seoOn ? amount('seoAmount') : '',
+            seoCycle: form.seoCycle?.value || 'monthly',
             aeoAmount: aeoOn ? amount('aeoAmount') : '',
+            aeoCycle: form.aeoCycle?.value || 'monthly',
             maintenanceAmount: maintenanceOn ? amount('maintenanceAmount') : '',
+            maintenanceCycle: form.maintenanceCycle?.value || 'monthly',
             discount: amount('discount'),
             taxAmount: amount('taxAmount'),
         };
@@ -496,6 +500,7 @@
 
     const INCOME_GROUPS = [
         {id: 'maintenance-clients', label: 'Maintenance', accent: 'teal', types: ['maintenance']},
+        {id: 'management-clients', label: 'Site management', accent: 'rose', types: ['management']},
         {id: 'hosting-clients', label: 'Hosting', accent: 'gold', types: ['hosting']},
         {id: 'seo-clients', label: 'SEO clients', accent: 'violet', types: ['seo', 'aeo', 'geo', 'technical-seo', 'content', 'ads', 'google-ads']},
     ];
@@ -531,7 +536,7 @@
             <div class="income-card__heading"><h3>${escapeHtml(group.label)}</h3><span class="income-card__icon" aria-hidden="true">${icon}</span></div>
             <p class="income-card__amount">${money(group.amount)}<span> / month</span></p>
             <p class="income-card__caption">Approx. monthly income</p>
-            <p class="income-card__note">${group.id === 'dashboard' ? 'Maintenance + hosting + SEO' : 'All active plans · Yearly fees ÷ 12'}${group.missing ? `<br>${group.missing} missing billing details excluded` : ''}</p>
+            <p class="income-card__note">${group.id === 'dashboard' ? 'Maintenance + management + hosting + SEO' : 'All active plans · Yearly fees ÷ 12'}${group.missing ? `<br>${group.missing} missing billing details excluded` : ''}</p>
         </article>`;
     }
 
@@ -583,6 +588,26 @@
                 {id: 'dashboard', label: 'Grand total', accent: 'total', amount: totals.reduce((sum, group) => sum + group.amount, 0), missing: totals.reduce((sum, group) => sum + group.missing, 0)},
             ].map(incomeCard).join('') : selected ? incomeCard(selected) : '';
         }
+        const panel = $('[data-admin-panel="overview"]');
+        if (panel && summary) {
+            let header = panel.querySelector('.clients-header');
+            if (!header) {
+                header = document.createElement('div');
+                header.className = 'clients-header';
+                const intro = document.createElement('div');
+                intro.className = 'clients-header__intro';
+                panel.prepend(header);
+                header.append(intro);
+                for (const el of [panel.querySelector('.admin-panel__title'), panel.querySelector('.admin-panel__lead'), panel.querySelector('.admin-clients-toolbar'), visibilityControl?.closest('label')]) {
+                    if (el) intro.append(el);
+                }
+            }
+            const single = !summary.hidden && filterId !== 'dashboard';
+            header.classList.toggle('clients-header--income', single);
+            if (single) header.append(summary);
+            else if (filterId === 'dashboard') header.after(summary);
+            else heading.before(summary);
+        }
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';
@@ -591,6 +616,7 @@
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
         if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Price</th><th>Billing frequency</th>':'')+(maintenanceView?'<th>Status</th>':'');
+        if (tableHead) tableHead.innerHTML += '<th>Actions</th>';
         body.innerHTML = list
             .map((client) => {
                 const href = `/clients/?client=${encodeURIComponent(client.slug)}#new-client`;
@@ -607,6 +633,7 @@
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
                     <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}${maintenanceView ? `<td><button type="button" data-maintenance-toggle="${escapeHtml(client.slug)}" aria-label="${maintenanceActive(client) ? 'Deactivate' : 'Activate'} maintenance for ${escapeHtml(client.name)}">${maintenanceActive(client) ? 'Active' : 'Inactive'}</button></td>` : ''}
+                    <td><button type="button" class="client-update-button" data-edit-client="${escapeHtml(client.slug)}">Update client</button></td>
                 </tr>`;
             })
             .join('');
@@ -669,6 +696,57 @@
             const choices=clientForm.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
             if(choices)choices.after(field);else clientForm.append(field);
         }
+        for (const type of ['maintenance', 'management', 'seo', 'aeo']) {
+            const amount = clientForm?.elements[`${type}Amount`];
+            if (!amount || clientForm.elements[`${type}Cycle`]) continue;
+            const field = document.createElement('label');
+            field.innerHTML = `Billing frequency<select name="${type}Cycle"><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>`;
+            amount.closest('label').after(field);
+        }
+        const clientPanel = $('[data-admin-panel="new-client"]');
+        const clientPanelHome = document.createComment('client editor');
+        clientPanel.before(clientPanelHome);
+        const clientDialog = document.createElement('dialog');
+        clientDialog.className = 'client-dialog';
+        clientDialog.setAttribute('aria-labelledby', 'client-dialog-title');
+        clientDialog.innerHTML = '<div class="client-dialog__bar"><h2 id="client-dialog-title">Add client</h2><button type="button" data-close-client-dialog aria-label="Close client editor">Close</button></div><div class="client-dialog__messages"></div>';
+        document.body.append(clientDialog);
+        const errorHome = document.createComment('client messages');
+        errorEl.before(errorHome);
+        async function openClientDialog(slug) {
+            try {
+                let client = null;
+                if (slug) {
+                    const result = await request(`/api/clients/${encodeURIComponent(slug)}`);
+                    client = result.client;
+                    if (!client) throw new Error('Could not load this client. Try again.');
+                }
+                fillClientForm(client);
+                clientDialog.querySelector('h2').textContent = client ? `Update ${client.name}` : 'Add client';
+                clientDialog.append(clientPanel);
+                clientPanel.hidden = false;
+                clientDialog.querySelector('.client-dialog__messages').append(errorEl, okEl);
+                show(errorEl, ''); show(okEl, '');
+                if (!clientDialog.open) clientDialog.showModal();
+                document.body.classList.add('client-dialog-open');
+                clientDialog.scrollTop = 0;
+                clientForm.querySelector('input:not([type=hidden]):not([disabled]), select:not([disabled])')?.focus({preventScroll: true});
+            } catch (error) { show(errorEl, error.message); }
+        }
+        clientDialog.querySelector('[data-close-client-dialog]').addEventListener('click', () => clientDialog.close());
+        clientDialog.addEventListener('close', () => {
+            clientPanel.hidden = true;
+            clientPanelHome.after(clientPanel);
+            errorHome.after(errorEl, okEl);
+            document.body.classList.remove('client-dialog-open');
+        });
+        document.addEventListener('click', event => {
+            const edit = event.target.closest('[data-edit-client]');
+            const add = event.target.closest('[data-admin-section="new-client"], a[href="#new-client"], a[href="/clients/#new-client"]');
+            if (!edit && !add) return;
+            event.preventDefault(); event.stopImmediatePropagation();
+            openClientDialog(edit?.dataset.editClient);
+        }, true);
         const serviceChoices = clientForm?.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
         if (serviceChoices) {
             const primary = ['maintenance','aeo','geo','technical-seo','website','content','ads','design'];
@@ -824,19 +902,23 @@
             const aeo = serviceOf(client || {}, 'aeo');
             const maintenance = serviceOf(client || {}, 'maintenance');
             setPackageOn(clientForm, 'hosting', Boolean(billedAmount(hosting) || hosting?.lastBilled || hosting?.nextBillDate));
-            setPackageOn(clientForm, 'management', Boolean(billedAmount(management)));
-            setPackageOn(clientForm, 'seo', Boolean(billedAmount(seo)));
-            setPackageOn(clientForm, 'aeo', Boolean(billedAmount(aeo)));
-            setPackageOn(clientForm, 'maintenance', Boolean(billedAmount(maintenance)));
+            setPackageOn(clientForm, 'management', Boolean(management));
+            setPackageOn(clientForm, 'seo', Boolean(seo));
+            setPackageOn(clientForm, 'aeo', Boolean(aeo));
+            setPackageOn(clientForm, 'maintenance', Boolean(maintenance));
             if (clientForm.hostingAmount) clientForm.hostingAmount.value = billedAmount(hosting);
             if (clientForm.hostingCycle) clientForm.hostingCycle.value = hosting?.cycle === 'monthly' ? 'monthly' : 'yearly';
             if (clientForm.hostingLastBilled) clientForm.hostingLastBilled.value = (hosting?.lastBilled || '').slice(0, 10);
             if (clientForm.hostingNextBillDate) clientForm.hostingNextBillDate.value = (hosting?.nextBillDate || '').slice(0, 10);
             if (clientForm.managementAmount) clientForm.managementAmount.value = billedAmount(management);
+            if (clientForm.managementCycle) clientForm.managementCycle.value = management?.cycle || 'monthly';
             if (clientForm.elements.monthlyReportEnabled) clientForm.elements.monthlyReportEnabled.value = client?.monthlyReportEnabled ? 'yes' : 'no';
             if (clientForm.seoAmount) clientForm.seoAmount.value = billedAmount(seo);
+            if (clientForm.seoCycle) clientForm.seoCycle.value = seo?.cycle || 'monthly';
             if (clientForm.aeoAmount) clientForm.aeoAmount.value = billedAmount(aeo);
+            if (clientForm.aeoCycle) clientForm.aeoCycle.value = aeo?.cycle || 'monthly';
             if (clientForm.maintenanceAmount) clientForm.maintenanceAmount.value = billedAmount(maintenance);
+            if (clientForm.maintenanceCycle) clientForm.maintenanceCycle.value = maintenance?.cycle || 'monthly';
             if (clientForm.discount) clientForm.discount.value = Number(client?.discount) > 0 ? String(client.discount) : '';
             if (clientForm.taxAmount) clientForm.taxAmount.value = Number(client?.taxAmount) > 0 ? String(client.taxAmount) : '';
             if (packageOn(clientForm, 'hosting') && clientForm.hostingLastBilled?.value && !clientForm.hostingNextBillDate?.value) {
@@ -1049,6 +1131,7 @@
                     await request(`/api/clients/${encodeURIComponent(slug)}`, { method: 'PATCH', body: payload });
                     await refresh();
                     show(okEl, 'Client updated.');
+                    if (clientDialog.open) clientDialog.close();
                     showClients(clientFilter);
                     return;
                 }
@@ -1063,6 +1146,7 @@
                     syncAccountType();
                     if (inviteBtn) inviteBtn.hidden = false;
                 }
+                if (clientDialog.open) clientPanel.hidden = false;
                 showTemporaryAccess(created.account);
                 showInvite(created.account?.temporaryPassword ? null : created.invite);
                 const emailed = created.invite?.emailed;

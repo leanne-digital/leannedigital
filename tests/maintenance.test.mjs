@@ -61,7 +61,7 @@ test('service cards and overview total use the same monthly amounts without doub
         {type:'aeo',amount:50,cycle:'monthly'},
         {type:'geo',amount:999,cycle:'monthly',status:'inactive'},
     ]}, {slug:'archived',name:'Archived',archivedAt:'2026-01-01',services:[{type:'hosting',amount:999,cycle:'monthly'}]}];
-    assert.equal(JSON.stringify(incomeTotals(clients).map(row=>row.amount)), '[10,20,150]');
+    assert.equal(JSON.stringify(incomeTotals(clients).map(row=>row.amount)), '[10,0,20,150]');
     for (const [id, amount] of [['maintenance-clients',10],['hosting-clients',20],['seo-clients',150]]) {
         renderClientsTable(clients,id,'');
         const summary=nodes.get('[data-income-summary]');
@@ -72,7 +72,7 @@ test('service cards and overview total use the same monthly amounts without doub
     assert.equal(nodes.get('[data-visibility-filter]').value,'shared');
     renderClientsTable(clients,'dashboard','');
     const html=nodes.get('[data-income-summary]').innerHTML;
-    assert.equal((html.match(/<article/g)||[]).length,4);
+    assert.equal((html.match(/<article/g)||[]).length,5);
     assert.ok(html.includes('Grand total'));
     assert.ok(html.includes('$180'));
 });
