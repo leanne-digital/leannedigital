@@ -78,6 +78,14 @@
     {
       "area": "Measurement",
       "action": "Confirm the agreed tracking requirements with the client and HeyTony before any further tag installation or conversion testing."
+    },
+    {
+      "area": "FAQ structure",
+      "action": "Inspect FAQ HTML structure and convert FAQs to a visible, non-accordion display where necessary. Planned for November."
+    },
+    {
+      "area": "Blog TL;DR review",
+      "action": "Inspect all blog posts for TL;DR summaries and identify any missing summaries or improvements needed. Planned for November."
     }
   ]
 }
