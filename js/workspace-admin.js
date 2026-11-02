@@ -208,8 +208,8 @@
         return labels;
     }
 
-    function servicePills(client) {
-        const labels = serviceLabels(client);
+    function servicePills(client, allowedTypes = null) {
+        const labels = serviceLabels(client).filter(label=>!allowedTypes || SERVICE_LABELS.find(row=>row.label===label)?.types.some(type=>allowedTypes.includes(type)));
         if (!labels.length) return '<span class="admin-muted">None yet</span>';
         return labels.map((label) => `<span class="admin-pill service-pill" data-service="${escapeHtml(SERVICE_LABELS.find(row=>row.label===label)?.types[0] || 'other')}">${escapeHtml(label)}</span>`).join(' ');
     }
@@ -504,12 +504,18 @@
         list = list.filter((client) => matchesQuery(client, query));
         if (heading) heading.textContent = `${filter.heading} · ${list.length}`;
         const hostingView=filterId==='hosting-clients';
+        const viewTypes=filterId==='maintenance-clients'?['maintenance']:['seo-clients','technical-seo'].includes(filterId)?['seo','aeo','geo','technical-seo','content','ads','google-ads']:null;
+        const packageView=Boolean(viewTypes);
         if(hostingView)list.sort((a,b)=>(renewalDay(a)||'9999-12-31').localeCompare(renewalDay(b)||'9999-12-31')||a.name.localeCompare(b.name));
         const tableHead=document.querySelector('.admin-clients-table thead tr');
-        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>';
+        if(tableHead)tableHead.innerHTML=hostingView?'<th>Client</th><th>Contact</th><th>Hosting plan</th><th>Next renewal</th>':'<th>Client</th><th>Contact</th><th>Services</th>'+(packageView?'<th>Price</th><th>Billing frequency</th>':'');
         body.innerHTML = list
             .map((client) => {
                 const href = `/clients/?client=${encodeURIComponent(client.slug)}#new-client`;
+                const plans=packageView?(client.services||[]).filter(plan=>viewTypes.includes(plan.type)):[];
+                const planLabel=plan=>SERVICE_LABELS.find(row=>row.types.includes(plan.type))?.label||plan.type;
+                const prices=plans.map(plan=>`<div>${escapeHtml(planLabel(plan))}: ${plan.amount===null||plan.amount===undefined||plan.amount===''?'Not recorded':escapeHtml(money(plan.amount))}</div>`).join('')||'Not recorded';
+                const cycles=plans.map(plan=>`<div>${escapeHtml(planLabel(plan))}: ${escapeHtml(plan.cycle==='yearly'?'Yearly':plan.cycle==='monthly'?'Monthly':'Not recorded')}</div>`).join('')||'Not recorded';
                 return `<tr class="admin-clients-table__row" data-open-client="${escapeHtml(client.slug)}" data-href="${href}" tabindex="0">
                     <td>
                         <a class="admin-clients-table__hit" href="${href}">
@@ -518,7 +524,7 @@
                         </a>
                     </td>
                     <td>${escapeHtml(client.contactName || '—')}</td>
-                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}
+                    <td class="admin-services">${hostingView ? escapeHtml(cycleLabel(serviceOf(client, 'hosting') || {})) : servicePills(client,viewTypes)}</td>${hostingView ? `<td>${renewalPill(client)}</td>` : ''}${packageView?`<td>${prices}</td><td>${cycles}</td>`:''}
                 </tr>`;
             })
             .join('');
