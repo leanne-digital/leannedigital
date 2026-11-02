@@ -102,3 +102,17 @@ main .workspace-tabs a:hover { background: var(--workspace-row-hover); }
 .admin-service-checks label { margin-bottom: 0; cursor: pointer; }
 .admin-service-checks input { accent-color: #176772; }
 .admin-service-checks label:has(input:checked) .service-pill { box-shadow: 0 0 0 1px currentColor; }
+
+main .dash-stat {
+  background: var(--workspace-navy);
+  color: #fff;
+  border: 1px solid #33445b;
+  border-top: 3px solid var(--workspace-teal);
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+main .dash-stat__icon { display: flex; align-items: center; color: var(--workspace-teal); margin-bottom: 16px; }
+main .dash-stat__icon svg { width: 26px; height: 26px; }
+main .dash-stat__value, main .dash-stat__label { color: #fff; }
+main .dash-stat--link:hover { background: var(--workspace-navy-hover); border-color: var(--workspace-teal); }
+main .dash-stat--link:focus-visible { outline: 3px solid var(--workspace-teal-dark); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { main .dash-stat { transition: none; } }

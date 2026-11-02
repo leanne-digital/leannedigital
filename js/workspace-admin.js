@@ -437,7 +437,8 @@
     }
 
     function statCard(label, value, section) {
-        const inner = `<p class="dash-stat__value">${escapeHtml(String(value))}</p>
+        const inner = `<span class="dash-stat__icon" aria-hidden="true">${window.LDWorkspaceIcon(section || 'dashboard')}</span>
+            <p class="dash-stat__value">${escapeHtml(String(value))}</p>
             <h3 class="dash-stat__label">${escapeHtml(label)}</h3>`;
         if (!section) return `<article class="dash-stat">${inner}</article>`;
         return `<button type="button" class="dash-stat dash-stat--link" data-admin-section="${escapeHtml(section)}">${inner}</button>`;
