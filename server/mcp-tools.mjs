@@ -1,3 +1,4 @@
+import { WORK_LOG_INSTRUCTIONS } from './work-log-instructions.mjs';
 import { WORK_CATEGORIES } from '../scripts/work-categories.mjs';
 import { registerGscTools } from './gsc-tools.mjs';
 import { appendClientWorkLog, listClientWorkLogs, workLogSchema } from './services/client-work-log.mjs';
@@ -166,8 +167,8 @@ export function createMcpServer({
 } = {}) {
     const server = new McpServer({
         name: 'leanne-digital',
-        version: '1.5.0',
-    });
+        version: '1.7.3',
+    }, { instructions: WORK_LOG_INSTRUCTIONS });
     registerGscTools(server);
     for (const area of ['services','hosting','proposals']) {
         readTool(server,`list_client_${area}`,`List the client's ${area} records.`,{clientId:z.string()},async ({clientId})=>clientCrud(clientId,area,'read'));
