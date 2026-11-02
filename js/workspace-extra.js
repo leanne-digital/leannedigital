@@ -75,12 +75,7 @@
  const month=panel.querySelector('#client-work-month'),refresh=panel.querySelector('#client-work-refresh'),download=panel.querySelector('#client-work-export'),status=panel.querySelector('#client-work-status'),rows=panel.querySelector('#client-work-rows');
  const visibility=panel.querySelector('#client-work-visibility');
  const clientFilter=panel.querySelector('#client-work-client');
- function syncClientChoices(){
-  const selected=clientFilter.value;
-  const visible=clients.filter(c=>visibility.value==='all'||(visibility.value==='shared'?(c.visibility||'shared')==='shared':(c.visibility||'shared')!=='shared'));
-  clientFilter.innerHTML='<option value="">All clients</option>'+visible.sort((a,b)=>a.name.localeCompare(b.name)).map(c=>`<option value="${esc(c.slug)}">${esc(c.name)}</option>`).join('');
-  clientFilter.value=visible.some(c=>c.slug===selected)?selected:'';
- }
+ function syncClientChoices(){}
  const now=new Date();month.value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const categoryNames={'content-creation':'Content creation',aeo:'AEO',geo:'GEO','technical-seo':'Technical SEO','site-updates':'Site updates','website-development':'Website development',marketing:'Marketing',strategy:'Strategy','bug-fixes':'Bug fixes','internal-linking':'Internal linking','paid-ads':'Paid ads','conversion-tracking':'Conversion tracking',analytics:'Analytics','site-maintenance':'Site maintenance','graphic-design':'Graphic design',consultation:'Consultation',other:'Other'};
@@ -89,10 +84,10 @@
  const active=()=>location.hash==='#client-work'&&!document.hidden;
  async function load(){
   if(!ready)return;
-  const selected=month.value,selectedVisibility=visibility.value,selectedClient=clientFilter.value,id=++serial;exportData=null;download.disabled=true;rows.replaceChildren();
+  const selected=month.value,selectedVisibility=visibility.value,requestedClient=clientFilter.value,id=++serial;exportData=null;download.disabled=true;rows.replaceChildren();
   if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(selected)){loading=false;refresh.disabled=false;status.textContent='Choose a month.';rows.replaceChildren();return;}
   loading=true;refresh.disabled=true;status.textContent='Loading client work…';
-  const list=clients.filter(client=>(!selectedClient||client.slug===selectedClient)).filter(client=>selectedVisibility==='all'||(selectedVisibility==='shared'?(client.visibility||'shared')==='shared':(client.visibility||'shared')!=='shared')).sort((a,b)=>a.name.localeCompare(b.name));const results=[],failures=[];let cursor=0;
+  const list=clients.filter(client=>selectedVisibility==='all'||(selectedVisibility==='shared'?(client.visibility||'shared')==='shared':(client.visibility||'shared')!=='shared')).sort((a,b)=>a.name.localeCompare(b.name));const results=[],failures=[];let cursor=0;
   async function worker(){while(cursor<list.length){if(id!==serial)return;const client=list[cursor++];try{
    const response=await fetch(`/api/clients/${encodeURIComponent(client.slug)}/work-logs?month=${encodeURIComponent(selected)}`,{credentials:'same-origin',cache:'no-store'});
    if(!response.ok)throw Error('Could not load work');const data=await response.json();if(!Array.isArray(data.entries))throw Error('Invalid work-log response');
@@ -104,6 +99,10 @@
   loading=false;refresh.disabled=false;
   if(failures.length){rows.replaceChildren();status.textContent=`Could not load work for ${failures.join(', ')}. Refresh to retry. Export is disabled until all entries load.`;return;}
   results.sort((a,b)=>a.client.name.localeCompare(b.client.name));
+  clientFilter.innerHTML='<option value="">All clients</option>'+results.map(group=>`<option value="${esc(group.client.slug)}">${esc(group.client.name)}</option>`).join('');
+  const selectedClient=results.some(group=>group.client.slug===requestedClient)?requestedClient:'';
+  clientFilter.value=selectedClient;
+  if(selectedClient) { const match=results.find(group=>group.client.slug===selectedClient);results.splice(0,results.length,match); }
   const total=results.reduce((sum,g)=>sum+g.entries.length,0);
   exportData={schemaVersion:1,reportMonth:selected,visibility:selectedVisibility,generatedAt:new Date().toISOString(),source:'Leanne Digital client work logs',entryCount:total,clientCount:results.length,clients:results};
   rows.innerHTML=results.map(group=>`<tr class="client-work-group"><th scope="rowgroup" colspan="5">${esc(group.client.name)} <span>${group.entries.length} ${group.entries.length===1?'entry':'entries'}</span></th></tr>${group.entries.map(entry=>`<tr><td colspan="5"><details class="client-work-entry"><summary><time datetime="${esc(entry.workedOn)}">${esc(entry.workedOn)}</time><strong>${esc(entry.title)}</strong></summary><div class="client-work-entry__body"><p>${esc(categoryNames[entry.category]||'Needs categorization')} · <span class="client-work-state" data-status="${esc(entry.status)}">${esc(labels[entry.status]||entry.status)}</span></p><div class="client-work-details">${esc(entry.details)}</div></div></details></td></tr>`).join('')}`).join('')||'<tr><td colspan="5" class="workspace-empty">No work-log entries for this month and client.</td></tr>';
