@@ -205,3 +205,22 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 
 .clients-header .admin-clients-toolbar .ld-btn { margin-left: 0; }
 .income-summary--overview { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+
+/* Consistent workspace actions, including editors opened outside main. */
+body :is(main, dialog) :is(button, .ld-btn, .workspace-action, .button, .portal-avatar__pick),
+body .sidebar-note > a {
+  background: var(--workspace-navy, #212c3e) !important;
+  border-color: var(--workspace-navy, #212c3e) !important;
+  color: #fff !important;
+}
+body :is(main, dialog) :is(button, .ld-btn, .workspace-action, .button, .portal-avatar__pick):hover,
+body .sidebar-note > a:hover {
+  background: var(--workspace-navy-hover, #182234) !important;
+  border-color: var(--workspace-navy-hover, #182234) !important;
+}
+body :is(main, dialog) :is(button, .ld-btn, .workspace-action, .button):focus-visible {
+  outline: 2px solid var(--workspace-teal, #4ec3cc);
+  outline-offset: 3px;
+}
+body :is(main, dialog) button:disabled { opacity: .6; cursor: not-allowed; }
+body main button.dash-stat :is(.dash-stat__value, .dash-stat__label) { color: #fff; }
