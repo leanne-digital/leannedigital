@@ -32,6 +32,7 @@
     }
 
     function hasService(client, types) {
+        if (Array.isArray(client.serviceTags)) return client.serviceTags.some(type => types.includes(type));
         return (
             (client.services || []).some((row) => types.includes(row.type)) ||
             (client.serviceTypes || []).some((type) => types.includes(type)) ||
@@ -583,7 +584,7 @@
             visibilityControl.dataset.mode = visibilityMode;
         }
         if (visibilityControl && !maintenanceView) {
-            for (const option of visibilityControl.options) {
+            for (const option of (visibilityControl.options || [])) {
                 if (option.value === 'shared') option.textContent = 'Leanne Digital';
                 if (option.value === 'private') option.textContent = 'Private';
                 if (option.value === 'all') option.textContent = 'All';
