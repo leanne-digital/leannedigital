@@ -177,7 +177,11 @@ ${pdfButton(report.keywords?.pdf || report.keywordPdf, pdfLabel)}`
 ${paragraphsHtml(report.newContent?.recap)}`
         : '        <p class="seo-report__empty">Client does not have a new content and updates strategy with Leanne Digital.</p>';
 
-    return `<article class="seo-report">
+    return `<article class="seo-report">${report.serviceTitle ? `
+    <header class="seo-report__intro">
+        <h1>${escapeHtml(report.serviceTitle)}</h1>
+${paragraphsHtml(report.serviceIntro)}
+    </header>` : ''}
 ${report.startWithRecap ? '' : `    <header class="seo-report__intro">
         <h1>${escapeHtml(company)}</h1>
 ${paragraphsHtml(report.campaignIntro)}
