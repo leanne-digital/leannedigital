@@ -26,6 +26,8 @@ export async function clientCrud(clientId, area, operation, input={}) {
         const service=serviceSchema.parse({...input,type});
         if(index<0)services.push(service);else services[index]={...services[index],...service};
     }
-    await updateClient(client.slug,{services,...(type==='hosting'?{hosting:{...client.hosting,type:operation==='delete'?'External':'LDD',lddHosted:operation!=='delete'}}:{})});
+    const serviceTags = new Set(client.serviceTags || (client.services || []).map(row=>row.type));
+    if (operation === 'delete') serviceTags.delete(type); else serviceTags.add(type);
+    await updateClient(client.slug,{services,serviceTags:[...serviceTags],...(type==='hosting'?{hosting:{...client.hosting,type:operation==='delete'?'External':'LDD',lddHosted:operation!=='delete'}}:{})});
     return {saved:operation!=='delete',deleted:operation==='delete',client:client.slug,type};
 }
