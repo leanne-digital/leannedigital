@@ -566,32 +566,34 @@
         document.querySelector('[data-admin-panel=overview] .admin-panel__title').textContent = filterId === 'dashboard' ? 'Overview' : filter.heading;
         document.querySelector('[data-admin-panel=overview] .admin-panel__lead').textContent = filterId === 'credentials' ? 'Choose a client to manage their saved logins and access details.' : 'Your client accounts, services and contact details in one place.';
         const maintenanceView = filterId === 'maintenance-clients';
-        const visibilityMode = maintenanceView ? 'maintenance' : filterId === 'seo-clients' ? 'seo' : 'clients';
+        const visibilityMode = filterId;
         let visibilityControl = $('[data-visibility-filter]');
         if (!visibilityControl && heading) {
             const label = document.createElement('label');
             label.className = 'maintenance-visibility';
-            label.innerHTML = 'Visibility <select data-visibility-filter><option value="all">All</option><option value="shared">Leanne Digital</option><option value="private">Private</option></select>';
+            label.innerHTML = 'Visibility <select data-visibility-filter></select>';
             heading.before(label);
             visibilityControl = label.querySelector('select');
         }
         if (visibilityControl && visibilityControl.dataset.mode !== visibilityMode) {
-            if (!visibilityControl.dataset.originalOptions) visibilityControl.dataset.originalOptions = visibilityControl.innerHTML;
-            visibilityControl.innerHTML = maintenanceView
-                ? '<option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option>'
-                : visibilityControl.dataset.originalOptions;
-            if (visibilityMode === 'seo') visibilityControl.value = 'shared';
+            visibilityControl.innerHTML = '<option value="shared">Leanne Digital</option><option value="private">Private</option><option value="all">All</option>';
+            visibilityControl.value = 'shared';
             visibilityControl.dataset.mode = visibilityMode;
         }
-        if (visibilityControl && !maintenanceView) {
-            for (const option of (visibilityControl.options || [])) {
-                if (option.value === 'shared') option.textContent = 'Leanne Digital';
-                if (option.value === 'private') option.textContent = 'Private';
-                if (option.value === 'all') option.textContent = 'All';
-            }
+        let statusControl = $('[data-maintenance-status]');
+        if (!statusControl && visibilityControl?.closest) {
+            const label = document.createElement('label');
+            label.className = 'maintenance-visibility';
+            label.innerHTML = 'Status <select data-maintenance-status><option value="active">Active</option><option value="inactive">Inactive</option><option value="all">All</option></select>';
+            visibilityControl.closest('label').after(label);
+            statusControl = label.querySelector('select');
+            statusControl.addEventListener('change', () => renderClientsTable(clients, filterId, $('[data-client-search]')?.value || ''));
         }
-        const visibility = visibilityControl?.value || (maintenanceView ? 'active' : visibilityMode === 'seo' ? 'shared' : 'all');
-        let list = clients.filter(client => visibility === 'all' || (maintenanceView ? (maintenanceActive(client) ? 'active' : 'inactive') === visibility : (client.visibility || 'shared') === visibility));
+        if (statusControl) statusControl.closest('label').hidden = !maintenanceView;
+        const visibility = visibilityControl?.value || 'shared';
+        const maintenanceStatus = statusControl?.value || 'active';
+        let list = clients.filter(client => (visibility === 'all' || (client.visibility || 'shared') === visibility)
+            && (!maintenanceView || maintenanceStatus === 'all' || (maintenanceActive(client) ? 'active' : 'inactive') === maintenanceStatus));
         if (filter.types) list = list.filter((client) => hasService(client, filter.types));
         let summary = $('[data-income-summary]');
         if (!summary && heading) {
