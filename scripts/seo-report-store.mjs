@@ -1,3 +1,4 @@
+import { resolveReportServiceIntro } from './report-service-intros.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -177,6 +178,8 @@ function buildRecord(client, input, current, previous, assets) {
     return {
         slug,
         kind: 'seo',
+        serviceTitle: resolveReportServiceIntro(client, current || {}).serviceTitle,
+        serviceIntro: resolveReportServiceIntro(client, current || {}).serviceIntro,
         hiddenSections: current?.hiddenSections || [],
         startWithRecap: current?.startWithRecap === true,
         monthKey,
