@@ -2,8 +2,8 @@
     const CLIENT_FILTERS = {
         overview: { types: null, heading: 'All clients' },
         dashboard: { types: null, heading: 'All clients' },
-        'technical-seo': { types: ['seo','aeo'], heading: 'Technical SEO clients' },
-        'seo-clients': { types: ['seo', 'aeo'], heading: 'SEO clients' },
+        'technical-seo': { types: ['seo','aeo','geo','technical-seo','content'], heading: 'Technical SEO clients' },
+        'seo-clients': { types: ['seo','aeo','geo','technical-seo','content'], heading: 'SEO clients' },
         'maintenance-clients': { types: ['maintenance'], heading: 'Maintenance clients' },
         'hosting-clients': { types: ['hosting'], heading: 'Hosting clients' },
         'management-clients': { types: ['management'], heading: 'Site management' },
@@ -35,25 +35,30 @@
         return (
             (client.services || []).some((row) => types.includes(row.type)) ||
             (client.serviceTypes || []).some((type) => types.includes(type)) ||
+            (client.serviceTags || []).some((type) => types.includes(type)) ||
             (types.includes('seo') && (client.reports || []).length)
         );
     }
 
     const SERVICE_LABELS = [
         { types: ['website', 'development'], label: 'Web development' },
-        { types: ['maintenance'], label: 'Site maintenance' },
+        { types: ['maintenance'], label: 'Site Maintenance' },
         { types: ['hosting'], label: 'Hosting' },
-        { types: ['design', 'graphic-design'], label: 'Graphic design' },
+        { types: ['design', 'graphic-design'], label: 'Graphic Design' },
         { types: ['management'], label: 'Site management' },
         { types: ['updates'], label: 'Site updates' },
-        { types: ['ads', 'google-ads'], label: 'Paid ads' },
+        { types: ['ads', 'google-ads'], label: 'Paid Ads' },
         { types: ['integrations'], label: 'Integrations' },
         { types: ['automations'], label: 'Automations' },
         { types: ['seo'], label: 'SEO' },
         { types: ['aeo'], label: 'AEO' },
+        { types: ['geo'], label: 'GEO' },
+        { types: ['technical-seo'], label: 'Technical SEO' },
+        { types: ['content'], label: 'Content Creation' },
     ];
 
     function serviceTypesOf(client) {
+        if (Array.isArray(client.serviceTags)) return new Set(client.serviceTags);
         return new Set([...(client.serviceTypes || []), ...(client.services || []).map((row) => row.type)].filter(Boolean));
     }
 
@@ -178,7 +183,7 @@
         if (aeoOn && !types.includes('aeo')) types.push('aeo');
         if (maintenanceOn && !types.includes('maintenance')) types.push('maintenance');
         return {
-            serviceTypes: types,
+            serviceTags: $$('input[name="serviceTypes"]', form).filter(input => input.checked).map(input => input.value),
             hostingAmount: hostingOn ? amount('hostingAmount') : '',
             hostingCycle: form.hostingCycle?.value || 'yearly',
             hostingLastBilled: hostingOn ? amount('hostingLastBilled') : '',
@@ -205,7 +210,7 @@
     function servicePills(client) {
         const labels = serviceLabels(client);
         if (!labels.length) return '<span class="admin-muted">None yet</span>';
-        return labels.map((label) => `<span class="admin-pill">${escapeHtml(label)}</span>`).join(' ');
+        return labels.map((label) => `<span class="admin-pill service-pill" data-service="${escapeHtml(SERVICE_LABELS.find(row=>row.label===label)?.types[0] || 'other')}">${escapeHtml(label)}</span>`).join(' ');
     }
 
     function formatDay(iso) {
@@ -555,6 +560,12 @@
         const okEl = $('[data-admin-ok]');
         const form = $('[data-portfolio-form]');
         const clientForm = $('[data-client-form]');
+        const serviceChoices = clientForm?.querySelector('input[name="serviceTypes"]')?.closest('.admin-service-checks');
+        if (serviceChoices) {
+            const primary = ['maintenance','aeo','geo','technical-seo','website','content','ads','design'];
+            const ordered = [...primary.map(type=>SERVICE_LABELS.find(row=>row.types[0]===type)), ...SERVICE_LABELS.filter(row=>!primary.includes(row.types[0]))];
+            serviceChoices.innerHTML = ordered.map(row=>`<label class="portal-check"><input type="checkbox" name="serviceTypes" value="${row.types[0]}"><span class="admin-pill service-pill" data-service="${row.types[0]}">${row.label}</span></label>`).join('');
+        }
         const inviteCard = $('[data-invite-card]');
         const inviteUrlEl = $('[data-invite-url]');
         const inviteBtn = $('[data-invite-client]');

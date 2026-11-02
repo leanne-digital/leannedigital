@@ -1,3 +1,4 @@
+import { normalizeServiceTags } from './client-service-tags.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { randomBytes } from 'node:crypto';
@@ -357,6 +358,7 @@ function upsertPortal(record) {
         hosting: record.hosting || { type: 'External', provider: null, lddHosted: false },
         currency: record.currency || 'CAD',
         services: record.services || [],
+        ...(Array.isArray(record.serviceTags) ? {serviceTags: record.serviceTags} : {}),
         credentials: record.credentials || [],
         clientApps: record.clientApps || [],
         onboarding: record.onboarding || null,
@@ -460,6 +462,7 @@ export async function createClient(input) {
         },
         currency: input.currency || 'CAD',
         services,
+        ...(input.serviceTags !== undefined ? {serviceTags: normalizeServiceTags(input.serviceTags)} : {}),
         credentials: normalizeCredentials(input.credentials),
         clientApps: normalizeClientApps(input.clientApps),
         onboarding: normalizeOnboarding(input.onboarding),
@@ -503,6 +506,7 @@ export async function updateClient(slugOrId, input, { regenerate = true } = {}) 
         currency: input.currency || current.currency,
         bio: input.bio ?? current.bio,
         services: incomingServices,
+        ...(input.serviceTags !== undefined ? {serviceTags: normalizeServiceTags(input.serviceTags)} : {}),
         credentials: 'credentials' in input ? normalizeCredentials(input.credentials) : current.credentials || [],
         clientApps: 'clientApps' in input ? normalizeClientApps(input.clientApps) : current.clientApps || [],
         onboarding: 'onboarding' in input ? normalizeOnboarding(input.onboarding, current.onboarding) : current.onboarding,

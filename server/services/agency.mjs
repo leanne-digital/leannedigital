@@ -122,7 +122,7 @@ export function listSeoClients() {
             if (client.archivedAt) return false;
             if (slugs.has(client.slug)) return true;
             const types = (client.services || []).map((service) => service.type);
-            return types.includes('seo') || types.includes('aeo') || (client.reports || []).length > 0;
+            return types.includes('seo') || types.includes('aeo') || (client.serviceTags || []).some(type => ['aeo', 'geo', 'technical-seo', 'content', 'seo'].includes(type)) || (client.reports || []).length > 0;
         })
         .map((client) => ({
             ...client,

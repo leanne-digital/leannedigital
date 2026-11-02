@@ -84,3 +84,21 @@ main .workspace-tabs a:hover { background: var(--workspace-row-hover); }
 /* Consistent navigation icon sizing. */
 .sidebar nav > a > span { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: 0 0 20px; }
 .sidebar nav > a > span svg { display: block; width: 20px; height: 20px; }
+
+/* Service tags are descriptive selections, separate from billed packages. */
+.service-pill { border-radius: 999px; padding: 5px 10px; font-weight: 600; line-height: 1.4; background: #edf1f5; color: #34465d; border-color: #cad5e1; }
+.service-pill[data-service="maintenance"] { background: #e4f4ec; color: #236546; border-color: #b9ddca; }
+.service-pill[data-service="aeo"] { background: #e5edf9; color: #254f8b; border-color: #c2d2ec; }
+.service-pill[data-service="geo"] { background: #efe7fa; color: #67428b; border-color: #d9c7eb; }
+.service-pill[data-service="technical-seo"] { background: #def2f3; color: #17616b; border-color: #b3dce0; }
+.service-pill[data-service="content"] { background: #fff0df; color: #89531b; border-color: #eed3ae; }
+.service-pill[data-service="ads"] { background: #fbe5ed; color: #903351; border-color: #edc0d0; }
+.service-pill[data-service="website"] { background: #e5eafa; color: #3d518d; border-color: #c6d0ef; }
+.service-pill[data-service="design"] { background: #f6e6f3; color: #843c79; border-color: #e5c4df; }
+.service-pill[data-service="seo"] { background: #e4f1ed; color: #2b6856; border-color: #c0dcd2; }
+.service-pill[data-service="updates"], .service-pill[data-service="management"] { background: #e7eef6; color: #405a79; border-color: #cbd7e6; }
+.service-pill[data-service="integrations"], .service-pill[data-service="automations"] { background: #f0edfa; color: #5e4c87; border-color: #d9d1ed; }
+.admin-service-checks { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.admin-service-checks label { margin-bottom: 0; cursor: pointer; }
+.admin-service-checks input { accent-color: #176772; }
+.admin-service-checks label:has(input:checked) .service-pill { box-shadow: 0 0 0 1px currentColor; }
