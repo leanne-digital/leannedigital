@@ -509,7 +509,7 @@
         return INCOME_GROUPS.map(group => {
             let amount = 0, missing = 0;
             for (const client of clients) {
-                if (client.archivedAt || !hasService(client, CLIENT_FILTERS[group.id].types)) continue;
+                if ((client.visibility || 'shared') !== 'shared' || client.archivedAt || !hasService(client, CLIENT_FILTERS[group.id].types)) continue;
                 const plans = (client.services || []).filter(plan => group.types.includes(plan.type));
                 if (!plans.length) missing++;
                 for (const plan of plans) {
@@ -536,7 +536,7 @@
             <div class="income-card__heading"><h3>${escapeHtml(group.label)}</h3><span class="income-card__icon" aria-hidden="true">${icon}</span></div>
             <p class="income-card__amount">${money(group.amount)}<span> / month</span></p>
             <p class="income-card__caption">Approx. monthly income</p>
-            <p class="income-card__note">${group.id === 'dashboard' ? 'Maintenance + management + hosting + SEO' : 'All active plans · Yearly fees ÷ 12'}${group.missing ? `<br>${group.missing} missing billing details excluded` : ''}</p>
+            <p class="income-card__note">${group.id === 'dashboard' ? 'Shared clients only · All service totals' : 'Shared active plans · Yearly fees ÷ 12'}${group.missing ? `<br>${group.missing} missing billing details excluded` : ''}</p>
         </article>`;
     }
 

@@ -77,3 +77,19 @@ test('service cards and overview total use the same monthly amounts without doub
     assert.ok(html.includes('$180'));
 });
 
+
+test('all income cards exclude private clients regardless of owner or visibility filter',()=>{
+    const {incomeTotals,renderClientsTable,nodes}=surface();
+    const services=[{type:'maintenance',amount:10,cycle:'monthly'},{type:'hosting',amount:240,cycle:'yearly'},{type:'management',amount:30,cycle:'monthly'},{type:'seo',amount:40,cycle:'monthly'}];
+    const clients=[{slug:'shared',name:'Shared',visibility:'shared',services},
+        ...['gary','leanne'].map(ownerUserId=>({slug:ownerUserId,name:ownerUserId,visibility:'private',ownerUserId,services})),
+        {slug:'private-missing',name:'Private missing',visibility:'private',services:[{type:'maintenance'}]}];
+    assert.equal(JSON.stringify(incomeTotals(clients).map(row=>row.amount)), '[10,30,20,40]');
+    assert.equal(incomeTotals(clients).reduce((sum,row)=>sum+row.missing,0),0);
+    renderClientsTable(clients,'dashboard','');
+    assert.ok(nodes.get('[data-income-summary]').innerHTML.includes('$100'));
+    nodes.get('[data-visibility-filter]').value='private';
+    renderClientsTable(clients,'dashboard','');
+    assert.ok(nodes.get('[data-income-summary]').innerHTML.includes('$100'));
+    assert.ok(nodes.get('[data-income-summary]').innerHTML.includes('Shared clients only'));
+});
