@@ -695,7 +695,7 @@
                 return `<tr class="admin-clients-table__row" data-open-client="${escapeHtml(client.slug)}" data-href="${href}" tabindex="0">
                     <td>
                         <a class="admin-clients-table__hit" href="${href}">
-                            <strong>${escapeHtml(client.name)}</strong>${client.visibility === 'private' ? '<span class="admin-pill">Private / Gary only</span>' : ''}
+                            <strong>${window.LDClientColourPill?window.LDClientColourPill(client):escapeHtml(client.name)}</strong>${client.visibility === 'private' ? '<span class="admin-pill">Private / Gary only</span>' : ''}
                             <div class="admin-muted">${escapeHtml(client.email || 'No email')}</div>
                         </a>
                     </td>

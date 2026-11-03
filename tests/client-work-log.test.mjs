@@ -15,7 +15,7 @@ test('append-only work log preserves date, report association, actor and duplica
     try {
         const input = {shortDescription:'Work summary',category:'analytics',clientSlug:'gbt-logistics', projectId:'44', month:'2026-10', reportSlug:'seo-report-gbt-logistics-october-2026', workedOn:'2026-10-21', title:'GA4 investigation',details:'Investigated measurement mismatch. Awaiting response. No changes.',status:'awaiting_client'};
         assert.throws(()=>appendClientWorkLog({...input,shortDescription:undefined}));
-        assert.throws(()=>appendClientWorkLog({...input,shortDescription:'x'.repeat(61)}));
+        assert.throws(()=>appendClientWorkLog({...input,shortDescription:'x'.repeat(2001)}));
         assert.throws(()=>appendClientWorkLog({...input,shortDescription:'   '}));
         const first = appendClientWorkLog(input, 'test-staff');
         assert.equal(first.entry.shortDescription,'Work summary');

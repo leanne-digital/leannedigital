@@ -344,3 +344,8 @@ body .admin-pill.service-pill { border-color: currentColor; }
 .client-work-dialog .client-work-details { min-width:0;max-width:none;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6; }
 
 .work-short-descriptions { margin: 8px 0 0 32px; padding-left: 14px; color: #606d7b; font-size: 12px; line-height: 1.6; }
+
+body .client-colour-pill { background: var(--client-color, #245b45); color: #fff; border-color: transparent; }
+.work-short-descriptions li { white-space: normal; overflow-wrap: anywhere; }
+
+.client-work-client-pills button:has(.client-colour-pill) { padding: 0; border: 0; }
