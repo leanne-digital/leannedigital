@@ -630,6 +630,13 @@
                     if (el) intro.append(el);
                 }
             }
+            const toolbar = panel.querySelector('.admin-clients-toolbar');
+            if (toolbar) {
+                for (const control of [visibilityControl, statusControl]) {
+                    const label = control?.closest('label');
+                    if (label) toolbar.append(label);
+                }
+            }
             const single = !summary.hidden && filterId !== 'dashboard';
             header.classList.toggle('clients-header--income', single);
             if (single) header.append(summary);

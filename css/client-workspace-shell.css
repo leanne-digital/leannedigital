@@ -275,3 +275,12 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 
 .team-member { display: inline-flex; align-items: center; gap: 12px; }
 .team-member img { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; flex-shrink: 0; }
+
+/* Compact, consistent workspace filter rows. */
+.admin-clients-toolbar, .workspace-toolbar, .client-work-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.clients-header .admin-clients-toolbar { margin: 16px 0 0; }
+.admin-clients-toolbar > label, .workspace-toolbar > label { display: inline-flex; align-items: center; flex-direction: row; gap: 7px; margin: 0; width: auto; }
+.admin-clients-toolbar .maintenance-visibility, .workspace-toolbar .maintenance-visibility { margin: 0; }
+.admin-clients-toolbar .ld-btn { margin-left: 0; }
+.admin-clients-toolbar select, .workspace-toolbar select, .workspace-toolbar input { min-height: 38px; }
+@media(max-width:700px){.admin-clients-toolbar .admin-search{width:auto;flex:1 1 220px;}.admin-clients-toolbar .admin-search input{width:100%;}}

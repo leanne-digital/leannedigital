@@ -11,7 +11,11 @@
    label.className = 'maintenance-visibility';
    label.innerHTML = 'Visibility <select><option value="shared">Leanne Digital</option><option value="private">Private</option><option value="all">All</option></select>';
    const select = label.querySelector('select'); choices.set(id, select);
-   panel.querySelector('.admin-panel__lead')?.after(label);
+   let toolbar=panel.querySelector('.workspace-toolbar');
+   if(!toolbar){toolbar=document.createElement('div');toolbar.className='workspace-toolbar';panel.querySelector('.admin-panel__lead')?.after(toolbar);}
+   toolbar.prepend(label);
+   if(id==='reports'){const search=panel.querySelector('#report-search');if(search)toolbar.prepend(search);}
+   if(id==='credentials'){const client=panel.querySelector('#credential-client')?.closest('label');if(client)toolbar.append(client);}
    select.addEventListener('change', publish);
   }
  }
