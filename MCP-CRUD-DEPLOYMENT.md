@@ -33,3 +33,7 @@ An absent private client profile now reports available:false with an import expl
 ## Verification
 
 Run scripts/test-google-oauth.mjs, scripts/test-mcp-oauth.mjs, scripts/test-client-crud.mjs, scripts/test-credential-mcp.mjs and scripts/test-client-hub.mjs. CRUD tests mutate only a temporary repository copy and temporary credential fixtures. Google tests verify policy and redirect construction, not a live Google account exchange.
+
+## Hosting provider updates
+
+`update_client` accepts optional `hostingProvider`, validated against `HOSTING_PROVIDERS` in `scripts/portal-options.mjs`. Use `Leanne Digital` for canonical LDD hosting; read it back from `get_client.client.hosting.provider`. Omitting it preserves the current value. This uses the existing `mcp:write` permission, including Leanne’s authorized staff connection. Refresh tool discovery after deployment; reconnect only if the connection lacks `mcp:write`. Verify with `node scripts/test-hosting-provider-mcp.mjs`.

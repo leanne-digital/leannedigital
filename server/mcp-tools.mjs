@@ -9,6 +9,7 @@ import {deleteClientProject} from '../scripts/client-project-store.mjs';
 import { portalStats } from '../scripts/portal-stats.mjs';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
+import { HOSTING_PROVIDERS } from '../scripts/portal-options.mjs';
 import {
     addProjectUpdate,
     createClientProject,
@@ -301,6 +302,7 @@ export function createMcpServer({
 
     writeTool(server, 'update_client', 'Updates an existing client retainer, contact details, or hosting amount. Changes CRM data.', {
         id: z.string().describe('Slug or numeric id'),
+        hostingProvider: z.enum(HOSTING_PROVIDERS).optional().describe('Client hosting provider, stored in hosting.provider. Use Leanne Digital for LDD hosting. Omit to preserve the current provider; does not modify service prices, billing or renewal dates.'),
         ...clientFields,
         name: z.string().optional(),
     }, async ({ id, ...input }) => updateClientWithAccount(id, compact(input)));

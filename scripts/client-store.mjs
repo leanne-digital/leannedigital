@@ -153,9 +153,10 @@ export function hostingFromProvider(provider, current = {}) {
     const name = String(provider || '').trim();
     const ldd = isLddProvider(name);
     return {
-        type: ldd ? 'LDD' : current.type || 'External',
+        ...current,
+        type: ldd ? 'LDD' : 'External',
         provider: name || current.provider || null,
-        lddHosted: ldd || Boolean(current.lddHosted),
+        lddHosted: ldd,
     };
 }
 
@@ -346,6 +347,7 @@ function upsertPortal(record) {
     const next = {
         id: record.id,
         slug: record.slug,
+        ...(index >= 0 && overlays[index].hosting ? {hosting: record.hosting} : {}),
         name: record.name,
         contactName: record.contactName || null,
         email: record.email || null,
@@ -397,6 +399,7 @@ function upsertOverlay(record) {
     const next = {
         ...(index >= 0 ? overlays[index] : {}),
         slug: record.slug,
+        ...(index >= 0 && overlays[index].hosting ? {hosting: record.hosting} : {}),
         name: record.name,
         currency: record.currency || 'CAD',
         services: overlayServices,
