@@ -290,3 +290,23 @@ body :is(.service-pill, .renewal-date, button[data-maintenance-toggle]) { displa
 body .renewal-date { border-color: transparent; }
 body main button[data-maintenance-toggle][data-status="active"], body main button[data-maintenance-toggle][data-status="active"]:hover { background: #236546 !important; border-color: #236546 !important; color: #fff !important; }
 body main button[data-maintenance-toggle][data-status="inactive"], body main button[data-maintenance-toggle][data-status="inactive"]:hover { background: #ffc329 !important; border-color: #ffc329 !important; color: #212c3e !important; }
+
+/* One pill shape throughout the workspace, including work filters and status badges. */
+body :is(.admin-pill, .service-pill, .renewal-date, .client-work-state, button[data-maintenance-toggle], .client-work-client-pills button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 28px;
+  min-height: 28px;
+  padding: 5px 13px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+body .admin-pill.service-pill { border-color: currentColor; }
