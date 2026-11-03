@@ -312,3 +312,17 @@ body :is(.admin-pill, .service-pill, .renewal-date, .client-work-state, button[d
 body .admin-pill.service-pill { border-color: currentColor; }
 
 @media (min-width: 701px) { .topbar #sidebar-toggle { display: none; } }
+
+.report-month-pill { background: var(--month-bg); color: var(--month-fg); border-color: var(--month-fg); }
+.report-month-pill[data-month="1"] { --month-bg: #e5edf9; --month-fg: #254f8b; }
+.report-month-pill[data-month="2"] { --month-bg: #fbe5ed; --month-fg: #903351; }
+.report-month-pill[data-month="3"] { --month-bg: #e4f4ec; --month-fg: #236546; }
+.report-month-pill[data-month="4"] { --month-bg: #efe7fa; --month-fg: #67428b; }
+.report-month-pill[data-month="5"] { --month-bg: #def2f3; --month-fg: #17616b; }
+.report-month-pill[data-month="6"] { --month-bg: #fff0df; --month-fg: #89531b; }
+.report-month-pill[data-month="7"] { --month-bg: #fce6e1; --month-fg: #943d2d; }
+.report-month-pill[data-month="8"] { --month-bg: #fff5cd; --month-fg: #725500; }
+.report-month-pill[data-month="9"] { --month-bg: #e9eddb; --month-fg: #4b6125; }
+.report-month-pill[data-month="10"] { --month-bg: #f7e7d7; --month-fg: #854813; }
+.report-month-pill[data-month="11"] { --month-bg: #eee4f5; --month-fg: #6c3b83; }
+.report-month-pill[data-month="12"] { --month-bg: #dcefea; --month-fg: #246653; }
