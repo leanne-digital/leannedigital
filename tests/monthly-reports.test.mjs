@@ -12,7 +12,7 @@ process.env.CLIENT_WORK_LOG_DB_PATH=path.join(root,'runtime/work.sqlite');
 const {appendClientWorkLog,listClientWorkLogs}=await import(pathToFileURL(path.join(root,'server/services/client-work-log.mjs')));
 const {generateMonthlyReports,buildMonthlyReport,previousMonth}=await import(pathToFileURL(path.join(root,'scripts/generate-monthly-reports.mjs')));
 const {updateClient,getClient}=await import(pathToFileURL(path.join(root,'scripts/client-store.mjs')));
-const input={clientSlug:'enabled',month:'2026-10',reportSlug:'october',workedOn:'2026-10-12',title:'Updated product metadata',details:'Distinct descriptions',status:'completed'};
+const input={shortDescription:'Work summary',clientSlug:'enabled',month:'2026-10',reportSlug:'october',workedOn:'2026-10-12',title:'Updated product metadata',details:'Distinct descriptions',status:'completed'};
 assert.throws(()=>appendClientWorkLog(input));
 assert.throws(()=>appendClientWorkLog({...input,category:'invented'}));
 appendClientWorkLog({...input,category:'technical-seo'});

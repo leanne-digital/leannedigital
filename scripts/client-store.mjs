@@ -347,7 +347,6 @@ function upsertPortal(record) {
     const next = {
         id: record.id,
         slug: record.slug,
-        ...(index >= 0 && overlays[index].hosting ? {hosting: record.hosting} : {}),
         name: record.name,
         contactName: record.contactName || null,
         email: record.email || null,

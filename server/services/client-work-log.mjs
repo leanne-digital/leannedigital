@@ -19,6 +19,7 @@ export const workLogSchema = z.object({
     workedOn: date,
     category: z.enum(Object.keys(WORK_CATEGORIES), {required_error:'Clarify the kind of work before saving: content creation, AEO, GEO, technical SEO, site updates, website development, marketing, strategy, bug fixes or another listed category.'}),
     title: z.string().trim().min(1).max(200),
+    shortDescription: z.string().trim().min(1).max(60).describe('Required plain-language work summary, maximum 60 characters. Keep technical detail in details.'),
     details: z.string().trim().min(1).max(20000),
     status: z.enum(['completed', 'awaiting_client', 'in_progress']),
 }).strict().refine(row => row.workedOn.slice(0, 7) === row.month, 'Work date must fall within the report month');

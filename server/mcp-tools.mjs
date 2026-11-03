@@ -185,7 +185,7 @@ export function createMcpServer({
         clientId: z.string(), month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).optional(), reportSlug: z.string().optional(),
     }, async ({clientId, ...filters}) => ({entries:listClientWorkLogs({clientSlug:getAgencyClient(clientId).slug,...filters})}));
     if (workLogWrite) writeTool(server, 'append_client_work_log', 'Append dated client work for a monthly report. Exact repeated content returns the existing record. Creates or refreshes the enabled shared client’s monthly report from saved work. Does not change projects, billing or credentials. Requires mcp:worklog:write.', {
-        clientId: z.string(), category: z.enum(Object.keys(WORK_CATEGORIES)).describe('Work category; clarify with the user if the kind of work is not clear.'), projectId: z.string().optional(), reportSlug: z.string(), month: z.string(), workedOn: z.string(), title: z.string(), details: z.string(), status: z.enum(['completed','awaiting_client','in_progress']),
+        clientId: z.string(), category: z.enum(Object.keys(WORK_CATEGORIES)).describe('Work category; clarify with the user if the kind of work is not clear.'), projectId: z.string().optional(), reportSlug: z.string(), month: z.string(), workedOn: z.string(), title: z.string(), shortDescription: z.string().trim().min(1).max(60).describe('Required work summary of up to 60 characters for the Client Work list.'), details: z.string(), status: z.enum(['completed','awaiting_client','in_progress']),
     }, async ({clientId, ...input}) => {
         const client = getAgencyClient(clientId);
         if (input.projectId) {
