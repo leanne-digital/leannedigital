@@ -326,3 +326,7 @@ body .admin-pill.service-pill { border-color: currentColor; }
 .report-month-pill[data-month="10"] { --month-bg: #f7e7d7; --month-fg: #854813; }
 .report-month-pill[data-month="11"] { --month-bg: #eee4f5; --month-fg: #6c3b83; }
 .report-month-pill[data-month="12"] { --month-bg: #dcefea; --month-fg: #246653; }
+
+[data-admin-panel="reports"] #workspace-reports > tr:nth-child(odd) { background: #fff; }
+[data-admin-panel="reports"] #workspace-reports > tr:nth-child(even) { background: #f0f4f8; }
+[data-admin-panel="reports"] #workspace-reports > tr:hover { background: #e6edf4; }
