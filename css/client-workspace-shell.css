@@ -165,14 +165,14 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 
 .income-summary { display: grid; grid-template-columns: minmax(0, 380px); gap: 16px; margin: 0 0 28px; }
 .income-summary--overview { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.income-card { --income-accent: #4ec3cc; position: relative; overflow: hidden; padding: 20px; border: 1px solid #31577e; border-radius: 12px; background: #193b60; color: #fff; }
+.income-card { --income-accent: #4ec3cc; position: relative; overflow: hidden; padding: 20px; border: 1px solid var(--workspace-navy, #212c3e); border-radius: 12px; background: var(--workspace-navy, #212c3e); color: #fff; }
 .income-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: var(--income-accent); }
 .income-card--gold { --income-accent: #ffc329; }
 .income-card--violet { --income-accent: #c5adff; }
-.income-card--total { --income-accent: #8ae4bd; background: #112e4d; border-color: #5a83a8; }
+.income-card--total { --income-accent: #8ae4bd; background: var(--workspace-navy, #212c3e); border-color: var(--workspace-navy, #212c3e); }
 .income-card__heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .income-card__heading h3 { margin: 0; color: #fff; font-size: 15px; font-weight: 600; }
-.income-card__icon { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 9px; background: var(--income-accent); color: #112e4d; }
+.income-card__icon { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 9px; background: var(--income-accent); color: var(--workspace-navy, #212c3e); }
 .income-card__icon svg { width: 21px; height: 21px; }
 .income-card .income-card__amount { margin: 16px 0 4px; color: #fff; font-size: 30px; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1.2; }
 .income-card__amount span { font-size: 13px; font-weight: 400; white-space: nowrap; color: #dce9f6; }
@@ -190,13 +190,13 @@ main .report-actions .report-copy { width: 40px; padding: 0; }
 .clients-header .income-card__amount { margin-top: 6px; }
 .clients-header .income-card__note { margin-top: 8px; }
 .income-card--rose { --income-accent: #ffb5c5; }
-.client-update-button { white-space: nowrap; min-height: 36px; padding: 7px 12px; border: 1px solid #b6c7d7; border-radius: 6px; background: #fff; color: #193b60; cursor: pointer; }
+.client-update-button { white-space: nowrap; min-height: 36px; padding: 7px 12px; border: 1px solid #b6c7d7; border-radius: 6px; background: #fff; color: var(--workspace-navy, #212c3e); cursor: pointer; }
 .client-update-button:hover { background: #e7eff7; }
 .client-dialog { width: min(960px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); padding: 0; border: 1px solid #b6c7d7; border-radius: 12px; color: #212c3e; background: #f7f8fa; box-shadow: 0 20px 60px #10243b40; }
 .client-dialog::backdrop { background: #10243b99; }
 .client-dialog__bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 22px; background: var(--workspace-navy, #212c3e); color: white; }
 .client-dialog__bar h2 { margin: 0; font-size: 20px; }
-.client-dialog__bar button { background: white; color: #193b60; padding: 8px 14px; border: 0; border-radius: 6px; cursor: pointer; }
+.client-dialog__bar button { background: white; color: var(--workspace-navy, #212c3e); padding: 8px 14px; border: 0; border-radius: 6px; cursor: pointer; }
 .client-dialog .admin-panel { padding: 22px; }
 .client-dialog .admin-panel > .admin-panel__title, .client-dialog .admin-panel > .admin-panel__lead { display: none; }
 .client-dialog__messages > p:not([hidden]) { margin: 16px 22px 0; }
