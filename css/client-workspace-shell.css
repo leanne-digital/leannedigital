@@ -284,3 +284,9 @@ body main #platform-filters button.filter-button[aria-pressed="true"] { backgrou
 .admin-clients-toolbar .ld-btn { margin-left: 0; }
 .admin-clients-toolbar select, .workspace-toolbar select, .workspace-toolbar input { min-height: 38px; }
 @media(max-width:700px){.admin-clients-toolbar .admin-search{width:auto;flex:1 1 220px;}.admin-clients-toolbar .admin-search input{width:100%;}}
+
+/* Shared service, billing-date and status pill dimensions. */
+body :is(.service-pill, .renewal-date, button[data-maintenance-toggle]) { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 5px 13px; border-radius: 999px; border-width: 1px; border-style: solid; font-size: 11px; line-height: 1.4; min-height: 0; font-weight: 500; }
+body .renewal-date { border-color: transparent; }
+body main button[data-maintenance-toggle][data-status="active"], body main button[data-maintenance-toggle][data-status="active"]:hover { background: #236546 !important; border-color: #236546 !important; color: #fff !important; }
+body main button[data-maintenance-toggle][data-status="inactive"], body main button[data-maintenance-toggle][data-status="inactive"]:hover { background: #ffc329 !important; border-color: #ffc329 !important; color: #212c3e !important; }
