@@ -330,3 +330,15 @@ body .admin-pill.service-pill { border-color: currentColor; }
 [data-admin-panel="reports"] #workspace-reports > tr:nth-child(odd) { background: #fff; }
 [data-admin-panel="reports"] #workspace-reports > tr:nth-child(even) { background: #f0f4f8; }
 [data-admin-panel="reports"] #workspace-reports > tr:hover { background: #e6edf4; }
+
+#client-work-rows > tr:nth-child(odd) { background: #fff; }
+#client-work-rows > tr:nth-child(even) { background: #f0f4f8; }
+#client-work-rows > tr:hover { background: #e6edf4; }
+#client-work-rows > tr > td { height: 72px; vertical-align: middle; }
+.work-row-title { display: inline-flex; align-items: center; gap: 12px; }
+.work-row-title svg { width:20px;height:20px; }
+.client-work-dialog__body { padding: 22px; }
+.client-work-dialog__entry { padding: 0 0 22px; margin-bottom: 22px; border-bottom: 1px solid #dce2e8; }
+.client-work-dialog__entry:last-child { border:0;margin:0; }
+.client-work-dialog__entry h3 { font-size:16px;margin:0 0 12px; }
+.client-work-dialog .client-work-details { min-width:0;max-width:none;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6; }
