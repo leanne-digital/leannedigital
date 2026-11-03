@@ -310,3 +310,5 @@ body :is(.admin-pill, .service-pill, .renewal-date, .client-work-state, button[d
   vertical-align: middle;
 }
 body .admin-pill.service-pill { border-color: currentColor; }
+
+@media (min-width: 701px) { .topbar #sidebar-toggle { display: none; } }
