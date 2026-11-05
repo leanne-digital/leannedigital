@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import crypto from 'node:crypto';import {pathToFileURL} from 'node:url';
+test('staff OAuth resource registration and refresh grant produce usable scoped MCP tokens',async()=>{
+const root=fs.mkdtempSync(path.join(os.tmpdir(),'ld-oauth-refresh-'));for(const d of ['server','scripts'])fs.cpSync(d,path.join(root,d),{recursive:true});fs.symlinkSync(path.resolve('node_modules'),path.join(root,'node_modules'),process.platform==='win32'?'junction':'dir');fs.mkdirSync(path.join(root,'data'));
+Object.assign(process.env,{OAUTH_DATA_DIR:path.join(root,'oauth'),OAUTH_SECRET:'isolated-test-secret-'.repeat(4),OAUTH_ISSUER:'http://127.0.0.1:43178',OAUTH_RESOURCE:'http://127.0.0.1:43178/mcp',OAUTH_ADMIN_EMAIL:'gary@leannedigital.com',OAUTH_ADMIN_PASSWORD:'isolated-test-password-12345'});
+const {startOAuth}=await import(pathToFileURL(path.join(root,'server/oauth/auth.mjs'))),{verifyMcpAccessToken}=await import(pathToFileURL(path.join(root,'server/oauth/verify.mjs'))),{bindStaffResource}=await import(pathToFileURL(path.join(root,'server/oauth/resource-request.mjs')));const o=await startOAuth();
+try{
+const response=await o.auth.handler(new Request(o.issuer+'/oauth2/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_name:'Refresh regression',redirect_uris:['https://chatgpt.com/connector_platform_oauth_redirect'],token_endpoint_auth_method:'none',grant_types:['authorization_code','refresh_token'],response_types:['code'],scope:'mcp:read mcp:write offline_access'})}));const client=await response.json();assert.equal(response.status,201,JSON.stringify(client));
+assert.ok(o.database.prepare('SELECT id FROM oauthResource WHERE identifier=?').get(o.resource));assert.equal(o.database.prepare('SELECT resourceId FROM oauthClientResource WHERE clientId=?').get(client.client_id).resourceId,o.resource);
+const user=o.database.prepare('SELECT id FROM user WHERE email=?').get('gary@leannedigital.com'),raw=crypto.randomBytes(32).toString('base64url'),hash=crypto.createHash('sha256').update(raw).digest('base64url'),now=Date.now();
+o.database.prepare('INSERT INTO oauthRefreshToken (id,token,clientId,userId,expiresAt,createdAt,scopes,resources) VALUES (?,?,?,?,?,?,?,?)').run(crypto.randomUUID(),hash,client.client_id,user.id,now+3600000,now,JSON.stringify(['mcp:read','mcp:write','offline_access']),null);
+async function refresh(token,resource){const form=new URLSearchParams({grant_type:'refresh_token',client_id:client.client_id,refresh_token:token});if(resource)form.set('resource',resource);const req=await bindStaffResource(new Request(o.issuer+'/oauth2/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:form}),o.resource);const res=await o.auth.handler(req);return {status:res.status,data:await res.json()};}
+const wrong=await refresh(raw,'https://other.example/mcp');assert.equal(wrong.status,400);
+const minted=await refresh(raw);assert.equal(minted.status,200,JSON.stringify(minted.data));assert.ok(minted.data.refresh_token);const verified=await verifyMcpAccessToken(minted.data.access_token,{audience:o.resource});assert.equal(verified.ok,true,JSON.stringify(verified));assert.equal(verified.email,'gary@leannedigital.com');
+const rotated=await refresh(minted.data.refresh_token);assert.equal(rotated.status,200);assert.notEqual(rotated.data.refresh_token,minted.data.refresh_token);
+assert.equal((await refresh(raw)).status,400);
+}finally{o.database.close();for(const k of ['OAUTH_DATA_DIR','OAUTH_SECRET','OAUTH_ISSUER','OAUTH_RESOURCE','OAUTH_ADMIN_EMAIL','OAUTH_ADMIN_PASSWORD'])delete process.env[k];}
+});
+

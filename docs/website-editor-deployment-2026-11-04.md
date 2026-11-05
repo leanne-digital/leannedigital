@@ -30,3 +30,11 @@ Private deployment bundle: /root/ld-editor-deploy-20261105. Includes original ap
 For routing-only rollback restore vhost.before.conf to the original vhost path, validate, then reload LiteSpeed; stop the editor scheduler/publication first. This rollback was exercised. Keep editor state and releases. A complete application rollback must coordinate service downtime and OAuth database state to avoid discarding subsequent account/token activity; do not blindly restore an old database after users reconnect.
 
 Future client connections use the separate editor-only OAuth audience and per-site grants. Its protocol tests pass, but a real future-client ChatGPT connection has not been demonstrated. Do not claim that onboarding is complete for clients. See website-editor-connections.md for steps.
+
+## OAuth refresh correction — November 4, 2026 (EST)
+
+ChatGPT's tool refresh exposed an incomplete Better Auth 1.7 migration: the old validAudiences option was ignored, the resource registry/client links were empty, and older clients omitted the resource parameter. The earlier signed-JWT tests did not exercise renewal. Replaced the option with the explicit staff resource and default registration binding. Requests omitting resource now bind to this issuer's sole MCP audience; explicit resources still undergo provider validation. Seven previously authorized client registrations were linked to the same resource identifier. No scopes, tokens, users or site grants were broadened.
+
+A regression test now exercises the provider token endpoint with a legacy-shaped refresh grant, validates its issued token against the MCP audience, tests rotation/reuse rejection and rejects another audience. Copies of both real staff registrations successfully renewed resource-bound tokens. A read call through the actual connected LDMCP plugin succeeded after the correction. The user can refresh tools without deleting the app. Temporary diagnostics were removed. Backup: /root/ld-editor-deploy-20261105/oauth-resource-fix.
+
+Reference: https://better-auth.com/docs/guides/1-7-upgrade-guide (protected resource migration).
