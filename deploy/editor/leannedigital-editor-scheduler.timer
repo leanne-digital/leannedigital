@@ -1,0 +1,11 @@
+[Unit]
+Description=Check approved website-editor publication schedules
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=30s
+AccuracySec=1s
+Unit=leannedigital-editor-scheduler.service
+
+[Install]
+WantedBy=timers.target

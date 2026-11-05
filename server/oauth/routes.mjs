@@ -1,3 +1,4 @@
+import {bindStaffResource} from './resource-request.mjs';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { getOAuthProtectedResourceMetadataUrl } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { getOAuth, startOAuth } from './auth.mjs';
@@ -452,7 +453,7 @@ async function handleBetterAuth(req, res, oauth) {
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method || 'GET')) {
         body = await readLimitedBuffer(req);
     }
-    const response = await oauth.auth.handler(nodeRequestToFetchRequest(req, body));
+    const response = await oauth.auth.handler(await bindStaffResource(nodeRequestToFetchRequest(req, body), oauth.resource));
     const contentType = response.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
         const payload = await response.clone().json().catch(() => null);

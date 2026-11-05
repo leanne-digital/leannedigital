@@ -1,3 +1,4 @@
+import {handleEditor} from './editor/http.mjs';
 import { handleGoogleLogin } from './google-login.mjs';
 import { guardBrowserWrite, limitAuth } from './login-security.mjs';
 import http from 'node:http';
@@ -706,6 +707,7 @@ function handleStatic(req, res, pathname, user) {
 }
 
 async function handle(req, res) {
+    if (process.env.WEBSITE_EDITOR_DATA_DIR && await handleEditor(req,res,{portalUser:getSessionUser(req).user,assets:false})) return;
     if (req.url.startsWith('/api/') && !['GET', 'HEAD', 'OPTIONS'].includes(req.method) && req.headers.cookie && !hasApiKey(req)) guardBrowserWrite(req);
     const rawPath = requestPath(req.url);
     const pathname =

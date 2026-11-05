@@ -1,3 +1,5 @@
+import {assertEditorBuildAllowed} from './editor-build-guard.mjs';
+assertEditorBuildAllowed();
 /** Regenerate all pages with the production Lilipadd snippet URL. */
 process.env.LILIPADD_SNIPPET_URL = 'https://api.lilipadd.com/v1/snippet.js';
 

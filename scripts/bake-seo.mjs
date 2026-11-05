@@ -1,3 +1,4 @@
+import {assertEditorBuildAllowed} from './editor-build-guard.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -77,6 +78,7 @@ export function bakeSeoIntoHtml(html, pagePath, inventory) {
 }
 
 export function bakeSeoIntoTree() {
+    assertEditorBuildAllowed();
     const inventory = loadInventory();
     const files = walkHtml();
     let changed = 0;

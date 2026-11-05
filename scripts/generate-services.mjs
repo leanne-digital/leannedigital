@@ -1,3 +1,5 @@
+import {assertEditorBuildAllowed} from './editor-build-guard.mjs';
+assertEditorBuildAllowed();
 import { normalizeContactForms } from './contact-forms.mjs';
 import fs from 'node:fs';
 import path from 'node:path';

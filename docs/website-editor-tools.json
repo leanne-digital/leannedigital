@@ -1,0 +1,1514 @@
+[
+  {
+    "name": "editor_list_schedules",
+    "description": "Blog posts: Show pending and completed publication schedules. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {}
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_schedule_post",
+    "description": "Blog posts: Schedule or reschedule only this reviewed blog post in America/Toronto; supply the correct explicit DST offset. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "changeSetId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "reviewDigest": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "scheduledAt": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "confirm": {
+          "type": "boolean",
+          "const": true
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "pageId",
+        "changeSetId",
+        "expectedRevision",
+        "reviewDigest",
+        "scheduledAt",
+        "confirm",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_cancel_schedule",
+    "description": "Blog posts: Cancel a pending publication without deleting the post. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "scheduleId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "confirm": {
+          "type": "boolean",
+          "const": true
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "scheduleId",
+        "confirm",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_capabilities",
+    "description": "Preview and publish: Show everything I can change on my website. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {}
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_list_pages",
+    "description": "Text and headings: List my pages and draft posts. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {}
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_get_page",
+    "description": "Page sections: Show the homepage sections in order. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "pageId"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_find_content",
+    "description": "Text and headings: Find the fourth paragraph from the bottom. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "query": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "paragraph",
+            "heading",
+            "button",
+            "image",
+            "section",
+            "list",
+            "link"
+          ]
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "fromBottom": {
+          "type": "boolean"
+        },
+        "sectionId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "afterHeading": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "region": {
+          "default": "main",
+          "type": "string",
+          "enum": [
+            "main",
+            "header",
+            "footer",
+            "all"
+          ]
+        }
+      },
+      "required": [
+        "pageId"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_inspect_target",
+    "description": "Text and headings: Inspect this button and its nearby content. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "pageId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "targetId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "pageId",
+        "targetId"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_list_assets",
+    "description": "Images and backgrounds: Find photos available for this site. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "query": {
+          "default": "",
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_ingest_asset",
+    "description": "Images and backgrounds: Upload an image for this post. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "base64": {
+          "type": "string",
+          "maxLength": 8388608
+        },
+        "alt": {
+          "default": "",
+          "type": "string",
+          "maxLength": 1000
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "filename",
+        "base64",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_prepare_changes",
+    "description": "Preview and publish: Prepare these edits without changing the live site. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "operations": {
+          "minItems": 1,
+          "maxItems": 50,
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "content"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "targetId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "scope": {
+                    "default": "instance",
+                    "type": "string",
+                    "enum": [
+                      "instance",
+                      "shared"
+                    ]
+                  },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "maxLength": 20000
+                      },
+                      "richText": {
+                        "maxItems": 100,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string",
+                              "maxLength": 20000
+                            },
+                            "bold": {
+                              "type": "boolean"
+                            },
+                            "italic": {
+                              "type": "boolean"
+                            },
+                            "href": {
+                              "type": "string",
+                              "maxLength": 2000
+                            }
+                          },
+                          "required": [
+                            "text"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "items": {
+                        "maxItems": 100,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 20000
+                        }
+                      },
+                      "level": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 6
+                      },
+                      "href": {
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      "newTab": {
+                        "type": "boolean"
+                      },
+                      "assetId": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "alt": {
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "decorative": {
+                        "type": "boolean"
+                      },
+                      "caption": {
+                        "type": "string",
+                        "maxLength": 2000
+                      },
+                      "fit": {
+                        "type": "string",
+                        "enum": [
+                          "cover",
+                          "contain"
+                        ]
+                      },
+                      "aspectRatio": {
+                        "type": "string",
+                        "enum": [
+                          "auto",
+                          "1:1",
+                          "4:3",
+                          "3:2",
+                          "16:9",
+                          "9:16"
+                        ]
+                      },
+                      "focalX": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "focalY": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "overlay": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 0.85
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 150
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "targetId",
+                  "fields"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "style"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "targetId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "instance",
+                      "shared"
+                    ]
+                  },
+                  "breakpoint": {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "desktop",
+                      "mobile"
+                    ]
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "normal",
+                      "hover",
+                      "focus"
+                    ]
+                  },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "color": {
+                        "type": "string",
+                        "enum": [
+                          "white",
+                          "navy",
+                          "slate",
+                          "aqua",
+                          "brand-red",
+                          "black"
+                        ]
+                      },
+                      "backgroundColor": {
+                        "type": "string",
+                        "enum": [
+                          "white",
+                          "navy",
+                          "slate",
+                          "aqua",
+                          "brand-red",
+                          "black"
+                        ]
+                      },
+                      "borderColor": {
+                        "type": "string",
+                        "enum": [
+                          "white",
+                          "navy",
+                          "slate",
+                          "aqua",
+                          "brand-red",
+                          "black"
+                        ]
+                      },
+                      "textAlign": {
+                        "type": "string",
+                        "enum": [
+                          "left",
+                          "center",
+                          "right"
+                        ]
+                      },
+                      "contentAlign": {
+                        "type": "string",
+                        "enum": [
+                          "start",
+                          "center",
+                          "end"
+                        ]
+                      },
+                      "layoutVariant": {
+                        "type": "string",
+                        "enum": [
+                          "stacked",
+                          "two-column"
+                        ]
+                      },
+                      "fontFamily": {
+                        "type": "string",
+                        "enum": [
+                          "body",
+                          "display",
+                          "navigation"
+                        ]
+                      },
+                      "fontSize": {
+                        "type": "integer",
+                        "minimum": 12,
+                        "maximum": 96
+                      },
+                      "fontWeight": {
+                        "type": "string",
+                        "enum": [
+                          "400",
+                          "600",
+                          "700",
+                          "800"
+                        ]
+                      },
+                      "lineHeight": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 2.5
+                      },
+                      "padding": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 120
+                      },
+                      "gap": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 80
+                      },
+                      "borderRadius": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 100
+                      },
+                      "borderWidth": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 8
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "targetId",
+                  "scope",
+                  "breakpoint",
+                  "state",
+                  "fields"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "move"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "targetId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "position": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "after": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fromBottom": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "targetId",
+                  "position"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "section"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "add",
+                      "duplicate",
+                      "hide",
+                      "show",
+                      "remove"
+                    ]
+                  },
+                  "targetId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "template": {
+                    "type": "string",
+                    "enum": [
+                      "text",
+                      "cta",
+                      "faq",
+                      "image-text",
+                      "testimonials"
+                    ]
+                  },
+                  "position": {
+                    "type": "object",
+                    "properties": {
+                      "before": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "after": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "index": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "fromBottom": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "action"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "seo"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "description": {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "socialAssetId": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "fields"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "slug"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "slug": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "slug"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "blog_create"
+                  },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "slug": {
+                        "type": "string",
+                        "maxLength": 120,
+                        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                      },
+                      "excerpt": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "author": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 150
+                      },
+                      "categories": {
+                        "default": [],
+                        "maxItems": 12,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 30,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "featuredAssetId": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "featuredAlt": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "blocks": {
+                        "maxItems": 200,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "heading",
+                                "paragraph",
+                                "image",
+                                "list",
+                                "quote",
+                                "button"
+                              ]
+                            },
+                            "text": {
+                              "type": "string",
+                              "maxLength": 20000
+                            },
+                            "level": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 6
+                            },
+                            "richText": {
+                              "maxItems": 100,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "string",
+                                    "maxLength": 20000
+                                  },
+                                  "bold": {
+                                    "type": "boolean"
+                                  },
+                                  "italic": {
+                                    "type": "boolean"
+                                  },
+                                  "href": {
+                                    "type": "string",
+                                    "maxLength": 2000
+                                  }
+                                },
+                                "required": [
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "items": {
+                              "maxItems": 100,
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "maxLength": 20000
+                              }
+                            },
+                            "assetId": {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                            },
+                            "alt": {
+                              "type": "string",
+                              "maxLength": 1000
+                            },
+                            "caption": {
+                              "type": "string",
+                              "maxLength": 2000
+                            },
+                            "href": {
+                              "type": "string",
+                              "maxLength": 2000
+                            },
+                            "fit": {
+                              "type": "string",
+                              "enum": [
+                                "cover",
+                                "contain"
+                              ]
+                            },
+                            "aspectRatio": {
+                              "type": "string",
+                              "enum": [
+                                "auto",
+                                "1:1",
+                                "4:3",
+                                "3:2",
+                                "16:9",
+                                "9:16"
+                              ]
+                            },
+                            "focalX": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "focalY": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "decorative": {
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "type": "string",
+                              "maxLength": 150
+                            },
+                            "newTab": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "seoTitle": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "description": {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "socialAssetId": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "slug",
+                      "author",
+                      "blocks"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "fields"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "page_create"
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "slug": {
+                    "type": "string",
+                    "maxLength": 120,
+                    "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                  },
+                  "template": {
+                    "type": "string",
+                    "enum": [
+                      "text",
+                      "cta",
+                      "faq",
+                      "image-text",
+                      "testimonials"
+                    ]
+                  }
+                },
+                "required": [
+                  "op",
+                  "title",
+                  "slug",
+                  "template"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "blog_update"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "fields": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "excerpt": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "author": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 150
+                      },
+                      "categories": {
+                        "default": [],
+                        "maxItems": 12,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "tags": {
+                        "default": [],
+                        "maxItems": 30,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "maxLength": 80
+                        }
+                      },
+                      "featuredAssetId": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      },
+                      "featuredAlt": {
+                        "default": "",
+                        "type": "string",
+                        "maxLength": 1000
+                      },
+                      "blocks": {
+                        "maxItems": 200,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "heading",
+                                "paragraph",
+                                "image",
+                                "list",
+                                "quote",
+                                "button"
+                              ]
+                            },
+                            "text": {
+                              "type": "string",
+                              "maxLength": 20000
+                            },
+                            "level": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 6
+                            },
+                            "richText": {
+                              "maxItems": 100,
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "string",
+                                    "maxLength": 20000
+                                  },
+                                  "bold": {
+                                    "type": "boolean"
+                                  },
+                                  "italic": {
+                                    "type": "boolean"
+                                  },
+                                  "href": {
+                                    "type": "string",
+                                    "maxLength": 2000
+                                  }
+                                },
+                                "required": [
+                                  "text"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "items": {
+                              "maxItems": 100,
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "maxLength": 20000
+                              }
+                            },
+                            "assetId": {
+                              "type": "string",
+                              "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                            },
+                            "alt": {
+                              "type": "string",
+                              "maxLength": 1000
+                            },
+                            "caption": {
+                              "type": "string",
+                              "maxLength": 2000
+                            },
+                            "href": {
+                              "type": "string",
+                              "maxLength": 2000
+                            },
+                            "fit": {
+                              "type": "string",
+                              "enum": [
+                                "cover",
+                                "contain"
+                              ]
+                            },
+                            "aspectRatio": {
+                              "type": "string",
+                              "enum": [
+                                "auto",
+                                "1:1",
+                                "4:3",
+                                "3:2",
+                                "16:9",
+                                "9:16"
+                              ]
+                            },
+                            "focalX": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "focalY": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            "decorative": {
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "type": "string",
+                              "maxLength": 150
+                            },
+                            "newTab": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "seoTitle": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "description": {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "socialAssetId": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "fields"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "publication_date"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "date": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "date"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "page_state"
+                  },
+                  "pageId": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "published",
+                      "draft",
+                      "deleted"
+                    ]
+                  }
+                },
+                "required": [
+                  "op",
+                  "pageId",
+                  "state"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "expectedRevision",
+        "operations",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_preview_changes",
+    "description": "Preview and publish: Show before and after for this exact change set. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "changeSetId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "changeSetId"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_apply_draft",
+    "description": "Preview and publish: Save the reviewed changes as a draft. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "changeSetId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "changeSetId",
+        "expectedRevision",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_publish_changes",
+    "description": "Preview and publish: Publish the exact reviewed draft. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "changeSetId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "reviewDigest": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "confirm": {
+          "type": "boolean",
+          "const": true
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "changeSetId",
+        "expectedRevision",
+        "reviewDigest",
+        "confirm",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_list_revisions",
+    "description": "History and undo: Show recent edits and publications. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {}
+    },
+    "annotations": {
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  },
+  {
+    "name": "editor_restore_revision",
+    "description": "History and undo: Prepare restoration of a previous version. Site is fixed by the authenticated grant. Resolve ambiguous targets before editing. Production publication is separate from saving drafts.",
+    "inputSchema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{1,100}$"
+        }
+      },
+      "required": [
+        "revision",
+        "expectedRevision",
+        "idempotencyKey"
+      ]
+    },
+    "annotations": {
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    "execution": {
+      "taskSupport": "forbidden"
+    }
+  }
+]

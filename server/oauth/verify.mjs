@@ -88,7 +88,7 @@ export async function verifyMcpAccessToken(token, { audience, requiredScopes = [
             scopes,
             expiresAt,
             clientId: String(payload.azp || payload.client_id || payload.sub || ''),
-            email: String(payload.email || ''),
+            email: String(account.email).trim().toLowerCase(),
             subject: String(payload.sub || ''),
             audience: audienceList(payload),
         };

@@ -1,0 +1,19 @@
+> Production update: staff editor deployed and HTTPS-verified. See [deployment record](website-editor-deployment-2026-11-04.md). Earlier not-deployed statements below are historical.
+
+> Git continuation: see [current preparation status](website-editor-git-preparation.md). Historical SSH/19-file bundle guidance below is not the current deployment artifact.
+
+# Resume here
+
+Worktree: `C:/Projects/Leanne Digital Editor`, branch `codex/conversational-website-editor`. Original agency workspace was not changed during this continuation. Do not merge the whole dirty snapshot.
+
+Read `website-editor-production-plan.md`, `website-editor-connections.md` and the current section of `website-editor-validation.md`. New editor modules include `oauth.mjs`, `scheduling.mjs`, `routes.mjs`; existing store/document/HTTP/schema/tools now support OAuth, durable scheduling, display dates, feature gating, and production-only release activation. Updated dependencies have zero audit findings; Node 22.23.4 tests pass (13 tests). Production unchanged.
+
+Preview is running under Node 22.23.4 on loopback port 4192, using `runtime/editor-next/preview-data`; credential is in `runtime/editor-next/preview-token.txt` (never print). Browser session is already signed in. Private demo scheduled publication survived process restart and published once. `runtime/editor-next/check-schedule.mjs` checks it without printing credentials. Current code was restarted after the final changes. Screenshots are in the same runtime directory. The preview CSS/media snapshot is cached local content; current public HTML was fetched over HTTPS.
+
+Generate the narrow release with `node scripts/editor-release-plan.mjs`. It patches captured live API/MCP sources and emits a 19-file manifest under `runtime/editor-next/release`; it does not deploy. Live baselines are under `runtime/editor-next/live`. Do not deploy `runtime/editor-next/validation`: it deliberately combines live API/MCP with cached dependencies and currently fails on missing `createClientPortalAccount` in cached `server/services/agency.mjs`. The live service contains newer unrelated work. Fetch it and all production dependencies when SSH works; never stub or replace it with the cached agency service.
+
+Blocking condition: SSH to the existing `hosting-leannedigital` alias began refusing connections around 19:03 UTC, after successful live inspection. The user has an asynchronous question pending about host maintenance/address/port changes. No reply received before this handoff was written. Do not treat elapsed time as permission or assume a new SSH endpoint.
+
+Next: restore SSH access; run `runtime/editor-next/snapshot.py` remotely to capture public source assets; finish exact live generator guard patches and package-lock baseline hash; verify npm ci/native Sharp and offline OAuth DB migration under Linux without touching live state; validate isolated proxy routing and infrastructure rollback; arrange a private HTTPS staging origin or Secure MCP Tunnel and verify an actual ChatGPT tool call. The protocol OAuth tests are not a substitute for that ChatGPT verification. Do not request production approval until these gates pass. The root-context proposal and systemd templates are reviewable in docs and `deploy/editor/`.
+
+Security checks to retain: staging releases have an environment manifest and cannot become public merely by toggling configuration; public route collision checks protect agency paths; portal asset handling does not substitute a frozen editor copy of workspace JavaScript; scheduled publication overlays only its reviewed post; later edits require fresh review; all OAuth client tokens remain on the editor-only audience and site grant; generic API submission cannot bypass disabled feature groups.

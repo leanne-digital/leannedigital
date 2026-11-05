@@ -1,3 +1,4 @@
+import {assertEditorBuildAllowed} from './editor-build-guard.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -190,6 +191,7 @@ ${renderPageScripts(depth)}
 }
 
 export function generatePortfolio() {
+    assertEditorBuildAllowed();
     if (!fs.existsSync(DATA_FILE)) {
         throw new Error('Missing data/portfolio-projects.json');
     }
