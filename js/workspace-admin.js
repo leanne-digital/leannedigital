@@ -1448,7 +1448,7 @@
                     if (!confirm(`Archive ${client.name}? They will leave this list. Their login still works until you remove the account later.`)) {
                         return;
                     }
-                    await request(`/api/clients/${encodeURIComponent(slug)}/archive`, { method: 'POST' });
+                    await request(`/api/clients/${encodeURIComponent(slug)}/archive`, { method: 'POST', body: {} });
                     await refresh();
                     if (clientForm?.slug.value === slug) fillClientForm(null);
                     show(okEl, `${client.name} archived.`);

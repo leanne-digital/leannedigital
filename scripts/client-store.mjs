@@ -391,12 +391,13 @@ function upsertOverlay(record) {
     const index = overlays.findIndex((row) => row.slug === record.slug);
     if (!hasOverlay && index < 0) return;
     if (!hasOverlay && index >= 0 && !overlayServices.length) {
-        overlays[index] = { ...overlays[index], services: [] };
+        overlays[index] = { ...overlays[index], services: [], archivedAt: record.archivedAt || null };
         writeJson(OVERLAY_FILE, overlays);
         return;
     }
     const next = {
         ...(index >= 0 ? overlays[index] : {}),
+        archivedAt: record.archivedAt || null,
         slug: record.slug,
         ...(index >= 0 && overlays[index].hosting ? {hosting: record.hosting} : {}),
         name: record.name,

@@ -142,6 +142,13 @@ export async function updateClientWithAccount(id, input) {
     return { client };
 }
 
+export async function restoreClientWithAccount(id) {
+    const current = getClient(id);
+    if (!current) throw Object.assign(new Error('Client not found'), {status:404});
+    if (!current.archivedAt) return { client: current, restored: false };
+    return { client: await updateClient(id, { archivedAt: null }, { regenerate: false }), restored: true };
+}
+
 export async function archiveClientWithAccount(id) {
     return { client: await archiveClientRecord(id), archived: true };
 }

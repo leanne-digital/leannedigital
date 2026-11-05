@@ -34,6 +34,7 @@ import { saveCalendlyBooking } from '../scripts/admin-inbox.mjs';
 import {
     addProjectUpdate,
     archiveClientWithAccount,
+    restoreClientWithAccount,
     createClientProject,
     createClientRecord,
     createClientPortalAccount,
@@ -571,6 +572,12 @@ async function handleApi(req, res, method, pathname, user) {
         const client = getAgencyClient(decodeURIComponent(inviteMatch[1]));
         const invite = await inviteClient(client, originFrom(req));
         json(req, res, 200, { invite, client });
+        return true;
+    }
+    const restoreMatch = pathname.match(/^\/api\/clients\/([^/]+)\/restore$/);
+    if (restoreMatch && method === 'POST') {
+        if (!requireStaff(user, req, res)) return true;
+        json(req, res, 200, await restoreClientWithAccount(decodeURIComponent(restoreMatch[1])));
         return true;
     }
     const archiveMatch = pathname.match(/^\/api\/clients\/([^/]+)\/archive$/);
