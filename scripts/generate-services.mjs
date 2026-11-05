@@ -1,3 +1,4 @@
+import './editor-build-guard.mjs';
 import { normalizeContactForms } from './contact-forms.mjs';
 import fs from 'node:fs';
 import path from 'node:path';

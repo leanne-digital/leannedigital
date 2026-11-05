@@ -1,0 +1,2 @@
+export const reservedRoute=/^\/(?:api|mcp|oauth|editor|editor-assets|website-editor|clients|client-portal|admin|login|profile|google-platforms|seo-clients|technical-seo|hosting|maintenance|site-management|project-management|project-tracker|proposals|ldd-chat|mittohnee|data|runtime|server|scripts|tests|tmp|node_modules|_import|assets|css|js|\.well-known)(?:\/|$)/;
+export function assertPublicRoute(route){if(reservedRoute.test(route)||!/^\/(?:[a-z0-9-]+\/)*$/.test(route))throw new Error('Editor route collides with an agency or reserved route.');}

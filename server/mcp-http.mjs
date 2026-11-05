@@ -1,3 +1,4 @@
+import {isOAuthStaffEmail} from './oauth/staff.mjs';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { getOAuthProtectedResourceMetadataUrl } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { createMcpServer } from './mcp-tools.mjs';
@@ -208,7 +209,7 @@ export async function handleRemoteMcp(req, res) {
         enableJsonResponse: true,
     });
     const mcp = createMcpServer({
-        actor: { email: auth.actorEmail || 'remote-mcp', createdBy: auth.actorEmail || 'remote-mcp' },
+        actor: { email: auth.actorEmail || 'remote-mcp', createdBy: auth.actorEmail || 'remote-mcp', role: auth.method==='oauth' && isOAuthStaffEmail(auth.actorEmail) ? 'staff' : undefined },
         readOnly: auth.readOnly,
         credentialWrite: auth.credentialWrite || false,
         workLogWrite: auth.workLogWrite || false,

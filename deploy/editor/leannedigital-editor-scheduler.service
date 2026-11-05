@@ -1,0 +1,12 @@
+[Unit]
+Description=Publish approved due website-editor posts
+After=leannedigital-portal.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/sites/leannedigital
+EnvironmentFile=/home/leannedigital.com/private/website-editor/editor.env
+ExecStart=/usr/bin/node /opt/sites/leannedigital/scripts/editor-scheduler.mjs
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true

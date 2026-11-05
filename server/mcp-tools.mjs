@@ -1,3 +1,5 @@
+import {configuredEditor} from './editor/http.mjs';
+import {registerEditorTools} from './editor/tools.mjs';
 import { WORK_LOG_INSTRUCTIONS } from './work-log-instructions.mjs';
 import { WORK_CATEGORIES } from '../scripts/work-categories.mjs';
 import { registerGscTools } from './gsc-tools.mjs';
@@ -170,6 +172,10 @@ export function createMcpServer({
         name: 'leanne-digital',
         version: '1.7.3',
     }, { instructions: WORK_LOG_INSTRUCTIONS });
+    const editor=configuredEditor();
+    const editorGrants=editor&&actor.role==='staff'&&actor.email?editor.memberships(actor.email):[];
+    const grant=process.env.WEBSITE_EDITOR_STAFF_SITE?editorGrants.find(g=>g.site===process.env.WEBSITE_EDITOR_STAFF_SITE):editorGrants.length===1?editorGrants[0]:null;
+    if(grant)registerEditorTools(server,editor,{subject:actor.email,site:grant.site},{readOnly});
     registerGscTools(server);
     for (const area of ['services','hosting','proposals']) {
         readTool(server,`list_client_${area}`,`List the client's ${area} records.`,{clientId:z.string()},async ({clientId})=>clientCrud(clientId,area,'read'));
