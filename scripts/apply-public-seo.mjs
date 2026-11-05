@@ -1,4 +1,5 @@
-import './editor-build-guard.mjs';
+import {assertEditorBuildAllowed} from './editor-build-guard.mjs';
+assertEditorBuildAllowed();
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

@@ -1,3 +1,5 @@
+> Production update: staff editor deployed and HTTPS-verified. See [deployment record](website-editor-deployment-2026-11-04.md). Earlier not-deployed statements below are historical.
+
 > Git continuation: see [current preparation status](website-editor-git-preparation.md). Historical SSH/19-file bundle guidance below is not the current deployment artifact.
 
 # Resume here

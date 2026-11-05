@@ -1,3 +1,5 @@
+> Production update: staff editor deployed and HTTPS-verified. See [deployment record](website-editor-deployment-2026-11-04.md). Earlier not-deployed statements below are historical.
+
 # Connecting ChatGPT and the website editor
 
 The protocol implementation is tested, including authorization, token exchange, refresh rotation and MCP calls. **A connection from the actual ChatGPT UI has not yet been verified.** Production remains unchanged. These steps become usable remotely after the reviewed HTTPS deployment; loopback URLs cannot be reached by ordinary hosted ChatGPT connections.

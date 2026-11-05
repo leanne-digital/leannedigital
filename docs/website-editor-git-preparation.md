@@ -1,3 +1,5 @@
+> Production update: staff editor deployed and HTTPS-verified. See [deployment record](website-editor-deployment-2026-11-04.md). Earlier not-deployed statements below are historical.
+
 # Git preparation status
 
 Branch: codex/editor-production-prep, based on origin/main at 26de064. This clean checkout contains only editor additions and narrow integration/dependency changes. The dirty agency and prototype worktrees are untouched. No production deployment is included.

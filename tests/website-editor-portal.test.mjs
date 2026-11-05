@@ -7,7 +7,7 @@ import { EditorStore } from '../server/editor/store.mjs';
 
 test('existing portal serves scoped editor MCP while retaining existing routes',async()=>{
     const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ld-editor-portal-'));
-    process.env.WEBSITE_EDITOR_DATA_DIR=dir;
+    process.env.WEBSITE_EDITOR_DATA_DIR=dir;process.env.WEBSITE_EDITOR_PUBLIC_SITE='portal-test';
     const store=new EditorStore(dir);
     store.bootstrap({site:'portal-test',name:'Portal test',origin:'https://example.com',sourceRoot:path.resolve('.'),pages:[{path:'/',title:'Test',kind:'page',html:'<!doctype html><html><head><title>Test</title></head><body><main><section><h1>Test</h1><p>Content</p></section></main></body></html>'}]});
     store.grant('client@example.com','portal-test','viewer');const token=store.token('client@example.com','portal-test');
@@ -20,5 +20,5 @@ test('existing portal serves scoped editor MCP while retaining existing routes',
         assert.equal((await fetch(origin+'/api/clients',{headers:{Authorization:'Bearer '+token}})).status,401);
         const homepage=await fetch(origin+'/');assert.equal(homepage.status,200);assert.match(await homepage.text(),/hero-heading/);
         const spec=await fetch(origin+'/api/openapi.json');assert.equal(spec.status,200);
-    } finally {await new Promise(r=>server.close(r));configuredEditor()?.close();store.close();delete process.env.WEBSITE_EDITOR_DATA_DIR;fs.rmSync(dir,{recursive:true,force:true});}
+    } finally {await new Promise(r=>server.close(r));configuredEditor()?.close();store.close();delete process.env.WEBSITE_EDITOR_DATA_DIR;delete process.env.WEBSITE_EDITOR_PUBLIC_SITE;fs.rmSync(dir,{recursive:true,force:true});}
 });
