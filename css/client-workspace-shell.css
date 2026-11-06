@@ -349,3 +349,25 @@ body .client-colour-pill { background: var(--client-color, #245b45); color: #fff
 .work-short-descriptions li { white-space: normal; overflow-wrap: anywhere; }
 
 .client-work-client-pills button:has(.client-colour-pill) { padding: 0; border: 0; }
+
+@media (max-width: 700px) {
+  .topbar #sidebar-toggle {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 0;
+  }
+  .topbar #sidebar-toggle > * { display: none; }
+  .topbar #sidebar-toggle::before {
+    content: '';
+    grid-area: 1 / 1;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    box-shadow: 0 -6px currentColor, 0 6px currentColor;
+  }
+}
